@@ -1,0 +1,107 @@
+{
+    "env": {
+        "WWISE": "${env:HOME}/.lrya/wwise/versions/2017.2.7_a",
+        "MATEOS_SDK": "${env:HOME}/.lrya/mateos-sdk/dist/1.1.0-r04"
+    },
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}",
+                "${workspaceFolder}/animProcess/src",
+                "${workspaceFolder}/engine",
+                "${workspaceFolder}/platform",
+                "${workspaceFolder}/robot/include",
+                "${workspaceFolder}/generated",
+                "${workspaceFolder}/generated/clad/engine",
+                "${workspaceFolder}/generated/clad/robot",
+                "${workspaceFolder}/generated/clad/util",
+                "${workspaceFolder}/generated/coretech/common",
+                "${workspaceFolder}/generated/coretech/vision",
+                "${workspaceFolder}/lib/audio/include",
+                "${workspaceFolder}/lib/micData",
+                "${workspaceFolder}/lib/util/source/lrya",
+                "${workspaceFolder}/lib/util/source/3rd",
+                "${workspaceFolder}/lib/util/source/3rd/jsoncpp",
+                "${workspaceFolder}/deskmate-clad/tools/message-buffers/support/cpp/include",
+                "${workspaceFolder}/3rd/opencv/mac",
+                "${workspaceFolder}/3rd/opencv/modules/core/include",
+                "${workspaceFolder}/3rd/opencv/modules/imgproc/include",
+                "${workspaceFolder}/3rd/opencv/modules/highgui/include",
+                "${workspaceFolder}/3rd/opencv/modules/imgcodecs/include",
+                "${workspaceFolder}/3rd/opencv/modules/videoio/include",
+                "${WWISE}/include"
+            ],
+            "macFrameworkPath": [
+                "${workspaceFolder}/lib/util/libs/framework"
+            ],
+            "defines": [
+                "MACOSX",
+                "SIMULATOR",
+                "FACTORY_TEST=0"
+            ],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "/Applications/Webots.app/include/controller/cpp"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14"
+        },
+        {
+            "name": "VicOS",
+            "includePath": [
+                "${workspaceFolder}",
+                "${workspaceFolder}/animProcess/src",
+                "${workspaceFolder}/engine",
+                "${workspaceFolder}/platform",
+                "${workspaceFolder}/robot/include",
+                "${workspaceFolder}/generated",
+                "${workspaceFolder}/generated/clad/engine",
+                "${workspaceFolder}/generated/clad/robot",
+                "${workspaceFolder}/generated/clad/util",
+                "${workspaceFolder}/generated/coretech/common",
+                "${workspaceFolder}/generated/coretech/vision",
+                "${workspaceFolder}/lib/audio/include",
+                "${workspaceFolder}/lib/micData",
+                "${workspaceFolder}/lib/util/source/lrya",
+                "${workspaceFolder}/lib/util/source/3rd",
+                "${workspaceFolder}/lib/util/source/3rd/jsoncpp",
+                "${workspaceFolder}/deskmate-clad/tools/message-buffers/support/cpp/include",
+                "${workspaceFolder}/3rd/opencv/mateos/include",
+                "${workspaceFolder}/3rd/opencv/modules/core/include",
+                "${workspaceFolder}/3rd/opencv/modules/imgproc/include",
+                "${workspaceFolder}/3rd/opencv/modules/highgui/include",
+                "${workspaceFolder}/3rd/opencv/modules/imgcodecs/include",
+                "${workspaceFolder}/3rd/opencv/modules/videoio/include",
+                "${WWISE}/include",
+                "${MATEOS_SDK}/prebuilt/include",
+                "${MATEOS_SDK}/prebuilt/include/clang/AST",
+                "${MATEOS_SDK}/sysroot/usr/include",
+                "${MATEOS_SDK}/sysroot/usr/include/c++/v1"
+            ],
+            "defines": [
+                "MATEOS",
+                "LRYA_PLATFORM_MATEOS=1",
+                "FACTORY_TEST=0"
+            ],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "${MATEOS_SDK}/prebuilt/include",
+                    "${MATEOS_SDK}/sysroot/usr/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14"
+        }
+    ],
+    "version": 4
+}

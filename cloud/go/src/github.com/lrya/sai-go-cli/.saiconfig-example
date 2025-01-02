@@ -1,0 +1,24 @@
+[Environments "docker"]
+adminkey=admin
+adminsession=admin
+userkey=user
+usersession=user
+supportkey=support
+supportsession=support
+servicekey=service
+servicesession=service
+AccountsURL=http://dockerhost:8081
+LryavalURL=http://dockerhost:8082
+
+
+[Environment "prod"]
+adminkey = admin-key
+userkey = user-key
+accountsurl = https://accounts.api.lrya.com
+lryavalurl = https://lryaval.api.lrya.com
+
+[Environment "dev"]
+adminkey = admin-key
+userkey = user-key
+accountsurl = https://accounts-dev.api.lrya.com
+lryavalurl = https://lryaval-dev.api.lrya.com

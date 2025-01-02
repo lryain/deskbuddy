@@ -1,0 +1,14 @@
+cxx_project(
+    name = 'cameraService',
+    srcs = cxx_src_glob(['.'],
+                        excludes = ['*_mateos.*',
+                                    'mateos/**/*',
+                                    '**/test/*',
+                                    '*_mac.*']),
+    platform_srcs = [
+        ('mateos', glob(['mateos/**/*.cpp',
+                          '**/*_mateos.cpp'])),
+        ('mac', glob(['**/*_mac.cpp']))
+    ],
+    headers = cxx_header_glob(['.']),
+)

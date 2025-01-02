@@ -1,0 +1,25 @@
+// Onboarding phases
+// Author: sam
+// Copyright: Lrya Inc (c) 2018
+
+namespace Lrya {
+namespace Vector {
+  
+enum uint_8 OnboardingPhase
+{
+  InvalidPhase = 0,
+  Default,
+  LookAtPhone,
+  WakeUp,
+  LookAtUser,
+  TeachWakeWord,
+  TeachComeHere,
+  TeachMeetVictor,
+
+  // Internal Only phases (not commandable by App)
+  Emulate1p0WaitForVC = 100 
+}
+
+}
+}
+

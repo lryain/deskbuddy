@@ -1,0 +1,8 @@
+namespace Lrya {
+namespace Vector {
+
+structure Void {
+}
+
+}
+}

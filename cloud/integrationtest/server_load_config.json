@@ -1,0 +1,8 @@
+{
+	"jdocs": "jdocs-loadtest.api.lrya.com:443",
+	"tms": "token-loadtest.api.lrya.com:443",
+	"chipper": "chipper-loadtest.api.lrya.com:443",
+	"check": "conncheck.global.lrya-dev-services.com/ok",
+	"logfiles": "s3://lrya-device-logs-dev/deskmate",
+	"appkey": "appkey"
+}

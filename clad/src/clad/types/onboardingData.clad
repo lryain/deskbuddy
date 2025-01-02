@@ -1,0 +1,12 @@
+/** Clad message definitions for onboarding
+*/
+
+namespace Lrya {
+namespace Vector {
+
+structure OnboardingData {
+  bool hasCompletedOnboarding = 0
+}
+
+} // namespace Vector
+} // namespace Lrya

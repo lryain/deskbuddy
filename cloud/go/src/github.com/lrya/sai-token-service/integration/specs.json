@@ -1,0 +1,59 @@
+{
+  "Specs": [
+    {
+      "DocName":        "mate.AccountSettings",
+      "Description":    "Settings that apply to all Victor robots for this account, eg Data Collection Allowed",
+      "TableName":      "Acct-mate",
+      "HasGDPRData":    false,
+      "ExpectedMaxLen": 1024,
+      "AllowCreate":    [],
+      "AllowRead":      [],
+      "AllowUpdate":    [],
+      "AllowDelete":    []
+    },
+    {
+      "DocName":        "mate.UserEntitlements",
+      "Description":    "Track promotions, eg from KickStarter campaign",
+      "TableName":      "Acct-mate",
+      "HasGDPRData":    false,
+      "ExpectedMaxLen": 1024,
+      "AllowCreate":    [],
+      "AllowRead":      [],
+      "AllowUpdate":    [],
+      "AllowDelete":    []
+    },
+    {
+      "DocName":        "mate.RobotSettings",
+      "Description":    "User settings for the robot, eg Volume, Language, and Time Zone Locale",
+      "TableName":      "AcctThng-mate",
+      "HasGDPRData":    true,
+      "ExpectedMaxLen": 1024,
+      "AllowCreate":    [],
+      "AllowRead":      [],
+      "AllowUpdate":    [],
+      "AllowDelete":    []
+    },
+    {
+      "DocName":        "mate.RobotLifetimeStats",
+      "Description":    "Lifetime statistics, such as Number of Faces Seen and Distance Driven",
+      "TableName":      "AcctThng-mate-lifetime-stats",
+      "HasGDPRData":    false,
+      "ExpectedMaxLen": 5120,
+      "AllowCreate":    [],
+      "AllowRead":      [],
+      "AllowUpdate":    [],
+      "AllowDelete":    []
+    },
+    {
+      "DocName":        "mate.AppTokens",
+      "Description":    "Tokens that authorize external apps (eg SDK) to use Victor",
+      "TableName":      "AcctThng-mate",
+      "HasGDPRData":    false,
+      "ExpectedMaxLen": 1024,
+      "AllowCreate":    [],
+      "AllowRead":      [],
+      "AllowUpdate":    [],
+      "AllowDelete":    []
+    }
+  ]
+}

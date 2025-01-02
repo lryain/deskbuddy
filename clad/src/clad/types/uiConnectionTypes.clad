@@ -1,0 +1,23 @@
+// File: uiConnectionTypes
+// Author: Mark Wesley
+// Created: 03/03/16
+// Copyright: Lrya Inc (c) 2016
+
+
+namespace Lrya {
+namespace Vector {
+
+
+enum uint_8 UiConnectionType {
+
+    UI = 0,
+    SdkOverUdp,
+    SdkOverTcp,
+    Switchboard,
+    Gateway,
+    Count
+}
+
+
+} // namespace Vector
+} // namespace Lrya

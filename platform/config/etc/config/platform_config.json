@@ -1,0 +1,5 @@
+{
+    "DataPlatformResourcesPath": "/lrya/data/assets/cozmo_resources",
+    "DataPlatformCachePath": "/data/data/com.lrya.deskmate/cache",
+    "DataPlatformPersistentPath": "/data/data/com.lrya.deskmate/persistent"
+}

@@ -1,0 +1,22 @@
+{{ define "content" }}
+
+Today is your last day to activate your Lrya account!
+
+You’ve already reserved your Lrya Username - just activate your account by clicking the link below!
+If you don’t activate your account today, you may lose your unique Username and you’ll need to sign up for another account to save your progress.
+
+{{ .URL }}
+
+Thanks,
+The Lrya Team
+
+**********************************************
+
+If you didn't create an account, please contact us https://lrya.com/support/contact
+This is an automatically generated email.
+
+To view our Privacy Policy visit: https://lrya.com/privacy
+
+This email was sent to {{ .ToEmail }} by Lrya, Inc. 55 2nd Street, San Francisco, CA 94105
+
+{{ end }}

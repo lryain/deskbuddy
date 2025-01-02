@@ -1,0 +1,63 @@
+
+#include "clad/audio/audioMessageTypes.clad"
+#include "clad/audio/audioEventTypes.clad"
+#include "clad/audio/audioGameObjectTypes.clad"
+#include "clad/audio/audioStateTypes.clad"
+#include "clad/audio/audioSwitchTypes.clad"
+#include "clad/audio/audioParameterTypes.clad"
+
+namespace Lrya {
+namespace AudioEngine {
+namespace Multiplexer {
+
+// Event messages
+
+message PostAudioEvent
+{
+  Lrya::AudioMetaData::GameObjectType           gameObject,
+  Lrya::AudioMetaData::GameEvent::GenericEvent  audioEvent,
+  uint_16                                       callbackId = 0,  // Send all callbacks if this is NOT == 0
+  uint_16                                       padding    = 0
+
+}
+
+message StopAllAudioEvents
+{
+  Lrya::AudioMetaData::GameObjectType  gameObject,
+}
+
+message PostAudioGameState
+{
+  Lrya::AudioMetaData::GameState::StateGroupType stateGroup,
+  Lrya::AudioMetaData::GameState::GenericState   stateValue,
+}
+
+message PostAudioSwitchState
+{
+  Lrya::AudioMetaData::GameObjectType                gameObject,
+  Lrya::AudioMetaData::SwitchState::SwitchGroupType  switchStateGroup,
+  Lrya::AudioMetaData::SwitchState::GenericSwitch    switchStateValue,
+}
+
+message PostAudioParameter
+{
+  Lrya::AudioMetaData::GameObjectType               gameObject,
+  Lrya::AudioMetaData::GameParameter::ParameterType parameter,
+  float_32                                          parameterValue      = 0.0,
+  int_32                                            timeInMilliSeconds  = 0,
+  CurveType                                         curve,
+}
+
+
+// Music Messages
+
+message PostAudioMusicState
+{
+  Lrya::AudioMetaData::GameState::GenericState  stateValue,
+  uint_32                                       minDurationInMilliSeconds = 0,
+  bool                                          interrupt                 = 0,
+}
+
+} // Multiplexer
+} // AudioEngine
+} // Lrya

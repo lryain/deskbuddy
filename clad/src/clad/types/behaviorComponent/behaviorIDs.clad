@@ -1,0 +1,495 @@
+// This file is manually generated using ./tools/ai/generateBehaviorCode.py
+// To add a behavior, just create the .cpp and .h files in the correct places
+// and re-run ./tools/ai/generateBehavior.py
+
+namespace Lrya {
+namespace Vector {
+
+// BehaviorID is a unique identifier for each instance of a behavior
+// so that they can be referenced by other parts of the behavior system
+
+enum uint_16 BehaviorID {
+
+  // required (not based on config)
+  Anonymous,
+  DevExecuteBehaviorRerun,
+  Wait_TestInjectable,
+
+  // devBehaviors
+  AcousticTestMode,
+  CubeDrive,
+  CubeDriveCoordinator,
+  DevBaseBehavior,
+  DevBatteryLogging,
+  DevCubeSpinner,
+  DevCubeSpinnerConsole,
+  DevDesignCubeLights,
+  DevDisplayReadingsOnFace,
+  DevEventSequenceCapture,
+  DevImageCapture,
+  DevImageCapture_PetsAndHands,
+  DevPlannerTest,
+  DevSquawkBoxTest,
+  DevTestBlackjackViz,
+  DevTestConnectToCube,
+  DevTestPersonDetectorBehavior,
+  DevTestPromptUser,
+  DevTestSpriteBoxRemaps,
+  DevTouchDataCollection,
+  DevTurnInPlaceTest,
+  DevViewCubeBackpackLights,
+  DockingTestSimple,
+  FactoryCentroidExtractor,
+  LiftLoadTest,
+  PowerSaveStressTest,
+  PowerSaveTest,
+  PuzzleMaze,
+  ReactToBody,
+  ReactToGazeDirection,
+  ReactToGazeDirectionSurface,
+
+  // devBehaviors/selfTest
+  SelfTest,
+  SelfTestButton,
+  SelfTestDockWithCharger,
+  SelfTestDriftCheck,
+  SelfTestDriveForwards,
+  SelfTestInitChecks,
+  SelfTestLookAtCharger,
+  SelfTestMotorCalibration,
+  SelfTestPickup,
+  SelfTestPutOnCharger,
+  SelfTestPutOnCharger2,
+  SelfTestScreenAndBackpack,
+  SelfTestSoundCheck,
+  SelfTestTouch,
+
+  // devBehaviors
+  SnakeGame,
+  TestStackMonitors,
+
+  // deskmateBehaviorTree/alexa
+  Alexa,
+  AlexaSignInOut,
+
+  // deskmateBehaviorTree/appBehaviors
+  ChangeEyeColor,
+
+  // deskmateBehaviorTree/blackjack
+  BlackJack,
+  BlackJackGoodLuckTTS,
+  BlackJackHandleRTPResponses,
+  BlackJackHitOrStandPrompt,
+  BlackJackLookAtFaceInFront,
+  BlackJackRequestToPlay,
+  BlackJackRequestToPlayAgain,
+  BlackJackTextToSpeech,
+
+  // deskmateBehaviorTree/character
+  HowOldAreYou,
+  HowOldAreYouCounting,
+
+  // deskmateBehaviorTree/clock
+  ShowWallTime,
+  SingletonFindFaceInFrontWallTime,
+  SingletonWallTimeCoordinator,
+
+  // deskmateBehaviorTree
+  ComeHereVoiceCommand,
+  ConfirmHabitat,
+  ConnectToCube,
+  CoordinateGlobalInterrupts,
+  CoordinateInHabitat,
+  CoordinateWhileHeldInPalm,
+  CoordinateWhileInAir,
+
+  // deskmateBehaviorTree/danceToTheBeat
+  DanceToTheBeat,
+  DanceToTheBeatCoordinator,
+  DanceToTheBeatVoiceCommand,
+
+  // deskmateBehaviorTree/danceToTheBeat/dances
+  DanceBig,
+  DanceForwardBackFlower,
+  DanceFrontRightLeftPoint,
+  DanceSTwoways,
+  DanceSwell,
+  DanceWiggleForwardWiggleBack,
+
+  // deskmateBehaviorTree/danceToTheBeat
+  ListenForBeats,
+  ListenForBeatsLong,
+  ListenForBeatsVoiceCommand,
+
+  // deskmateBehaviorTree
+  DefaultTextToSpeechLoop,
+
+  // deskmateBehaviorTree/driveOffCharger
+  DriveOffChargerCube,
+  DriveOffChargerFace,
+  DriveOffChargerRandomly,
+  DriveOffChargerRandomlyAnim,
+  DriveOffChargerStraight,
+
+  // deskmateBehaviorTree/emergencyMode
+  EmergencyMode,
+  EmergencyModeAnimDispatcher,
+  EmergencyModeInAir,
+  EmergencyModeOffCharger,
+  EmergencyModeTriggerWord,
+
+  // deskmateBehaviorTree
+  GlobalInterruptions,
+  GreetAfterLongTime,
+  HabitatMutedDispatcher,
+  HabitatMutedVoiceCommandResponse,
+  HighLevelAI,
+
+  // deskmateBehaviorTree/highLevelDelegates
+  SearchWithinBoundingBox,
+  ActiveLookForFaces,
+
+  // deskmateBehaviorTree/highLevelDelegates/exploring
+  ConfirmCharger,
+  ConfirmCube,
+  Exploring,
+  ExploringBumpObject,
+  ExploringExamineObstacle,
+  ExploringGetIn,
+  ExploringReferenceHuman,
+  ExploringVoiceCommand,
+
+  // deskmateBehaviorTree/highLevelDelegates
+  FindCubeAndPlayKeepaway,
+  FistBump,
+
+  // deskmateBehaviorTree/highLevelDelegates/getHomeBehaviors
+  AcknowledgeCharger,
+  ClearChargerArea,
+  EmergencyModeFindAndGoToHome,
+  FindAndGoToHome,
+  FindAndRequestHome,
+  FindHome,
+  FindHomeInHabitat,
+  GoHome,
+  RequestHomeBecauseStuck,
+  RequestToGoHome,
+  RobustChargerObservation,
+  WiggleBackOntoChargerFromPlatform,
+
+  // deskmateBehaviorTree/highLevelDelegates/heldInPalm
+  ReactToJoltInPalm,
+  ForceStuckOnPalmEdge,
+  HeldInPalmDispatcher,
+  HeldInPalmResponses,
+  InitialHeldInPalmReaction,
+  LookInPlaceAtEdgeOfPalm,
+  LookInPlaceHeadDownNervous,
+  LookInPlaceHeadDownRelaxed,
+  LookInPlaceHeadUpInPalm,
+  LookingNervousInPalmAnim,
+  NestlingAndSleepingInPalmDispatcher,
+  ReactToPalmEdge,
+  ReactToPalmTilt,
+  ReactToPickupFromPalm,
+  ReactToPutDownFromPalm,
+  ReactToPutDownFromPalmAnimSelector,
+  SleepWhileHeldInPalm,
+  StuckOnPalmEdge,
+
+  // deskmateBehaviorTree/highLevelDelegates
+  InitialPickupAnimation,
+  InteractWithFaces,
+
+  // deskmateBehaviorTree/highLevelDelegates/investigateCube
+  InteractWithStaticCube,
+  InvestigateCubeConnectionGate,
+  InvestigateHeldCube,
+  MoveCube,
+  PlaceCubeByCharger,
+  RollBlockIfNotVertical,
+  TurnToLastFace,
+
+  // deskmateBehaviorTree/highLevelDelegates
+  Keepaway,
+
+  // deskmateBehaviorTree/highLevelDelegates/knowledgeGraph
+  KnowledgeGraphQuestion,
+  KnowledgeGraphTTS,
+
+  // deskmateBehaviorTree/highLevelDelegates
+  LookInPlaceHeadUp,
+
+  // deskmateBehaviorTree/highLevelDelegates/meetVictor
+  MeetVictor,
+  MeetVictorAlreadyKnowYouPrompt,
+  RespondToRenameFace,
+
+  // deskmateBehaviorTree/highLevelDelegates/messaging
+  LeaveAMessage,
+  MessagingPlaybackTTS,
+  MessagingRecordTTS,
+  PlaybackMessage,
+
+  // deskmateBehaviorTree/highLevelDelegates
+  NothingToDo_Idle,
+
+  // deskmateBehaviorTree/highLevelDelegates/observing
+  Observing,
+  ObservingDriveOffCharger,
+  ObservingEyeContact,
+  ObservingFindFaces,
+  ObservingLookAtFaces,
+  ObservingLookAtFacesInAir,
+  ObservingOffChargerHeadOnly,
+  ObservingOnCharger,
+  ObservingOnChargerEyeContact,
+  ObservingOnChargerGetIn,
+  ObservingOnChargerGetOut,
+  ObservingOnChargerIdle,
+  ObservingOnChargerIdleAnim,
+  ReactToMotion,
+  TrackingEyeContact,
+
+  // deskmateBehaviorTree/highLevelDelegates
+  PickupCube,
+  PickupCubeNoInitialReaction,
+
+  // deskmateBehaviorTree/highLevelDelegates/playWithCube/activeCubeBehaviors
+  CubeSpinnerConnectionGate,
+  CubeSpinnerLookAroundInPlace,
+  VectorPlaysCubeSpinner,
+
+  // deskmateBehaviorTree/highLevelDelegates/playWithCube
+  FetchCube,
+  FindCube,
+  FindCubeAndThen,
+  FindFacesFetchCube,
+  PlayRollBlock,
+  PlayWithCube,
+  PopAWheelie,
+
+  // deskmateBehaviorTree/highLevelDelegates/pounceWithProx
+  SingletonPounceApproachWithProx,
+  SingletonPounceDispatcher,
+  SingletonPounceTurnLeft,
+  SingletonPounceTurnRight,
+  SingletonPounceWithProx,
+
+  // deskmateBehaviorTree/highLevelDelegates
+  PutDownBlock,
+  PutDownBlockAtPose,
+  PutDownDispatch_LookForFaceAndCube,
+  SayName,
+  ShortLookAroundForFaceAndCube,
+
+  // deskmateBehaviorTree/highLevelDelegates/sleeping
+  Asleep,
+  FindHomeForSleeping,
+  GoToSleep,
+  SleepCycle,
+  SleepingPersonCheck,
+  SleepingTriggerWord,
+  SleepingWakeUp,
+  SleepingWakeUpLights,
+
+  // deskmateBehaviorTree/highLevelDelegates/socialize
+  DriveOffChargerIntoSocializing,
+  Socialize,
+  SocializeInteraction,
+
+  // deskmateBehaviorTree/highLevelDelegates
+  TrackCube,
+  TrackCubeTest,
+  TrackFaceTest,
+
+  // deskmateBehaviorTree/highLevelDelegates/voiceCommands
+  BlackJackVoiceCommand,
+  DoATrickVoiceCommand,
+  EyeColorVoiceCommand,
+  FetchCubeVoiceCommand,
+  FindYourCubeVoiceCommand,
+  FistBumpVoiceCommand,
+  GoHomeVoiceCommand,
+  LookAtMeVoiceCommand,
+  LookOverThereVoiceCommand,
+  PickUpCubeVoiceCommand,
+  PlayAGameVoiceCommand,
+  PopAWheelieVoiceCommand,
+  RollCubeVoiceCommand,
+
+  // deskmateBehaviorTree/highLevelDelegates/voiceCommands/trickDispatchers
+  CubeTrickDispatcher,
+
+  // deskmateBehaviorTree/highLevelDelegates/voiceCommands
+  WhatsMyNameVoiceCommand,
+
+  // deskmateBehaviorTree/highLevelDelegates
+  WhileInAirDispatcher,
+  WhileInAirResponses,
+  WhileInAirResponsesPRDemo,
+
+  // deskmateBehaviorTree
+  InitNormalOperation,
+  InitPRDemo,
+  IntentUnmatched,
+  ModeSelector,
+
+  // deskmateBehaviorTree/movement
+  MovementBackward,
+  MovementTurnAround,
+  MovementTurnLeft,
+  MovementTurnRight,
+
+  // deskmateBehaviorTree
+  NoCloud,
+  NoWifi,
+  NormalWakeUp,
+
+  // deskmateBehaviorTree/onboarding
+  Onboarding,
+  OnboardingComeHere,
+  OnboardingEmulate1p0WaitForVC,
+  OnboardingLookAtPhone,
+  OnboardingLookAtUser,
+  OnboardingLookAtUserOffCharger,
+  OnboardingLookAtUserOnCharger,
+  OnboardingPowerOff,
+  OnboardingTeachComeHere,
+  OnboardingTeachMeetVictor,
+  OnboardingTeachWakeWord,
+  OnboardingWakeUp,
+
+  // deskmateBehaviorTree/performances
+  PossibleIntentionalPerformance,
+  PossibleUnintentionalPerformance,
+
+  // deskmateBehaviorTree/prDemo
+  PRDemoBigGreeting,
+  PRDemoComeHere,
+  PRDemoExploring,
+  PRDemoObserving,
+  PRDemoSleeping,
+  PRDemoStateMachine,
+
+  // deskmateBehaviorTree/quietMode
+  BeQuietAnims,
+  BeQuietLoop,
+  QuietMode,
+  QuietModeEmergencyModeGoHome,
+  ShutUpAnims,
+  ShutUpMode,
+
+  // deskmateBehaviorTree
+  ReactToTouchPetting,
+  ReactToUnclaimedIntent,
+
+  // deskmateBehaviorTree/reactions
+  AskForHelp,
+  AskForHelpOnSide,
+  CheckForAndReactToHand,
+  ForceStuckOnEdge,
+  MandatoryPhysicalReactions,
+  OptionalReactions,
+  ProceduralTurnToMicDirection,
+  ReactToAbuse,
+  ReactToAffirmative,
+  ReactToApology,
+  ReactToCliff,
+  ReactToCliffDuringFetch,
+  ReactToDarkness,
+  ReactToFrustrationMajor,
+  ReactToGoodBye,
+  ReactToGoodMorning,
+  ReactToHand,
+  ReactToLove,
+  ReactToMotorCalibration,
+  ReactToNegative,
+  ReactToObstacle,
+  ReactToPlacedOnSlope,
+  ReactToPutDown,
+  ReactToRobotOnBack,
+  ReactToRobotOnFace,
+  ReactToRobotOnSide,
+  ReactToRobotShaken,
+  ReactToRobotShakenSnowGlobe,
+  ReactToSoundAsleep,
+  ReactToSoundAwake,
+  ReactToSoundDirectionAsleep,
+  ReactToSoundDirectionAwake,
+  ReactToTriggerDirectionAwake,
+  ReactToUncalibratedHeadAndLift,
+  ReactToUnexpectedMovement,
+  ReactToUnexpectedMovementInAir,
+  SimpleVoiceResponses,
+  StuckOnEdge,
+  TriggerWordWithoutIntent,
+  VoiceFeatures,
+
+  // deskmateBehaviorTree
+  ResetSafely,
+
+  // deskmateBehaviorTree/sdkBehaviors
+  SDKDefault,
+  SDKLock,
+  SDKOverrideAll,
+
+  // deskmateBehaviorTree/seasonal
+  SeasonalHappyHolidays,
+  SeasonalHappyNewYear,
+
+  // deskmateBehaviorTree
+  SingletonICantDoThat,
+  SingletonPoweringRobotOff,
+  StayOnChargerUntilCharged,
+
+  // deskmateBehaviorTree/takeAPhoto
+  FindFacesPhoto,
+  FrameFaces,
+  TakeAPhotoCoordinator,
+
+  // deskmateBehaviorTree/timer
+  DemoTimerUtilityCoordinator,
+  SingletonAnticShowClock,
+  SingletonCancelTimer,
+  SingletonTimerAlreadySet,
+  SingletonTimerAntic,
+  SingletonTimerCheckTime,
+  SingletonTimerRinging,
+  SingletonTimerSet,
+  TimerRingingPRDemo,
+  TimerUtilityCoordinator,
+
+  // deskmateBehaviorTree
+  TriggerWordDetected,
+  UserDefinedBehaviorSelector,
+  UserDefinedBehaviorTreeConfirmNewBehavior,
+  UserDefinedBehaviorTreeRouter,
+  UserDefinedBehaviorTreeTextToSpeech,
+
+  // deskmateBehaviorTree/volume
+  Volume,
+
+  // deskmateBehaviorTree
+  Wait,
+
+  // deskmateBehaviorTree/weather/genericResponses
+  WeatherCloudyGeneric,
+  WeatherColdClearGeneric,
+  WeatherRainGeneric,
+  WeatherSnowGeneric,
+  WeatherStarsGeneric,
+  WeatherSunnyGeneric,
+  WeatherThunderstormsGeneric,
+  WeatherWindyGeneric,
+
+  // deskmateBehaviorTree/weather
+  WeatherResponses,
+  WeatherTextToSpeech,
+
+  // deskmateBehaviorTree
+  WireTest,
+}
+
+}
+}

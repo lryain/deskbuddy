@@ -1,0 +1,3 @@
+[submodule "deskmate-proto"]
+	path = deskmate-proto
+	url = git@github.com:lrya/deskmate-proto.git

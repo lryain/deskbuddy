@@ -1,0 +1,19 @@
+{{ define "content" }}
+
+Thank you for activating your child’s Lrya account!
+
+For more information regarding Lrya’s privacy policy, visit the “Children” section on lrya.com/privacy.
+
+Thanks,
+The Lrya Team
+
+**********************************************
+
+If you didn't create an account, or wish to revoke your consent, please contact us https://lrya.com/support/contact
+This is an automatically generated email.
+
+To view our Privacy Policy visit: https://lrya.com/privacy
+
+This email was sent to {{ .ToEmail }} by Lrya, Inc. 55 2nd Street, San Francisco, CA 94105
+
+{{ end }}

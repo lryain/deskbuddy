@@ -1,0 +1,33 @@
+package util
+
+import (
+	"lrya/config"
+	"context"
+
+	"google.golang.org/grpc"
+)
+
+type MapCredentials map[string]string
+
+func (r MapCredentials) GetRequestMetadata(context.Context, ...string) (map[string]string, error) {
+	return r, nil
+}
+
+func (r MapCredentials) RequireTransportSecurity() bool {
+	return true
+}
+
+func AppkeyMetadata() MapCredentials {
+	ret := MapCredentials{
+		"lrya-app-key": config.Env.AppKey,
+	}
+	return ret
+}
+
+var platformOpts []grpc.DialOption
+
+// CommonGRPC returns a set of commonly used GRPC dial options for Lrya's cloud services,
+// if any are defined for the current platform.
+func CommonGRPC() []grpc.DialOption {
+	return platformOpts
+}

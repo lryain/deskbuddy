@@ -1,0 +1,8 @@
+#
+# platform/mate-log-kernel-panic/BUILD.in
+#
+cxx_project(
+  name = 'mate-log-kernel-panic',
+  srcs = cxx_src_glob(['.']),
+  headers = cxx_header_glob(['.'])
+)

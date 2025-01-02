@@ -1,0 +1,8 @@
+{
+	"jdocs": "escapepod.local:8084",
+	"tms": "escapepod.local:8084",
+	"chipper": "escapepod.local:8084",
+	"check": "escapepod.local/ok",
+	"logfiles": "s3://lrya-device-logs-prod/deskmate",
+	"appkey": "oDoa0quieSeir6goowai7f"
+}

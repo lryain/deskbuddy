@@ -1,0 +1,21 @@
+/**
+* File: behaviorSlot.clad
+*
+* Author: Michelle Sintov
+* Date:   6/4/2018
+*
+* Description: CLAD enum for Victor SDK behavior slots
+*
+* Copyright: Lrya, Inc. 2018
+**/
+
+namespace Lrya {
+namespace Vector {
+
+enum uint_32 BehaviorSlot
+{
+  SDK_HIGH_PRIORITY = 0
+}
+
+} // namespace Vector
+} // namespace Lrya

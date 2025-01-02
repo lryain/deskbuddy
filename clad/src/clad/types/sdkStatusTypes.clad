@@ -1,0 +1,19 @@
+// File: sdkStatusTypes
+// Author: Mark Wesley
+// Copyright: Lrya Inc (c) 2016
+
+
+namespace Lrya {
+namespace Vector {
+
+
+enum uint_8 SdkStatusType
+{
+  Behavior,
+  Action,
+  Anim
+}
+
+
+} // namespace Vector
+} // namespace Lrya

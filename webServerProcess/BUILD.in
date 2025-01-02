@@ -1,0 +1,20 @@
+cxx_project(
+    name = 'deskmate_web_library',
+    srcs = cxx_src_glob(['src'],
+                        excludes = ['deskmateWebServerMain.cpp']),
+    platform_srcs = [
+    ],
+    headers = cxx_header_glob(['src']),
+    platform_headers = [
+    ]
+)
+
+cxx_project(
+    name = 'mate-webserver',
+    srcs = glob(['src/deskmateWebServerMain.cpp']),
+    platform_srcs = [
+    ],
+    headers = [],
+    platform_headers = [
+    ]
+)

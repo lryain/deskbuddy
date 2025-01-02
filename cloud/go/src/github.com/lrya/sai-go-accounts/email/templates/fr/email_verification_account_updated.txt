@@ -1,0 +1,19 @@
+{{ define "content" }}
+
+Compte mis à jour
+
+Un compte Lrya associé à cette adresse e-mail a été mis à jour.
+
+Si vous pensez avoir reçu cet e-mail par erreur ou avez des questions au sujet de votre compte,
+contactez notre service Relation Client Lrya https://lrya.com/support/contact
+
+Merci, L'équipe Lrya
+
+**********************************************
+
+Politique de confidentialité: https://lrya.com/privacy
+
+Cet e-mail a été envoyé à {{ .ToEmail }} de la part d'Lrya.
+55 2nd Street, San Francisco, CA 94105
+
+{{ end }}

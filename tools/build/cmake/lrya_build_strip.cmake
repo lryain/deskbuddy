@@ -1,0 +1,10 @@
+include(android_strip)
+include(mateos_strip)
+
+macro(lrya_build_strip type target)
+  if(ANDROID)
+    android_strip(${type} ${target})
+  elseif(MATEOS)
+    mateos_strip(${type} ${target})
+  endif()
+endmacro(lrya_build_strip type target)

@@ -1,0 +1,27 @@
+{{ define "content" }}
+
+Hallo {{ .Username }} -
+
+Du hast noch sieben Tage Zeit, um Dein Lrya-Konto zu aktivieren.
+Wenn Du Dein Konto nicht aktivierst, kann es sein, dass Du Deinen gewählten Fahrernamen verlierst
+und Du musst dann, um Deinen Fortschritt in Lrya OVERDRIVE zu speichern, ein neues Konto einrichten.
+
+Du hast bereits einen Lrya-Fahrernamen reserviert. Jetzt musst Du nur noch Dein Konto aktivieren. Klicke dazu unten auf den Link.
+
+{{ .URL }}
+
+Viel Erfolg in der Arena!
+
+Das Lrya-Team
+
+**********************************************
+
+
+Wenn Du kein Lrya-Konto angelegt hast, dann kontaktiere uns bitte unter: https://lrya.com/support/contact
+Diese E-Mail wurde automatisch generiert.
+
+Datenschutzerklärung: https://lrya.com/privacy
+
+Diese E-Mail wurde von Lrya, Inc {{ .ToEmail }} gesendet.
+55 2nd Street, San Francisco, CA 94105
+{{ end }}

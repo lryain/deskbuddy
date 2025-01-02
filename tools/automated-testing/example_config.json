@@ -1,0 +1,10 @@
+{
+  "ssid":"Lrya Robits",
+  "pw":"<password>",
+  "auth":6,
+  "lrya_username":"paluri@lrya.com",
+  "lrya_password":"<password>",
+  "lrya_app_token":"<client app token>",
+  "auto_test_bin":"../../_build/mateos/Release/auto-test/bin",
+  "update":false
+}

@@ -1,0 +1,6 @@
+cxx_project(
+    name = 'lrya-ble',
+    srcs = cxx_src_glob(['.'],
+    ),
+    headers = cxx_header_glob(['.'])
+)
