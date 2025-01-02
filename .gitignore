@@ -201,7 +201,9 @@ ios/CozmoVision/build
 ios/CozmoVision/CozmoVision.xcodeproj/xcuserdata
 coretech/vision/matlab/@VisionMarkerTrained/trainingState_*.*
 tools/modulate_led/Project/LCD/MDK-ARM/Demo/
-tools/build/build-victor-deps/
+# tools/build/build-victor-deps/
+tools/build/build-victor-deps/build-opencv/opencv/build_vicos/
+tools/build/build-victor-deps/build-protobuf/protobuf/cmake/build/
 *.uvgui.*
 
 # Unity

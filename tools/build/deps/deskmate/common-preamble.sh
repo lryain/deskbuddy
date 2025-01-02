@@ -20,23 +20,24 @@ export DISTTOP=${TOPLEVEL}/dist
 export DISTDIR=${DISTTOP}/${DEPNAME}
 export MAKE_DEP_ARCHIVE_SH=${TOPLEVEL}/deps/make-dep-archive.sh
 
-echo "Finding/Installing mateos-sdk ${VICOS_SDK_VERSION}"
-VICOSPY=${TOPLEVEL}/tools/ankibuild/mateos.py
-export VICOS_SDK_HOME=$(${VICOSPY} --install ${VICOS_SDK_VERSION} | tail -1)
+# echo "Finding/Installing mateos-sdk ${VICOS_SDK_VERSION}"
+# VICOSPY=${TOPLEVEL}/tools/ankibuild/mateos.py
+# export VICOS_SDK_HOME=$(${VICOSPY} --install ${VICOS_SDK_VERSION} | tail -1)
 
-echo "Finding/Installing cmake 3.9.6 ......"
-CMAKEPY=${TOPLEVEL}/tools/ankibuild/cmake.py
-export CMAKE_EXE=$(${CMAKEPY} --install-cmake 3.9.6 | tail -1)
+# echo "Finding/Installing cmake 3.9.6 ......"
+# CMAKEPY=${TOPLEVEL}/tools/ankibuild/cmake.py
+# export CMAKE_EXE=$(${CMAKEPY} --install-cmake 3.9.6 | tail -1)
+export CMAKE_EXE=cmake
 
 # Create a fresh and clean build directory
-rm -rf ${BUILDDIR}
+# rm -rf ${BUILDDIR}
 mkdir -p ${BUILDDIR}
 
 # Clone source code from git
 cd ${BUILDDIR}
-git clone ${GITURL}
+# git clone --depth=1 -b ${GITREV} ${GITURL}
 
 # Checkout the desired revision
 cd ${DEPNAME}
-git checkout ${GITREV}
+# git checkout ${GITREV}
 git submodule update --init --recursive
