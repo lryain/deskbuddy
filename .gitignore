@@ -12,7 +12,7 @@ _build*/
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 _build/
 buck-out/
-lib/crash-reporting-mateos/Breakpad
+lib/crash-reporting-mateos/Breakpad/
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Visual Studio Code
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

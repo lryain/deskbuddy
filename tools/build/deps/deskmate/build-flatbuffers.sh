@@ -26,7 +26,9 @@ HOST_PREBUILTS_CURRENT_DIR=${HOST_PREBUILTS_DIR}/current
 popd
 
 CMAKE_C_FLAGS="-O3 -DNDEBUG -fvisibility=hidden -ffunction-sections -fstack-protector-all -Wno-error -fPIC"
-CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -fPIC"
+# CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -fPIC"
+# 看是否需要加上libc++
+CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -std=c++14 -stdlib=libc++ -fPIC"
 
 # Build for vicOS
 echo "Build flatbuffers ${FLATBUFFERS_REVISION_TO_BUILD} for deskmate (vicOS)"
@@ -36,6 +38,8 @@ ${CMAKE_EXE} \
     -G "Unix Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${DISTDIR}/mateos
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_C_COMPILER=clang \
+    -DCMAKE_CXX_COMPILER=clang++ \
     -DCMAKE_C_FLAGS_RELEASE="${CMAKE_C_FLAGS}" \
     -DCMAKE_CXX_FLAGS_RELEASE="${CMAKE_CXX_FLAGS}" \
     -DFLATBUFFERS_BUILD_TESTS=OFF \

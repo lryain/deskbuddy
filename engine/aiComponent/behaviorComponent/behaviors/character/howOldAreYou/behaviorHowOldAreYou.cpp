@@ -153,7 +153,7 @@ std::chrono::hours BehaviorHowOldAreYou::GetRobotAge()
         // if so, use that
         onboardingTime_sse = file_j[BehaviorOnboardingCoordinator::kOnboardingTimeKey].asInt64();
         LOG_INFO("BehaviorHowOldAreYou.GetRobotAge.ReadOnboardingTime",
-            "Read onboarding time (seconds since epoch): %ld", onboardingTime_sse);
+            "Read onboarding time (seconds since epoch): %lld", onboardingTime_sse);
       } else {
         // INFO because plenty of robots have onboarded before we introduce the change that writes this value to file.
         LOG_INFO("BehaviorHowOldAreYou.GetRobotAge.NoOnboardingTime",
@@ -166,7 +166,7 @@ std::chrono::hours BehaviorHowOldAreYou::GetRobotAge()
       // if not we couldn't get born on date from file, use modification time of the file
       onboardingTime_sse = Util::FileUtils::GetFileLastModificationTime( onboardingDataFilePath ); // seconds since the epoch
       LOG_INFO("BehaviorHowOldAreYou.GetRobotAge.ModificationTimeFallback",
-          "Using file modification time as fallback (seconds since epoch): %ld",
+          "Using file modification time as fallback (seconds since epoch): %lld",
           onboardingTime_sse);
     }
 

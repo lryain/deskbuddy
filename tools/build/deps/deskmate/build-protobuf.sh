@@ -19,7 +19,9 @@ cd ${BUILDDIR}/protobuf
 
 # Common build settings
 CMAKE_C_FLAGS="-O3 -DNDEBUG -fvisibility=hidden -ffunction-sections -fstack-protector-all -Wno-error -fPIC"
-CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -fPIC"
+# CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -fPIC"
+# 看是否需要加上libc++
+CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -std=c++14 -stdlib=libc++ -fPIC"
 
 # Build for mateos
 echo "Building protobuf for victor (mateos) ...."
@@ -28,8 +30,11 @@ rm -rf cmake/build/release
 mkdir -p cmake/build/release
 pushd cmake/build/release
 
+# 编译器指定为clang
 ${CMAKE_EXE} \
   -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_C_COMPILER=clang \
+  -DCMAKE_CXX_COMPILER=clang++ \
   -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
   -DCMAKE_C_FLAGS_RELEASE="${CMAKE_C_FLAGS}" \
   -DCMAKE_CXX_FLAGS_RELEASE="${CMAKE_CXX_FLAGS}" \

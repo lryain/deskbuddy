@@ -357,7 +357,7 @@ void AccountSettingsManager::DoJdocFormatMigration()
   const auto docFormatVersion = _jdocsManager->GetJdocFmtVersion(jdocType);
   const auto curFormatVersion = _jdocsManager->GetCurFmtVersion(jdocType);
   LOG_INFO("AccountSettingsManager.DoJdocFormatMigration",
-           "Migrating account settings jdoc from format version %lu to %lu",
+           "Migrating account settings jdoc from format version %llu to %llu",
            docFormatVersion, curFormatVersion);
   if (docFormatVersion > curFormatVersion)
   {
