@@ -610,12 +610,12 @@ if __name__ == '__main__':
     lryabuild.util.File.mkdir_p(output_dir)
     for (name, project) in processor.projects.items():
         #print(project)
-        if options.verbose:
-            print("processing project: {}".format(name))
+        # if options.verbose:
+        #     print("processing project: {}".format(name))
 
         for (lst_filename, files) in project.items():
-            if options.verbose:
-                print("  {} ({} files)".format(lst_filename, len(files)))
+        #     if options.verbose:
+        #         print("  {} ({} files)".format(lst_filename, len(files)))
 
             lst_path = os.path.join(output_dir, lst_filename)
             if options.output != '-':

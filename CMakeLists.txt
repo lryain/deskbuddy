@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
-message(STATUS "=========================》Received MATEOS value: ${MATEOS}")
+# message(STATUS "=========================》Received MATEOS value: ${MATEOS}")
+
+message(STATUS "1. CMakeLists -------------> Final C compilation flags: ${CMAKE_C_FLAGS}")
+message(STATUS "2. CMakeLists -------------> Final C++ compilation flags: ${CMAKE_CXX_FLAGS}")
 
 # uncomment this to display internal cmake state for targets, useful for debugging
 set_property(GLOBAL PROPERTY GLOBAL_DEPENDS_DEBUG_MODE 1)
@@ -31,10 +34,9 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 99)
-add_definitions(-DMATEOS)
-# link_directories(/usr/lib/arm-linux-gnueabihf)
-# set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}:/usr/lib/arm-linux-gnueabihf:/usr/include/arm-linux-gnueabihf")
-message(STATUS "19------------------------> CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
+
+# add_definitions(-DMATEOS)
+
 #
 # Special settings for xcode.
 # Set DEPLOY_WITH_CMAKE OFF to prevent lrya_build_copy_assets from generating giant dependency lists.
@@ -57,9 +59,7 @@ define_property(TARGET PROPERTY LRYA_OUT_PATH
 set(SYMBOL_VISIBILITY_FLAGS "")
 
 set(LRYA_PLATFORM_NAME "unknown")
-# message(STATUS "9------------------------> MACOSX: ${MACOSX}")
 if(MACOSX)
-    # message(STATUS "10------------------------> MACOSX: ${MACOSX}")
     set(LRYA_PLATFORM_NAME "mac")
 elseif(MATEOS)
     message(STATUS "11------------------------> MATEOS: ${MATEOS}")
@@ -247,8 +247,8 @@ include(signalessence)
 # write_license_html()
 # check_licenses()
 
-message(STATUS "98-------------> Final C compilation flags: ${CMAKE_C_FLAGS}")
-message(STATUS "99-------------> Final C++ compilation flags: ${CMAKE_CXX_FLAGS}")
+# message(STATUS "98 CMakeLists -------------> Final C compilation flags: ${CMAKE_C_FLAGS}")
+# message(STATUS "99 CMakeLists -------------> Final C++ compilation flags: ${CMAKE_CXX_FLAGS}")
 message(STATUS "CMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
 message(STATUS "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
 message(STATUS "CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=${CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES}")

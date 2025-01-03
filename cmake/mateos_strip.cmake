@@ -18,10 +18,10 @@ function(mateos_strip)
     endif()
 
     lrya_get_output_location(TARGET_OUT_PATH ${astrip_TARGET})
-    message( " 1.------------------> + MATEOS_TOOLCHAIN_PREFIX: ${MATEOS_TOOLCHAIN_PREFIX}")
+#     message( " 1.------------------> + MATEOS_TOOLCHAIN_PREFIX: ${MATEOS_TOOLCHAIN_PREFIX}")
     
     set(STRIP_CMD "${MATEOS_TOOLCHAIN_PREFIX}strip")
-    message( " ------------------> + STRIP_CMD: ${STRIP_CMD}")
+#     message( " ------------------> + STRIP_CMD: ${STRIP_CMD}")
     set(OBJCOPY_CMD "${MATEOS_TOOLCHAIN_PREFIX}objcopy")
     add_custom_command(TARGET ${astrip_TARGET} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy

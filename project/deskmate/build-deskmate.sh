@@ -215,7 +215,7 @@ case "${GENERATOR}" in
     ;;
 esac
 
-echo " 0 ====================== Using SCRIPT_NAME: ${SCRIPT_NAME} - GENERATOR: '${GENERATOR}' ====================== "
+# echo " 0 ====================== Using SCRIPT_NAME: ${SCRIPT_NAME} - GENERATOR: '${GENERATOR}' ====================== "
 
 #
 # Enable feature flags
@@ -251,7 +251,7 @@ if [ ${EXPORT_COMPILE_COMMANDS} -ne 0 ]; then
   EXPORT_FLAGS="-DCMAKE_EXPORT_COMPILE_COMMANDS=${EXPORT_COMPILE_COMMANDS}"
 fi
 
-echo " 1. ====================== EXPORT_FLAGS: ${EXPORT_FLAGS} - EXPORT_COMPILE_COMMANDS: '${EXPORT_COMPILE_COMMANDS}' "
+# echo " 1. ====================== EXPORT_FLAGS: ${EXPORT_FLAGS} - EXPORT_COMPILE_COMMANDS: '${EXPORT_COMPILE_COMMANDS}' "
 
 # For non-ninja builds, add ninja type to build dir
 BUILD_SYSTEM_TAG=""
@@ -287,11 +287,11 @@ else
     exit 1
 fi
 
-echo " ====================== GENERATOR: ${GENERATOR} - PROJECT_FILE: '${BUILD_DIR}/${PROJECT_FILE}' "
+# echo " ====================== GENERATOR: ${GENERATOR} - PROJECT_FILE: '${BUILD_DIR}/${PROJECT_FILE}' "
 
 : ${CMAKE_MODULE_DIR:="${TOPLEVEL}/cmake"}
 
-echo "--------------> cmake"
+# echo "--------------> cmake"
 
 if [ ! -f ${CMAKE_EXE} ]; then
   echo "Missing CMake executable: ${CMAKE_EXE}"
@@ -302,10 +302,10 @@ fi
 
 
 if [ -z "${GOROOT+x}" ]; then
-    echo "--------------> GOROOT: ${GOROOT+x}"
-    echo "--------------> GO_EXE: ${TOPLEVEL}/tools/build/tools/lryabuild/go.py"
+#     echo "--------------> GOROOT: ${GOROOT+x}"
+#     echo "--------------> GO_EXE: ${TOPLEVEL}/tools/build/tools/lryabuild/go.py"
     GO_EXE=`${TOPLEVEL}/tools/build/tools/lryabuild/go.py`
-    echo "--------------> GO_EXE: ${GO_EXE}"
+#     echo "--------------> GO_EXE: ${GO_EXE}"
     export GOROOT=$(dirname $(dirname $GO_EXE))
 else
     GO_EXE=$GOROOT/bin/go
@@ -318,14 +318,14 @@ if [ ! -f ${GO_EXE} ]; then
   exit 1
 fi
 
-echo "--------------> Skipping go install for now!!"
+# echo "--------------> Skipping go install for now!!"
 ${TOPLEVEL}/tools/build/tools/lryabuild/go.py --check-version $GO_EXE
 
 #
 # Remove assets in build directory if requested. This will force the
 # build to re-copy them from the source tree into the build directory.
 #
-echo "--------------> assets"
+# echo "--------------> assets"
 
 if [ $RM_BUILD_ASSETS -eq 1 ]; then
     if [ $VERBOSE -eq 1 ]; then
@@ -337,12 +337,12 @@ if [ $RM_BUILD_ASSETS -eq 1 ]; then
     rm -rf${RM_VERBOSE_ARG} ${BUILD_DIR}/data/assets
 fi
 
-echo "--------------> grab Go dependencies ahead of generating source lists | add -I option to skip this!"
+# echo "--------------> grab Go dependencies ahead of generating source lists | add -I option to skip this!"
 
 #
 # grab Go dependencies ahead of generating source lists
 #
-echo "---------> IGNORE_EXTERNAL_DEPENDENCIES=: ${IGNORE_EXTERNAL_DEPENDENCIES}"
+# echo "---------> IGNORE_EXTERNAL_DEPENDENCIES=: ${IGNORE_EXTERNAL_DEPENDENCIES}"
 
 if [ $IGNORE_EXTERNAL_DEPENDENCIES -eq 0 ] || [ $CONFIGURE -eq 1 ] ; then
     GEN_SRC_DIR="${TOPLEVEL}/generated/cmake"
@@ -360,7 +360,7 @@ if [ $IGNORE_EXTERNAL_DEPENDENCIES -eq 0 ] || [ $CONFIGURE -eq 1 ] ; then
       ${METABUILD_INPUTS}
 fi
 
-echo "--------------> Set protobuf location"
+# echo "--------------> Set protobuf location"
 
 # Set protobuf location
 HOST=`uname -a | awk '{print tolower($1);}' | sed -e 's/darwin/mac/'`
@@ -368,7 +368,7 @@ HOST=`uname -a | awk '{print tolower($1);}' | sed -e 's/darwin/mac/'`
 # TODO:fix this
 PROTOBUF_HOME=${TOPLEVEL}/3rd/protobuf/mateos
 
-echo "--------------> Build protocCppPlugin if needed"
+# echo "--------------> Build protocCppPlugin if needed"
 
 # Build protocCppPlugin if needed
 if [[ ! -x ${TOPLEVEL}/tools/protobuf/plugin/protocCppPlugin ]]; then
@@ -381,13 +381,12 @@ else
     fi
   done
 fi
-echo "8888--------------> BUILD_PROTOC_PLUGIN: ${BUILD_PROTOC_PLUGIN}"
 
 if [[ $BUILD_PROTOC_PLUGIN -eq 1 ]]; then
     ${TOPLEVEL}/tools/protobuf/plugin/make.sh
 fi
 
-echo "--------------> Build/Install the protoc generators for go"
+# echo "--------------> Build/Install the protoc generators for go"
 
 # Build/Install the protoc generators for go
 GOBIN="${TOPLEVEL}/cloud/go/bin"
@@ -401,7 +400,7 @@ if [[ ! -x $GOBIN/protoc-gen-go ]] || [[ ! -x $GOBIN/protoc-gen-grpc-gateway ]];
     github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
 fi
 
-echo "--------------> generate source file lists"
+# echo "--------------> generate source file lists"
 
 #
 # generate source file lists
@@ -413,31 +412,32 @@ echo "--------------> generate source file lists"
 if [ $CONFIGURE -eq 1 ]; then
     mkdir -p ${BUILD_DIR}
     if [ $VERBOSE -eq 1 ]; then
-        METABUILD_VERBOSE="-v"
+        # METABUILD_VERBOSE="-v"
+        METABUILD_VERBOSE=""
     else
         METABUILD_VERBOSE=""
     fi
-    echo "========================== Need generate source file lists!! =========================="
-    echo "---------> Starting Process BUILD.in files invoke metabuild.py"
-    echo "---------> BUILD_TOOLS=: ${BUILD_TOOLS}/metabuild/metabuild.py ${METABUILD_VERBOSE}"
+#     echo "========================== Need generate source file lists!! =========================="
+#     echo "---------> Starting Process BUILD.in files invoke metabuild.py"
+#     echo "---------> BUILD_TOOLS=: ${BUILD_TOOLS}/metabuild/metabuild.py ${METABUILD_VERBOSE}"
     # Process BUILD.in files
     PATH="$(dirname $GO_EXE):$PATH" ${BUILD_TOOLS}/metabuild/metabuild.py $METABUILD_VERBOSE \
         -o ${GEN_SRC_DIR} \
         ${METABUILD_INPUTS}
-    echo "---------> PATH=: ${PATH}"
+#     echo "---------> PATH=: ${PATH}"
     if [ $GEN_SRC_ONLY -eq 1 ]; then
         exit 0
     fi
 fi
 
 if [ $CONFIGURE -eq 0 ]; then
-echo "@@@@@@@@@@@@> Skipping generate source file lists!!"
+echo "@@@@@@@@@@@@ --------------------------> Skipping generate source file lists!!"
 fi
 
 
 pushd ${BUILD_DIR} > /dev/null 2>&1
 
-echo "99 --------------> cmake!! "
+echo "9 --------------------------> cmake!! "
 
 if [ $CONFIGURE -eq 1 ]; then
 
@@ -448,6 +448,7 @@ if [ $CONFIGURE -eq 1 ]; then
     fi
 
     PLATFORM_ARGS=""
+    echo "0 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > PLATFORM_ARGS: ${PLATFORM_ARGS[@]}"
     if [ "$PLATFORM" == "mac" ]; then
         PLATFORM_ARGS=(
             -DMACOSX=1
@@ -455,8 +456,9 @@ if [ $CONFIGURE -eq 1 ]; then
             -DMATEOS=0
             -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/macosx.toolchain.cmake"
         )
+        echo "1 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > $PLATFORM = mac"
     elif [ "$PLATFORM" == "mateos" ] ; then
-        echo "2 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > PLATFORM: ${PLATFORM}"
+        echo "2 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > $PLATFORM = mateos"
         PLATFORM_ARGS=(
             -DMACOSX=0
             -DANDROID=0
@@ -465,6 +467,7 @@ if [ $CONFIGURE -eq 1 ]; then
             -DMATEOS_CPP_FEATURES='rtti exceptions'
         )
         echo "${PLATFORM_ARGS[@]}"
+        echo "===> PLATFORM_ARGS: ${PLATFORM_ARGS[@]}"
     else
         echo "unknown platform: ${PLATFORM}"
         exit 1
@@ -472,13 +475,14 @@ if [ $CONFIGURE -eq 1 ]; then
 
     # Append additional platrom args
     PLATFORM_ARGS+=(${ADDITIONAL_PLATFORM_ARGS[@]})
-    
+
+#     echo "0.cmake: ${CMAKE_EXE} ${TOPLEVEL} ${VERBOSE_ARG} -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=${CONFIGURATION} -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} ${EXPORT_FLAGS} ${FEATURE_FLAGS} ${DEFINES} ${PLATFORM_ARGS[@]}"
 
     $CMAKE_EXE ${TOPLEVEL} \
         ${VERBOSE_ARG} \
         -G"${GENERATOR}" \
-        -DCMAKE_C_COMPILER=clang \
-        -DCMAKE_CXX_COMPILER=clang++ \
+        -DCMAKE_C_COMPILER=/usr/bin/clang \
+        -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
         -DCMAKE_BUILD_TYPE=${CONFIGURATION} \
         -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} \
         -DGOPATH=${GOPATH} \
@@ -490,6 +494,8 @@ if [ $CONFIGURE -eq 1 ]; then
         ${DEFINES} \
         "${PLATFORM_ARGS[@]}"
 fi
+
+# echo "1.cmake: ${CMAKE_EXE} ${TOPLEVEL} ${VERBOSE_ARG} -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=${CONFIGURATION} -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} ${EXPORT_FLAGS} ${FEATURE_FLAGS} ${DEFINES} ${PLATFORM_ARGS[@]}"
 
 if [ $RUN_BUILD -ne 1 ]; then
     exit 0
