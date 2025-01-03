@@ -21,8 +21,9 @@
 #include "util/logging/logging.h"
 #include "util/string/stringUtils.h"
 #include "util/time/universalTime.h"
-
-#include "android/cutils/properties.h"
+// this is for android only we need raspi instead
+// #include "android/cutils/properties.h"
+#include "properties.h"
 
 #include "lrya/cozmo/shared/factory/emrHelper.h"
 
@@ -42,6 +43,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <mutex>
 #include <fstream>
 #include <array>
 #include <iomanip>
@@ -155,6 +157,20 @@ namespace {
   int _buildVersion = -1;
 
 } // namespace
+
+// std::string GetProperty(const std::string& key)
+// {
+//   char propBuf[PROPERTY_VALUE_MAX] = {0};
+//   int rc = property_get(key.c_str(), propBuf, "");
+//   if(rc <= 0)
+//   {
+//     LOG_WARNING("OSState.GetProperty.FailedToFindProperty",
+//                 "Property %s not found",
+//                 key.c_str());
+//   }
+
+//   return std::string(propBuf);
+// }
 
 std::string GetProperty(const std::string& key)
 {
@@ -868,7 +884,7 @@ bool OSState::HasTimezone() const
   const ssize_t written = readlink(kLocalTimeFile, linkPath, linkPathLen);
   if (written < 0 || written >= linkPathLen) {
     LOG_ERROR("OSState.HasTimezone.CantReadLink",
-              "File '%s' looks like a symlink, but can't be read (returned %ld, error %s)",
+              "File '%s' looks like a symlink, but can't be read (returned %d, error %s)",
               kLocalTimeFile,
               written,
               strerror(errno));

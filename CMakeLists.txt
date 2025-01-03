@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
+message(STATUS "=========================》Received MATEOS value: ${MATEOS}")
+
 # uncomment this to display internal cmake state for targets, useful for debugging
-# set_property(GLOBAL PROPERTY GLOBAL_DEPENDS_DEBUG_MODE 1)
+set_property(GLOBAL PROPERTY GLOBAL_DEPENDS_DEBUG_MODE 1)
 
 list(APPEND CMAKE_MODULE_PATH
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake
@@ -30,6 +32,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 99)
 add_definitions(-DMATEOS)
+# link_directories(/usr/lib/arm-linux-gnueabihf)
+# set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH}:/usr/lib/arm-linux-gnueabihf:/usr/include/arm-linux-gnueabihf")
+message(STATUS "19------------------------> CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 #
 # Special settings for xcode.
 # Set DEPLOY_WITH_CMAKE OFF to prevent lrya_build_copy_assets from generating giant dependency lists.
@@ -52,13 +57,16 @@ define_property(TARGET PROPERTY LRYA_OUT_PATH
 set(SYMBOL_VISIBILITY_FLAGS "")
 
 set(LRYA_PLATFORM_NAME "unknown")
+# message(STATUS "9------------------------> MACOSX: ${MACOSX}")
 if(MACOSX)
-  set(LRYA_PLATFORM_NAME "mac")
+    # message(STATUS "10------------------------> MACOSX: ${MACOSX}")
+    set(LRYA_PLATFORM_NAME "mac")
 elseif(MATEOS)
+    message(STATUS "11------------------------> MATEOS: ${MATEOS}")
   set(LRYA_PLATFORM_NAME "mateos")
   set(SYMBOL_VISIBILITY_FLAGS "-fvisibility=hidden")
 else()
-  message(FATAL_ERROR "unsupported platform: ${LRYA_PLATFORM_NAME}")
+    message(FATAL_ERROR "unsupported platform: ${LRYA_PLATFORM_NAME}")
 endif()
 
 message(STATUS "LRYA_PLATFORM_NAME: ${LRYA_PLATFORM_NAME}")
@@ -68,7 +76,7 @@ add_compile_options(
     $<$<CONFIG:Release>:-O2>
 )
 
-# RPATH options
+# !!RPATH options
 if (MATEOS)
   set(CMAKE_INSTALL_RPATH "/lrya/lib")
   set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
@@ -96,32 +104,33 @@ add_definitions(-DLRYA_BUILD_SHA="${LRYA_BUILD_SHA}")
 
 #
 # Pass LRYA defines from the command-line to all targets
-#
-get_cmake_property(opts CACHE_VARIABLES)
-foreach(opt ${opts})
-  if(opt STREQUAL "LRYA_BUILD_SHA")
-    # ignore, set previously
+# 设置ccache缓存
+# get_cmake_property(opts CACHE_VARIABLES)
+# foreach(opt ${opts})
+#   if(opt STREQUAL "LRYA_BUILD_SHA")
+#     # ignore, set previously
 
-  # we whitelist which defines are allowed to be added to prevent hidden, unexpected defines from sneaking in
-  elseif((opt MATCHES "LRYA_") OR (opt MATCHES "REMOTE_CONSOLE_ENABLED") OR (opt MATCHES "DO_DEV_POSE_CHECKS"))
-    get_property(helpstring CACHE ${opt} PROPERTY HELPSTRING)
+#   # we whitelist which defines are allowed to be added to prevent hidden, unexpected defines from sneaking in
+#   elseif((opt MATCHES "LRYA_") OR (opt MATCHES "REMOTE_CONSOLE_ENABLED") OR (opt MATCHES "DO_DEV_POSE_CHECKS"))
+#     get_property(helpstring CACHE ${opt} PROPERTY HELPSTRING)
 
-    if(${helpstring} MATCHES "cached value")
-      # value was set from a previous run, but not this run, turn off
-      # Note: remove_definitions #defines the value as OFF (which itself is undefined)
-      unset(${opt} CACHE)
-      add_definitions(-U${opt})
-    else()
-      # value was set this run, from the command-line
-      add_definitions(-D${opt}=${${opt}})
-      set_property(CACHE ${opt} PROPERTY HELPSTRING "cached value from a previous command-line")
+#     if(${helpstring} MATCHES "cached value")
+#       # value was set from a previous run, but not this run, turn off
+#       # Note: remove_definitions #defines the value as OFF (which itself is undefined)
+#       unset(${opt} CACHE)
+#       add_definitions(-U${opt})
+#     else()
+#       # value was set this run, from the command-line
+#       add_definitions(-D${opt}=${${opt}})
+#       set_property(CACHE ${opt} PROPERTY HELPSTRING "cached value from a previous command-line")
 
-    endif()
-  endif()
-endforeach()
+#     endif()
+#   endif()
+# endforeach()
 
 set(LINK_FLAGS "${LINK_FLAGS} -Wl,--threads")
 
+# 设置输出目录
 if (NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 endif()
@@ -136,7 +145,7 @@ endif()
 
 set(LRYA_EXTERNAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/EXTERNALS")
 set(LRYA_THIRD_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rd")
-set(OKAO_VISION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/okaoVision")
+# set(OKAO_VISION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/okaoVision")
 
 set(LRYA_SRCLIST_DIR "${CMAKE_SOURCE_DIR}/generated/cmake")
 
@@ -237,3 +246,9 @@ include(signalessence)
 
 # write_license_html()
 # check_licenses()
+
+message(STATUS "98-------------> Final C compilation flags: ${CMAKE_C_FLAGS}")
+message(STATUS "99-------------> Final C++ compilation flags: ${CMAKE_CXX_FLAGS}")
+message(STATUS "CMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
+message(STATUS "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
+message(STATUS "CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=${CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES}")

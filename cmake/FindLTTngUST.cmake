@@ -44,17 +44,20 @@
 # (To distribute this file outside of CMake, substitute the full
 #  License text for the above reference.)
 
-find_path(LTTNGUST_INCLUDE_DIRS NAMES lttng/tracepoint.h)
+set(LTTNGUST_INCLUDE_DIRS_PATH "/usr/include/arm-linux-gnueabihf")
+set(LTTNGUST_LIBRARIES_PATH "/usr/lib/arm-linux-gnueabihf")
+
+find_path(LTTNGUST_INCLUDE_DIRS NAMES lttng/tracepoint.h HINTS ${LTTNGUST_INCLUDE_DIRS_PATH})
 # Must also check for the path of generated header files since out-of-tree
 # build is a possibility (Yocto).
-find_path(LTTNGUST_INCLUDE_DIRS_GENERATED NAMES lttng/ust-config.h)
-find_library(LTTNGUST_ust_LIBRARY NAMES lttng-ust)
-find_library(LTTNGUST_ust_tracepoint_LIBRARY NAMES lttng-ust-tracepoint)
-find_library(LTTNGUST_ust_dl_LIBRARY NAMES lttng-ust-dl)
+find_path(LTTNGUST_INCLUDE_DIRS_GENERATED NAMES lttng/ust-config.h HINTS ${LTTNGUST_INCLUDE_DIRS_PATH})
+find_library(LTTNGUST_ust_LIBRARY NAMES lttng-ust HINTS ${LTTNGUST_LIBRARIES_PATH})
+find_library(LTTNGUST_ust_tracepoint_LIBRARY NAMES lttng-ust-tracepoint HINTS ${LTTNGUST_LIBRARIES_PATH})
+find_library(LTTNGUST_ust_dl_LIBRARY NAMES lttng-ust-dl HINTS ${LTTNGUST_LIBRARIES_PATH})
 
-find_library(LTTNGUST_ust_LIBRARY_STATIC NAMES liblttng-ust.a)
-find_library(LTTNGUST_ust_tracepoint_LIBRARY_STATIC NAMES liblttng-ust-tracepoint.a)
-find_library(LTTNGUST_ust_dl_LIBRARY_STATIC NAMES liblttng-ust-dl.a)
+find_library(LTTNGUST_ust_LIBRARY_STATIC NAMES liblttng-ust.a HINTS ${LTTNGUST_LIBRARIES_PATH})
+find_library(LTTNGUST_ust_tracepoint_LIBRARY_STATIC NAMES liblttng-ust-tracepoint.a HINTS ${LTTNGUST_LIBRARIES_PATH})
+find_library(LTTNGUST_ust_dl_LIBRARY_STATIC NAMES liblttng-ust-dl.a HINTS ${LTTNGUST_LIBRARIES_PATH})
 
 set(LTTNGUST_LIBRARIES
   ${LTTNGUST_ust_LIBRARY}

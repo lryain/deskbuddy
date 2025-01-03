@@ -38,21 +38,20 @@ git clean -dffx .
 git submodule foreach --recursive 'git clean -dffx .'
 
 echo "Building libsodium ${LIBSODIUM_REVISION_TO_BUILD} for vicOS"
-export TARGET_ARCH=armv7-a
-export CFLAGS="-Os -mfloat-abi=hard -mfpu=neon-vfpv4 -mthumb -marm -march=${TARGET_ARCH}"
-export ARCH=arm
-export HOST_COMPILER=""
-export CC="${HOST_COMPILER}-clang"
+# export TARGET_ARCH=armv7-a
+# export CFLAGS="-Os -mfloat-abi=hard -mfpu=vfp -mthumb -marm -march=${TARGET_ARCH}"
+# export ARCH=arm
+# export HOST_COMPILER=""
+# export CC="${HOST_COMPILER}-clang"
 export PREFIX="${DISTDIR}/mateos"
-export PATH="${PATH}:${MATEOS_SDK_HOME}/prebuilt/bin"
+# export PATH="${PATH}:${MATEOS_SDK_HOME}/prebuilt/bin"
 
 ./autogen.sh
 ./configure \
     --disable-soname-versions \
     --enable-minimal \
-    --host="${HOST_COMPILER}" \
-    --prefix="${PREFIX}" \
-    --with-sysroot="${MATEOS_SDK_HOME}/sysroot" || exit 1
+    --prefix="${PREFIX}"
+    # --with-sysroot="${MATEOS_SDK_HOME}/sysroot" || exit 1
 
 make clean && \
 make -j3 install && \
@@ -61,4 +60,4 @@ echo "Successfully built libsodium ${LIBSODIUM_REVISION_TO_BUILD} for vicOS"
 
 ${MAKE_DEP_ARCHIVE_SH} libsodium ${LIBSODIUM_REVISION_TO_BUILD}
 
-rm -rf ${DISTDIR}
+# rm -rf ${DISTDIR}

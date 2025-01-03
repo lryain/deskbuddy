@@ -113,11 +113,11 @@ list(APPEND MATEOS_COMPILER_FLAGS_CXX
 set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES "")
 
 # Add libc++_shared.so
-# sysroot/usr/local/clang_6.0.1/lib
-# set(MATEOS_CXX_STANDARD_LIBRARIES "${MATEOS_SDK}/sysroot/usr/local/clang_6.0.1/lib/libc++.so")
+# /usr/lib/arm-linux-gnueabihf/libc++.so.1
+set(MATEOS_CXX_STANDARD_LIBRARIES "/usr/lib/arm-linux-gnueabihf/libc++.so.1")
 
 # Add libunwind
-# set(MATEOS_CXX_STANDARD_LIBRARIES "${MATEOS_SDK}/sysroot/usr/local/clang_6.0.1/lib/libunwind.a")
+set(MATEOS_CXX_STANDARD_LIBRARIES "/usr/lib/arm-linux-gnueabihf/libunwind.a")
 
 set(CMAKE_C_STANDARD_LIBRARIES_INIT "-lm")
 set(CMAKE_CXX_STANDARD_LIBRARIES_INIT "${CMAKE_C_STANDARD_LIBRARIES_INIT}")

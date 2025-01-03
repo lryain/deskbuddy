@@ -18,12 +18,13 @@ source ${SCRIPT_PATH_ABSOLUTE}/common-preamble.sh \
 cd ${BUILDDIR}/protobuf
 
 # Common build settings
-CMAKE_C_FLAGS="-O3 -DNDEBUG -fvisibility=hidden -ffunction-sections -fstack-protector-all -Wno-error"
-CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden"
+CMAKE_C_FLAGS="-O3 -DNDEBUG -fvisibility=hidden -ffunction-sections -fstack-protector-all -Wno-error -fPIC"
+CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -fPIC"
 
 # Build for mateos
 echo "Building protobuf for victor (mateos) ...."
-./autogen.sh
+# ./autogen.sh
+rm -rf cmake/build/release
 mkdir -p cmake/build/release
 pushd cmake/build/release
 

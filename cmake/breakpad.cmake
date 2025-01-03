@@ -11,11 +11,13 @@ set(BREAKPAD_LIBS "")
 set(BREAKPAD_EXES "")
 
 if (MATEOS)
-    set(BREAKPAD_LIB_PATH "${BREAKPAD_PATH}/libs/armeabi-v7a")
+#     set(BREAKPAD_LIB_PATH "${BREAKPAD_PATH}/libs/armeabi-v7a")
+    set(BREAKPAD_LIB_PATH "${BREAKPAD_PATH}/lib")
     set(BREAKPAD_LIBS
       breakpad_client
     )
-    set(BREAKPAD_EXE_PATH "${BREAKPAD_PATH}/bin/armeabi-v7a")
+#     set(BREAKPAD_EXE_PATH "${BREAKPAD_PATH}/bin/armeabi-v7a")
+    set(BREAKPAD_EXE_PATH "${BREAKPAD_PATH}/bin")
     set(BREAKPAD_EXES
     )
 endif()

@@ -21,6 +21,7 @@
 
 #include <functional>
 #include <string>
+#include <limits>
 
 // Forward declarations
 namespace webots {

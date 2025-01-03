@@ -34,8 +34,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#include <android/cutils/debugger.h>
-#include <android/cutils/sockets.h>
+// #include <cutils/debugger.h>
+#include <cutils/sockets.h>
 #include <errno.h>
 
 #define LOG_TAG "DEBUG"

@@ -159,8 +159,10 @@ int64_t FileUtils::GetDirectoryFreeSize(const std::string& path)
 std::vector<std::string> FileUtils::FilesInDirectory(const std::string& path,
                                                      bool useFullPath,
                                                      const char* withExtension,
+                                                //      const std::vector<const char*>& withExtension,
                                                      bool recurse)
 {
+//   std::vector<char*> withExtensions;
   std::vector<const char*> withExtensions;
   if(nullptr != withExtension && withExtension[0]!=0) {
     withExtensions.push_back(withExtension);

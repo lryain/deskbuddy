@@ -215,7 +215,7 @@ case "${GENERATOR}" in
     ;;
 esac
 
-echo " ====================== Using SCRIPT_NAME: ${SCRIPT_NAME} - GENERATOR: '${GENERATOR}' ====================== "
+echo " 0 ====================== Using SCRIPT_NAME: ${SCRIPT_NAME} - GENERATOR: '${GENERATOR}' ====================== "
 
 #
 # Enable feature flags
@@ -251,7 +251,7 @@ if [ ${EXPORT_COMPILE_COMMANDS} -ne 0 ]; then
   EXPORT_FLAGS="-DCMAKE_EXPORT_COMPILE_COMMANDS=${EXPORT_COMPILE_COMMANDS}"
 fi
 
-echo " ====================== EXPORT_FLAGS: ${EXPORT_FLAGS} - EXPORT_COMPILE_COMMANDS: '${EXPORT_COMPILE_COMMANDS}' "
+echo " 1. ====================== EXPORT_FLAGS: ${EXPORT_FLAGS} - EXPORT_COMPILE_COMMANDS: '${EXPORT_COMPILE_COMMANDS}' "
 
 # For non-ninja builds, add ninja type to build dir
 BUILD_SYSTEM_TAG=""
@@ -259,7 +259,7 @@ if [ "${GENERATOR}" != "Ninja" ]; then
     BUILD_SYSTEM_TAG="-${GENERATOR}"
 fi
 : ${BUILD_DIR:="${TOPLEVEL}/_build/${PLATFORM}/${CONFIGURATION}${BUILD_SYSTEM_TAG}"}
-
+echo " 0===============> BUILD_DIR: ${BUILD_DIR} "
 case ${GENERATOR} in
     "Ninja")
         PROJECT_FILE="build.ninja"
@@ -381,6 +381,8 @@ else
     fi
   done
 fi
+echo "8888--------------> BUILD_PROTOC_PLUGIN: ${BUILD_PROTOC_PLUGIN}"
+
 if [[ $BUILD_PROTOC_PLUGIN -eq 1 ]]; then
     ${TOPLEVEL}/tools/protobuf/plugin/make.sh
 fi
@@ -454,20 +456,12 @@ if [ $CONFIGURE -eq 1 ]; then
             -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/macosx.toolchain.cmake"
         )
     elif [ "$PLATFORM" == "mateos" ] ; then
-        #
-        # If MATEOS_SDK is set, use it, else provide default location
-        #
-        if [ -z "${MATEOS_SDK+x}" ]; then
-            echo "-----------> ${MATEOS_SDK}"
-            MATEOS_SDK=$(${TOPLEVEL}/tools/build/tools/lryabuild/mateos.py --install 1.1.0-r04 | tail -1)
-        fi
-        echo "2 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > MATEOS_SDK: ${MATEOS_SDK}"
+        echo "2 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > PLATFORM: ${PLATFORM}"
         PLATFORM_ARGS=(
             -DMACOSX=0
             -DANDROID=0
             -DMATEOS=1
-            -DMATEOS_SDK="${MATEOS_SDK}"
-        #     -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/mateos.oelinux.toolchain.cmake"
+            -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/mateos.raspi.toolchain.cmake"
             -DMATEOS_CPP_FEATURES='rtti exceptions'
         )
         echo "${PLATFORM_ARGS[@]}"
@@ -494,7 +488,6 @@ if [ $CONFIGURE -eq 1 ]; then
         ${EXPORT_FLAGS} \
         ${FEATURE_FLAGS} \
         ${DEFINES} \
-        -DMATEOS \
         "${PLATFORM_ARGS[@]}"
 fi
 

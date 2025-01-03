@@ -19,6 +19,7 @@
 
 #include <string>
 #include <thread>
+#include <atomic>
 
 namespace Lrya {
 namespace Vector {
@@ -27,7 +28,9 @@ namespace Vector {
     // Constructor
     BleClient(struct ev_loop* loop);
     
-    ~BleClient();
+//     ~BleClient();
+//     virtual ~BleClient() = default;
+    virtual ~BleClient();
     
     // Attempts to connect to the server and starts the ev loop thread
     void Start();

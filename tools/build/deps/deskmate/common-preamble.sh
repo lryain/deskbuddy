@@ -19,7 +19,7 @@ export BUILDDIR=${TOPLEVEL}/build-victor-deps/build-${DEPNAME}
 export DISTTOP=${TOPLEVEL}/dist
 export DISTDIR=${DISTTOP}/${DEPNAME}
 export MAKE_DEP_ARCHIVE_SH=${TOPLEVEL}/deps/make-dep-archive.sh
-
+echo "-------------> DISTDIR: ${DISTDIR}"
 # echo "Finding/Installing mateos-sdk ${VICOS_SDK_VERSION}"
 # VICOSPY=${TOPLEVEL}/tools/ankibuild/mateos.py
 # export VICOS_SDK_HOME=$(${VICOSPY} --install ${VICOS_SDK_VERSION} | tail -1)
@@ -35,9 +35,14 @@ mkdir -p ${BUILDDIR}
 
 # Clone source code from git
 cd ${BUILDDIR}
+echo "-------------> BUILDDIR: ${BUILDDIR}"
+git clone ${GITURL}
 # git clone --depth=1 -b ${GITREV} ${GITURL}
 
 # Checkout the desired revision
 cd ${DEPNAME}
-# git checkout ${GITREV}
+echo "-------------> GITREV: ${GITREV}"
+git checkout ${GITREV}
+echo "-------------> DEPNAME: ${DEPNAME}"
+
 git submodule update --init --recursive

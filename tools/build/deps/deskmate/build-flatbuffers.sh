@@ -17,37 +17,16 @@ source ${SCRIPT_PATH_ABSOLUTE}/common-preamble.sh \
 
 # Build host prebuilts
 HOST_PREBUILTS_DIR=${DISTDIR}/host-prebuilts
-mkdir -p ${HOST_PREBUILTS_DIR}
+# mkdir -p ${HOST_PREBUILTS_DIR}
 pushd ${HOST_PREBUILTS_DIR}
-mkdir ${FLATBUFFERS_REVISION_TO_BUILD}
+# mkdir ${FLATBUFFERS_REVISION_TO_BUILD}
+rm ${HOST_PREBUILTS_DIR}/current
 ln -s ${FLATBUFFERS_REVISION_TO_BUILD} current
 HOST_PREBUILTS_CURRENT_DIR=${HOST_PREBUILTS_DIR}/current
 popd
 
-# Do our macOS builds
-mkdir -p ${HOST_PREBUILTS_CURRENT_DIR}/x86_64-apple-darwin/bin
-
-# Build the host tools for macos
-echo "Building flatc and flathash standalone tools for macOS"
-pushd ${BUILDDIR}
-${SCRIPT_PATH_ABSOLUTE}/build-flatc-host-tools.sh \
-                       ${FLATBUFFERS_REVISION_TO_BUILD} \
-                       ${CMAKE_EXE} \
-                       ${HOST_PREBUILTS_CURRENT_DIR}/x86_64-apple-darwin/bin/
-
-# Cleanup the build of the host tools
-# Build for macOS
-echo "Build flatbuffers ${FLATBUFFERS_REVISION_TO_BUILD} for deskmate (macOS)"
-pushd flatbuffers
-mkdir build
-pushd build
-CC=/usr/bin/clang CXX=/usr/bin/clang++ ${CMAKE_EXE} -G Xcode ..
-xcodebuild -project FlatBuffers.xcodeproj -target ALL_BUILD build -configuration Release
-xcodebuild -project FlatBuffers.xcodeproj -target ALL_BUILD build -configuration Debug
-mkdir ${DISTDIR}/mac
-mv Release ${DISTDIR}/mac/
-mv Debug ${DISTDIR}/mac/
-popd
+CMAKE_C_FLAGS="-O3 -DNDEBUG -fvisibility=hidden -ffunction-sections -fstack-protector-all -Wno-error -fPIC"
+CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -fPIC"
 
 # Build for vicOS
 echo "Build flatbuffers ${FLATBUFFERS_REVISION_TO_BUILD} for deskmate (vicOS)"
@@ -55,11 +34,15 @@ mkdir mateos
 pushd mateos
 ${CMAKE_EXE} \
     -G "Unix Makefiles" \
-    -DCMAKE_TOOLCHAIN_FILE=${MATEOS_SDK_HOME}/cmake/mateos.oelinux.toolchain.cmake \
-    -DMATEOS_SDK="${MATEOS_SDK_HOME}" \
+    -DCMAKE_INSTALL_PREFIX=${DISTDIR}/mateos
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_C_FLAGS_RELEASE="${CMAKE_C_FLAGS}" \
+    -DCMAKE_CXX_FLAGS_RELEASE="${CMAKE_CXX_FLAGS}" \
     -DFLATBUFFERS_BUILD_TESTS=OFF \
     -j8 \
     ..
+    # -DCMAKE_TOOLCHAIN_FILE=/home/pi/deskbuddy/cmake/mateos.raspi.toolchain.cmake \
+# make clean
 make
 mkdir -p ${DISTDIR}/mateos
 cp libflatbuffers.a ${DISTDIR}/mateos/
@@ -69,23 +52,6 @@ popd
 echo "Copy the flatbuffers include directory to the distribution directory"
 cp -pvR ./include ${DISTDIR}/
 
-# Build the host-tools for Linux using Docker
-echo "Build the flatc and flathash standalone tools for Linux using Docker"
-mkdir -p ${HOST_PREBUILTS_CURRENT_DIR}/x86_64-linux-gnu/bin
-
-docker \
-    build \
-    -t build-flatc-host-tools \
-    -f ${SCRIPT_PATH_ABSOLUTE}/build-flatc-host-tools.dockerfile \
-    ${SCRIPT_PATH_ABSOLUTE}
-
-docker \
-    run \
-    --rm -v ${HOST_PREBUILTS_CURRENT_DIR}/x86_64-linux-gnu/bin:/build/out \
-    build-flatc-host-tools \
-    /build/build-flatc-host-tools.sh v1.5.0 cmake /build/out/
-
-
 ${MAKE_DEP_ARCHIVE_SH} flatbuffers ${FLATBUFFERS_REVISION_TO_BUILD}
 
-rm -rf ${DISTDIR}
+# rm -rf ${DISTDIR}

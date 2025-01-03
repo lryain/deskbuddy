@@ -97,8 +97,9 @@ protected:
   
 private:
   const Robot& _robot;
-  std::unordered_map<ObjectInteractionIntention,
-                         ObjectInteractionCacheEntry> _trackers;
+  std::unordered_map<std::shared_ptr<ObjectInteractionIntention>, std::shared_ptr<ObjectInteractionCacheEntry>> _trackers;
+//   std::unordered_map<ObjectInteractionIntention,
+//                          ObjectInteractionCacheEntry> _trackers;
   
   static const char* ObjectUseIntentionToString(ObjectInteractionIntention intention);
   
