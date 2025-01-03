@@ -356,7 +356,7 @@ Result LaserPointDetector::Detect(Vision::ImageCache&   imageCache,
 
   if(Params::kLaser_DrawDetectionsInCameraView && (nullptr != _vizManager))
   {
-    const f32 groundOvalSize = std::max(0.5f, Params::kLaser_scaleMultiplier * std::sqrtf(groundRegionArea / M_PI_F));
+    const f32 groundOvalSize = std::max(0.5f, Params::kLaser_scaleMultiplier * sqrtf(groundRegionArea / M_PI_F));
     _vizManager->DrawCameraOval(groundCentroidInImage, groundOvalSize, groundOvalSize, NamedColors::GREEN);
   }
 
@@ -468,7 +468,7 @@ Result LaserPointDetector::Detect(Vision::ImageCache& imageCache,
 
   if(Params::kLaser_DrawDetectionsInCameraView && (nullptr != _vizManager))
   {
-    const f32 groundOvalSize = std::max(0.5f, Params::kLaser_scaleMultiplier * std::sqrtf(regionArea / M_PI_F));
+    const f32 groundOvalSize = std::max(0.5f, Params::kLaser_scaleMultiplier * sqrtf(regionArea / M_PI_F));
     _vizManager->DrawCameraOval(centroidInImage, groundOvalSize, groundOvalSize, NamedColors::GREEN);
   }
 
@@ -537,7 +537,7 @@ bool LaserPointDetector::IsSurroundedByDark(const Vision::Image& image,
   const u8 centerPixel = std::round(darkThresholdFraction * (f32)image(std::round(stat.centroid.y()),
                                                                        std::round(stat.centroid.x())));
 
-  const f32 radius = Params::kLaser_darkSurroundRadiusFraction*std::sqrtf((f32)stat.area / M_PI_F);
+  const f32 radius = Params::kLaser_darkSurroundRadiusFraction*sqrtf((f32)stat.area / M_PI_F);
 
   // sin/cos of [0 45 90 135 180 225 270 315] degrees. (cos is first, sin is second)
   const s32 kNumSurroundPoints = 8;

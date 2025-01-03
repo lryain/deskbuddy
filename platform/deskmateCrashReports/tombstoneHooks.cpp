@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <sys/syscall.h>
 #include <unistd.h>
+#include <cstring>
 
 namespace {
 

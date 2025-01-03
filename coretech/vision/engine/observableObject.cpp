@@ -428,7 +428,7 @@ namespace Vision {
       // Compute the angle and axis required to align the top side normal with the signed Z axis
       // Don't bother doing anything if the angle is already near zero
       const Vec3f& topSideNormal = Rmat.GetColumn(whichCol);
-      Radians angle = std::acosf( DotProduct(topSideNormal, signedZ) );
+      Radians angle = acosf( DotProduct(topSideNormal, signedZ) );
       
       const bool alreadyAligned = Util::IsNearZero(angle.ToFloat());
       if(!alreadyAligned)

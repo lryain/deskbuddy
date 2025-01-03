@@ -338,9 +338,9 @@ void BehaviorFistBump::OnBehaviorDeactivated()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool BehaviorFistBump::CheckForBump(const BEIRobotInfo& robotInfo)
 {
-  bool liftBumped = std::fabsf(robotInfo.GetLiftAngle() - _dVars.liftWaitingAngle_rad) > kLiftAngleBumpThresh_radps;
-  bool gyroBumped = std::fabsf(robotInfo.GetHeadGyroData().y) > kGyroYBumpThresh_radps;
-  bool accelBumped = std::fabsf(robotInfo.GetHeadAccelData().x - _dVars.waitingAccelX_mmps2) > kAccelXBumpThresh_mmps2;
+  bool liftBumped = fabsf(robotInfo.GetLiftAngle() - _dVars.liftWaitingAngle_rad) > kLiftAngleBumpThresh_radps;
+  bool gyroBumped = fabsf(robotInfo.GetHeadGyroData().y) > kGyroYBumpThresh_radps;
+  bool accelBumped = fabsf(robotInfo.GetHeadAccelData().x - _dVars.waitingAccelX_mmps2) > kAccelXBumpThresh_mmps2;
 
   return liftBumped || gyroBumped || accelBumped;
 }

@@ -524,7 +524,7 @@ void MovementComponent::HandleMessage(const ExternalInterface::TurnInPlaceAtSpee
              "Ignoring ExternalInterface::TurnInPlaceAtSpeed while wheels are locked.");
   } else {
     f32 turnSpeed = msg.speed_rad_per_sec;
-    if (std::fabsf(turnSpeed) > MAX_BODY_ROTATION_SPEED_RAD_PER_SEC) {
+    if (fabsf(turnSpeed) > MAX_BODY_ROTATION_SPEED_RAD_PER_SEC) {
       LOG_WARNING("MovementComponent.EventHandler.TurnInPlaceAtSpeed.SpeedExceedsLimit",
                   "Speed of %f deg/s exceeds limit of %f deg/s. Clamping.",
                   RAD_TO_DEG(turnSpeed), MAX_BODY_ROTATION_SPEED_DEG_PER_SEC);
@@ -596,7 +596,7 @@ void MovementComponent::HandleMessage(const ExternalInterface::DriveArc& msg)
                                        kDrivingWheelsStr,
                                        kDrivingArcStr);
     _robot->SendRobotMessage<RobotInterface::DriveWheelsCurvature>(msg.speed,
-                                                                  std::fabsf(msg.accel),
+                                                                  fabsf(msg.accel),
                                                                   msg.curvatureRadius_mm);
   }
 }

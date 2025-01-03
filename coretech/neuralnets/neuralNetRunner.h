@@ -22,6 +22,7 @@
 #include "coretech/vision/engine/asyncRunnerInterface.h"
 
 #include <list>
+#include <memory>
 
 // Forward declaration:
 namespace Json {

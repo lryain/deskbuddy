@@ -221,7 +221,7 @@ void Vocoder::calculateEqualTemperamentNoteFrequencies(vector<float>& noteFreque
 
     const int numberOfNotes = 88;
 
-    const float semitoneCoefficient = std::powf(2.0f, 1.0f / 12.0f);
+    const float semitoneCoefficient = powf(2.0f, 1.0f / 12.0f);
 
     noteFrequencies.push_back(C0frequency);
 

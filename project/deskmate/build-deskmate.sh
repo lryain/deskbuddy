@@ -390,16 +390,16 @@ fi
 echo "--------------> Build/Install the protoc generators for go"
 
 # Build/Install the protoc generators for go
-# GOBIN="${TOPLEVEL}/cloud/go/bin"
-# if [[ ! -x $GOBIN/protoc-gen-go ]] || [[ ! -x $GOBIN/protoc-gen-grpc-gateway ]]; then
-#     echo "Building/Installing protoc-gen-go and protoc-gen-grpc-gateway"
-#     GOBIN=$GOBIN \
-#     CC=/usr/bin/cc \
-#     CXX=/usr/bin/c++ \
-#     "${GOROOT}/bin/go" install \
-#     github.com/golang/protobuf/protoc-gen-go \
-#     github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
-# fi
+GOBIN="${TOPLEVEL}/cloud/go/bin"
+if [[ ! -x $GOBIN/protoc-gen-go ]] || [[ ! -x $GOBIN/protoc-gen-grpc-gateway ]]; then
+    echo "Building/Installing protoc-gen-go and protoc-gen-grpc-gateway"
+    GOBIN=$GOBIN \
+    CC=/usr/bin/cc \
+    CXX=/usr/bin/c++ \
+    "${GOROOT}/bin/go" install \
+    github.com/golang/protobuf/protoc-gen-go \
+    github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+fi
 
 echo "--------------> generate source file lists"
 

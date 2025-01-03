@@ -22,6 +22,7 @@
 #include <mutex>
 #include <unordered_set>
 #include <unordered_map>
+#include <condition_variable>
 
 #include "util/signals/simpleSignal.hpp"
 

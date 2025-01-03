@@ -47,6 +47,7 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #include <list>
+#include <memory>
 
 namespace Lrya {
 namespace Vision {

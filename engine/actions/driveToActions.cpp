@@ -254,7 +254,7 @@ namespace Lrya {
               const Point3f T(vec.x() + objectWrtRobotParent.GetTranslation().x(),
                               vec.y() + objectWrtRobotParent.GetTranslation().y(),
                               GetRobot().GetPose().GetTranslation().z());
-              possiblePoses.push_back(Pose3d(std::atan2f(-vec.y(), -vec.x()), Z_AXIS_3D(), T, objectWrtRobotParent.GetParent()));
+              possiblePoses.push_back(Pose3d(atan2f(-vec.y(), -vec.x()), Z_AXIS_3D(), T, objectWrtRobotParent.GetParent()));
             }
             result = ActionResult::SUCCESS;
           }

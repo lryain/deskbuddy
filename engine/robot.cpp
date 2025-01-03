@@ -2487,7 +2487,7 @@ Result Robot::ComputeHeadAngleToSeePose(const Pose3d& pose, Radians& headAngle, 
     }
 
     // Nope: keep searching. Adjust angle proportionally to how far off we are.
-    const f32 angleInc = std::atan2f(y, calib->GetFocalLength_y());
+    const f32 angleInc = atan2f(y, calib->GetFocalLength_y());
     searchAngle_rad -= dampening*angleInc;
   }
 
@@ -2539,8 +2539,8 @@ Result Robot::ComputeTurnTowardsImagePointAngles(const Point2f& imgPoint, const 
     return result;
   }
 
-  absTiltAngle = std::atan2f(-pt.y(), calib->GetFocalLength_y()) + histState.GetHeadAngle_rad();
-  absPanAngle  = std::atan2f(-pt.x(), calib->GetFocalLength_x()) + histState.GetPose().GetRotation().GetAngleAroundZaxis();
+  absTiltAngle = atan2f(-pt.y(), calib->GetFocalLength_y()) + histState.GetHeadAngle_rad();
+  absPanAngle  = atan2f(-pt.x(), calib->GetFocalLength_x()) + histState.GetPose().GetRotation().GetAngleAroundZaxis();
 
   return RESULT_OK;
 }

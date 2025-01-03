@@ -33,6 +33,7 @@
 #include "DetectorComDef.h"
 
 #include <list>
+#include <memory>
 
 namespace Lrya {
   

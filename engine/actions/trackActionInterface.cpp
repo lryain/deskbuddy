@@ -526,9 +526,9 @@ ActionResult ITrackAction::CheckIfDone()
           {
             // Set wheel speeds to drive an arc to the salient point. Note: use the *relative* angle for this!
             const f32 denomAngle = std::min(std::abs(relPanAngle), DEG_TO_RAD(kMaxPanAngle_deg));
-            const f32 d = distance_mm / std::cosf(denomAngle);
+            const f32 d = distance_mm / cosf(denomAngle);
             const f32 d2 = d*d;
-            const f32 radiusDenom = 2.f*std::sqrtf(d2 - distance_mm*distance_mm);
+            const f32 radiusDenom = 2.f*sqrtf(d2 - distance_mm*distance_mm);
             radius = std::round( std::copysign( (d2 / radiusDenom), relPanAngle) );
           }
           

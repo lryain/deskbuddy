@@ -20,6 +20,7 @@
 #include "util/entityComponent/entity.h"
 
 #include <set>
+#include <vector>
 
 namespace Lrya {
 namespace Vector {

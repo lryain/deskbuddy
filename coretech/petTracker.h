@@ -18,6 +18,7 @@
 #include "coretech/vision/engine/profiler.h"
 
 #include <list>
+#include <memory>
 
 namespace Lrya {
 namespace Vision {

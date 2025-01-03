@@ -18,6 +18,7 @@
 #include "coretech/neuralnets/neuralNetModel_interface.h"
 
 #include <list>
+#include <memory>
 
 // Forward declaration
 namespace tflite

@@ -249,7 +249,7 @@ namespace Vision {
         // Use the line connecting the eyes to estimate head roll:
         Point2f eyeLine(rightEyeCen);
         eyeLine -= leftEyeCen;
-        face.SetHeadOrientation(std::atan2f(eyeLine.y(), eyeLine.x()), 0, 0);
+        face.SetHeadOrientation(atan2f(eyeLine.y(), eyeLine.x()), 0, 0);
         
         face.SetEyeCenters(std::move(leftEyeCen), std::move(rightEyeCen));
       } 

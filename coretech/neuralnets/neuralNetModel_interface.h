@@ -22,6 +22,7 @@
 
 #include <list>
 #include <vector>
+#include <memory>
 
 namespace Lrya {  
 namespace NeuralNets {

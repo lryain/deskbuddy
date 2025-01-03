@@ -17,7 +17,7 @@ pushd ${SCRIPT_PATH} >> /dev/null
 
 GIT_ROOT=`git rev-parse --show-toplevel`
 # PROTOBUF_LOC="${GIT_ROOT}/3rd/protobuf/${HOST}"
-PROTOBUF_LOC="${GIT_ROOT}/3rd/protobuf/linux"
+PROTOBUF_LOC="${GIT_ROOT}/3rd/protobuf/mateos"
 INCLUDES="${PROTOBUF_LOC}/include"
 LIBS="${PROTOBUF_LOC}/lib"
 SRCS=`find . -type f -iname "*.cpp"`

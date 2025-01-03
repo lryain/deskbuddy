@@ -12,7 +12,9 @@
 #ifndef __CannedAnimLib_BaseTypes_SpritePathMap_H__
 #define __CannedAnimLib_BaseTypes_SpritePathMap_H__
 
+#include <vector>
 #include <string>
+#include <memory>
 #include <unordered_map>
 
 namespace Lrya {

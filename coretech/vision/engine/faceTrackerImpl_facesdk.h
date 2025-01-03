@@ -231,7 +231,7 @@ namespace Vision {
         // line connecting the eyes as a proxy for roll
         Point2f eyeLine(face.GetRightEyeCenter());
         eyeLine -= face.GetLeftEyeCenter();
-        face.SetHeadOrientation(std::atan2f(eyeLine.y(), eyeLine.x()), 0, 0);
+        face.SetHeadOrientation(atan2f(eyeLine.y(), eyeLine.x()), 0, 0);
         
         face.SetFeature(TrackedFace::LeftEyebrow, GetFeatureHelper(features, {
           FSDKP_LEFT_EYEBROW_OUTER_CORNER,

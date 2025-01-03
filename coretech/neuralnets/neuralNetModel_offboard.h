@@ -17,6 +17,7 @@
 
 #include "coretech/neuralnets/neuralNetModel_interface.h"
 #include "coretech/vision/engine/offboardProcessor.h"
+#include <memory>
 
 namespace Json {
   class Value;

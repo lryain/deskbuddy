@@ -297,7 +297,7 @@ Result MirrorModeManager::CreateMirrorModeImage(const Vision::ImageRGB& cameraIm
     const f32 divisor = 1.f / 255.f;
     for(s32 value=0; value<256; ++value)
     {
-      _gammaLUT[value] = std::round(255.f * std::powf((f32)value * divisor, invGamma));
+      _gammaLUT[value] = std::round(255.f * powf((f32)value * divisor, invGamma));
     }
   }
   

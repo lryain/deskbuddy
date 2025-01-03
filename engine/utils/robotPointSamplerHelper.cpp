@@ -42,7 +42,7 @@ Point2f SamplePointInCircle( Util::RandomGenerator& rng, f32 radius , f32 minThe
   Point2f ret;
   const float theta = static_cast<float>( rng.RandDblInRange(minTheta, maxTheta) );
   const float u = static_cast<float>( rng.RandDbl() );
-  const float r = radius * std::sqrtf( u );
+  const float r = radius * sqrtf( u );
   ret.x() = r * cosf(theta);
   ret.y() = r * sinf(theta);
   return ret;
@@ -57,7 +57,7 @@ Point2f SamplePointInAnnulus( Util::RandomGenerator& rng, f32 minRadius, f32 max
   const f32 minRadiusSq = minRadius * minRadius;
   const float theta = static_cast<float>( rng.RandDblInRange(minTheta, maxTheta) );
   const float u = static_cast<float>( rng.RandDbl() );
-  const float r = std::sqrtf( minRadiusSq + (maxRadius*maxRadius - minRadiusSq)*u );
+  const float r = sqrtf( minRadiusSq + (maxRadius*maxRadius - minRadiusSq)*u );
   ret.x() = r * cosf(theta);
   ret.y() = r * sinf(theta);
   return ret;

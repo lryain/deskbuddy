@@ -24,6 +24,7 @@
 #include "util/signals/simpleSignal_fwd.h"
 
 #include <memory>
+#include <mutex>
 
 // Forward declarations
 namespace Lrya {

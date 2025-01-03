@@ -63,7 +63,7 @@ void BehaviorSelfTestDriftCheck::CheckDrift()
   // be removed
   Robot& robot = GetBEI().GetRobotInfo()._robot;
 
-  f32 angleChange = std::fabsf((robot.GetPose().GetRotationMatrix().GetAngleAroundAxis<'Z'>() - _startingRobotOrientation).getDegrees());
+  f32 angleChange = fabsf((robot.GetPose().GetRotationMatrix().GetAngleAroundAxis<'Z'>() - _startingRobotOrientation).getDegrees());
   
   if(angleChange > SelfTestConfig::kIMUDriftAngleThreshDeg)
   {

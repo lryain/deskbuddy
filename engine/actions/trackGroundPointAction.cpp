@@ -310,7 +310,7 @@ void TrackGroundPointAction::ComputeAbsAngles(const Robot&   robot,
   absTiltAngle = std::min(DEG_TO_RAD(kMaxHeadAngle_deg), absTiltAngle.ToFloat());
   
   // Pan Angle:
-  absPanAngle = std::atan2f(groundPoint.y(), groundPoint.x()); // starts relative
+  absPanAngle = atan2f(groundPoint.y(), groundPoint.x()); // starts relative
   absPanAngle  += histRobotPose.GetRotation().GetAngleAroundZaxis();
 }
   

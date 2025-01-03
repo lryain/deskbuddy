@@ -37,6 +37,7 @@
 #include <mutex>
 #include <list>
 #include <vector>
+#include <condition_variable>
 
 namespace Lrya {
 

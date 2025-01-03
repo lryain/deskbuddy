@@ -20,6 +20,7 @@
 #include "clad/types/loadedKnownFace.h"
 
 #include <list>
+#include <memory>
 
 // Forward declaration:
 namespace Json {

@@ -1404,25 +1404,25 @@ void WebService::GenerateConsoleVarsUI(std::string& page, const std::string& cat
       if (it->second->IsIntegerType()) {
         if (it->second->IsSignedType()) {
           snprintf(sliderRange, sizeof(sliderRange),
-                   "data-value=\"%ld\" data-begin=\"%ld\" data-end=\"%ld\" data-scale=\"1\"",
+                   "data-value=\"%lld\" data-begin=\"%lld\" data-end=\"%lld\" data-scale=\"1\"",
                    it->second->GetAsInt64(),
                    it->second->GetMinAsInt64(),
                    it->second->GetMaxAsInt64());
 
           snprintf(inputRange, sizeof(inputRange),
-                   "min=\"%ld\" max=\"%ld\"",
+                   "min=\"%lld\" max=\"%lld\"",
                    it->second->GetMinAsInt64(),
                    it->second->GetMaxAsInt64());
         }
         else {
           snprintf(sliderRange, sizeof(sliderRange),
-                   "data-value=\"%lu\" data-begin=\"%lu\" data-end=\"%lu\" data-scale=\"1\"",
+                   "data-value=\"%llu\" data-begin=\"%llu\" data-end=\"%llu\" data-scale=\"1\"",
                    it->second->GetAsUInt64(),
                    it->second->GetMinAsUInt64(),
                    it->second->GetMaxAsUInt64());
 
           snprintf(inputRange, sizeof(inputRange),
-                   "min=\"%lu\" max=\"%lu\"",
+                   "min=\"%llu\" max=\"%llu\"",
                    it->second->GetMinAsUInt64(),
                    it->second->GetMaxAsUInt64());
         }

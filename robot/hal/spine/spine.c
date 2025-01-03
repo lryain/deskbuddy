@@ -155,7 +155,7 @@ ssize_t spine_receive_data(spine_ctx_t spine, const void* bytes, size_t len)
     size_t remaining = sizeof(spine->buf_rx) - next_offset;
 
     if (len > remaining) {
-        LOGE("spine_receive_data.overflow :: %lu", len - remaining);
+        LOGE("spine_receive_data.overflow :: %u", len - remaining);
         spine->rx_cursor = 0;
         // BRC: add a flag to indicate a reset (for using in parsing?)
     }

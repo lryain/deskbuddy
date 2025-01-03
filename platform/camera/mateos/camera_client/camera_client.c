@@ -537,7 +537,7 @@ static int enqueue_message_with_payload(struct client_ctx *ctx, lrya_camera_msg_
   if(num > LRYA_CAMERA_MSG_PAYLOAD_LEN)
   {
     pthread_mutex_unlock(&ctx->ipc_mutex);
-    loge("%s: enqueue_message payload size too large %lu > %u", __func__, len, LRYA_CAMERA_MSG_PAYLOAD_LEN);
+    loge("%s: enqueue_message payload size too large %zu > %u", __func__, len, LRYA_CAMERA_MSG_PAYLOAD_LEN);
     return -1;
   }
   memcpy(msg->payload, buf, num);

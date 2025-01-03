@@ -12,6 +12,7 @@
 #include "dasLogFileAppender.h"
 #include "testUtils.h"
 #include <unistd.h>
+#include <condition_variable>
 
 static const std::string testDASDir("./test-dasLogs");
 static const std::string testDASURL("http://localhost:6099/event");

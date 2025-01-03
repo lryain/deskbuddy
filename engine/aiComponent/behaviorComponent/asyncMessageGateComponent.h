@@ -27,6 +27,8 @@
 
 #include <set>
 #include <unordered_map>
+#include <mutex>
+#include <vector>
 
 namespace Lrya {
 namespace Vector {

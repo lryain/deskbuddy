@@ -131,7 +131,7 @@ Planning::Path IPathPlanner::ApplyMotionProfile(const Planning::Path &in, const 
 
   // Helper for computing max speed on arc
   auto GetMaxAbsSpeedOnArc = [&actionParams](f32 arcRadius_mm) {
-    return std::fabsf((MAX_WHEEL_SPEED_MMPS * arcRadius_mm) / (arcRadius_mm + static_cast<f32>(actionParams.halfWheelBase_mm)));
+    return fabsf((MAX_WHEEL_SPEED_MMPS * arcRadius_mm) / (arcRadius_mm + static_cast<f32>(actionParams.halfWheelBase_mm)));
   };
   
   // Figure out proper path segment speeds to account for deceleration starting from the end of the path and working
@@ -174,7 +174,7 @@ Planning::Path IPathPlanner::ApplyMotionProfile(const Planning::Path &in, const 
       case Planning::PST_ARC:
       {
         // Check if any wheel speed exceeds MAX_WHEEL_SPEED_MMPS
-        const f32 arcRadius_mm = std::fabsf(seg.GetDef().arc.radius);
+        const f32 arcRadius_mm = fabsf(seg.GetDef().arc.radius);
         const f32 max_wheel_speed_mmps = (speed_mmps / arcRadius_mm) * (arcRadius_mm + actionParams.halfWheelBase_mm);
 
         // Calculate new center speed assuming outer wheel speed of MAX_WHEEL_SPEED_MMPS
@@ -385,7 +385,7 @@ Planning::Path IPathPlanner::ApplyMotionProfile(const Planning::Path &in, const 
     // * the next segment isn't a point turn,
     // * this isn't a special case where this is the last segment and the previous segment is a point turn
     if(numSegs > 1 &&
-       !(seg.GetType() == Planning::PST_ARC && std::fabsf(speed) > GetMaxAbsSpeedOnArc(seg.GetDef().arc.radius)) &&
+       !(seg.GetType() == Planning::PST_ARC && fabsf(speed) > GetMaxAbsSpeedOnArc(seg.GetDef().arc.radius)) &&
        seg.GetType() != Planning::PST_POINT_TURN &&
        (hasNextSeg ? nextSeg.GetType() != Planning::PST_POINT_TURN : true) &&
        !lastSegmentAndPrevIsPT)

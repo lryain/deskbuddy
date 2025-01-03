@@ -157,7 +157,7 @@ SetupInfo::SetupInfo(const Debayer::InArgs& inArgs, const Debayer::OutArgs& outA
 HandleRAW10::HandleRAW10(f32 gamma) : Op()
 {
   for (int i = 0; i < _gammaLUT.size(); ++i){
-    _gammaLUT[i] = 255 * std::powf((f32)i/1023.0f, gamma);
+    _gammaLUT[i] = 255 * powf((f32)i/1023.0f, gamma);
   }
 
   ADD_FUNC(_functions,    FULL, RGB24, RAW10_to_RGB24_FULL);

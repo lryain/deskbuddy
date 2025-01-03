@@ -21,7 +21,7 @@
 #include <list>
 #include <map>
 #include <string>
-
+#include <memory>
 
 namespace Json {
   class Value;

@@ -22,6 +22,7 @@
 #include "coretech/vision/engine/imageBuffer/imageBuffer.h"
 #include "lrya/cozmo/shared/cozmoConfig.h"
 #include "clad/types/imageTypes.h"
+#include <chrono>
 
 // Forward declaration
 namespace webots {
