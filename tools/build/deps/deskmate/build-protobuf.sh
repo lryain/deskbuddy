@@ -42,7 +42,6 @@ ${CMAKE_EXE} \
   -DCMAKE_INSTALL_PREFIX=${DISTDIR}/mateos \
   -Dprotobuf_BUILD_TESTS=FALSE \
   ../..
-#   -Dprotobuf_BUILD_SHARED_LIBS=OFF \
 
 make -j8 install
 cp $(find . -name js_embed -type f) ${DISTDIR}/mateos/bin/js_embed

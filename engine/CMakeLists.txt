@@ -7,7 +7,7 @@ option(USE_DAS "Enable DAS reporting" OFF)
 option(ALEXA_ACOUSTIC_TEST "Enable alexa acoustic testing (no movement mode)" OFF)
 
 include(opencv)
-include(okao)
+# include(okao)
 include(flatbuffers)
 include(protobuf)
 include(lrya_build_strip)
@@ -92,7 +92,7 @@ target_link_libraries(cozmo_engine
   # platform
   ${PLATFORM_LIBS}
   ${LRYATRACE}
-  ${ASAN_SHARED_LINKER_FLAGS}
+#   ${ASAN_SHARED_LINKER_FLAGS}
 )
 
 target_compile_options(cozmo_engine PRIVATE

@@ -24,6 +24,7 @@ DEPTOOLPY=${TOPLEVEL}/tools/lryabuild/deptool.py
 PROTOBUF_DIR=${TOPLEVEL}/dist/protobuf
 cd ${BUILDDIR}/opencv
 
+# 手动打补丁
 # Apply our Anki local patches
 # for f in ${PATCHDIR}/*.patch; do
 #     git apply $f
@@ -32,12 +33,11 @@ cd ${BUILDDIR}/opencv
 # Build for mateOS
 echo "Building opencv ${OPENCV_REVISION_TO_BUILD} for victor (mateOS) ...."
 
-# rm -rf build_mateos
+# rm -rf build_vicos
 # mkdir build_vicos
 pushd build_vicos
 # echo "-------------> ${PROTOBUF_DIR}/mateos/lib/libprotobuf.a"
 
-#   -DVICOS_SDK="${VICOS_SDK_HOME}" \
 # 编译器在toolchain中已经指定为clang
 ${CMAKE_EXE} \
   -DCMAKE_TOOLCHAIN_FILE=/home/pi/deskbuddy/cmake/mateos.raspi.toolchain.cmake \
@@ -84,8 +84,9 @@ make opencv_dnn -j8
 make -j8 install
 
 mkdir -vp ${DISTDIR}/mateos/3rdparty/lib
-
-cp -vrf install/* ${DISTDIR}/mateos/
+# for cross compile
+# cp -vrf install/* ${DISTDIR}/mateos/
+cp -vrf unix-install/* ${DISTDIR}/mateos/
 cp -vrf 3rdparty/lib ${DISTDIR}/mateos/3rdparty
 
 mkdir -p ${DISTDIR}/modules
