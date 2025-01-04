@@ -357,10 +357,10 @@ void SDKComponent::SetBehaviorLock(uint64_t controlId)
   if (_sdkWantsLock && (_sdkLockConnId != controlId)) {
     //grabbing control from another connection
     DispatchBehaviorLockLostResult();
-    LOG_INFO("SDKComponent.SetBehaviorLock","Connection_id %lu control reservation LOST", _sdkLockConnId);
+    LOG_INFO("SDKComponent.SetBehaviorLock","Connection_id %llu control reservation LOST", _sdkLockConnId);
   }
 
-  LOG_INFO("SDKComponent.SetBehaviorLock","Connection_id %lu reserving control", controlId);
+  LOG_INFO("SDKComponent.SetBehaviorLock","Connection_id %llu reserving control", controlId);
   _sdkLockConnId = controlId;
   _sdkWantsLock = true;
   DispatchSDKActivationResult(true, controlId);
@@ -378,7 +378,7 @@ void SDKComponent::HandleProtoMessage(const LryaEvent<external_interface::Gatewa
       {
         auto & control_req = event.GetData().control_request();
         _sdkControlLevel = control_req.priority();
-        LOG_INFO("SDKComponent.HandleProtoMessage", "SDK requested control connection_id %lu", id);
+        LOG_INFO("SDKComponent.HandleProtoMessage", "SDK requested control connection_id %llu", id);
         if (!LRYA_VERIFY(_sdkControlLevel, "SDKComponent::HandleProtoMessage", "Invalid _sdkControlLevel 0 (UNKNOWN)")) {
           return;
         }
@@ -405,7 +405,7 @@ void SDKComponent::HandleProtoMessage(const LryaEvent<external_interface::Gatewa
       break;
 
     case external_interface::GatewayWrapperTag::kControlRelease:
-      LOG_INFO("SDKComponent.HandleProtoMessage", "Releasing SDK control connection_id %lu", id);
+      LOG_INFO("SDKComponent.HandleProtoMessage", "Releasing SDK control connection_id %llu", id);
       if (id == _sdkLockConnId) {
         DispatchSDKActivationResult(false, _sdkLockConnId);
         LOG_INFO("SDKComponent.HandleProtoMessage", "ControlRelease Releasing control");
@@ -829,14 +829,14 @@ void SDKComponent::SetMasterVolume(const LryaEvent<external_interface::GatewayWr
 void SDKComponent::DispatchSDKActivationResult(bool enabled, uint64_t connectionId) {
   auto* gi = _robot->GetGatewayInterface();
   if (enabled) {
-    LOG_INFO("SDKComponent::DispatchSDKActivationResult","Dispatching SDK enabled activation %lu", connectionId);
+    LOG_INFO("SDKComponent::DispatchSDKActivationResult","Dispatching SDK enabled activation %llu", connectionId);
     //TODO: better naming, more readable, and logging
     auto* msg = new external_interface::BehaviorControlResponse(new external_interface::ControlGrantedResponse());
     external_interface::GatewayWrapper wrapper = ExternalMessageRouter::WrapResponse(msg, connectionId);
     gi->Broadcast(std::move(wrapper));
   }
   else {
-    LOG_INFO("SDKComponent::DispatchSDKActivationResult","Dispatching SDK disabled/lost activation %lu", connectionId);
+    LOG_INFO("SDKComponent::DispatchSDKActivationResult","Dispatching SDK disabled/lost activation %llu", connectionId);
     auto* msg = new external_interface::BehaviorControlResponse(new external_interface::ControlLostResponse());
     external_interface::GatewayWrapper wrapper = ExternalMessageRouter::WrapResponse(msg, connectionId);
     gi->Broadcast(std::move(wrapper));
@@ -844,7 +844,7 @@ void SDKComponent::DispatchSDKActivationResult(bool enabled, uint64_t connection
 }
 
 void SDKComponent::DispatchBehaviorLockLostResult() {
-  LOG_INFO("SDKComponent::DispatchBehaviorLockLostResult","Dispatching SDK control lost %lu", _sdkLockConnId);
+  LOG_INFO("SDKComponent::DispatchBehaviorLockLostResult","Dispatching SDK control lost %llu", _sdkLockConnId);
   auto* gi = _robot->GetGatewayInterface();
   auto* msg = new external_interface::BehaviorControlResponse(new external_interface::ReservedControlLostResponse());
   external_interface::GatewayWrapper wrapper = ExternalMessageRouter::WrapResponse(msg, _sdkLockConnId);

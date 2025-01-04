@@ -96,7 +96,7 @@ void RobotManager::Shutdown(ShutdownReason reason)
       auto numFreeBytes = Util::FileUtils::GetDirectoryFreeSize("/data");
 
       LOG_INFO("Robot.Shutdown.ShuttingDown",
-               "Reason: %s, upTime: %u, numFreeBytes: %lu",
+               "Reason: %s, upTime: %u, numFreeBytes: %llu",
                EnumToString(reason), upTime_sec, numFreeBytes);
 
       DASMSG(robot_power_off, "robot.power_off", "Reason why robot powered off during the previous run");

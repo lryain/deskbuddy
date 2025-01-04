@@ -31,18 +31,17 @@ export CMAKE_EXE=cmake
 
 # Create a fresh and clean build directory
 # rm -rf ${BUILDDIR}
-mkdir -p ${BUILDDIR}
+# mkdir -p ${BUILDDIR}
 
 # Clone source code from git
 cd ${BUILDDIR}
 echo "-------------> BUILDDIR: ${BUILDDIR}"
-git clone ${GITURL}
+# git clone ${GITURL}
 # git clone --depth=1 -b ${GITREV} ${GITURL}
 
 # Checkout the desired revision
 cd ${DEPNAME}
 echo "-------------> GITREV: ${GITREV}"
-git checkout ${GITREV}
+# git checkout ${GITREV}
 echo "-------------> DEPNAME: ${DEPNAME}"
-
-git submodule update --init --recursive
+# git submodule update --init --recursive

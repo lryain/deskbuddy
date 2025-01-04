@@ -281,14 +281,14 @@ void JdocsManager::InitDependent(Robot* robot, const RobotCompMap& dependentComp
         if (jdocInfo._jdocFormatVersion < latestFormatVersion)
         {
           LOG_INFO("JdocsManager.InitDependent.FormatVersionMigration",
-                   "Jdoc %s loaded from disk has older format version (%lu); migrating to %lu",
+                   "Jdoc %s loaded from disk has older format version (%llu); migrating to %llu",
                    jdocInfo._jdocName.c_str(), jdocInfo._jdocFormatVersion, latestFormatVersion);
           jdocInfo._needsMigration = true;
         }
         else if (jdocInfo._jdocFormatVersion > latestFormatVersion)
         {
           LOG_ERROR("JdocsManager.InitDependent.FormatVersionError",
-                    "Jdoc %s loaded from disk has newer format version (%lu) than robot handles (%lu); should not be possible",
+                    "Jdoc %s loaded from disk has newer format version (%llu) than robot handles (%llu); should not be possible",
                     jdocInfo._jdocName.c_str(), jdocInfo._jdocFormatVersion, latestFormatVersion);
           // This is fairly impossible.  So let's just pretend the disk file didn't exist.
           // The corresponding manager will immediately create default data in the format it knows.
@@ -1109,7 +1109,7 @@ void JdocsManager::UpdateJdocsServerResponses()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void JdocsManager::HandleWriteResponse(const JDocs::WriteRequest& writeRequest, const JDocs::WriteResponse& writeResponse)
 {
-  LOG_INFO("JdocsManager.HandleWriteResponse", "Received write response for jdoc %s:  Status %s, latest version %lu",
+  LOG_INFO("JdocsManager.HandleWriteResponse", "Received write response for jdoc %s:  Status %s, latest version %llu",
            writeRequest.docName.c_str(), EnumToString(writeResponse.status), writeResponse.latestVersion);
   const auto jdocType = JdocTypeFromDocName(writeRequest.docName);
   auto& jdoc = _jdocs[jdocType];
@@ -1142,7 +1142,7 @@ void JdocsManager::HandleWriteResponse(const JDocs::WriteRequest& writeRequest, 
     {
       // This is not possible because only the cloud can increment the doc version
       LOG_ERROR("JdocsManager.HandleWriteResponse.RejectedDocVersion",
-                "Submitted jdoc's version %lu is later than the version in the cloud (%lu); this should not be possible",
+                "Submitted jdoc's version %llu is later than the version in the cloud (%llu); this should not be possible",
                 writeRequest.doc.docVersion, writeResponse.latestVersion);
     }
     else // writeRequest.doc.docVersion < writeResponse.latestVersion
@@ -1150,7 +1150,7 @@ void JdocsManager::HandleWriteResponse(const JDocs::WriteRequest& writeRequest, 
       // Cloud has a newer version than robot has
       static const size_t kBufferLen = 256;
       char logMsg[kBufferLen];
-      snprintf(logMsg, kBufferLen, "Submitted jdoc's version %lu is earlier than the version in the cloud (%lu); update rejected; %s",
+      snprintf(logMsg, kBufferLen, "Submitted jdoc's version %llu is earlier than the version in the cloud (%llu); update rejected; %s",
                writeRequest.doc.docVersion, writeResponse.latestVersion,
                jdoc._resolveMethod == external_interface::JdocResolveMethod::PULL_FROM_CLOUD
                ? "pulling down latest version from cloud"
@@ -1182,7 +1182,7 @@ void JdocsManager::HandleWriteResponse(const JDocs::WriteRequest& writeRequest, 
   {
     // The client format version is less than the server format version; update not allowed
     LOG_ERROR("JdocsManager.HandleWriteResponse.RejectedFmtVersion",
-              "Submitted jdoc's format version %lu is earlier than the format version in the cloud; update not allowed",
+              "Submitted jdoc's format version %llu is earlier than the format version in the cloud; update not allowed",
               writeRequest.doc.fmtVersion);
 
     // Mark this jdoc type as 'disabled' so we don't try to submit it again.
@@ -1236,7 +1236,7 @@ void JdocsManager::HandleReadResponse(const JDocs::ReadRequest& readRequest, con
       // (even though it really hasn't changed)
       const auto ourDocVersion = GetJdocDocVersion(jdocType);
       LOG_INFO("JdocsManager.HandleReadResponse.Found",
-               "Read response for doc %s got 'changed'; cloud version %lu, our version %lu",
+               "Read response for doc %s got 'changed'; cloud version %llu, our version %llu",
                requestItem.docName.c_str(), responseItem.doc.docVersion, ourDocVersion);
       DEV_ASSERT(responseItem.doc.docVersion > 0, "Error: Cloud returned a jdoc with a zero version");
       if (responseItem.doc.docVersion < ourDocVersion)
@@ -1267,7 +1267,7 @@ void JdocsManager::HandleReadResponse(const JDocs::ReadRequest& readRequest, con
         }
         static const size_t kBufferLen = 256;
         char logMsg[kBufferLen];
-        snprintf(logMsg, kBufferLen, "Cloud version (%lu) of %s jdoc is later than robot version (%lu); %s",
+        snprintf(logMsg, kBufferLen, "Cloud version (%llu) of %s jdoc is later than robot version (%llu); %s",
                  responseItem.doc.docVersion, requestItem.docName.c_str(), ourDocVersion,
                  pullCloudVersion
                  ? "pulling down newer version from cloud"
@@ -1363,7 +1363,7 @@ void JdocsManager::HandleReadResponse(const JDocs::ReadRequest& readRequest, con
       if (responseItem.doc.fmtVersion > jdoc._curFormatVersion)
       {
         LOG_ERROR("JdocsManager.HandleReadResponse.FmtVersionError",
-                  "Rejecting jdoc from cloud because its format version (%lu) is later than what robot can handle (%lu)",
+                  "Rejecting jdoc from cloud because its format version (%llu) is later than what robot can handle (%llu)",
                   responseItem.doc.fmtVersion, jdoc._curFormatVersion);
         // Mark this jdoc type as 'disabled' so we don't try to submit it again
         jdoc._cloudDisabled = JdocInfo::CloudDisabled::FormatVersion;
@@ -1373,7 +1373,7 @@ void JdocsManager::HandleReadResponse(const JDocs::ReadRequest& readRequest, con
       else if (responseItem.doc.fmtVersion < jdoc._curFormatVersion)
       {
         LOG_INFO("JdocsManager.HandleReadResponse.FmtVersionWarn",
-                 "Jdoc from cloud has older format version (%lu) than robot has (%lu); migrating to newer version",
+                 "Jdoc from cloud has older format version (%llu) than robot has (%llu); migrating to newer version",
                  responseItem.doc.fmtVersion, jdoc._curFormatVersion);
 
         // If we just pulled a new version from the cloud (a newer DOC version),
@@ -1644,11 +1644,11 @@ void JdocsManager::SubmitJdocToCloud(const external_interface::JdocType jdocType
     // the new version (which will be 1) and then save the jdoc to disk.  At that point the
     // jdoc on disk will be in sync with the jdoc in cloud.
     LOG_WARNING("JdocsManager.SubmitJdocToCloud.NonZeroFirstTimeJdoc",
-                "Submitting a jdoc not found in the cloud, but that has non-zero doc version %lu",
+                "Submitting a jdoc not found in the cloud, but that has non-zero doc version %llu",
                 jdoc.doc_version());
   }
 
-  LOG_INFO("JdocsManager.SubmitJdocToCloud", "Submitted jdoc to cloud: %s, doc version %lu, fmt version %lu",
+  LOG_INFO("JdocsManager.SubmitJdocToCloud", "Submitted jdoc to cloud: %s, doc version %llu, fmt version %llu",
            external_interface::JdocType_Name(jdocTypeKey).c_str(), jdoc.doc_version(), jdoc.fmt_version());
   JDocs::Doc jdocForCloud;
   jdocForCloud.docVersion = isJdocNewInCloud ? 0 : jdoc.doc_version();  // Zero means 'create new'

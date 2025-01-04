@@ -866,7 +866,7 @@ namespace Lrya
       const auto docFormatVersion = _jdocsManager->GetJdocFmtVersion(jdocType);
       const auto curFormatVersion = _jdocsManager->GetCurFmtVersion(jdocType);
       LOG_INFO("SettingsManager.DoJdocFormatMigration",
-               "Migrating robot settings jdoc from format version %lu to %lu",
+               "Migrating robot settings jdoc from format version %llu to %llu",
                docFormatVersion, curFormatVersion);
       if (docFormatVersion > curFormatVersion)
       {
@@ -884,12 +884,12 @@ namespace Lrya
         return;
       case 2:
         LOG_INFO("SettingsManager.DoJdocFormatMigration",
-                 "No change required for migration to %lu format", curFormatVersion);
+                 "No change required for migration to %llu format", curFormatVersion);
         break;
 
       default:
         LOG_ERROR("SettingsManager.DoJdocFormatMigration.Error",
-                  "Jdoc format version %lu is not known", curFormatVersion);
+                  "Jdoc format version %llu is not known", curFormatVersion);
         return;
       }
 

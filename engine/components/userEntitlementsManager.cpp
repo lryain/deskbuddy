@@ -319,7 +319,7 @@ void UserEntitlementsManager::DoJdocFormatMigration()
   const auto docFormatVersion = _jdocsManager->GetJdocFmtVersion(jdocType);
   const auto curFormatVersion = _jdocsManager->GetCurFmtVersion(jdocType);
   LOG_INFO("UserEntitlementsManager.DoJdocFormatMigration",
-           "Migrating user entitlements jdoc from format version %lu to %lu",
+           "Migrating user entitlements jdoc from format version %llu to %llu",
            docFormatVersion, curFormatVersion);
   if (docFormatVersion > curFormatVersion)
   {

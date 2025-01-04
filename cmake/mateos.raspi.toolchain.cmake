@@ -24,6 +24,10 @@ set(MATEOS_LINKER_FLAGS_EXE)
 set(MATEOS_C_COMPILER   "/usr/bin/clang")
 set(MATEOS_CXX_COMPILER "/usr/bin/clang++")
 
+set(CMAKE_LINKER "/usr/lib/llvm-7/bin/ld.lld")
+set(CMAKE_EXE_LINKER_FLAGS_INIT "-fuse-ld=lld")
+set(CMAKE_SHARED_LINKER_FLAGS_INIT "-fuse-ld=lld")
+
 # clang++ -std=c++17 -Wno-delete-non-virtual-dtor -Wno-explicit-specialization-after-instantiation ...
 
 get_property(OLD_C_FLAGS GLOBAL PROPERTY CMAKE_C_FLAGS)
@@ -164,10 +168,10 @@ message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_LINKER_FLAG
 message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_LINKER_FLAGS_EXE: ${MATEOS_LINKER_FLAGS_EXE}")
 # ccache
 
-# if(MATEOS_CCACHE)
-#     set(CMAKE_C_COMPILER_LAUNCHER   "${MATEOS_CCACHE}")
-#     set(CMAKE_CXX_COMPILER_LAUNCHER "${MATEOS_CCACHE}")
-# endif()
+if(MATEOS_CCACHE)
+    set(CMAKE_C_COMPILER_LAUNCHER   "${MATEOS_CCACHE}")
+    set(CMAKE_CXX_COMPILER_LAUNCHER "${MATEOS_CCACHE}")
+endif()
 
 # 设置编译器
 set(CMAKE_C_COMPILER        "${MATEOS_C_COMPILER}")
@@ -235,6 +239,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 set(CMAKE_SIZEOF_VOID_P 4)
 
 # Debug.
+message(STATUS "+ CMAKE_LINKER=${CMAKE_LINKER}")
 message(STATUS "+ CMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
 message(STATUS "+ CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
 message(STATUS "+ CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=${CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES}")

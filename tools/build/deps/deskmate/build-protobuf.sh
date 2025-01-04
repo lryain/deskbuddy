@@ -18,20 +18,21 @@ source ${SCRIPT_PATH_ABSOLUTE}/common-preamble.sh \
 cd ${BUILDDIR}/protobuf
 
 # Common build settings
-CMAKE_C_FLAGS="-O3 -DNDEBUG -fvisibility=hidden -ffunction-sections -fstack-protector-all -Wno-error -fPIC"
-# CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -fPIC"
+CMAKE_C_FLAGS="-O3 -DNDEBUG -fvisibility=hidden -ffunction-sections -fstack-protector-all -Wno-error"
+CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden"
 # 看是否需要加上libc++
-CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -std=c++14 -stdlib=libc++ -fPIC"
+# CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -std=c++14 -stdlib=libc++ -fPIC"
 
 # Build for mateos
 echo "Building protobuf for victor (mateos) ...."
 # ./autogen.sh
-rm -rf cmake/build/release
-mkdir -p cmake/build/release
+# rm -rf cmake/build/release
+# mkdir -p cmake/build/release
 pushd cmake/build/release
 
 # 编译器指定为clang
 ${CMAKE_EXE} \
+  -DCMAKE_TOOLCHAIN_FILE=/home/pi/deskbuddy/cmake/mateos.raspi.toolchain.cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_C_COMPILER=clang \
   -DCMAKE_CXX_COMPILER=clang++ \

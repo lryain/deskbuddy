@@ -454,6 +454,7 @@ if [ $CONFIGURE -eq 1 ]; then
             -DMACOSX=1
             -DANDROID=0
             -DMATEOS=0
+        #     -DMATEOS_CCACHE=ccache
             -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/macosx.toolchain.cmake"
         )
         echo "1 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > $PLATFORM = mac"
@@ -463,6 +464,7 @@ if [ $CONFIGURE -eq 1 ]; then
             -DMACOSX=0
             -DANDROID=0
             -DMATEOS=1
+        #     -DMATEOS_CCACHE=ccache
             -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/mateos.raspi.toolchain.cmake"
             -DMATEOS_CPP_FEATURES='rtti exceptions'
         )

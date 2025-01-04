@@ -419,3 +419,15 @@ robot_sshkey
 ota/out
 ota/ota-server/*.ota
 snowboy/server/main
+tools/build/dist/protobuf-v3.5.1-SHA-256.txt
+tools/build/dist/protobuf-v3.5.1.tar.bz2
+tools/build/dist/protobuf/mateos/lib/cmake/protobuf/protobuf-config.cmake
+tools/build/dist/protobuf/mateos/lib/cmake/protobuf/protobuf-targets.cmake
+tools/build/dist/protobuf/mateos/lib/pkgconfig/protobuf-lite.pc
+tools/build/dist/protobuf/mateos/lib/pkgconfig/protobuf.pc
+tools/build/dist/protobuf-v3.5.1-SHA-256.txt
+tools/build/dist/protobuf-v3.5.1.tar.bz2
+tools/build/dist/protobuf/mateos/lib/cmake/protobuf/protobuf-config.cmake
+tools/build/dist/protobuf/mateos/lib/cmake/protobuf/protobuf-targets.cmake
+tools/build/dist/protobuf/mateos/lib/pkgconfig/protobuf-lite.pc
+tools/build/dist/protobuf/mateos/lib/pkgconfig/protobuf.pc

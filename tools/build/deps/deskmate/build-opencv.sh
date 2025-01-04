@@ -40,7 +40,7 @@ pushd build_vicos
 #   -DVICOS_SDK="${VICOS_SDK_HOME}" \
 # 编译器在toolchain中已经指定为clang
 ${CMAKE_EXE} \
-  -DCMAKE_TOOLCHAIN_FILE=${VICOS_SDK_HOME}/cmake/mateos.raspi.toolchain.cmake \
+  -DCMAKE_TOOLCHAIN_FILE=/home/pi/deskbuddy/cmake/mateos.raspi.toolchain.cmake \
   -DCMAKE_INSTALL_PREFIX=${DISTDIR}/mateos \
   -DENABLE_NEON=ON \
   -DCMAKE_BUILD_TYPE=Release \
