@@ -16,7 +16,7 @@ lib/crash-reporting-mateos/Breakpad/
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Visual Studio Code
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-.vscode/
+# .vscode/
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Sublime Project Files
@@ -420,3 +420,4 @@ ota/out
 ota/ota-server/*.ota
 snowboy/server/main
 tools/build/dist
+tools/build/dist/protobuf
