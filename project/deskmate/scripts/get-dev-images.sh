@@ -11,10 +11,10 @@ then
 fi
 TOPLEVEL=`$GIT rev-parse --show-toplevel`
 
-source ${TOPLEVEL}/project/victor/scripts/victor_env.sh
+source ${TOPLEVEL}/project/deskmate/scripts/deskmate_env.sh
 
-source ${TOPLEVEL}/project/victor/scripts/host_robot_ip_override.sh
+source ${TOPLEVEL}/project/deskmate/scripts/host_robot_ip_override.sh
 
 robot_set_host
 
-robot_cp_from -r /data/data/com.anki.victor/cache/camera/images/$1 .
+robot_cp_from -r /data/data/com.anki.deskmate/cache/camera/images/$1 .

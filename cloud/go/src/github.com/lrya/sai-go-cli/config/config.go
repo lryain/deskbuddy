@@ -27,7 +27,7 @@ type Service string
 
 const (
 	Accounts            Service = "accounts"
-	Lryaval             Service = "ankival"
+	Lryaval             Service = "lryaval"
 	Audit               Service = "audit"
 	Blobstore           Service = "blobstore"
 	VirtualRewards      Service = "virtualrewards"
@@ -39,7 +39,7 @@ const (
 
 type ServiceURLs struct {
 	AccountsURL            string `iniconf:"accounts_url"`
-	LryavalURL             string `iniconf:"ankival_url"`
+	LryavalURL             string `iniconf:"lryaval_url"`
 	AuditURL               string `iniconf:"audit_url"`
 	BlobstoreURL           string `iniconf:"blobstore_url"`
 	VirtualRewardsURL      string `iniconf:"virtualrewards_url"`

@@ -226,7 +226,7 @@ endif()
 #
 # robot_supervisor
 #
-if (MATEOS2)
+if (MATEOS)
 
   lrya_build_cxx_executable(mate-robot ${LRYA_SRCLIST_DIR})
   lrya_build_target_license(mate-robot "LRYA")
@@ -250,7 +250,7 @@ if (MATEOS2)
   target_link_libraries(mate-robot
     PRIVATE
     robot_hal
-    # supervisor
+    supervisor
     spine
     robot_interface
     robot_clad_cpplite

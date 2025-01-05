@@ -98,7 +98,7 @@ fi
 echo "LRYA_ROBOT_HOST: ${LRYA_ROBOT_HOST}"
 echo "   INSTALL_ROOT: ${INSTALL_ROOT}"
 
-: ${PLATFORM_NAME:="vicos"}
+: ${PLATFORM_NAME:="mateos"}
 : ${LIB_INSTALL_PATH:="${INSTALL_ROOT}/lib"}
 : ${BIN_INSTALL_PATH:="${INSTALL_ROOT}/bin"}
 : ${RSYNC_BIN_DIR="${TOPLEVEL}/tools/rsync"}

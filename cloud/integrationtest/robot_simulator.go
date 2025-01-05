@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ankidev/accounts"
+	"lryadev/accounts"
 	"clad/cloud"
 	"fmt"
 

@@ -1,0 +1,33 @@
+cxx_project(
+    name = 'mate_anim',
+    srcs = cxx_src_glob(['src/cozmoAnim'],
+                        excludes = ['*_mateos.*',
+                                    'mateos/**/*',
+                                    '*_mac.*',
+                                    'cozmoAnimMain.cpp']),
+    platform_srcs = [
+        ('mateos', glob(['mateos/**/*.cpp',
+                          '**/*_mateos.cpp'])),
+        ('mac', glob(['**/*_mac.cpp']))
+    ],
+    headers = cxx_header_glob(['.']),
+    platform_headers = [
+        ('mateos', glob(['**/*_mateos.h'])),
+        ('mac', glob(['**/*_mac.h']))
+    ]
+)
+
+cxx_project(
+    name = 'mate-anim',
+    srcs = glob(['src/cozmoAnim/cozmoAnimMain.cpp']),
+    platform_srcs = [
+    ],
+    headers = [],
+    platform_headers = [
+    ]
+)
+
+cxx_project(
+    name = 'mate-bootAnim',
+    srcs = glob(['src/bootAnim/bootAnim.cpp'])
+)

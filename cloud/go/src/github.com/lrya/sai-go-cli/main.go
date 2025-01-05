@@ -54,7 +54,7 @@ func main() {
 		accounts.InitializeCommands(c, &cfg)
 	})
 
-	app.Command("ankival", "Use the Lrya Key-Value Store API", func(c *cli.Cmd) {
+	app.Command("lryaval", "Use the Lrya Key-Value Store API", func(c *cli.Cmd) {
 		ankival.InitializeCommands(c, &cfg)
 	})
 

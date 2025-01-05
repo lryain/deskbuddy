@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ankidev/accounts"
+	"lryadev/accounts"
 	"bufio"
 	"bytes"
 	"encoding/binary"

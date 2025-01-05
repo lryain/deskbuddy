@@ -23,7 +23,7 @@ const (
 	None    = ""
 
 	ServiceAccounts = "accounts"
-	ServiceLryaval  = "ankival"
+	ServiceLryaval  = "lryaval"
 	ServiceAudit    = "audit"
 )
 

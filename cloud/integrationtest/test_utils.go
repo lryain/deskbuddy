@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ankidev/accounts"
+	"lryadev/accounts"
 	"fmt"
 
 	"github.com/lrya/sai-go-cli/config"

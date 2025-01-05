@@ -17,11 +17,11 @@ fi
 TOPLEVEL=`$GIT rev-parse --show-toplevel`
 
 GIT_PROJ_ROOT=`git rev-parse --show-toplevel`
-source ${GIT_PROJ_ROOT}/project/victor/scripts/victor_env.sh
+source ${GIT_PROJ_ROOT}/project/deskmate/scripts/deskmate_env.sh
 
-source ${GIT_PROJ_ROOT}/project/victor/scripts/host_robot_ip_override.sh
+source ${GIT_PROJ_ROOT}/project/deskmate/scripts/host_robot_ip_override.sh
 
 robot_set_host
 
-robot_sh rm -rf /data/data/com.anki.victor/cache/camera/images/*
-robot_sh "printf ${DATE} > /data/data/com.anki.victor/persistent/devImageCapturePrefix.txt"
+robot_sh rm -rf /data/data/com.anki.deskmate/cache/camera/images/*
+robot_sh "printf ${DATE} > /data/data/com.anki.deskmate/persistent/devImageCapturePrefix.txt"

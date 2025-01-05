@@ -172,7 +172,7 @@ func newFromEnvironment(app *cli.Cli) *options {
 		Name:   "p password",
 		Desc:   "Password for test accounts",
 		EnvVar: "TEST_USER_PASSWORD",
-		Value:  "ankisecret",
+		Value:  "lryasecret",
 	})
 
 	rampupDuration := app.String(cli.StringOpt{

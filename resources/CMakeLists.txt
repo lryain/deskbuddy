@@ -76,14 +76,14 @@ if(USE_LOCAL_AUDIO_ASSETS)
     message("----------------------------------------------------------------------")
 endif()
 
-set(sound_platform "deskmate_linux")
+set(sound_platform "mate_linux")
 if(MACOSX)
     set(sound_platform "dev_mac")
 endif()
 
 lrya_build_copydirectory_assets(
     TARGET ${sound_target}
-    SRCLIST_DIR "externals/${asset_subdirectory}/deskmate_robot/${sound_platform}"
+    SRCLIST_DIR "externals/${asset_subdirectory}/mate_robot/${sound_platform}"
     OUTPUT_DIR "${CMAKE_BINARY_DIR}/data/assets/cozmo_resources/sound"
     RELATIVE_OUTPUT_DIR "cozmo_resources/sound"
     OUT_DSTS ASSET_OUTPUT_FILES
@@ -208,7 +208,7 @@ add_dependencies(cozmo_engine
     prune_files
 )
 
-add_dependencies(deskmate_anim
+add_dependencies(mate_anim
     ${ASSET_TARGETS}
     prune_files
 )

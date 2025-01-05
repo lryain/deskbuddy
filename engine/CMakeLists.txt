@@ -74,7 +74,7 @@ target_link_libraries(cozmo_engine
   cameraService
   whiskeyToF
   canned_anim_lib_engine
-  deskmate_web_library
+  mate_web_library
   # cti
   cti_vision
   cti_planning

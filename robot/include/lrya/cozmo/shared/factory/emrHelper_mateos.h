@@ -173,7 +173,8 @@ static inline bool IsWhiskey()
 
 static inline const bool IsXray()
 {
-    return (Factory::GetEMR()->fields.HW_VER >= 0x20);
+//     return (Factory::GetEMR()->fields.HW_VER >= 0x20);
+    return true;
 }
 
 }

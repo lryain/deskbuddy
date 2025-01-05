@@ -62,7 +62,7 @@ void DasLogEvent(int prio, const DasMsg & dasMsg)
   static_assert(Lrya::Vector::RobotInterface::DAS::FIELD_MARKER == '\x1F', "DAS field marker does not match declarations");
   static_assert(Lrya::Vector::RobotInterface::DAS::FIELD_COUNT == 9, "DAS field count does not match declarations");
 
-  __android_log_print(prio, "mate-robot", "@%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%lu",
+  __android_log_print(prio, "mate-robot", "@%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%s\x1F%llu",
                       dasMsg.event.c_str(),
                       dasMsg.s1.c_str(), dasMsg.s2.c_str(), dasMsg.s3.c_str(), dasMsg.s4.c_str(),
                       dasMsg.i1.c_str(), dasMsg.i2.c_str(), dasMsg.i3.c_str(), dasMsg.i4.c_str(),

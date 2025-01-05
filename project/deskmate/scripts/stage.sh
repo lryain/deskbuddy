@@ -14,11 +14,11 @@ then
 fi
 TOPLEVEL=`$GIT rev-parse --show-toplevel`
 
-source ${SCRIPT_PATH}/victor_env.sh
+source ${SCRIPT_PATH}/deskmate_env.sh
 
 # Settings can be overridden through environment
 : ${VERBOSE:=0}
-: ${ANKI_BUILD_TYPE:="Debug"}
+: ${LRYA_BUILD_TYPE:="Debug"}
 : ${INSTALL_ROOT:="/anki"}
 
 function usage() {
@@ -30,7 +30,7 @@ function usage() {
   echo "  -c CONFIGURATION        build configuration {Debug,Release}"
   echo ""
   echo "environment variables:"
-  echo '  $ANKI_BUILD_TYPE        build configuration {Debug,Release}'
+  echo '  $LRYA_BUILD_TYPE        build configuration {Debug,Release}'
   echo '  $BUILD_ROOT             root dir of build artifacts containing {bin,lib,etc,data} dirs'
   echo '  $STAGING_DIR            directory to hold staged artifacts before deploy to robot'
 }
@@ -49,7 +49,7 @@ while getopts "hkrfibvc:s:" opt; do
       VERBOSE=1
       ;;
     c)
-      ANKI_BUILD_TYPE="${OPTARG}"
+      LRYA_BUILD_TYPE="${OPTARG}"
       ;;
     r)
       ;;
@@ -67,9 +67,9 @@ while getopts "hkrfibvc:s:" opt; do
   esac
 done
 
-: ${PLATFORM_NAME:="vicos"}
-: ${BUILD_ROOT:="${TOPLEVEL}/_build/${PLATFORM_NAME}/${ANKI_BUILD_TYPE}"}
-: ${STAGING_DIR:="${TOPLEVEL}/_build/staging/${ANKI_BUILD_TYPE}"}
+: ${PLATFORM_NAME:="mateos"}
+: ${BUILD_ROOT:="${TOPLEVEL}/_build/${PLATFORM_NAME}/${LRYA_BUILD_TYPE}"}
+: ${STAGING_DIR:="${TOPLEVEL}/_build/staging/${LRYA_BUILD_TYPE}"}
 
 # install.sh is a script that is run here by stage.sh, but also independently by
 # bitbake when building the Victor OS.

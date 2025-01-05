@@ -14,13 +14,13 @@ then
 fi
 TOPLEVEL=`$GIT rev-parse --show-toplevel`
 
-source ${SCRIPT_PATH}/victor_env.sh
+source ${SCRIPT_PATH}/deskmate_env.sh
 
 source ${SCRIPT_PATH}/host_robot_ip_override.sh
 
 robot_set_host
 
-micdata_src=/data/data/com.anki.victor/cache/micdata
+micdata_src=/data/data/com.anki.deskmate/cache/micdata
 
 datetime=$(date '+%m%d-%k%M%S');
 copy_destination=~/Downloads/micdata$datetime

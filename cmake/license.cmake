@@ -377,7 +377,7 @@ function(check_licenses)
                 Controller CppController ode # webots
                 opus                         # cloud
                 gtest                        # special case, imported library can't have our checks
-                babile                       # special case, imported library can't have our checks
+                # babile                       # special case, imported library can't have our checks
                 libtensorflow-lite.a         # handled elsewhere
                 liblttng-ust.so
                 liblttng-ust-tracepoint.so

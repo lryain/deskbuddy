@@ -13,17 +13,17 @@ then
 fi
 TOPLEVEL=`$GIT rev-parse --show-toplevel`
 
-source ${SCRIPT_PATH}/victor_env.sh
+source ${SCRIPT_PATH}/deskmate_env.sh
 
 function usage() {
   echo "$SCRIPT_NAME [OPTIONS]"
   echo "Creates fake factory related files on robot" 
   echo "options:"
   echo "  -h                      print this message"
-  echo "  -s ANKI_ROBOT_HOST      hostname or ip address of robot"
+  echo "  -s LRYA_ROBOT_HOST      hostname or ip address of robot"
   echo ""
   echo "environment variables:"
-  echo '  $ANKI_ROBOT_HOST        hostname or ip address of robot'
+  echo '  $LRYA_ROBOT_HOST        hostname or ip address of robot'
 }
 
 while getopts "h:s:" opt; do
@@ -32,7 +32,7 @@ while getopts "h:s:" opt; do
       usage && exit 0
       ;;
     s)
-      ANKI_ROBOT_HOST="${OPTARG}"
+      LRYA_ROBOT_HOST="${OPTARG}"
       ;;
     *)
       usage && exit 1
@@ -42,13 +42,13 @@ done
 
 robot_set_host
 
-if [ -z "${ANKI_ROBOT_HOST+x}" ]; then
-  echo "ERROR: unspecified robot target. Pass the '-s' flag or set ANKI_ROBOT_HOST"
+if [ -z "${LRYA_ROBOT_HOST+x}" ]; then
+  echo "ERROR: unspecified robot target. Pass the '-s' flag or set LRYA_ROBOT_HOST"
   usage
   exit 1
 fi
 
-echo "ANKI_ROBOT_HOST: ${ANKI_ROBOT_HOST}"
+echo "LRYA_ROBOT_HOST: ${LRYA_ROBOT_HOST}"
 
 echo "Checking if /factory exists"
 robot_sh test -d "/factory"

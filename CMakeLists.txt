@@ -145,6 +145,7 @@ endif()
 
 set(LRYA_EXTERNAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/EXTERNALS")
 set(LRYA_THIRD_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rd")
+set(SIGNALESSENCE_HOME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/signalEssence")
 # set(OKAO_VISION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/okaoVision")
 
 set(LRYA_SRCLIST_DIR "${CMAKE_SOURCE_DIR}/generated/cmake")
@@ -176,25 +177,25 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 import(coretech "coretech")
 add_subdirectory("lib/lrya-ble")
-# add_subdirectory("lib/crash-reporting-mateos")
+add_subdirectory("lib/crash-reporting-mateos")
 add_subdirectory("lib/micData")
-# add_subdirectory("lib/signalEssence")
+add_subdirectory("lib/signalEssence")
 add_subdirectory("platform")
 add_subdirectory("clad")
 add_subdirectory("cloud")
 add_subdirectory("cubeBleClient")
 add_subdirectory("osState")
 add_subdirectory("cannedAnimLib")
-# add_subdirectory("animProcess")
+add_subdirectory("animProcess")
 add_subdirectory("webServerProcess")
 # add_subdirectory("testCrash")
-# add_subdirectory("dasmgr")
+add_subdirectory("dasmgr")
 
-# target_include_directories(deskmate_anim PRIVATE
-#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/lrya/cozmo>
-# )
+target_include_directories(mate_anim PRIVATE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/lrya/cozmo>
+)
 
-target_include_directories(deskmate_web_library PRIVATE
+target_include_directories(mate_web_library PRIVATE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/lrya/cozmo>
 )
 
@@ -217,12 +218,12 @@ endif()
 
 # add_subdirectory("resources")
 
-# if (MACOSX)
-#   add_subdirectory("test")
-#   add_subdirectory("simulator") # webots
+if (MACOSX)
+  add_subdirectory("test")
+  add_subdirectory("simulator") # webots
 
-#   enable_testing()
-# endif()
+  enable_testing()
+endif()
 
 # MATEOS/STAGING note: Platforms that generate clad should set this variable
 # This avoids nuking CLAD output when no targets were built for a platform

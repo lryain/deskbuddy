@@ -5,7 +5,7 @@ set -u
 
 : ${PROTOBUF_REVISION_TO_BUILD:="v3.5.1"}
 
-echo "Building protobuf ${PROTOBUF_REVISION_TO_BUILD} for victor ....."
+echo "Building protobuf ${PROTOBUF_REVISION_TO_BUILD} for deskmate ....."
 
 SCRIPT_PATH=$(dirname $([ -L $0 ] && echo "$(dirname $0)/$(readlink -n $0)" || echo $0))
 SCRIPT_PATH_ABSOLUTE=`pushd ${SCRIPT_PATH} >> /dev/null; pwd; popd >> /dev/null`
@@ -24,7 +24,7 @@ CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden"
 # CMAKE_CXX_FLAGS="${CMAKE_C_FLAGS} -fvisibility-inlines-hidden -std=c++14 -stdlib=libc++ -fPIC"
 
 # Build for mateos
-echo "Building protobuf for victor (mateos) ...."
+echo "Building protobuf for deskmate (mateos) ...."
 # ./autogen.sh
 # rm -rf cmake/build/release
 # mkdir -p cmake/build/release

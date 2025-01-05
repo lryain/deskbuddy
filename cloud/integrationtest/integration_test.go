@@ -6,7 +6,7 @@ package main
 import (
 	"lrya/robot"
 	"lrya/token/identity"
-	"ankidev/accounts"
+	"lryadev/accounts"
 	"clad/cloud"
 	"testing"
 

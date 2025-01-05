@@ -8,11 +8,11 @@ option(USE_DAS "Enable DAS reporting" OFF)
 include(lrya_build_cxx)
 
 #
-# deskmate_web_library
+# mate_web_library
 #
 
-lrya_build_cxx_library(deskmate_web_library ${LRYA_SRCLIST_DIR})
-lrya_build_target_license(deskmate_web_library "LRYA")
+lrya_build_cxx_library(mate_web_library ${LRYA_SRCLIST_DIR})
+lrya_build_target_license(mate_web_library "LRYA")
 
 set(PLATFORM_LIBS "")
 set(PLATFORM_INCLUDES ${OPENCV_INCLUDE_PATHS})
@@ -30,7 +30,7 @@ elseif (MACOSX)
     set(PLATFORM_COMPILE_DEFS "-DSIMULATOR")
 endif()
 
-target_link_libraries(deskmate_web_library
+target_link_libraries(mate_web_library
   PRIVATE
   cti_vision
   DAS
@@ -41,21 +41,21 @@ target_link_libraries(deskmate_web_library
   robot_interface  # Needs to be public for cozmoConfig.h
 )
 
-lrya_build_strip(TARGET deskmate_web_library)
+lrya_build_strip(TARGET mate_web_library)
 
-target_compile_definitions(deskmate_web_library
+target_compile_definitions(mate_web_library
   PRIVATE
   USE_DAS=$<BOOL:${USE_DAS}>
   ${PLATFORM_COMPILE_DEFS}
 )
 
-target_include_directories(deskmate_web_library
+target_include_directories(mate_web_library
   PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src> # allow "android/" prefix
   ${PLATFORM_INCLUDES}
 )
 
-# deskmate_web_server binary only builds on MATEOS now
+# mate_web_server binary only builds on MATEOS now
 # mac implementation uses (webotsCtrlWebServer)
 if (MATEOS AND NOT LRYA_NO_WEBSERVER_ENABLED)
 
@@ -64,7 +64,7 @@ if (MATEOS AND NOT LRYA_NO_WEBSERVER_ENABLED)
 
   target_link_libraries(mate-webserver
     PRIVATE
-    deskmate_web_library
+    mate_web_library
     cti_common
     deskmateCrashReports
     ${PLATFORM_LIBS}

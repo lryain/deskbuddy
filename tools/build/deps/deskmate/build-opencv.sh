@@ -6,7 +6,7 @@ set -u
 : ${PROTOBUF_VERSION:="v3.5.1"}
 : ${OPENCV_REVISION_TO_BUILD:="3.4.0"}
 
-echo "Building opencv ${OPENCV_REVISION_TO_BUILD} for victor ....."
+echo "Building opencv ${OPENCV_REVISION_TO_BUILD} for deskmate ....."
 
 SCRIPT_PATH=$(dirname $([ -L $0 ] && echo "$(dirname $0)/$(readlink -n $0)" || echo $0))
 PATCHDIR=`pushd ${SCRIPT_PATH}/opencv-${OPENCV_REVISION_TO_BUILD}-patches >> /dev/null; pwd; popd >> /dev/null`
@@ -19,23 +19,23 @@ source ${SCRIPT_PATH_ABSOLUTE}/common-preamble.sh \
 
 echo "Finding/Installing protobuf ${PROTOBUF_VERSION}"
 DEPTOOLPY=${TOPLEVEL}/tools/lryabuild/deptool.py
-# PROTOBUF_DIR=$(${DEPTOOLPY} --project victor --name protobuf --url-prefix ${S3_ASSETS_URL_PREFIX} --install ${PROTOBUF_VERSION} | tail -1)
+# PROTOBUF_DIR=$(${DEPTOOLPY} --project deskmate --name protobuf --url-prefix ${S3_ASSETS_URL_PREFIX} --install ${PROTOBUF_VERSION} | tail -1)
 # tools/build/dist/protobuf/mateos
 PROTOBUF_DIR=${TOPLEVEL}/dist/protobuf
 cd ${BUILDDIR}/opencv
 
 # 手动打补丁
-# Apply our Anki local patches
+# Apply our Lrya local patches
 # for f in ${PATCHDIR}/*.patch; do
 #     git apply $f
 # done
 
 # Build for mateOS
-echo "Building opencv ${OPENCV_REVISION_TO_BUILD} for victor (mateOS) ...."
+echo "Building opencv ${OPENCV_REVISION_TO_BUILD} for deskmate (mateOS) ...."
 
-# rm -rf build_vicos
-# mkdir build_vicos
-pushd build_vicos
+# rm -rf build_mateos
+# mkdir build_mateos
+pushd build_mateos
 # echo "-------------> ${PROTOBUF_DIR}/mateos/lib/libprotobuf.a"
 
 # 编译器在toolchain中已经指定为clang
@@ -72,7 +72,7 @@ ${CMAKE_EXE} \
   -DWITH_GTK=OFF \
   -DWITH_WEBP=OFF \
   -DWITH_CAROTENE=OFF \
-  -DVICOS_CPP_FEATURES='rtti exceptions' \
+  -DMATEOS_CPP_FEATURES='rtti exceptions' \
   -DBUILD_PROTOBUF=OFF \
   -DPROTOBUF_UPDATE_FILES=ON \
   -DProtobuf_LIBRARY=${PROTOBUF_DIR}/mateos/lib/libprotobuf.a \

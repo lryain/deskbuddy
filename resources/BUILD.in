@@ -28,12 +28,12 @@ asset_project(
     srcs = [],
     platform_srcs = [
         ('mateos', subdir_glob([
-            ('externals/deskmate-audio-assets/deskmate_robot/deskmate_linux', '**/*')
+            ('externals/deskmate-audio-assets/mate_robot/mate_linux', '**/*')
             ],
             prefix = 'sound')
         ),
         ('mac', subdir_glob([
-            ('externals/deskmate-audio-assets/deskmate_robot/dev_mac', '**/*')
+            ('externals/deskmate-audio-assets/mate_robot/dev_mac', '**/*')
             ],
             prefix = 'sound')
         ),
@@ -45,12 +45,12 @@ asset_project(
     srcs = [],
     platform_srcs = [
         ('mateos', subdir_glob([
-            ('externals/local-audio-assets/deskmate_robot/deskmate_linux', '**/*')
+            ('externals/local-audio-assets/mate_robot/mate_linux', '**/*')
             ],
             prefix = 'sound')
         ),
         ('mac', subdir_glob([
-            ('externals/local-audio-assets/deskmate_robot/dev_mac', '**/*')
+            ('externals/local-audio-assets/mate_robot/dev_mac', '**/*')
             ],
             prefix = 'sound')
         ),

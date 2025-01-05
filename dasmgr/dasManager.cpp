@@ -18,7 +18,9 @@
 #include "util/logging/DAS.h"
 #include "util/string/stringUtils.h"
 
-#include <log/logger.h>
+// #include <log/logger.h>
+// /usr/include/log/logger.h:4:2: error: "Deprecated: do not include log/logger.h, use log/log.h instead"
+#include <log/log.h>
 #include <log/logprint.h>
 #include <sys/time.h>
 #include <sys/resource.h>

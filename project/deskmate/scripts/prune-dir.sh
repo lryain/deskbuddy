@@ -2,7 +2,7 @@
 #
 # Author: chapados
 # Date: 02/16/2018
-# Copyright 2018 Anki, Inc.
+# Copyright 2018 Lrya, Inc.
 #
 # Takes a manifest listing of files relative to a target dir,
 # compares them to the contents of target dir and deletes

@@ -1,5 +1,5 @@
 cxx_project(
-    name = 'deskmate_web_library',
+    name = 'mate_web_library',
     srcs = cxx_src_glob(['src'],
                         excludes = ['deskmateWebServerMain.cpp']),
     platform_srcs = [

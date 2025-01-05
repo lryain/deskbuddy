@@ -525,6 +525,7 @@ else
   $CMAKE_EXE --build . $TARGET_ARG $*
   if [[ "$PLATFORM" == "mateos" && $RUN_INSTALL -eq 1 ]]; then
     # run install target on robot-platforms
+    echo "99.------------> run install target on robot-platforms!"
     $CMAKE_EXE --build . --target install
   fi
 fi
