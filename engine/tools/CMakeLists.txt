@@ -27,7 +27,7 @@ target_link_libraries(mate-engine
   util
   cozmo_engine
   deskmateCrashReports
-  platform
+  # platform
   ${PLATFORM_LIBS}
   ${ASAN_EXE_LINKER_FLAGS}
 )
