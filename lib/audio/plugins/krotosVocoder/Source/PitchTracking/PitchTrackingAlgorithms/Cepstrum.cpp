@@ -11,40 +11,45 @@ Author:  KrotosMacMini
 
 using namespace std;
 
-Cepstrum::Cepstrum(AK::IAkPluginMemAlloc* Allocator)
+// Cepstrum::Cepstrum(AK::IAkPluginMemAlloc* Allocator)
+Cepstrum::Cepstrum()
 {
-    prepareToPlay(DEFAULT_SAMPLE_RATE, MAX_BUFFER_SIZE, Allocator);
+//     prepareToPlay(DEFAULT_SAMPLE_RATE, MAX_BUFFER_SIZE, Allocator);
+    prepareToPlay(DEFAULT_SAMPLE_RATE, MAX_BUFFER_SIZE);
 }
 
-Cepstrum::Cepstrum(float newHopSize,float newBufferSize,float newSampleRate, AK::IAkPluginMemAlloc* Allocator)
+// Cepstrum::Cepstrum(float newHopSize,float newBufferSize,float newSampleRate, AK::IAkPluginMemAlloc* Allocator)
+Cepstrum::Cepstrum(float newHopSize,float newBufferSize,float newSampleRate)
 {
-    prepareToPlay(newSampleRate, newBufferSize, Allocator);
+//     prepareToPlay(newSampleRate, newBufferSize, Allocator);
+    prepareToPlay(newSampleRate, newBufferSize);
 }
 
 Cepstrum::~Cepstrum()
 {
 	if (preAnalyser)
 	{
-        AK_PLUGIN_DELETE(m_allocator, preAnalyser);
+        // AK_PLUGIN_DELETE(m_allocator, preAnalyser);
 		preAnalyser = NULL;
 	}
 
 	if (postAnalyser)
 	{
-        AK_PLUGIN_DELETE(m_allocator, postAnalyser);
+        // AK_PLUGIN_DELETE(m_allocator, postAnalyser);
 		postAnalyser = NULL;
 	}
 }
 
-void Cepstrum::prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator)
+// void Cepstrum::prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator)
+void Cepstrum::prepareToPlay(float sampleRate, int blockSize)
 {
     //hopSize    = newHopeSize;
     hopSize = blockSize;
     bufferSize = blockSize;
     m_sampleRate = sampleRate;
-    
-    preAnalyser = AK_PLUGIN_NEW(Allocator,AudioAnalysisFramework(hopSize, bufferSize, sampleRate));
-    postAnalyser = AK_PLUGIN_NEW(Allocator, AudioAnalysisFramework(hopSize, bufferSize, sampleRate));
+//     TODO: 替换AK
+//     preAnalyser = AK_PLUGIN_NEW(Allocator,AudioAnalysisFramework(hopSize, bufferSize, sampleRate));
+//     postAnalyser = AK_PLUGIN_NEW(Allocator, AudioAnalysisFramework(hopSize, bufferSize, sampleRate));
 
     magnitudeSpectrum.resize(bufferSize);
     magnitudeCepstrum.resize(bufferSize);
@@ -60,7 +65,7 @@ void Cepstrum::prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAl
         magnitudeCepstrum[i]= 0.0f;
         window[i] = 0.5f * (1.0f - std::cos(TWO_PI * i / (bufferSize) ) );
     }
-    m_allocator = Allocator;
+//     m_allocator = Allocator;
 }
 //================
 float Cepstrum::processBlockAndGetPitch(vector<float> buffer)

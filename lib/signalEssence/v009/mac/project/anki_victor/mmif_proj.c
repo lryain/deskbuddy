@@ -273,7 +273,8 @@ void MMIfResetLocationSearch(void)
     SeAssert(pState->numFdsBeams > 0);
     for (n=0;n<pState->numFdsBeams;n++)
     {
-        SEDiagSetFloat32N(pState->idFdsConfidenceState, 0.0f, n);
+        // TODO: 替换 SE
+        // SEDiagSetFloat32N(pState->idFdsConfidenceState, 0.0f, n);
     }
 }
 
@@ -283,55 +284,55 @@ void MMIfResetLocationSearch(void)
 
   Description:     Initializes Receive Path signal processor 
   =======================================================================*/
-static void RcvIfInit(float blockTimeS, float rxSampleRateHz)
-{
-    SeRcvPublicObject_t* pSeRcvPubObj = SeRcvGetSingletonPubObject();
-    SeRcvConfig_t seRcvConfig;
-    SeRcvConfig_t* pSeRcvConfig = &seRcvConfig;
+// static void RcvIfInit(float blockTimeS, float rxSampleRateHz)
+// {
+//     SeRcvPublicObject_t* pSeRcvPubObj = SeRcvGetSingletonPubObject();
+//     SeRcvConfig_t seRcvConfig;
+//     SeRcvConfig_t* pSeRcvConfig = &seRcvConfig;
 
-    SeRcvSetConfigDefaults( pSeRcvConfig,
-                            blockTimeS,
-                            rxSampleRateHz,
-                            rxSampleRateHz,
-                            rxSampleRateHz);
+//     SeRcvSetConfigDefaults( pSeRcvConfig,
+//                             blockTimeS,
+//                             rxSampleRateHz,
+//                             rxSampleRateHz,
+//                             rxSampleRateHz);
     
-    pSeRcvConfig->pCrossoverConfig = &crossoverConfig;
+//     pSeRcvConfig->pCrossoverConfig = &crossoverConfig;
 
-    SeRcvInit( pSeRcvConfig, pSeRcvPubObj);
-}
+//     SeRcvInit( pSeRcvConfig, pSeRcvPubObj);
+// }
 
 //
 // update operating mode
-void MMIfSetOperatingMode(MMIfOpMode_t mode)
-{
-    MMFxPublicObject_t* pMMFxPubObj;
-    MMIfState_t *pState = &MMIfState;
-    pMMFxPubObj = MMFxGetSingletonPubObject();        
+// void MMIfSetOperatingMode(MMIfOpMode_t mode)
+// {
+//     MMFxPublicObject_t* pMMFxPubObj;
+//     MMIfState_t *pState = &MMIfState;
+//     pMMFxPubObj = MMFxGetSingletonPubObject();        
 
-    if ((mode<=MMIF_FIRST_DONT_USE) || (mode >=MMIF_LAST))
-    {
-        return;
-    }
+//     if ((mode<=MMIF_FIRST_DONT_USE) || (mode >=MMIF_LAST))
+//     {
+//         return;
+//     }
     
-    if (mode != pState->currOperatingMode) 
-    {
-        switch(mode)
-        {
-        case MMIF_TELECOM_MODE:
-            MMFxReconfigNoiseReduction(pMMFxPubObj,&pState->senrConfigTelecom);            
-            break;
+//     if (mode != pState->currOperatingMode) 
+//     {
+//         switch(mode)
+//         {
+//         case MMIF_TELECOM_MODE:
+//             MMFxReconfigNoiseReduction(pMMFxPubObj,&pState->senrConfigTelecom);            
+//             break;
 
-        case MMIF_SPEECH_RECO_MODE:
-            MMIfBypassRxFullDuplexHelp(1);  // no full duplex help
-            MMFxReconfigNoiseReduction(pMMFxPubObj,&pState->senrConfigSpeechReco);            
-            break;
+//         case MMIF_SPEECH_RECO_MODE:
+//             MMIfBypassRxFullDuplexHelp(1);  // no full duplex help
+//             MMFxReconfigNoiseReduction(pMMFxPubObj,&pState->senrConfigSpeechReco);            
+//             break;
 
-        default:
-            SeAssert(0);
-        }
-        pState->currOperatingMode = mode;
-    }
-}
+//         default:
+//             SeAssert(0);
+//         }
+//         pState->currOperatingMode = mode;
+//     }
+// }
 
 /* 
 callback wrapper around MMIfSetOperatingMode
@@ -396,22 +397,23 @@ void MMIfInit(float32 additionalRefDelaySec, void *pArgs)
         SeAssertString(0, "MMIF already initialized");
     
     // get pointers to mmfx's singleton instances
-    pMMFxPubObj = MMFxGetSingletonPubObject();
+//     pMMFxPubObj = MMFxGetSingletonPubObject();
 
     // initialize fields in MMFxConfig
     // MMFxConfig_t defined in mmfxpub.h
     //////////////////////////////////////////////////
-    MMFxSetDefaultConfig( pMMFxConfig,
-                          numMics,
-                          blockTimeS,
-                          sendSampleRateHz, // Send, processing rate
-                          sinSampleRateHz,  // Sin, rate from analog codec
-                          soutSampleRateHz, // Sout, rate outgoing
-                          sinSampleRateHz, // Refin, same as mics
-                          rxSampleRateHz,   // Rcv,
-                          rxSampleRateHz,   // Rin,
-                          rxSampleRateHz    // Rout
-        );
+//     TODO: 替换 SE
+//     MMFxSetDefaultConfig( pMMFxConfig,
+//                           numMics,
+//                           blockTimeS,
+//                           sendSampleRateHz, // Send, processing rate
+//                           sinSampleRateHz,  // Sin, rate from analog codec
+//                           soutSampleRateHz, // Sout, rate outgoing
+//                           sinSampleRateHz, // Refin, same as mics
+//                           rxSampleRateHz,   // Rcv,
+//                           rxSampleRateHz,   // Rin,
+//                           rxSampleRateHz    // Rout
+//         );
 
     // Configure ref signal processing
     {
@@ -421,7 +423,7 @@ void MMIfInit(float32 additionalRefDelaySec, void *pArgs)
 
     // initialize aec monitor
     {
-        AecMonitorConfig_t* pAecMonitorCfg = MMFxGetAecMonitorConfig(pMMFxConfig    );   
+        // AecMonitorConfig_t* pAecMonitorCfg = MMFxGetAecMonitorConfig(pMMFxConfig    );   
  
         // ryu 2013.03
         // MinGainSpeakerphone controls the reported ERL (in power)
@@ -439,156 +441,156 @@ void MMIfInit(float32 additionalRefDelaySec, void *pArgs)
         //            0.0032 -> -25 dB
         //            0.001  -> -30 dB
         // !!! hjm -- these seem a little light
-        pAecMonitorCfg->ErlMaxGainSpeakerphone = 0.25f;   // for very low level microphone gain to avoid clipping due to echo
-        pAecMonitorCfg->ErlMinGainSpeakerphone = 0.2f;    // such as loud Bluetooth speaker.
-        pAecMonitorCfg->ErlInitialGain = 0.25f;
+        // pAecMonitorCfg->ErlMaxGainSpeakerphone = 0.25f;   // for very low level microphone gain to avoid clipping due to echo
+        // pAecMonitorCfg->ErlMinGainSpeakerphone = 0.2f;    // such as loud Bluetooth speaker.
+        // pAecMonitorCfg->ErlInitialGain = 0.25f;
 
-        // probably a don't care, but there is no AEC, maybe set to 1.0, but that might
-        // cause some weirdness !!! hjm
-        pAecMonitorCfg->ErleMinGainOp = 0.0032f;  // -25 dB
+        // // probably a don't care, but there is no AEC, maybe set to 1.0, but that might
+        // // cause some weirdness !!! hjm
+        // pAecMonitorCfg->ErleMinGainOp = 0.0032f;  // -25 dB
     }
     
-    MMIfSetupScratchMemory(pMMFxConfig,
-                           pScratchH, MMIF_LEN_SCRATCH_H, 
-                           pScratchX, MMIF_LEN_SCRATCH_X,
-                           pScratchS, MMIF_LEN_SCRATCH_S);
-    ConfigAec(pMMFxConfig, sendSampleRateHz, AEC_LEN_CHAN_MODEL_SEC);
+//     MMIfSetupScratchMemory(pMMFxConfig,
+//                            pScratchH, MMIF_LEN_SCRATCH_H, 
+//                            pScratchX, MMIF_LEN_SCRATCH_X,
+//                            pScratchS, MMIF_LEN_SCRATCH_S);
+//     ConfigAec(pMMFxConfig, sendSampleRateHz, AEC_LEN_CHAN_MODEL_SEC);
 
-    // update non default parameters for the Frequency Domain beam search
-    pMMFxConfig->FdBeamSearchConfig.NumMics = (uint16)MMIfNumMics;
-    pMMFxConfig->FdBeamSearchConfig.NumBeamsToSearch = (uint16)MMIfNumSearchBeams;
+//     // update non default parameters for the Frequency Domain beam search
+//     pMMFxConfig->FdBeamSearchConfig.NumMics = (uint16)MMIfNumMics;
+//     pMMFxConfig->FdBeamSearchConfig.NumBeamsToSearch = (uint16)MMIfNumSearchBeams;
 
-    for( ib=0; ib<pMMFxConfig->FdBeamSearchConfig.NumBeamsToSearch; ib++ )
-        pMMFxConfig->FdBeamSearchConfig.FdBeamSpecObjPtr[ib] = &FdBeamArray[ib];
+//     for( ib=0; ib<pMMFxConfig->FdBeamSearchConfig.NumBeamsToSearch; ib++ )
+//         pMMFxConfig->FdBeamSearchConfig.FdBeamSpecObjPtr[ib] = &FdBeamArray[ib];
 
-    pMMFxConfig->MicrophoneLocations_mm = &microphoneLocations_mm[0];
-    pMMFxConfig->FdBeamSearchConfig.SubbandWeightsPtrQ10 = &SubbandWeightsQ10[0];
-    pMMFxConfig->FdBeamSearchConfig.BeamWeightsPtr = &BeamWeights[0];
-    pMMFxConfig->FdBeamSearchConfig.EchoConfidenceThreshQ15 = 4096;  // 0.125
-    pMMFxConfig->FdBeamSearchConfig.EnableDownsample2to1 = 0;   // == 1 means do 2:1 downsampling for fdsearch
-    pMMFxConfig->NominalDistanceCmFlt = 100.0f;   // 100 cm
+//     pMMFxConfig->MicrophoneLocations_mm = &microphoneLocations_mm[0];
+//     pMMFxConfig->FdBeamSearchConfig.SubbandWeightsPtrQ10 = &SubbandWeightsQ10[0];
+//     pMMFxConfig->FdBeamSearchConfig.BeamWeightsPtr = &BeamWeights[0];
+//     pMMFxConfig->FdBeamSearchConfig.EchoConfidenceThreshQ15 = 4096;  // 0.125
+//     pMMFxConfig->FdBeamSearchConfig.EnableDownsample2to1 = 0;   // == 1 means do 2:1 downsampling for fdsearch
+//     pMMFxConfig->NominalDistanceCmFlt = 100.0f;   // 100 cm
 
-    pMMFxConfig->FdBeamSearchConfig.TimeResolution_usec = 10000;
-    if (pMMFxConfig->FdBeamSearchConfig.TimeResolution_usec == 10000)
-    {
-        pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceUp = 0.5f;   // about a 30 ms average
-        pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceDown = 0.01f;    // about one second
-        pMMFxConfig->FdBeamSearchConfig.AlphaMaxBeamMerit = 0.7f;     // about 8-10 ms time constant
-        pMMFxConfig->FdBeamSearchConfig.AlphaReverb = 0.7f;     // about 8-10 ms time constant
-        pMMFxConfig->FdBeamSearchConfig.ReverbFactor = 0.75f;     // about 8-10 ms time constant
-        pMMFxConfig->FdBeamSearchConfig.BeamMeritDeductFactor = 6.0f;
-        pMMFxConfig->FdBeamSearchConfig.MeritRatioExponent = 1.0f;
-        pMMFxConfig->FdBeamSearchConfig.EdgeRatioExponent = 1.5f;
-        pMMFxConfig->FdBeamSearchConfig.PowerCompareValue = 20.0f;    // was 40, but lowered normalizer gain
-    }
-    else if (pMMFxConfig->FdBeamSearchConfig.TimeResolution_usec == 2500)
-    {
-        pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceUp = 0.5f;      // about a 30 ms average
-        pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceDown = 0.0025f;   // about one second
-        pMMFxConfig->FdBeamSearchConfig.AlphaMaxBeamMerit = 0.25f;     // about 8-10 ms time constant
-        pMMFxConfig->FdBeamSearchConfig.AlphaReverb = 0.3f;     // about 8-10 ms time constant
-        pMMFxConfig->FdBeamSearchConfig.ReverbFactor = 0.75f;     // about 8-10 ms time constant
-        pMMFxConfig->FdBeamSearchConfig.BeamMeritDeductFactor = 6.0f;
-        pMMFxConfig->FdBeamSearchConfig.MeritRatioExponent = 2.0f;
-        pMMFxConfig->FdBeamSearchConfig.EdgeRatioExponent = 1.5f;
-        pMMFxConfig->FdBeamSearchConfig.PowerCompareValue = 20.0f;
-    }
-    else if (pMMFxConfig->FdBeamSearchConfig.TimeResolution_usec == 1250)
-    {
-        pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceUp = 0.5f;      // about a 30 ms average
-        pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceDown = 0.00125f;   // about one second
-        pMMFxConfig->FdBeamSearchConfig.AlphaMaxBeamMerit = 0.125f;     // about 8-10 ms time constant
-        pMMFxConfig->FdBeamSearchConfig.AlphaReverb = 0.2f;     // about 8-10 ms time constant
-        pMMFxConfig->FdBeamSearchConfig.ReverbFactor = 0.75f;
-        pMMFxConfig->FdBeamSearchConfig.BeamMeritDeductFactor = 6.0f;
-        pMMFxConfig->FdBeamSearchConfig.MeritRatioExponent = 1.0f;
-        pMMFxConfig->FdBeamSearchConfig.EdgeRatioExponent = 1.5f;
-        pMMFxConfig->FdBeamSearchConfig.PowerCompareValue = 20.0f;
-    }
-    else
-        SeAssert(0);  // nothing valid, quit
+//     pMMFxConfig->FdBeamSearchConfig.TimeResolution_usec = 10000;
+//     if (pMMFxConfig->FdBeamSearchConfig.TimeResolution_usec == 10000)
+//     {
+//         pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceUp = 0.5f;   // about a 30 ms average
+//         pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceDown = 0.01f;    // about one second
+//         pMMFxConfig->FdBeamSearchConfig.AlphaMaxBeamMerit = 0.7f;     // about 8-10 ms time constant
+//         pMMFxConfig->FdBeamSearchConfig.AlphaReverb = 0.7f;     // about 8-10 ms time constant
+//         pMMFxConfig->FdBeamSearchConfig.ReverbFactor = 0.75f;     // about 8-10 ms time constant
+//         pMMFxConfig->FdBeamSearchConfig.BeamMeritDeductFactor = 6.0f;
+//         pMMFxConfig->FdBeamSearchConfig.MeritRatioExponent = 1.0f;
+//         pMMFxConfig->FdBeamSearchConfig.EdgeRatioExponent = 1.5f;
+//         pMMFxConfig->FdBeamSearchConfig.PowerCompareValue = 20.0f;    // was 40, but lowered normalizer gain
+//     }
+//     else if (pMMFxConfig->FdBeamSearchConfig.TimeResolution_usec == 2500)
+//     {
+//         pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceUp = 0.5f;      // about a 30 ms average
+//         pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceDown = 0.0025f;   // about one second
+//         pMMFxConfig->FdBeamSearchConfig.AlphaMaxBeamMerit = 0.25f;     // about 8-10 ms time constant
+//         pMMFxConfig->FdBeamSearchConfig.AlphaReverb = 0.3f;     // about 8-10 ms time constant
+//         pMMFxConfig->FdBeamSearchConfig.ReverbFactor = 0.75f;     // about 8-10 ms time constant
+//         pMMFxConfig->FdBeamSearchConfig.BeamMeritDeductFactor = 6.0f;
+//         pMMFxConfig->FdBeamSearchConfig.MeritRatioExponent = 2.0f;
+//         pMMFxConfig->FdBeamSearchConfig.EdgeRatioExponent = 1.5f;
+//         pMMFxConfig->FdBeamSearchConfig.PowerCompareValue = 20.0f;
+//     }
+//     else if (pMMFxConfig->FdBeamSearchConfig.TimeResolution_usec == 1250)
+//     {
+//         pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceUp = 0.5f;      // about a 30 ms average
+//         pMMFxConfig->FdBeamSearchConfig.AlphaConfidenceDown = 0.00125f;   // about one second
+//         pMMFxConfig->FdBeamSearchConfig.AlphaMaxBeamMerit = 0.125f;     // about 8-10 ms time constant
+//         pMMFxConfig->FdBeamSearchConfig.AlphaReverb = 0.2f;     // about 8-10 ms time constant
+//         pMMFxConfig->FdBeamSearchConfig.ReverbFactor = 0.75f;
+//         pMMFxConfig->FdBeamSearchConfig.BeamMeritDeductFactor = 6.0f;
+//         pMMFxConfig->FdBeamSearchConfig.MeritRatioExponent = 1.0f;
+//         pMMFxConfig->FdBeamSearchConfig.EdgeRatioExponent = 1.5f;
+//         pMMFxConfig->FdBeamSearchConfig.PowerCompareValue = 20.0f;
+//     }
+//     else
+//         SeAssert(0);  // nothing valid, quit
 
     // Patch in 3 subbands instead of 4 in spatial filter spec
     SpatialFilterSpec.NumSubbands = 3;
 
     // update non-default parameters for spatial filter
-    SpatialFilterInterpretSpecIntoConfig( &SpatialFilterSpec,                    // input
-                                          &LocationToBeamMapping,                // input
-                                          &pMMFxConfig->SpatialFilterConfig );   // result
+//     SpatialFilterInterpretSpecIntoConfig( &SpatialFilterSpec,                    // input
+//                                           &LocationToBeamMapping,                // input
+//                                           &pMMFxConfig->SpatialFilterConfig );   // result
 
-    // signal level normalizer: correct mic gains after AEC
-    pMMFxConfig->SignalLevelNormConfig.gainSinDb = 0.0f;
+//     // signal level normalizer: correct mic gains after AEC
+//     pMMFxConfig->SignalLevelNormConfig.gainSinDb = 0.0f;
 
-    // Set up Spatial filter coefficients
-    MMIfSetupSpatialFilterCompensatorCoefficients(&pMMFxConfig->SpatialFilterConfig, &CompensatorMap[0][0], CompensatorList, MAX_SOLUTIONS, MAX_SUBBANDS_EVER);
+//     // Set up Spatial filter coefficients
+//     MMIfSetupSpatialFilterCompensatorCoefficients(&pMMFxConfig->SpatialFilterConfig, &CompensatorMap[0][0], CompensatorList, MAX_SOLUTIONS, MAX_SUBBANDS_EVER);
 
-    pMMFxConfig->SignalLevelNormConfig.gainSinDb = 23.0f;
-    pMMFxConfig->GSout_q10 = 1400;  // +3 dB
-    {
-        MMPreProcConfig_t *pConfig = MMFxGetPreProcessorConfig(pMMFxConfig);
+//     pMMFxConfig->SignalLevelNormConfig.gainSinDb = 23.0f;
+//     pMMFxConfig->GSout_q10 = 1400;  // +3 dB
+//     {
+//         MMPreProcConfig_t *pConfig = MMFxGetPreProcessorConfig(pMMFxConfig);
 
-        // pConfig->CutoffHz = 200.0f; // preprocessor DC removal cutoff, in Hz, default is already 200 Hz
-        // reorder to correspond to designed search beams and original clockwise ordering
-        //     as designed            old actual                new actual
-        //     1       2              2       3             0       1
-        //             front                  front                 front
-        //     0       3              0       1             2       3
-        //
-        // where pChannelRemap value represents the value of the target slot
-        // and i of pChannelRemap[i] represents the slot of the data as it comes in
-        // was with old actual
+//         // pConfig->CutoffHz = 200.0f; // preprocessor DC removal cutoff, in Hz, default is already 200 Hz
+//         // reorder to correspond to designed search beams and original clockwise ordering
+//         //     as designed            old actual                new actual
+//         //     1       2              2       3             0       1
+//         //             front                  front                 front
+//         //     0       3              0       1             2       3
+//         //
+//         // where pChannelRemap value represents the value of the target slot
+//         // and i of pChannelRemap[i] represents the slot of the data as it comes in
+//         // was with old actual
 
-//#define PROTO_ARRAY 1
-#ifdef PROTO_ARRAY
-        // mapping with proto board
-        pConfig->pChannelRemapSinSourceIndex[0] = 0;
-        pConfig->pChannelRemapSinSourceIndex[3] = 1;
-        pConfig->pChannelRemapSinSourceIndex[1] = 2;
-        pConfig->pChannelRemapSinSourceIndex[2] = 3;
-#else
-        // new actual remapping compatible with Lrya's actual robot
-        //                                [mic] = sin ch
-        pConfig->pChannelRemapSinSourceIndex[0] = 2;
-        pConfig->pChannelRemapSinSourceIndex[1] = 0;
-        pConfig->pChannelRemapSinSourceIndex[2] = 1;
-        pConfig->pChannelRemapSinSourceIndex[3] = 3;
-#endif
-    }
+// //#define PROTO_ARRAY 1
+// #ifdef PROTO_ARRAY
+//         // mapping with proto board
+//         pConfig->pChannelRemapSinSourceIndex[0] = 0;
+//         pConfig->pChannelRemapSinSourceIndex[3] = 1;
+//         pConfig->pChannelRemapSinSourceIndex[1] = 2;
+//         pConfig->pChannelRemapSinSourceIndex[2] = 3;
+// #else
+//         // new actual remapping compatible with Lrya's actual robot
+//         //                                [mic] = sin ch
+//         pConfig->pChannelRemapSinSourceIndex[0] = 2;
+//         pConfig->pChannelRemapSinSourceIndex[1] = 0;
+//         pConfig->pChannelRemapSinSourceIndex[2] = 1;
+//         pConfig->pChannelRemapSinSourceIndex[3] = 3;
+// #endif
+//     }
 
-    // Init crucial Senr parameters
-#ifdef HIGH_RESOLUTION_SENR
-    pMMFxConfig->SenrConfig.FdaMode = META_FDA_WOLA;
-#else
-    pMMFxConfig->SenrConfig.FdaMode = META_FDA_IS127;
-#endif
-    pMMFxConfig->SenrConfig.MorphoFilterLen = 1;  // only applies to high res (WOLA)
+//     // Init crucial Senr parameters
+// #ifdef HIGH_RESOLUTION_SENR
+//     pMMFxConfig->SenrConfig.FdaMode = META_FDA_WOLA;
+// #else
+//     pMMFxConfig->SenrConfig.FdaMode = META_FDA_IS127;
+// #endif
+//     pMMFxConfig->SenrConfig.MorphoFilterLen = 1;  // only applies to high res (WOLA)
 
     
     // INIT THE MMFX PROCESSOR
-    MMFxInit( pMMFxPubObj, pMMFxConfig );
-    RcvIfInit(blockTimeS, rxSampleRateHz);
-    PublishDiags(&MMIfState);
+//     MMFxInit( pMMFxPubObj, pMMFxConfig );
+//     RcvIfInit(blockTimeS, rxSampleRateHz);
+//     PublishDiags(&MMIfState);
 
     // after MMFx has been initialized, initialize proj state
     // and publish mmif-level sediags.
     // we do this AFTER MMFxInit because sediag is then available
-    InitMMIfState(&MMIfState);
+//     InitMMIfState(&MMIfState);
 
     isMMIfInitialized = 1;
 
     // register policy actions init and callback
     // set up policy algorithm AFTER MMFx initialized
     PolicyInit();
-    MMIfSetPolicyActions(PolicyDoActions,
-                         NULL); // optional argument pointer
+//     MMIfSetPolicyActions(PolicyDoActions,
+//                          NULL); // optional argument pointer
 }
 
 //
 // free all resources
 void MMIfDestroy(void)
 {
-    SeRcvDestroy(SeRcvGetSingletonPubObject());
-    MMFxDestroy(MMFxGetSingletonPubObject());
+//     SeRcvDestroy(SeRcvGetSingletonPubObject());
+//     MMFxDestroy(MMFxGetSingletonPubObject());
     isMMIfInitialized = 0;
 }
 
@@ -601,16 +603,16 @@ void MMIfProcessMicrophones(
     const int16 *sinPtr,
     int16 *soutPtr )
 {            
-    MMFxPublicObject_t* pMMFxPubObj;
+//     MMFxPublicObject_t* pMMFxPubObj;
 
-    pMMFxPubObj = MMFxGetSingletonPubObject();
-    SeAssert(NULL != pMMFxPubObj);
+//     pMMFxPubObj = MMFxGetSingletonPubObject();
+//     SeAssert(NULL != pMMFxPubObj);
 
-    // RUN MMFX ALGORITHM
-    MMFxProcessMicrophones( pMMFxPubObj, 
-                            sinPtr, 
-                            refPtr,
-                            soutPtr);
+//     // RUN MMFX ALGORITHM
+//     MMFxProcessMicrophones( pMMFxPubObj, 
+//                             sinPtr, 
+//                             refPtr,
+//                             soutPtr);
 }
 
 /*=======================================================================
@@ -624,58 +626,58 @@ void RcvIfProcessReceivePath(
     int16 *routPtr 
     )
 {
-    MMFxPublicObject_t* pMMFxPubObj;
-    SeRcvPublicObject_t* pSeRcvPubObj;
+//     MMFxPublicObject_t* pMMFxPubObj;
+//     SeRcvPublicObject_t* pSeRcvPubObj;
 
-    pMMFxPubObj = MMFxGetSingletonPubObject();
-    pSeRcvPubObj = SeRcvGetSingletonPubObject();
+//     pMMFxPubObj = MMFxGetSingletonPubObject();
+//     pSeRcvPubObj = SeRcvGetSingletonPubObject();
 
-    SeAssert(NULL!=pMMFxPubObj);
-    SeAssert(NULL!=pSeRcvPubObj);
+//     SeAssert(NULL!=pMMFxPubObj);
+//     SeAssert(NULL!=pSeRcvPubObj);
 
-    SeProcessRcv( pSeRcvPubObj,  
-                  &pMMFxPubObj->SeRcvParams,
-                  rinPtr,
-                  routPtr );             
+//     SeProcessRcv( pSeRcvPubObj,  
+//                   &pMMFxPubObj->SeRcvParams,
+//                   rinPtr,
+//                   routPtr );             
 }
 
 //
 // get the current operating mode (=noise reduction mode)
-MMIfOpMode_t MMIfGetOperatingMode(void)
-{
-    MMIfState_t *pState = &MMIfState;
-    return pState->currOperatingMode;
-}
+// MMIfOpMode_t MMIfGetOperatingMode(void)
+// {
+//     MMIfState_t *pState = &MMIfState;
+//     return pState->currOperatingMode;
+// }
 
 // get the maximum value weights for perbin and fullband Noise Reference weights
 void GetNoiseRefWeights(float *perBinWeightPtr, float *fullbandWeightPtr)
 {
-    float perBinWeight;
-    float fullbandWeight;
+//     float perBinWeight;
+//     float fullbandWeight;
 
-    // follow convention of using pointer rather than static address
-    MMIfState_t *pState;
-    pState = &MMIfState;
+//     // follow convention of using pointer rather than static address
+//     MMIfState_t *pState;
+//     pState = &MMIfState;
 
-    switch (pState->currOperatingMode)
-    {
-    case MMIF_TELECOM_MODE:
-        perBinWeight = pState->senrConfigTelecom.NrWeightFactor;
-        fullbandWeight = pState->senrConfigTelecom.NrFullbandWeightFactor;
-        break;
+//     switch (pState->currOperatingMode)
+//     {
+//     case MMIF_TELECOM_MODE:
+//         perBinWeight = pState->senrConfigTelecom.NrWeightFactor;
+//         fullbandWeight = pState->senrConfigTelecom.NrFullbandWeightFactor;
+//         break;
 
-    case MMIF_SPEECH_RECO_MODE:
-        perBinWeight = pState->senrConfigSpeechReco.NrWeightFactor;
-        fullbandWeight = pState->senrConfigSpeechReco.NrFullbandWeightFactor;
-        break;
+//     case MMIF_SPEECH_RECO_MODE:
+//         perBinWeight = pState->senrConfigSpeechReco.NrWeightFactor;
+//         fullbandWeight = pState->senrConfigSpeechReco.NrFullbandWeightFactor;
+//         break;
 
-    default:
-        perBinWeight = pState->senrConfigSpeechReco.NrWeightFactor;
-        fullbandWeight = pState->senrConfigSpeechReco.NrFullbandWeightFactor;
-        break;
-    }
+//     default:
+//         perBinWeight = pState->senrConfigSpeechReco.NrWeightFactor;
+//         fullbandWeight = pState->senrConfigSpeechReco.NrFullbandWeightFactor;
+//         break;
+//     }
 
-    // return the 2 weights
-    *perBinWeightPtr = perBinWeight;
-    *fullbandWeightPtr = fullbandWeight;
+//     // return the 2 weights
+//     *perBinWeightPtr = perBinWeight;
+//     *fullbandWeightPtr = fullbandWeight;
 }

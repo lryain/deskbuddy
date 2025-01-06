@@ -19,7 +19,8 @@ Author:  Mathieu Carre
 
 
 
-Vocoder::Vocoder(AK::IAkPluginMemAlloc* in_pAllocator)
+// Vocoder::Vocoder(AK::IAkPluginMemAlloc* in_pAllocator)
+Vocoder::Vocoder()
 : m_fftNormalizationCoefficient(1.0f / (static_cast<double>(m_analysisWindowSize*64)))
 , m_analysisFIFO(m_analysisBufferSize)	
 , m_oscillatorFIFO(m_analysisBufferSize)
@@ -64,7 +65,8 @@ Vocoder::Vocoder(AK::IAkPluginMemAlloc* in_pAllocator)
    
     for (int i = 0; i < numberOfEnvelopeDetectors; i++)
     {
-        envelopeDetectors[i].init(in_pAllocator);
+        // envelopeDetectors[i].init(in_pAllocator);
+        envelopeDetectors[i].init();
         envelopeDetectors[i].setDetectMode(m_envelopeDetectorMode);
         envelopeDetectors[i].setAttackTime(m_envelopeDetectorAttackTimeInSecInit);
         envelopeDetectors[i].setReleaseTime(m_envelopeDetectorReleaseTimeInSecInit);
@@ -72,7 +74,8 @@ Vocoder::Vocoder(AK::IAkPluginMemAlloc* in_pAllocator)
     }
 }
 
-void Vocoder::prepareToPlay(int samplingRate, AK::IAkPluginMemAlloc* in_pAllocator)
+// void Vocoder::prepareToPlay(int samplingRate, AK::IAkPluginMemAlloc* in_pAllocator)
+void Vocoder::prepareToPlay(int samplingRate)
 {
 	m_samplingRate = samplingRate;
 
@@ -83,7 +86,7 @@ void Vocoder::prepareToPlay(int samplingRate, AK::IAkPluginMemAlloc* in_pAllocat
     m_oscillator.setSampleRate(samplingRate);
     m_oscillator.resetPhase();
 
-	m_pitchTracker.setAllocator(in_pAllocator);
+//     m_pitchTracker.setAllocator(in_pAllocator);
     m_pitchTracker.prepareToPlay(samplingRate, m_analysisWindowSize);
 
     for (int i = 0; i < numberOfEnvelopeDetectors; i++)

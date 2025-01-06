@@ -5,10 +5,10 @@ project(deskmateCrashReports)
 #
 # Build options
 #
-option(USE_GOOGLE_BREAKPAD "Enable Google Breakpad crash reports" ON)
+option(USE_GOOGLE_BREAKPAD "Enable Google Breakpad crash reports" OFF)
 option(USE_TOMBSTONE_HOOKS "Enable Android tombstone hooks" ON)
 
-message(STATUS "USE_GOOGLE_BREAKPAD is ${USE_GOOGLE_BREAKPAD}")
+message(STATUS "---------> USE_GOOGLE_BREAKPAD is ${USE_GOOGLE_BREAKPAD}")
 message(STATUS "USE_TOMBSTONE_HOOKS is ${USE_TOMBSTONE_HOOKS}")
 
 include(breakpad)

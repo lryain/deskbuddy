@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos
+CMAKE_BINARY_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -93,7 +93,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && /usr/bin/cpack --config ./CPackConfig.cmake
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && /usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -138,7 +138,7 @@ install/local/fast: preinstall/fast
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CPackSourceConfig.cmake
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -159,14 +159,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/modules/imgcodecs/CMakeFiles/progress.marks
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/imgcodecs/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles 0
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/modules/imgcodecs/CMakeFiles/progress.marks
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/imgcodecs/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/imgcodecs/clean
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/imgcodecs/clean
 .PHONY : clean
 
 # The main clean target
@@ -176,22 +176,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/imgcodecs/preinstall
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/imgcodecs/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/imgcodecs/preinstall
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/imgcodecs/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/rule:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/rule
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/rule
 .PHONY : modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/rule
 
 # Convenience name for target.
@@ -201,7 +201,7 @@ opencv_imgcodecs: modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/rule
 
 # fast build rule for target.
 opencv_imgcodecs/fast:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build
 .PHONY : opencv_imgcodecs/fast
 
 src/bitstrm.o: src/bitstrm.cpp.o
@@ -210,7 +210,7 @@ src/bitstrm.o: src/bitstrm.cpp.o
 
 # target to build an object file
 src/bitstrm.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/bitstrm.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/bitstrm.cpp.o
 .PHONY : src/bitstrm.cpp.o
 
 src/bitstrm.i: src/bitstrm.cpp.i
@@ -219,7 +219,7 @@ src/bitstrm.i: src/bitstrm.cpp.i
 
 # target to preprocess a source file
 src/bitstrm.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/bitstrm.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/bitstrm.cpp.i
 .PHONY : src/bitstrm.cpp.i
 
 src/bitstrm.s: src/bitstrm.cpp.s
@@ -228,7 +228,7 @@ src/bitstrm.s: src/bitstrm.cpp.s
 
 # target to generate assembly for a file
 src/bitstrm.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/bitstrm.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/bitstrm.cpp.s
 .PHONY : src/bitstrm.cpp.s
 
 src/exif.o: src/exif.cpp.o
@@ -237,7 +237,7 @@ src/exif.o: src/exif.cpp.o
 
 # target to build an object file
 src/exif.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/exif.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/exif.cpp.o
 .PHONY : src/exif.cpp.o
 
 src/exif.i: src/exif.cpp.i
@@ -246,7 +246,7 @@ src/exif.i: src/exif.cpp.i
 
 # target to preprocess a source file
 src/exif.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/exif.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/exif.cpp.i
 .PHONY : src/exif.cpp.i
 
 src/exif.s: src/exif.cpp.s
@@ -255,7 +255,7 @@ src/exif.s: src/exif.cpp.s
 
 # target to generate assembly for a file
 src/exif.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/exif.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/exif.cpp.s
 .PHONY : src/exif.cpp.s
 
 src/grfmt_base.o: src/grfmt_base.cpp.o
@@ -264,7 +264,7 @@ src/grfmt_base.o: src/grfmt_base.cpp.o
 
 # target to build an object file
 src/grfmt_base.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_base.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_base.cpp.o
 .PHONY : src/grfmt_base.cpp.o
 
 src/grfmt_base.i: src/grfmt_base.cpp.i
@@ -273,7 +273,7 @@ src/grfmt_base.i: src/grfmt_base.cpp.i
 
 # target to preprocess a source file
 src/grfmt_base.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_base.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_base.cpp.i
 .PHONY : src/grfmt_base.cpp.i
 
 src/grfmt_base.s: src/grfmt_base.cpp.s
@@ -282,7 +282,7 @@ src/grfmt_base.s: src/grfmt_base.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_base.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_base.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_base.cpp.s
 .PHONY : src/grfmt_base.cpp.s
 
 src/grfmt_bmp.o: src/grfmt_bmp.cpp.o
@@ -291,7 +291,7 @@ src/grfmt_bmp.o: src/grfmt_bmp.cpp.o
 
 # target to build an object file
 src/grfmt_bmp.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_bmp.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_bmp.cpp.o
 .PHONY : src/grfmt_bmp.cpp.o
 
 src/grfmt_bmp.i: src/grfmt_bmp.cpp.i
@@ -300,7 +300,7 @@ src/grfmt_bmp.i: src/grfmt_bmp.cpp.i
 
 # target to preprocess a source file
 src/grfmt_bmp.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_bmp.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_bmp.cpp.i
 .PHONY : src/grfmt_bmp.cpp.i
 
 src/grfmt_bmp.s: src/grfmt_bmp.cpp.s
@@ -309,7 +309,7 @@ src/grfmt_bmp.s: src/grfmt_bmp.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_bmp.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_bmp.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_bmp.cpp.s
 .PHONY : src/grfmt_bmp.cpp.s
 
 src/grfmt_exr.o: src/grfmt_exr.cpp.o
@@ -318,7 +318,7 @@ src/grfmt_exr.o: src/grfmt_exr.cpp.o
 
 # target to build an object file
 src/grfmt_exr.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_exr.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_exr.cpp.o
 .PHONY : src/grfmt_exr.cpp.o
 
 src/grfmt_exr.i: src/grfmt_exr.cpp.i
@@ -327,7 +327,7 @@ src/grfmt_exr.i: src/grfmt_exr.cpp.i
 
 # target to preprocess a source file
 src/grfmt_exr.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_exr.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_exr.cpp.i
 .PHONY : src/grfmt_exr.cpp.i
 
 src/grfmt_exr.s: src/grfmt_exr.cpp.s
@@ -336,7 +336,7 @@ src/grfmt_exr.s: src/grfmt_exr.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_exr.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_exr.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_exr.cpp.s
 .PHONY : src/grfmt_exr.cpp.s
 
 src/grfmt_gdal.o: src/grfmt_gdal.cpp.o
@@ -345,7 +345,7 @@ src/grfmt_gdal.o: src/grfmt_gdal.cpp.o
 
 # target to build an object file
 src/grfmt_gdal.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdal.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdal.cpp.o
 .PHONY : src/grfmt_gdal.cpp.o
 
 src/grfmt_gdal.i: src/grfmt_gdal.cpp.i
@@ -354,7 +354,7 @@ src/grfmt_gdal.i: src/grfmt_gdal.cpp.i
 
 # target to preprocess a source file
 src/grfmt_gdal.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdal.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdal.cpp.i
 .PHONY : src/grfmt_gdal.cpp.i
 
 src/grfmt_gdal.s: src/grfmt_gdal.cpp.s
@@ -363,7 +363,7 @@ src/grfmt_gdal.s: src/grfmt_gdal.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_gdal.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdal.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdal.cpp.s
 .PHONY : src/grfmt_gdal.cpp.s
 
 src/grfmt_gdcm.o: src/grfmt_gdcm.cpp.o
@@ -372,7 +372,7 @@ src/grfmt_gdcm.o: src/grfmt_gdcm.cpp.o
 
 # target to build an object file
 src/grfmt_gdcm.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdcm.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdcm.cpp.o
 .PHONY : src/grfmt_gdcm.cpp.o
 
 src/grfmt_gdcm.i: src/grfmt_gdcm.cpp.i
@@ -381,7 +381,7 @@ src/grfmt_gdcm.i: src/grfmt_gdcm.cpp.i
 
 # target to preprocess a source file
 src/grfmt_gdcm.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdcm.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdcm.cpp.i
 .PHONY : src/grfmt_gdcm.cpp.i
 
 src/grfmt_gdcm.s: src/grfmt_gdcm.cpp.s
@@ -390,7 +390,7 @@ src/grfmt_gdcm.s: src/grfmt_gdcm.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_gdcm.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdcm.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_gdcm.cpp.s
 .PHONY : src/grfmt_gdcm.cpp.s
 
 src/grfmt_hdr.o: src/grfmt_hdr.cpp.o
@@ -399,7 +399,7 @@ src/grfmt_hdr.o: src/grfmt_hdr.cpp.o
 
 # target to build an object file
 src/grfmt_hdr.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_hdr.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_hdr.cpp.o
 .PHONY : src/grfmt_hdr.cpp.o
 
 src/grfmt_hdr.i: src/grfmt_hdr.cpp.i
@@ -408,7 +408,7 @@ src/grfmt_hdr.i: src/grfmt_hdr.cpp.i
 
 # target to preprocess a source file
 src/grfmt_hdr.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_hdr.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_hdr.cpp.i
 .PHONY : src/grfmt_hdr.cpp.i
 
 src/grfmt_hdr.s: src/grfmt_hdr.cpp.s
@@ -417,7 +417,7 @@ src/grfmt_hdr.s: src/grfmt_hdr.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_hdr.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_hdr.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_hdr.cpp.s
 .PHONY : src/grfmt_hdr.cpp.s
 
 src/grfmt_jpeg.o: src/grfmt_jpeg.cpp.o
@@ -426,7 +426,7 @@ src/grfmt_jpeg.o: src/grfmt_jpeg.cpp.o
 
 # target to build an object file
 src/grfmt_jpeg.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg.cpp.o
 .PHONY : src/grfmt_jpeg.cpp.o
 
 src/grfmt_jpeg.i: src/grfmt_jpeg.cpp.i
@@ -435,7 +435,7 @@ src/grfmt_jpeg.i: src/grfmt_jpeg.cpp.i
 
 # target to preprocess a source file
 src/grfmt_jpeg.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg.cpp.i
 .PHONY : src/grfmt_jpeg.cpp.i
 
 src/grfmt_jpeg.s: src/grfmt_jpeg.cpp.s
@@ -444,7 +444,7 @@ src/grfmt_jpeg.s: src/grfmt_jpeg.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_jpeg.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg.cpp.s
 .PHONY : src/grfmt_jpeg.cpp.s
 
 src/grfmt_jpeg2000.o: src/grfmt_jpeg2000.cpp.o
@@ -453,7 +453,7 @@ src/grfmt_jpeg2000.o: src/grfmt_jpeg2000.cpp.o
 
 # target to build an object file
 src/grfmt_jpeg2000.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg2000.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg2000.cpp.o
 .PHONY : src/grfmt_jpeg2000.cpp.o
 
 src/grfmt_jpeg2000.i: src/grfmt_jpeg2000.cpp.i
@@ -462,7 +462,7 @@ src/grfmt_jpeg2000.i: src/grfmt_jpeg2000.cpp.i
 
 # target to preprocess a source file
 src/grfmt_jpeg2000.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg2000.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg2000.cpp.i
 .PHONY : src/grfmt_jpeg2000.cpp.i
 
 src/grfmt_jpeg2000.s: src/grfmt_jpeg2000.cpp.s
@@ -471,7 +471,7 @@ src/grfmt_jpeg2000.s: src/grfmt_jpeg2000.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_jpeg2000.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg2000.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_jpeg2000.cpp.s
 .PHONY : src/grfmt_jpeg2000.cpp.s
 
 src/grfmt_pam.o: src/grfmt_pam.cpp.o
@@ -480,7 +480,7 @@ src/grfmt_pam.o: src/grfmt_pam.cpp.o
 
 # target to build an object file
 src/grfmt_pam.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pam.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pam.cpp.o
 .PHONY : src/grfmt_pam.cpp.o
 
 src/grfmt_pam.i: src/grfmt_pam.cpp.i
@@ -489,7 +489,7 @@ src/grfmt_pam.i: src/grfmt_pam.cpp.i
 
 # target to preprocess a source file
 src/grfmt_pam.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pam.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pam.cpp.i
 .PHONY : src/grfmt_pam.cpp.i
 
 src/grfmt_pam.s: src/grfmt_pam.cpp.s
@@ -498,7 +498,7 @@ src/grfmt_pam.s: src/grfmt_pam.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_pam.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pam.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pam.cpp.s
 .PHONY : src/grfmt_pam.cpp.s
 
 src/grfmt_png.o: src/grfmt_png.cpp.o
@@ -507,7 +507,7 @@ src/grfmt_png.o: src/grfmt_png.cpp.o
 
 # target to build an object file
 src/grfmt_png.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_png.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_png.cpp.o
 .PHONY : src/grfmt_png.cpp.o
 
 src/grfmt_png.i: src/grfmt_png.cpp.i
@@ -516,7 +516,7 @@ src/grfmt_png.i: src/grfmt_png.cpp.i
 
 # target to preprocess a source file
 src/grfmt_png.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_png.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_png.cpp.i
 .PHONY : src/grfmt_png.cpp.i
 
 src/grfmt_png.s: src/grfmt_png.cpp.s
@@ -525,7 +525,7 @@ src/grfmt_png.s: src/grfmt_png.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_png.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_png.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_png.cpp.s
 .PHONY : src/grfmt_png.cpp.s
 
 src/grfmt_pxm.o: src/grfmt_pxm.cpp.o
@@ -534,7 +534,7 @@ src/grfmt_pxm.o: src/grfmt_pxm.cpp.o
 
 # target to build an object file
 src/grfmt_pxm.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pxm.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pxm.cpp.o
 .PHONY : src/grfmt_pxm.cpp.o
 
 src/grfmt_pxm.i: src/grfmt_pxm.cpp.i
@@ -543,7 +543,7 @@ src/grfmt_pxm.i: src/grfmt_pxm.cpp.i
 
 # target to preprocess a source file
 src/grfmt_pxm.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pxm.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pxm.cpp.i
 .PHONY : src/grfmt_pxm.cpp.i
 
 src/grfmt_pxm.s: src/grfmt_pxm.cpp.s
@@ -552,7 +552,7 @@ src/grfmt_pxm.s: src/grfmt_pxm.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_pxm.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pxm.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_pxm.cpp.s
 .PHONY : src/grfmt_pxm.cpp.s
 
 src/grfmt_sunras.o: src/grfmt_sunras.cpp.o
@@ -561,7 +561,7 @@ src/grfmt_sunras.o: src/grfmt_sunras.cpp.o
 
 # target to build an object file
 src/grfmt_sunras.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_sunras.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_sunras.cpp.o
 .PHONY : src/grfmt_sunras.cpp.o
 
 src/grfmt_sunras.i: src/grfmt_sunras.cpp.i
@@ -570,7 +570,7 @@ src/grfmt_sunras.i: src/grfmt_sunras.cpp.i
 
 # target to preprocess a source file
 src/grfmt_sunras.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_sunras.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_sunras.cpp.i
 .PHONY : src/grfmt_sunras.cpp.i
 
 src/grfmt_sunras.s: src/grfmt_sunras.cpp.s
@@ -579,7 +579,7 @@ src/grfmt_sunras.s: src/grfmt_sunras.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_sunras.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_sunras.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_sunras.cpp.s
 .PHONY : src/grfmt_sunras.cpp.s
 
 src/grfmt_tiff.o: src/grfmt_tiff.cpp.o
@@ -588,7 +588,7 @@ src/grfmt_tiff.o: src/grfmt_tiff.cpp.o
 
 # target to build an object file
 src/grfmt_tiff.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_tiff.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_tiff.cpp.o
 .PHONY : src/grfmt_tiff.cpp.o
 
 src/grfmt_tiff.i: src/grfmt_tiff.cpp.i
@@ -597,7 +597,7 @@ src/grfmt_tiff.i: src/grfmt_tiff.cpp.i
 
 # target to preprocess a source file
 src/grfmt_tiff.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_tiff.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_tiff.cpp.i
 .PHONY : src/grfmt_tiff.cpp.i
 
 src/grfmt_tiff.s: src/grfmt_tiff.cpp.s
@@ -606,7 +606,7 @@ src/grfmt_tiff.s: src/grfmt_tiff.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_tiff.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_tiff.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_tiff.cpp.s
 .PHONY : src/grfmt_tiff.cpp.s
 
 src/grfmt_webp.o: src/grfmt_webp.cpp.o
@@ -615,7 +615,7 @@ src/grfmt_webp.o: src/grfmt_webp.cpp.o
 
 # target to build an object file
 src/grfmt_webp.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_webp.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_webp.cpp.o
 .PHONY : src/grfmt_webp.cpp.o
 
 src/grfmt_webp.i: src/grfmt_webp.cpp.i
@@ -624,7 +624,7 @@ src/grfmt_webp.i: src/grfmt_webp.cpp.i
 
 # target to preprocess a source file
 src/grfmt_webp.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_webp.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_webp.cpp.i
 .PHONY : src/grfmt_webp.cpp.i
 
 src/grfmt_webp.s: src/grfmt_webp.cpp.s
@@ -633,7 +633,7 @@ src/grfmt_webp.s: src/grfmt_webp.cpp.s
 
 # target to generate assembly for a file
 src/grfmt_webp.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_webp.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/grfmt_webp.cpp.s
 .PHONY : src/grfmt_webp.cpp.s
 
 src/loadsave.o: src/loadsave.cpp.o
@@ -642,7 +642,7 @@ src/loadsave.o: src/loadsave.cpp.o
 
 # target to build an object file
 src/loadsave.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/loadsave.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/loadsave.cpp.o
 .PHONY : src/loadsave.cpp.o
 
 src/loadsave.i: src/loadsave.cpp.i
@@ -651,7 +651,7 @@ src/loadsave.i: src/loadsave.cpp.i
 
 # target to preprocess a source file
 src/loadsave.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/loadsave.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/loadsave.cpp.i
 .PHONY : src/loadsave.cpp.i
 
 src/loadsave.s: src/loadsave.cpp.s
@@ -660,7 +660,7 @@ src/loadsave.s: src/loadsave.cpp.s
 
 # target to generate assembly for a file
 src/loadsave.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/loadsave.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/loadsave.cpp.s
 .PHONY : src/loadsave.cpp.s
 
 src/rgbe.o: src/rgbe.cpp.o
@@ -669,7 +669,7 @@ src/rgbe.o: src/rgbe.cpp.o
 
 # target to build an object file
 src/rgbe.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/rgbe.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/rgbe.cpp.o
 .PHONY : src/rgbe.cpp.o
 
 src/rgbe.i: src/rgbe.cpp.i
@@ -678,7 +678,7 @@ src/rgbe.i: src/rgbe.cpp.i
 
 # target to preprocess a source file
 src/rgbe.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/rgbe.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/rgbe.cpp.i
 .PHONY : src/rgbe.cpp.i
 
 src/rgbe.s: src/rgbe.cpp.s
@@ -687,7 +687,7 @@ src/rgbe.s: src/rgbe.cpp.s
 
 # target to generate assembly for a file
 src/rgbe.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/rgbe.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/rgbe.cpp.s
 .PHONY : src/rgbe.cpp.s
 
 src/utils.o: src/utils.cpp.o
@@ -696,7 +696,7 @@ src/utils.o: src/utils.cpp.o
 
 # target to build an object file
 src/utils.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/utils.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/utils.cpp.o
 .PHONY : src/utils.cpp.o
 
 src/utils.i: src/utils.cpp.i
@@ -705,7 +705,7 @@ src/utils.i: src/utils.cpp.i
 
 # target to preprocess a source file
 src/utils.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/utils.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/utils.cpp.i
 .PHONY : src/utils.cpp.i
 
 src/utils.s: src/utils.cpp.s
@@ -714,7 +714,7 @@ src/utils.s: src/utils.cpp.s
 
 # target to generate assembly for a file
 src/utils.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/utils.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/build.make modules/imgcodecs/CMakeFiles/opencv_imgcodecs.dir/src/utils.cpp.s
 .PHONY : src/utils.cpp.s
 
 # Help Target
@@ -801,6 +801,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

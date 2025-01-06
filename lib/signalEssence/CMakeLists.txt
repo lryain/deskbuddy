@@ -11,7 +11,7 @@ option(SE_HIGHRES "Enable Signal Essence High Resolution Echo Cancelling" ON)
 
 include(signalessence)
 
-add_library(signal_essence STATIC
+add_library(signal_essence2 STATIC
   "${SIGNALESSENCE_PROJ_SRC}/crossoverconfig.c"
   "${SIGNALESSENCE_PROJ_SRC}/fdsearchconfig.c"
   "${SIGNALESSENCE_PROJ_SRC}/mmif_proj.c"
@@ -21,21 +21,22 @@ add_library(signal_essence STATIC
   "${SIGNALESSENCE_VAD_SRC}/svad.c"
 )
 
-target_link_libraries(signal_essence
+target_link_libraries(signal_essence2
   PRIVATE
   ${SIGNALESSENCE_LIBS}
 )
-
-target_include_directories(signal_essence
-  INTERFACE
+message("------------>SIGNALESSENCE_INCLUDE_PATHS: ${SIGNALESSENCE_INCLUDE_PATHS}")
+target_include_directories(signal_essence2
+#   INTERFACE
+  PUBLIC
   ${SIGNALESSENCE_INCLUDE_PATHS}
 )
 
-target_compile_definitions(signal_essence
+target_compile_definitions(signal_essence2
   PUBLIC
   SE_V009=$<BOOL:${SE_V009}>
 )
 
-lrya_build_target_license(signal_essence "LRYA" "Commercial")
+lrya_build_target_license(signal_essence2 "LRYA" "Commercial")
 
 set_source_files_properties(${SIGNALESSENCE_PROJ_SRC}/policy_actions.c PROPERTIES COMPILE_FLAGS "-Wno-shorten-64-to-32")

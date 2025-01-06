@@ -195,7 +195,7 @@ int main(void)
     const auto remaining_us = duration_cast<microseconds>(targetEndFrameTime - tickAfterAnimExecution);
     const auto tickDuration_us = duration_cast<microseconds>(tickAfterAnimExecution - tickStart);
 
-    tracepoint(anki_ust, vic_anim_loop_duration, tickDuration_us.count());
+    tracepoint(lrya_ust, mate_anim_loop_duration, tickDuration_us.count());
 #if ENABLE_TICK_TIME_WARNINGS
     // Complain if we're going overtime
     if (remaining_us < microseconds(-ANIM_OVERTIME_WARNING_THRESH_US))

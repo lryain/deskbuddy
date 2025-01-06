@@ -23,14 +23,15 @@ SpectrumBased::~SpectrumBased()
 {
     if(m_medianFilterBuffer != NULL)
     {
-        AK_PLUGIN_DELETE(m_allocator, m_medianFilterBuffer);
+        // AK_PLUGIN_DELETE(m_allocator, m_medianFilterBuffer);
         m_medianFilterBuffer = NULL;
     }
 }
 
-void SpectrumBased::prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator)
+// void SpectrumBased::prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator)
+void SpectrumBased::prepareToPlay(float sampleRate, int blockSize)
 {
-    m_medianFilterBuffer = AK_PLUGIN_NEW(Allocator, RingBuffer(m_medianFilterOrder, Allocator) );
+//     m_medianFilterBuffer = AK_PLUGIN_NEW(Allocator, RingBuffer(m_medianFilterOrder, Allocator) );
 
     m_samplingRate = sampleRate;
     m_fftSize = blockSize;
@@ -43,7 +44,7 @@ void SpectrumBased::prepareToPlay(float sampleRate, int blockSize, AK::IAkPlugin
 
     m_niquistBinIndex = m_fftSize / 2;
     
-    m_allocator = Allocator;
+//     m_allocator = Allocator;
 }
 
 float SpectrumBased::processBlockAndGetPitch(vector<float> buffer)

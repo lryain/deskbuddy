@@ -11,7 +11,7 @@ Author:  KrotosMacMini
 ==============================================================================
 */
 
-#include <AK/SoundEngine/Common/IAkPluginMemAlloc.h>
+// #include <AK/SoundEngine/Common/IAkPluginMemAlloc.h>
 #include "audio-analysis-framework/libraries/kiss_fft/kiss_fft.h"
 #include <vector>
 
@@ -23,7 +23,8 @@ public:
     PitchTrackerAbstractClass() {};
     virtual ~PitchTrackerAbstractClass() {};
 
-    virtual void prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator) = 0;
+    virtual void prepareToPlay(float sampleRate, int blockSize) = 0;
+//     virtual void prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator) = 0;
     virtual float processBlockAndGetPitch(vector<float> buffer) = 0;
     virtual float processBlockAndGetPitch(kiss_fft_cpx* buffer) = 0;
 	virtual float processBlockAndGetPitch(float* fftBuffer) = 0;

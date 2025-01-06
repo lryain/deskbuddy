@@ -38,22 +38,22 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xdevx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/opencv2" TYPE FILE FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/cvconfig.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/opencv2" TYPE FILE FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/cvconfig.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xdevx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/opencv2" TYPE FILE FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/opencv2/opencv_modules.hpp")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/opencv2" TYPE FILE FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/opencv2/opencv_modules.hpp")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xdevx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/unix-install/opencv.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/unix-install/opencv.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xdevx" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/OpenCV/OpenCVModules.cmake")
     file(DIFFERENT EXPORT_FILE_CHANGED FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/OpenCV/OpenCVModules.cmake"
-         "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles/Export/share/OpenCV/OpenCVModules.cmake")
+         "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles/Export/share/OpenCV/OpenCVModules.cmake")
     if(EXPORT_FILE_CHANGED)
       file(GLOB OLD_CONFIG_FILES "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/share/OpenCV/OpenCVModules-*.cmake")
       if(OLD_CONFIG_FILES)
@@ -62,16 +62,16 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xdevx" OR NOT CMAKE_INSTALL_COMPONEN
       endif()
     endif()
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/OpenCV" TYPE FILE FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles/Export/share/OpenCV/OpenCVModules.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/OpenCV" TYPE FILE FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles/Export/share/OpenCV/OpenCVModules.cmake")
   if("${CMAKE_INSTALL_CONFIG_NAME}" MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/OpenCV" TYPE FILE FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles/Export/share/OpenCV/OpenCVModules-release.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/OpenCV" TYPE FILE FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles/Export/share/OpenCV/OpenCVModules-release.cmake")
   endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xdevx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/OpenCV" TYPE FILE FILES
-    "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/unix-install/OpenCVConfig-version.cmake"
-    "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/unix-install/OpenCVConfig.cmake"
+    "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/unix-install/OpenCVConfig-version.cmake"
+    "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/unix-install/OpenCVConfig.cmake"
     )
 endif()
 
@@ -84,13 +84,13 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/3rdparty/zlib/cmake_install.cmake")
-  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/3rdparty/libjpeg/cmake_install.cmake")
-  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/3rdparty/libtiff/cmake_install.cmake")
-  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/include/cmake_install.cmake")
-  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/modules/cmake_install.cmake")
-  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/doc/cmake_install.cmake")
-  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/data/cmake_install.cmake")
+  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/3rdparty/zlib/cmake_install.cmake")
+  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/3rdparty/libjpeg/cmake_install.cmake")
+  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/3rdparty/libtiff/cmake_install.cmake")
+  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/include/cmake_install.cmake")
+  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/modules/cmake_install.cmake")
+  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/doc/cmake_install.cmake")
+  include("/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/data/cmake_install.cmake")
 
 endif()
 
@@ -102,5 +102,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

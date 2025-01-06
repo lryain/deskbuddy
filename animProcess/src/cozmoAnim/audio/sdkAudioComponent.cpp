@@ -14,7 +14,7 @@
 #include "audioEngine/audioCallback.h"
 #include "audioEngine/audioTools/standardWaveDataContainer.h"
 #include "audioEngine/audioTypeTranslator.h"
-#include "audioEngine/plugins/ankiPluginInterface.h"
+#include "audioEngine/plugins/lryaPluginInterface.h"
 #include "audioEngine/plugins/streamingWavePortalPlugIn.h"
 #include "clad/robotInterface/messageRobotToEngine.h"
 #include "clad/robotInterface/messageEngineToRobot.h"

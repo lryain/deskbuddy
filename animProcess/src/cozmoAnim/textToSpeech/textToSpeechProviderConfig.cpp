@@ -12,7 +12,7 @@
 #include "coretech/common/engine/jsonTools.h"
 
 #include "util/console/consoleInterface.h"
-#include "util/helpers/ankiDefines.h"
+#include "util/helpers/lryaDefines.h"
 #include "util/logging/logging.h"
 #include "util/random/randomGenerator.h"
 

@@ -14,7 +14,7 @@
 #ifndef __AnimProcess_CozmoAnim_MicDataProcessor_H_
 #define __AnimProcess_CozmoAnim_MicDataProcessor_H_
 
-#include "svad.h"
+// #include "svad.h"
 
 #include "micDataTypes.h"
 #include "coretech/common/engine/robotTimeStamp.h"
@@ -114,8 +114,8 @@ private:
   int _policyFallbackFlag = 0;
 
   // Members for general purpose processing and state
-  std::unique_ptr<SVadConfig_t> _sVadConfig;
-  std::unique_ptr<SVadObject_t> _sVadObject;
+//   std::unique_ptr<SVadConfig_t> _sVadConfig;
+//   std::unique_ptr<SVadObject_t> _sVadObject;
   uint32_t _vadCountdown = 0;
   std::unique_ptr<MicImmediateDirection> _micImmediateDirection;
 

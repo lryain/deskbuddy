@@ -11,24 +11,24 @@
 #include "RingBuffer.h"
 
 
-RingBuffer::RingBuffer(int size, AK::IAkPluginMemAlloc* Allocator)
-
+// RingBuffer::RingBuffer(int size, AK::IAkPluginMemAlloc* Allocator)
+RingBuffer::RingBuffer()
 {
-    m_buffer = (float*)AK_PLUGIN_ALLOC(Allocator, sizeof(float)*size);
+//     m_buffer = (float*)AK_PLUGIN_ALLOC(Allocator, sizeof(float)*size);
     
-    m_length = size;
+//     m_length = size;
 
-    m_writeHead = 0;
-    m_readHead = 0;
+//     m_writeHead = 0;
+//     m_readHead = 0;
 
-	m_allocator = Allocator;
+// 	m_allocator = Allocator;
 }
 
 RingBuffer::~RingBuffer()
 {
     if(m_buffer != NULL)
     {
-        AK_PLUGIN_FREE(m_allocator, m_buffer);
+        // AK_PLUGIN_FREE(m_allocator, m_buffer);
         m_buffer = NULL;
     }
 }

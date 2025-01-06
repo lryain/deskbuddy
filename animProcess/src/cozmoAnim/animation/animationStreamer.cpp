@@ -130,7 +130,7 @@ namespace Anim {
         kProcFace_GammaType = (int)FaceGammaType::Custom;
       }
     } else {
-      // see https://ankiinc.atlassian.net/browse/VIC-1646 to productize .tga loading
+      // see https://lryainc.atlassian.net/browse/VIC-1646 to productize .tga loading
       std::vector<uint8_t> tga = Lrya::Util::FileUtils::ReadFileAsBinary(cacheFilename);
       if (tga.size() < 18) {
         const std::string html = std::string("<html>\n") +filename+" is not a .tga file\n" + "</html>\n";

@@ -26,7 +26,7 @@
 
 #include "audioEngine/audioCallback.h"
 #include "audioEngine/audioTypeTranslator.h"
-#include "audioEngine/plugins/ankiPluginInterface.h"
+#include "audioEngine/plugins/lryaPluginInterface.h"
 #include "audioEngine/plugins/streamingWavePortalPlugIn.h"
 #include "util/console/consoleInterface.h"
 #include "util/dispatchQueue/dispatchQueue.h"
@@ -358,7 +358,7 @@ static void AppendAudioData(const std::shared_ptr<AudioEngine::StreamingWaveData
     const auto samples = ttsData.GetSamples();
     static int _fd = -1;
     if (_fd < 0) {
-      const auto path = "/data/data/com.anki.deskmate/cache/tts.pcm";
+      const auto path = "/data/data/com.lrya.deskmate/cache/tts.pcm";
       _fd = open(path, O_CREAT|O_RDWR|O_TRUNC, 0644);
     }
     if (num_samples > 0) {

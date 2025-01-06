@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos
+CMAKE_BINARY_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -83,7 +83,7 @@ install/fast: preinstall/fast
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && /usr/bin/cpack --config ./CPackConfig.cmake
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && /usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -127,7 +127,7 @@ install/local/fast: preinstall/fast
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CPackSourceConfig.cmake
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -159,14 +159,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/modules/calib3d/CMakeFiles/progress.marks
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/calib3d/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles 0
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/modules/calib3d/CMakeFiles/progress.marks
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/calib3d/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/calib3d/clean
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/calib3d/clean
 .PHONY : clean
 
 # The main clean target
@@ -176,22 +176,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/calib3d/preinstall
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/calib3d/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/calib3d/preinstall
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/calib3d/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 modules/calib3d/CMakeFiles/opencv_calib3d.dir/rule:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/calib3d/CMakeFiles/opencv_calib3d.dir/rule
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/calib3d/CMakeFiles/opencv_calib3d.dir/rule
 .PHONY : modules/calib3d/CMakeFiles/opencv_calib3d.dir/rule
 
 # Convenience name for target.
@@ -201,7 +201,7 @@ opencv_calib3d: modules/calib3d/CMakeFiles/opencv_calib3d.dir/rule
 
 # fast build rule for target.
 opencv_calib3d/fast:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/build
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/build
 .PHONY : opencv_calib3d/fast
 
 opencl_kernels_calib3d.o: opencl_kernels_calib3d.cpp.o
@@ -210,7 +210,7 @@ opencl_kernels_calib3d.o: opencl_kernels_calib3d.cpp.o
 
 # target to build an object file
 opencl_kernels_calib3d.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/opencl_kernels_calib3d.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/opencl_kernels_calib3d.cpp.o
 .PHONY : opencl_kernels_calib3d.cpp.o
 
 opencl_kernels_calib3d.i: opencl_kernels_calib3d.cpp.i
@@ -219,7 +219,7 @@ opencl_kernels_calib3d.i: opencl_kernels_calib3d.cpp.i
 
 # target to preprocess a source file
 opencl_kernels_calib3d.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/opencl_kernels_calib3d.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/opencl_kernels_calib3d.cpp.i
 .PHONY : opencl_kernels_calib3d.cpp.i
 
 opencl_kernels_calib3d.s: opencl_kernels_calib3d.cpp.s
@@ -228,7 +228,7 @@ opencl_kernels_calib3d.s: opencl_kernels_calib3d.cpp.s
 
 # target to generate assembly for a file
 opencl_kernels_calib3d.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/opencl_kernels_calib3d.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/opencl_kernels_calib3d.cpp.s
 .PHONY : opencl_kernels_calib3d.cpp.s
 
 src/ap3p.o: src/ap3p.cpp.o
@@ -237,7 +237,7 @@ src/ap3p.o: src/ap3p.cpp.o
 
 # target to build an object file
 src/ap3p.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ap3p.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ap3p.cpp.o
 .PHONY : src/ap3p.cpp.o
 
 src/ap3p.i: src/ap3p.cpp.i
@@ -246,7 +246,7 @@ src/ap3p.i: src/ap3p.cpp.i
 
 # target to preprocess a source file
 src/ap3p.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ap3p.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ap3p.cpp.i
 .PHONY : src/ap3p.cpp.i
 
 src/ap3p.s: src/ap3p.cpp.s
@@ -255,7 +255,7 @@ src/ap3p.s: src/ap3p.cpp.s
 
 # target to generate assembly for a file
 src/ap3p.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ap3p.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ap3p.cpp.s
 .PHONY : src/ap3p.cpp.s
 
 src/calibinit.o: src/calibinit.cpp.o
@@ -264,7 +264,7 @@ src/calibinit.o: src/calibinit.cpp.o
 
 # target to build an object file
 src/calibinit.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibinit.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibinit.cpp.o
 .PHONY : src/calibinit.cpp.o
 
 src/calibinit.i: src/calibinit.cpp.i
@@ -273,7 +273,7 @@ src/calibinit.i: src/calibinit.cpp.i
 
 # target to preprocess a source file
 src/calibinit.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibinit.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibinit.cpp.i
 .PHONY : src/calibinit.cpp.i
 
 src/calibinit.s: src/calibinit.cpp.s
@@ -282,7 +282,7 @@ src/calibinit.s: src/calibinit.cpp.s
 
 # target to generate assembly for a file
 src/calibinit.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibinit.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibinit.cpp.s
 .PHONY : src/calibinit.cpp.s
 
 src/calibration.o: src/calibration.cpp.o
@@ -291,7 +291,7 @@ src/calibration.o: src/calibration.cpp.o
 
 # target to build an object file
 src/calibration.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibration.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibration.cpp.o
 .PHONY : src/calibration.cpp.o
 
 src/calibration.i: src/calibration.cpp.i
@@ -300,7 +300,7 @@ src/calibration.i: src/calibration.cpp.i
 
 # target to preprocess a source file
 src/calibration.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibration.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibration.cpp.i
 .PHONY : src/calibration.cpp.i
 
 src/calibration.s: src/calibration.cpp.s
@@ -309,7 +309,7 @@ src/calibration.s: src/calibration.cpp.s
 
 # target to generate assembly for a file
 src/calibration.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibration.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/calibration.cpp.s
 .PHONY : src/calibration.cpp.s
 
 src/checkchessboard.o: src/checkchessboard.cpp.o
@@ -318,7 +318,7 @@ src/checkchessboard.o: src/checkchessboard.cpp.o
 
 # target to build an object file
 src/checkchessboard.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/checkchessboard.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/checkchessboard.cpp.o
 .PHONY : src/checkchessboard.cpp.o
 
 src/checkchessboard.i: src/checkchessboard.cpp.i
@@ -327,7 +327,7 @@ src/checkchessboard.i: src/checkchessboard.cpp.i
 
 # target to preprocess a source file
 src/checkchessboard.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/checkchessboard.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/checkchessboard.cpp.i
 .PHONY : src/checkchessboard.cpp.i
 
 src/checkchessboard.s: src/checkchessboard.cpp.s
@@ -336,7 +336,7 @@ src/checkchessboard.s: src/checkchessboard.cpp.s
 
 # target to generate assembly for a file
 src/checkchessboard.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/checkchessboard.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/checkchessboard.cpp.s
 .PHONY : src/checkchessboard.cpp.s
 
 src/circlesgrid.o: src/circlesgrid.cpp.o
@@ -345,7 +345,7 @@ src/circlesgrid.o: src/circlesgrid.cpp.o
 
 # target to build an object file
 src/circlesgrid.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/circlesgrid.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/circlesgrid.cpp.o
 .PHONY : src/circlesgrid.cpp.o
 
 src/circlesgrid.i: src/circlesgrid.cpp.i
@@ -354,7 +354,7 @@ src/circlesgrid.i: src/circlesgrid.cpp.i
 
 # target to preprocess a source file
 src/circlesgrid.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/circlesgrid.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/circlesgrid.cpp.i
 .PHONY : src/circlesgrid.cpp.i
 
 src/circlesgrid.s: src/circlesgrid.cpp.s
@@ -363,7 +363,7 @@ src/circlesgrid.s: src/circlesgrid.cpp.s
 
 # target to generate assembly for a file
 src/circlesgrid.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/circlesgrid.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/circlesgrid.cpp.s
 .PHONY : src/circlesgrid.cpp.s
 
 src/compat_ptsetreg.o: src/compat_ptsetreg.cpp.o
@@ -372,7 +372,7 @@ src/compat_ptsetreg.o: src/compat_ptsetreg.cpp.o
 
 # target to build an object file
 src/compat_ptsetreg.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_ptsetreg.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_ptsetreg.cpp.o
 .PHONY : src/compat_ptsetreg.cpp.o
 
 src/compat_ptsetreg.i: src/compat_ptsetreg.cpp.i
@@ -381,7 +381,7 @@ src/compat_ptsetreg.i: src/compat_ptsetreg.cpp.i
 
 # target to preprocess a source file
 src/compat_ptsetreg.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_ptsetreg.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_ptsetreg.cpp.i
 .PHONY : src/compat_ptsetreg.cpp.i
 
 src/compat_ptsetreg.s: src/compat_ptsetreg.cpp.s
@@ -390,7 +390,7 @@ src/compat_ptsetreg.s: src/compat_ptsetreg.cpp.s
 
 # target to generate assembly for a file
 src/compat_ptsetreg.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_ptsetreg.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_ptsetreg.cpp.s
 .PHONY : src/compat_ptsetreg.cpp.s
 
 src/compat_stereo.o: src/compat_stereo.cpp.o
@@ -399,7 +399,7 @@ src/compat_stereo.o: src/compat_stereo.cpp.o
 
 # target to build an object file
 src/compat_stereo.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_stereo.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_stereo.cpp.o
 .PHONY : src/compat_stereo.cpp.o
 
 src/compat_stereo.i: src/compat_stereo.cpp.i
@@ -408,7 +408,7 @@ src/compat_stereo.i: src/compat_stereo.cpp.i
 
 # target to preprocess a source file
 src/compat_stereo.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_stereo.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_stereo.cpp.i
 .PHONY : src/compat_stereo.cpp.i
 
 src/compat_stereo.s: src/compat_stereo.cpp.s
@@ -417,7 +417,7 @@ src/compat_stereo.s: src/compat_stereo.cpp.s
 
 # target to generate assembly for a file
 src/compat_stereo.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_stereo.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/compat_stereo.cpp.s
 .PHONY : src/compat_stereo.cpp.s
 
 src/dls.o: src/dls.cpp.o
@@ -426,7 +426,7 @@ src/dls.o: src/dls.cpp.o
 
 # target to build an object file
 src/dls.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/dls.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/dls.cpp.o
 .PHONY : src/dls.cpp.o
 
 src/dls.i: src/dls.cpp.i
@@ -435,7 +435,7 @@ src/dls.i: src/dls.cpp.i
 
 # target to preprocess a source file
 src/dls.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/dls.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/dls.cpp.i
 .PHONY : src/dls.cpp.i
 
 src/dls.s: src/dls.cpp.s
@@ -444,7 +444,7 @@ src/dls.s: src/dls.cpp.s
 
 # target to generate assembly for a file
 src/dls.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/dls.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/dls.cpp.s
 .PHONY : src/dls.cpp.s
 
 src/epnp.o: src/epnp.cpp.o
@@ -453,7 +453,7 @@ src/epnp.o: src/epnp.cpp.o
 
 # target to build an object file
 src/epnp.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/epnp.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/epnp.cpp.o
 .PHONY : src/epnp.cpp.o
 
 src/epnp.i: src/epnp.cpp.i
@@ -462,7 +462,7 @@ src/epnp.i: src/epnp.cpp.i
 
 # target to preprocess a source file
 src/epnp.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/epnp.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/epnp.cpp.i
 .PHONY : src/epnp.cpp.i
 
 src/epnp.s: src/epnp.cpp.s
@@ -471,7 +471,7 @@ src/epnp.s: src/epnp.cpp.s
 
 # target to generate assembly for a file
 src/epnp.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/epnp.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/epnp.cpp.s
 .PHONY : src/epnp.cpp.s
 
 src/fisheye.o: src/fisheye.cpp.o
@@ -480,7 +480,7 @@ src/fisheye.o: src/fisheye.cpp.o
 
 # target to build an object file
 src/fisheye.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fisheye.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fisheye.cpp.o
 .PHONY : src/fisheye.cpp.o
 
 src/fisheye.i: src/fisheye.cpp.i
@@ -489,7 +489,7 @@ src/fisheye.i: src/fisheye.cpp.i
 
 # target to preprocess a source file
 src/fisheye.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fisheye.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fisheye.cpp.i
 .PHONY : src/fisheye.cpp.i
 
 src/fisheye.s: src/fisheye.cpp.s
@@ -498,7 +498,7 @@ src/fisheye.s: src/fisheye.cpp.s
 
 # target to generate assembly for a file
 src/fisheye.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fisheye.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fisheye.cpp.s
 .PHONY : src/fisheye.cpp.s
 
 src/five-point.o: src/five-point.cpp.o
@@ -507,7 +507,7 @@ src/five-point.o: src/five-point.cpp.o
 
 # target to build an object file
 src/five-point.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/five-point.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/five-point.cpp.o
 .PHONY : src/five-point.cpp.o
 
 src/five-point.i: src/five-point.cpp.i
@@ -516,7 +516,7 @@ src/five-point.i: src/five-point.cpp.i
 
 # target to preprocess a source file
 src/five-point.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/five-point.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/five-point.cpp.i
 .PHONY : src/five-point.cpp.i
 
 src/five-point.s: src/five-point.cpp.s
@@ -525,7 +525,7 @@ src/five-point.s: src/five-point.cpp.s
 
 # target to generate assembly for a file
 src/five-point.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/five-point.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/five-point.cpp.s
 .PHONY : src/five-point.cpp.s
 
 src/fundam.o: src/fundam.cpp.o
@@ -534,7 +534,7 @@ src/fundam.o: src/fundam.cpp.o
 
 # target to build an object file
 src/fundam.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fundam.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fundam.cpp.o
 .PHONY : src/fundam.cpp.o
 
 src/fundam.i: src/fundam.cpp.i
@@ -543,7 +543,7 @@ src/fundam.i: src/fundam.cpp.i
 
 # target to preprocess a source file
 src/fundam.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fundam.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fundam.cpp.i
 .PHONY : src/fundam.cpp.i
 
 src/fundam.s: src/fundam.cpp.s
@@ -552,7 +552,7 @@ src/fundam.s: src/fundam.cpp.s
 
 # target to generate assembly for a file
 src/fundam.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fundam.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/fundam.cpp.s
 .PHONY : src/fundam.cpp.s
 
 src/homography_decomp.o: src/homography_decomp.cpp.o
@@ -561,7 +561,7 @@ src/homography_decomp.o: src/homography_decomp.cpp.o
 
 # target to build an object file
 src/homography_decomp.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/homography_decomp.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/homography_decomp.cpp.o
 .PHONY : src/homography_decomp.cpp.o
 
 src/homography_decomp.i: src/homography_decomp.cpp.i
@@ -570,7 +570,7 @@ src/homography_decomp.i: src/homography_decomp.cpp.i
 
 # target to preprocess a source file
 src/homography_decomp.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/homography_decomp.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/homography_decomp.cpp.i
 .PHONY : src/homography_decomp.cpp.i
 
 src/homography_decomp.s: src/homography_decomp.cpp.s
@@ -579,7 +579,7 @@ src/homography_decomp.s: src/homography_decomp.cpp.s
 
 # target to generate assembly for a file
 src/homography_decomp.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/homography_decomp.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/homography_decomp.cpp.s
 .PHONY : src/homography_decomp.cpp.s
 
 src/levmarq.o: src/levmarq.cpp.o
@@ -588,7 +588,7 @@ src/levmarq.o: src/levmarq.cpp.o
 
 # target to build an object file
 src/levmarq.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/levmarq.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/levmarq.cpp.o
 .PHONY : src/levmarq.cpp.o
 
 src/levmarq.i: src/levmarq.cpp.i
@@ -597,7 +597,7 @@ src/levmarq.i: src/levmarq.cpp.i
 
 # target to preprocess a source file
 src/levmarq.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/levmarq.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/levmarq.cpp.i
 .PHONY : src/levmarq.cpp.i
 
 src/levmarq.s: src/levmarq.cpp.s
@@ -606,7 +606,7 @@ src/levmarq.s: src/levmarq.cpp.s
 
 # target to generate assembly for a file
 src/levmarq.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/levmarq.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/levmarq.cpp.s
 .PHONY : src/levmarq.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -615,7 +615,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/main.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -624,7 +624,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/main.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -633,7 +633,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/main.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/p3p.o: src/p3p.cpp.o
@@ -642,7 +642,7 @@ src/p3p.o: src/p3p.cpp.o
 
 # target to build an object file
 src/p3p.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/p3p.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/p3p.cpp.o
 .PHONY : src/p3p.cpp.o
 
 src/p3p.i: src/p3p.cpp.i
@@ -651,7 +651,7 @@ src/p3p.i: src/p3p.cpp.i
 
 # target to preprocess a source file
 src/p3p.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/p3p.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/p3p.cpp.i
 .PHONY : src/p3p.cpp.i
 
 src/p3p.s: src/p3p.cpp.s
@@ -660,7 +660,7 @@ src/p3p.s: src/p3p.cpp.s
 
 # target to generate assembly for a file
 src/p3p.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/p3p.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/p3p.cpp.s
 .PHONY : src/p3p.cpp.s
 
 src/polynom_solver.o: src/polynom_solver.cpp.o
@@ -669,7 +669,7 @@ src/polynom_solver.o: src/polynom_solver.cpp.o
 
 # target to build an object file
 src/polynom_solver.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/polynom_solver.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/polynom_solver.cpp.o
 .PHONY : src/polynom_solver.cpp.o
 
 src/polynom_solver.i: src/polynom_solver.cpp.i
@@ -678,7 +678,7 @@ src/polynom_solver.i: src/polynom_solver.cpp.i
 
 # target to preprocess a source file
 src/polynom_solver.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/polynom_solver.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/polynom_solver.cpp.i
 .PHONY : src/polynom_solver.cpp.i
 
 src/polynom_solver.s: src/polynom_solver.cpp.s
@@ -687,7 +687,7 @@ src/polynom_solver.s: src/polynom_solver.cpp.s
 
 # target to generate assembly for a file
 src/polynom_solver.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/polynom_solver.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/polynom_solver.cpp.s
 .PHONY : src/polynom_solver.cpp.s
 
 src/posit.o: src/posit.cpp.o
@@ -696,7 +696,7 @@ src/posit.o: src/posit.cpp.o
 
 # target to build an object file
 src/posit.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/posit.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/posit.cpp.o
 .PHONY : src/posit.cpp.o
 
 src/posit.i: src/posit.cpp.i
@@ -705,7 +705,7 @@ src/posit.i: src/posit.cpp.i
 
 # target to preprocess a source file
 src/posit.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/posit.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/posit.cpp.i
 .PHONY : src/posit.cpp.i
 
 src/posit.s: src/posit.cpp.s
@@ -714,7 +714,7 @@ src/posit.s: src/posit.cpp.s
 
 # target to generate assembly for a file
 src/posit.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/posit.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/posit.cpp.s
 .PHONY : src/posit.cpp.s
 
 src/ptsetreg.o: src/ptsetreg.cpp.o
@@ -723,7 +723,7 @@ src/ptsetreg.o: src/ptsetreg.cpp.o
 
 # target to build an object file
 src/ptsetreg.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ptsetreg.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ptsetreg.cpp.o
 .PHONY : src/ptsetreg.cpp.o
 
 src/ptsetreg.i: src/ptsetreg.cpp.i
@@ -732,7 +732,7 @@ src/ptsetreg.i: src/ptsetreg.cpp.i
 
 # target to preprocess a source file
 src/ptsetreg.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ptsetreg.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ptsetreg.cpp.i
 .PHONY : src/ptsetreg.cpp.i
 
 src/ptsetreg.s: src/ptsetreg.cpp.s
@@ -741,7 +741,7 @@ src/ptsetreg.s: src/ptsetreg.cpp.s
 
 # target to generate assembly for a file
 src/ptsetreg.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ptsetreg.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/ptsetreg.cpp.s
 .PHONY : src/ptsetreg.cpp.s
 
 src/quadsubpix.o: src/quadsubpix.cpp.o
@@ -750,7 +750,7 @@ src/quadsubpix.o: src/quadsubpix.cpp.o
 
 # target to build an object file
 src/quadsubpix.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/quadsubpix.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/quadsubpix.cpp.o
 .PHONY : src/quadsubpix.cpp.o
 
 src/quadsubpix.i: src/quadsubpix.cpp.i
@@ -759,7 +759,7 @@ src/quadsubpix.i: src/quadsubpix.cpp.i
 
 # target to preprocess a source file
 src/quadsubpix.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/quadsubpix.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/quadsubpix.cpp.i
 .PHONY : src/quadsubpix.cpp.i
 
 src/quadsubpix.s: src/quadsubpix.cpp.s
@@ -768,7 +768,7 @@ src/quadsubpix.s: src/quadsubpix.cpp.s
 
 # target to generate assembly for a file
 src/quadsubpix.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/quadsubpix.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/quadsubpix.cpp.s
 .PHONY : src/quadsubpix.cpp.s
 
 src/rho.o: src/rho.cpp.o
@@ -777,7 +777,7 @@ src/rho.o: src/rho.cpp.o
 
 # target to build an object file
 src/rho.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/rho.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/rho.cpp.o
 .PHONY : src/rho.cpp.o
 
 src/rho.i: src/rho.cpp.i
@@ -786,7 +786,7 @@ src/rho.i: src/rho.cpp.i
 
 # target to preprocess a source file
 src/rho.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/rho.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/rho.cpp.i
 .PHONY : src/rho.cpp.i
 
 src/rho.s: src/rho.cpp.s
@@ -795,7 +795,7 @@ src/rho.s: src/rho.cpp.s
 
 # target to generate assembly for a file
 src/rho.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/rho.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/rho.cpp.s
 .PHONY : src/rho.cpp.s
 
 src/solvepnp.o: src/solvepnp.cpp.o
@@ -804,7 +804,7 @@ src/solvepnp.o: src/solvepnp.cpp.o
 
 # target to build an object file
 src/solvepnp.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/solvepnp.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/solvepnp.cpp.o
 .PHONY : src/solvepnp.cpp.o
 
 src/solvepnp.i: src/solvepnp.cpp.i
@@ -813,7 +813,7 @@ src/solvepnp.i: src/solvepnp.cpp.i
 
 # target to preprocess a source file
 src/solvepnp.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/solvepnp.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/solvepnp.cpp.i
 .PHONY : src/solvepnp.cpp.i
 
 src/solvepnp.s: src/solvepnp.cpp.s
@@ -822,7 +822,7 @@ src/solvepnp.s: src/solvepnp.cpp.s
 
 # target to generate assembly for a file
 src/solvepnp.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/solvepnp.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/solvepnp.cpp.s
 .PHONY : src/solvepnp.cpp.s
 
 src/stereobm.o: src/stereobm.cpp.o
@@ -831,7 +831,7 @@ src/stereobm.o: src/stereobm.cpp.o
 
 # target to build an object file
 src/stereobm.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereobm.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereobm.cpp.o
 .PHONY : src/stereobm.cpp.o
 
 src/stereobm.i: src/stereobm.cpp.i
@@ -840,7 +840,7 @@ src/stereobm.i: src/stereobm.cpp.i
 
 # target to preprocess a source file
 src/stereobm.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereobm.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereobm.cpp.i
 .PHONY : src/stereobm.cpp.i
 
 src/stereobm.s: src/stereobm.cpp.s
@@ -849,7 +849,7 @@ src/stereobm.s: src/stereobm.cpp.s
 
 # target to generate assembly for a file
 src/stereobm.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereobm.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereobm.cpp.s
 .PHONY : src/stereobm.cpp.s
 
 src/stereosgbm.o: src/stereosgbm.cpp.o
@@ -858,7 +858,7 @@ src/stereosgbm.o: src/stereosgbm.cpp.o
 
 # target to build an object file
 src/stereosgbm.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereosgbm.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereosgbm.cpp.o
 .PHONY : src/stereosgbm.cpp.o
 
 src/stereosgbm.i: src/stereosgbm.cpp.i
@@ -867,7 +867,7 @@ src/stereosgbm.i: src/stereosgbm.cpp.i
 
 # target to preprocess a source file
 src/stereosgbm.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereosgbm.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereosgbm.cpp.i
 .PHONY : src/stereosgbm.cpp.i
 
 src/stereosgbm.s: src/stereosgbm.cpp.s
@@ -876,7 +876,7 @@ src/stereosgbm.s: src/stereosgbm.cpp.s
 
 # target to generate assembly for a file
 src/stereosgbm.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereosgbm.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/stereosgbm.cpp.s
 .PHONY : src/stereosgbm.cpp.s
 
 src/triangulate.o: src/triangulate.cpp.o
@@ -885,7 +885,7 @@ src/triangulate.o: src/triangulate.cpp.o
 
 # target to build an object file
 src/triangulate.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/triangulate.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/triangulate.cpp.o
 .PHONY : src/triangulate.cpp.o
 
 src/triangulate.i: src/triangulate.cpp.i
@@ -894,7 +894,7 @@ src/triangulate.i: src/triangulate.cpp.i
 
 # target to preprocess a source file
 src/triangulate.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/triangulate.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/triangulate.cpp.i
 .PHONY : src/triangulate.cpp.i
 
 src/triangulate.s: src/triangulate.cpp.s
@@ -903,7 +903,7 @@ src/triangulate.s: src/triangulate.cpp.s
 
 # target to generate assembly for a file
 src/triangulate.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/triangulate.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/triangulate.cpp.s
 .PHONY : src/triangulate.cpp.s
 
 src/upnp.o: src/upnp.cpp.o
@@ -912,7 +912,7 @@ src/upnp.o: src/upnp.cpp.o
 
 # target to build an object file
 src/upnp.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/upnp.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/upnp.cpp.o
 .PHONY : src/upnp.cpp.o
 
 src/upnp.i: src/upnp.cpp.i
@@ -921,7 +921,7 @@ src/upnp.i: src/upnp.cpp.i
 
 # target to preprocess a source file
 src/upnp.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/upnp.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/upnp.cpp.i
 .PHONY : src/upnp.cpp.i
 
 src/upnp.s: src/upnp.cpp.s
@@ -930,7 +930,7 @@ src/upnp.s: src/upnp.cpp.s
 
 # target to generate assembly for a file
 src/upnp.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/upnp.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/calib3d/CMakeFiles/opencv_calib3d.dir/build.make modules/calib3d/CMakeFiles/opencv_calib3d.dir/src/upnp.cpp.s
 .PHONY : src/upnp.cpp.s
 
 # Help Target
@@ -1041,6 +1041,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

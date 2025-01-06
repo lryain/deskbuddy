@@ -13,9 +13,9 @@ target_compile_options(krotos_vocoder
 
 target_include_directories(krotos_vocoder
   PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/WwisePlugin>
+#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/WwisePlugin>
   PRIVATE
-  $<BUILD_INTERFACE:${WWISE_SDK_ROOT}/include>
+#   $<BUILD_INTERFACE:${WWISE_SDK_ROOT}/include>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/KrotosDSP>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/PitchTracking>
@@ -23,7 +23,7 @@ target_include_directories(krotos_vocoder
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/PitchTracking/audio-analysis-framework/libraries>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/PitchTracking/PitchTrackingAlgorithms>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Vocoder>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/VocoderFX>
+#   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/VocoderFX>
 )
 
 lrya_build_target_license(krotos_vocoder "Commercial")

@@ -46,7 +46,7 @@ AlexaPlaybackRecognizerComponent::~AlexaPlaybackRecognizerComponent()
   _isInitialized = false;
 
   // Clear sink plugin callback
-  _sinkPlugin->SetPlaybackBufferCallback( nullptr );
+//   _sinkPlugin->SetPlaybackBufferCallback( nullptr );
 
   // Stop Worker thread
   _processThreadStop = true;
@@ -107,8 +107,8 @@ bool AlexaPlaybackRecognizerComponent::Init()
   }
   
   // Setup sink plugin callback
-  _sinkPlugin->SetPlaybackBufferCallback( std::bind( &AlexaPlaybackRecognizerComponent::SinkPluginCallback,
-                                                     this, std::placeholders::_1, std::placeholders::_2 ) );
+//   _sinkPlugin->SetPlaybackBufferCallback( std::bind( &AlexaPlaybackRecognizerComponent::SinkPluginCallback,
+//                                                      this, std::placeholders::_1, std::placeholders::_2 ) );
   _isInitialized = true;
   return _isInitialized;
 }

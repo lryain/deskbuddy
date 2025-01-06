@@ -11,7 +11,7 @@
 #ifndef ENVELOPEDETECTOR_H_INCLUDED
 #define ENVELOPEDETECTOR_H_INCLUDED
 
-#include <AK/SoundEngine/Common/IAkPluginMemAlloc.h>
+// #include <AK/SoundEngine/Common/IAkPluginMemAlloc.h>
 #include "RingBuffer.h"
 
 enum DetectionMode
@@ -33,7 +33,8 @@ public:
     EnvelopeDetector();
 	~EnvelopeDetector();
     
-    void init(AK::IAkPluginMemAlloc* Allocator);
+//     void init(AK::IAkPluginMemAlloc* Allocator);
+    void init();
     
     void setAttackTime(float newAttackTime);
     
@@ -93,7 +94,7 @@ private:
 
 	float* m_delayLine{ NULL };
 
-    AK::IAkPluginMemAlloc* m_allocator{NULL};
+//     AK::IAkPluginMemAlloc* m_allocator{NULL};
 };
 
 

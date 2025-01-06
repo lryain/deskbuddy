@@ -108,7 +108,7 @@ int AcapelaTTS::GetPassword() {
 
 //
 // Returns license string from Acapela. See also
-//   EXTERNALS/anki-thirdparty/acapela/AcapelaTTS_for_LinuxEmbedded_V8.511/license/babile/babjYna.h
+//   EXTERNALS/lrya-thirdparty/acapela/AcapelaTTS_for_LinuxEmbedded_V8.511/license/babile/babjYna.h
 //
 // Note that license string includes embedded quote and newline characters which must be preserved
 // as part of the string.

@@ -7,7 +7,7 @@
  *
  */
 
-#include "util/helpers/ankiDefines.h"
+#include "util/helpers/lryaDefines.h"
 
 #if defined(LRYA_PLATFORM_OSX)
 

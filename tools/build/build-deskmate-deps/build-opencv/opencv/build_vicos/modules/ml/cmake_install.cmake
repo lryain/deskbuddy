@@ -39,8 +39,8 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xlibsx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY OPTIONAL FILES
-    "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_ml.so.3.4.0"
-    "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_ml.so.3.4"
+    "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_ml.so.3.4.0"
+    "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_ml.so.3.4"
     )
   foreach(file
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libopencv_ml.so.3.4.0"
@@ -56,7 +56,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xlibsx" OR NOT CMAKE_INSTALL_COMPONE
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xdevx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_ml.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_ml.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libopencv_ml.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libopencv_ml.so")
     if(CMAKE_INSTALL_DO_STRIP)

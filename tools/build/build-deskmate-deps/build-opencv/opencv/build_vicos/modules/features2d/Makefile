@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos
+CMAKE_BINARY_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -93,7 +93,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && /usr/bin/cpack --config ./CPackConfig.cmake
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && /usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -138,7 +138,7 @@ install/local/fast: preinstall/fast
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CPackSourceConfig.cmake
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -159,14 +159,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/modules/features2d/CMakeFiles/progress.marks
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/features2d/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles 0
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/modules/features2d/CMakeFiles/progress.marks
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/features2d/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/features2d/clean
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/features2d/clean
 .PHONY : clean
 
 # The main clean target
@@ -176,22 +176,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/features2d/preinstall
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/features2d/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/features2d/preinstall
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/features2d/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 modules/features2d/CMakeFiles/opencv_features2d.dir/rule:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/features2d/CMakeFiles/opencv_features2d.dir/rule
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/features2d/CMakeFiles/opencv_features2d.dir/rule
 .PHONY : modules/features2d/CMakeFiles/opencv_features2d.dir/rule
 
 # Convenience name for target.
@@ -201,7 +201,7 @@ opencv_features2d: modules/features2d/CMakeFiles/opencv_features2d.dir/rule
 
 # fast build rule for target.
 opencv_features2d/fast:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/build
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/build
 .PHONY : opencv_features2d/fast
 
 opencl_kernels_features2d.o: opencl_kernels_features2d.cpp.o
@@ -210,7 +210,7 @@ opencl_kernels_features2d.o: opencl_kernels_features2d.cpp.o
 
 # target to build an object file
 opencl_kernels_features2d.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/opencl_kernels_features2d.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/opencl_kernels_features2d.cpp.o
 .PHONY : opencl_kernels_features2d.cpp.o
 
 opencl_kernels_features2d.i: opencl_kernels_features2d.cpp.i
@@ -219,7 +219,7 @@ opencl_kernels_features2d.i: opencl_kernels_features2d.cpp.i
 
 # target to preprocess a source file
 opencl_kernels_features2d.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/opencl_kernels_features2d.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/opencl_kernels_features2d.cpp.i
 .PHONY : opencl_kernels_features2d.cpp.i
 
 opencl_kernels_features2d.s: opencl_kernels_features2d.cpp.s
@@ -228,7 +228,7 @@ opencl_kernels_features2d.s: opencl_kernels_features2d.cpp.s
 
 # target to generate assembly for a file
 opencl_kernels_features2d.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/opencl_kernels_features2d.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/opencl_kernels_features2d.cpp.s
 .PHONY : opencl_kernels_features2d.cpp.s
 
 src/agast.o: src/agast.cpp.o
@@ -237,7 +237,7 @@ src/agast.o: src/agast.cpp.o
 
 # target to build an object file
 src/agast.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast.cpp.o
 .PHONY : src/agast.cpp.o
 
 src/agast.i: src/agast.cpp.i
@@ -246,7 +246,7 @@ src/agast.i: src/agast.cpp.i
 
 # target to preprocess a source file
 src/agast.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast.cpp.i
 .PHONY : src/agast.cpp.i
 
 src/agast.s: src/agast.cpp.s
@@ -255,7 +255,7 @@ src/agast.s: src/agast.cpp.s
 
 # target to generate assembly for a file
 src/agast.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast.cpp.s
 .PHONY : src/agast.cpp.s
 
 src/agast_score.o: src/agast_score.cpp.o
@@ -264,7 +264,7 @@ src/agast_score.o: src/agast_score.cpp.o
 
 # target to build an object file
 src/agast_score.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast_score.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast_score.cpp.o
 .PHONY : src/agast_score.cpp.o
 
 src/agast_score.i: src/agast_score.cpp.i
@@ -273,7 +273,7 @@ src/agast_score.i: src/agast_score.cpp.i
 
 # target to preprocess a source file
 src/agast_score.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast_score.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast_score.cpp.i
 .PHONY : src/agast_score.cpp.i
 
 src/agast_score.s: src/agast_score.cpp.s
@@ -282,7 +282,7 @@ src/agast_score.s: src/agast_score.cpp.s
 
 # target to generate assembly for a file
 src/agast_score.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast_score.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/agast_score.cpp.s
 .PHONY : src/agast_score.cpp.s
 
 src/akaze.o: src/akaze.cpp.o
@@ -291,7 +291,7 @@ src/akaze.o: src/akaze.cpp.o
 
 # target to build an object file
 src/akaze.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/akaze.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/akaze.cpp.o
 .PHONY : src/akaze.cpp.o
 
 src/akaze.i: src/akaze.cpp.i
@@ -300,7 +300,7 @@ src/akaze.i: src/akaze.cpp.i
 
 # target to preprocess a source file
 src/akaze.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/akaze.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/akaze.cpp.i
 .PHONY : src/akaze.cpp.i
 
 src/akaze.s: src/akaze.cpp.s
@@ -309,7 +309,7 @@ src/akaze.s: src/akaze.cpp.s
 
 # target to generate assembly for a file
 src/akaze.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/akaze.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/akaze.cpp.s
 .PHONY : src/akaze.cpp.s
 
 src/bagofwords.o: src/bagofwords.cpp.o
@@ -318,7 +318,7 @@ src/bagofwords.o: src/bagofwords.cpp.o
 
 # target to build an object file
 src/bagofwords.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/bagofwords.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/bagofwords.cpp.o
 .PHONY : src/bagofwords.cpp.o
 
 src/bagofwords.i: src/bagofwords.cpp.i
@@ -327,7 +327,7 @@ src/bagofwords.i: src/bagofwords.cpp.i
 
 # target to preprocess a source file
 src/bagofwords.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/bagofwords.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/bagofwords.cpp.i
 .PHONY : src/bagofwords.cpp.i
 
 src/bagofwords.s: src/bagofwords.cpp.s
@@ -336,7 +336,7 @@ src/bagofwords.s: src/bagofwords.cpp.s
 
 # target to generate assembly for a file
 src/bagofwords.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/bagofwords.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/bagofwords.cpp.s
 .PHONY : src/bagofwords.cpp.s
 
 src/blobdetector.o: src/blobdetector.cpp.o
@@ -345,7 +345,7 @@ src/blobdetector.o: src/blobdetector.cpp.o
 
 # target to build an object file
 src/blobdetector.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/blobdetector.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/blobdetector.cpp.o
 .PHONY : src/blobdetector.cpp.o
 
 src/blobdetector.i: src/blobdetector.cpp.i
@@ -354,7 +354,7 @@ src/blobdetector.i: src/blobdetector.cpp.i
 
 # target to preprocess a source file
 src/blobdetector.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/blobdetector.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/blobdetector.cpp.i
 .PHONY : src/blobdetector.cpp.i
 
 src/blobdetector.s: src/blobdetector.cpp.s
@@ -363,7 +363,7 @@ src/blobdetector.s: src/blobdetector.cpp.s
 
 # target to generate assembly for a file
 src/blobdetector.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/blobdetector.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/blobdetector.cpp.s
 .PHONY : src/blobdetector.cpp.s
 
 src/brisk.o: src/brisk.cpp.o
@@ -372,7 +372,7 @@ src/brisk.o: src/brisk.cpp.o
 
 # target to build an object file
 src/brisk.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/brisk.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/brisk.cpp.o
 .PHONY : src/brisk.cpp.o
 
 src/brisk.i: src/brisk.cpp.i
@@ -381,7 +381,7 @@ src/brisk.i: src/brisk.cpp.i
 
 # target to preprocess a source file
 src/brisk.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/brisk.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/brisk.cpp.i
 .PHONY : src/brisk.cpp.i
 
 src/brisk.s: src/brisk.cpp.s
@@ -390,7 +390,7 @@ src/brisk.s: src/brisk.cpp.s
 
 # target to generate assembly for a file
 src/brisk.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/brisk.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/brisk.cpp.s
 .PHONY : src/brisk.cpp.s
 
 src/draw.o: src/draw.cpp.o
@@ -399,7 +399,7 @@ src/draw.o: src/draw.cpp.o
 
 # target to build an object file
 src/draw.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/draw.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/draw.cpp.o
 .PHONY : src/draw.cpp.o
 
 src/draw.i: src/draw.cpp.i
@@ -408,7 +408,7 @@ src/draw.i: src/draw.cpp.i
 
 # target to preprocess a source file
 src/draw.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/draw.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/draw.cpp.i
 .PHONY : src/draw.cpp.i
 
 src/draw.s: src/draw.cpp.s
@@ -417,7 +417,7 @@ src/draw.s: src/draw.cpp.s
 
 # target to generate assembly for a file
 src/draw.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/draw.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/draw.cpp.s
 .PHONY : src/draw.cpp.s
 
 src/dynamic.o: src/dynamic.cpp.o
@@ -426,7 +426,7 @@ src/dynamic.o: src/dynamic.cpp.o
 
 # target to build an object file
 src/dynamic.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/dynamic.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/dynamic.cpp.o
 .PHONY : src/dynamic.cpp.o
 
 src/dynamic.i: src/dynamic.cpp.i
@@ -435,7 +435,7 @@ src/dynamic.i: src/dynamic.cpp.i
 
 # target to preprocess a source file
 src/dynamic.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/dynamic.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/dynamic.cpp.i
 .PHONY : src/dynamic.cpp.i
 
 src/dynamic.s: src/dynamic.cpp.s
@@ -444,7 +444,7 @@ src/dynamic.s: src/dynamic.cpp.s
 
 # target to generate assembly for a file
 src/dynamic.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/dynamic.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/dynamic.cpp.s
 .PHONY : src/dynamic.cpp.s
 
 src/evaluation.o: src/evaluation.cpp.o
@@ -453,7 +453,7 @@ src/evaluation.o: src/evaluation.cpp.o
 
 # target to build an object file
 src/evaluation.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/evaluation.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/evaluation.cpp.o
 .PHONY : src/evaluation.cpp.o
 
 src/evaluation.i: src/evaluation.cpp.i
@@ -462,7 +462,7 @@ src/evaluation.i: src/evaluation.cpp.i
 
 # target to preprocess a source file
 src/evaluation.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/evaluation.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/evaluation.cpp.i
 .PHONY : src/evaluation.cpp.i
 
 src/evaluation.s: src/evaluation.cpp.s
@@ -471,7 +471,7 @@ src/evaluation.s: src/evaluation.cpp.s
 
 # target to generate assembly for a file
 src/evaluation.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/evaluation.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/evaluation.cpp.s
 .PHONY : src/evaluation.cpp.s
 
 src/fast.o: src/fast.cpp.o
@@ -480,7 +480,7 @@ src/fast.o: src/fast.cpp.o
 
 # target to build an object file
 src/fast.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast.cpp.o
 .PHONY : src/fast.cpp.o
 
 src/fast.i: src/fast.cpp.i
@@ -489,7 +489,7 @@ src/fast.i: src/fast.cpp.i
 
 # target to preprocess a source file
 src/fast.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast.cpp.i
 .PHONY : src/fast.cpp.i
 
 src/fast.s: src/fast.cpp.s
@@ -498,7 +498,7 @@ src/fast.s: src/fast.cpp.s
 
 # target to generate assembly for a file
 src/fast.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast.cpp.s
 .PHONY : src/fast.cpp.s
 
 src/fast_score.o: src/fast_score.cpp.o
@@ -507,7 +507,7 @@ src/fast_score.o: src/fast_score.cpp.o
 
 # target to build an object file
 src/fast_score.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast_score.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast_score.cpp.o
 .PHONY : src/fast_score.cpp.o
 
 src/fast_score.i: src/fast_score.cpp.i
@@ -516,7 +516,7 @@ src/fast_score.i: src/fast_score.cpp.i
 
 # target to preprocess a source file
 src/fast_score.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast_score.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast_score.cpp.i
 .PHONY : src/fast_score.cpp.i
 
 src/fast_score.s: src/fast_score.cpp.s
@@ -525,7 +525,7 @@ src/fast_score.s: src/fast_score.cpp.s
 
 # target to generate assembly for a file
 src/fast_score.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast_score.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/fast_score.cpp.s
 .PHONY : src/fast_score.cpp.s
 
 src/feature2d.o: src/feature2d.cpp.o
@@ -534,7 +534,7 @@ src/feature2d.o: src/feature2d.cpp.o
 
 # target to build an object file
 src/feature2d.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/feature2d.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/feature2d.cpp.o
 .PHONY : src/feature2d.cpp.o
 
 src/feature2d.i: src/feature2d.cpp.i
@@ -543,7 +543,7 @@ src/feature2d.i: src/feature2d.cpp.i
 
 # target to preprocess a source file
 src/feature2d.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/feature2d.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/feature2d.cpp.i
 .PHONY : src/feature2d.cpp.i
 
 src/feature2d.s: src/feature2d.cpp.s
@@ -552,7 +552,7 @@ src/feature2d.s: src/feature2d.cpp.s
 
 # target to generate assembly for a file
 src/feature2d.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/feature2d.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/feature2d.cpp.s
 .PHONY : src/feature2d.cpp.s
 
 src/gftt.o: src/gftt.cpp.o
@@ -561,7 +561,7 @@ src/gftt.o: src/gftt.cpp.o
 
 # target to build an object file
 src/gftt.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/gftt.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/gftt.cpp.o
 .PHONY : src/gftt.cpp.o
 
 src/gftt.i: src/gftt.cpp.i
@@ -570,7 +570,7 @@ src/gftt.i: src/gftt.cpp.i
 
 # target to preprocess a source file
 src/gftt.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/gftt.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/gftt.cpp.i
 .PHONY : src/gftt.cpp.i
 
 src/gftt.s: src/gftt.cpp.s
@@ -579,7 +579,7 @@ src/gftt.s: src/gftt.cpp.s
 
 # target to generate assembly for a file
 src/gftt.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/gftt.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/gftt.cpp.s
 .PHONY : src/gftt.cpp.s
 
 src/kaze.o: src/kaze.cpp.o
@@ -588,7 +588,7 @@ src/kaze.o: src/kaze.cpp.o
 
 # target to build an object file
 src/kaze.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze.cpp.o
 .PHONY : src/kaze.cpp.o
 
 src/kaze.i: src/kaze.cpp.i
@@ -597,7 +597,7 @@ src/kaze.i: src/kaze.cpp.i
 
 # target to preprocess a source file
 src/kaze.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze.cpp.i
 .PHONY : src/kaze.cpp.i
 
 src/kaze.s: src/kaze.cpp.s
@@ -606,7 +606,7 @@ src/kaze.s: src/kaze.cpp.s
 
 # target to generate assembly for a file
 src/kaze.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze.cpp.s
 .PHONY : src/kaze.cpp.s
 
 src/kaze/AKAZEFeatures.o: src/kaze/AKAZEFeatures.cpp.o
@@ -615,7 +615,7 @@ src/kaze/AKAZEFeatures.o: src/kaze/AKAZEFeatures.cpp.o
 
 # target to build an object file
 src/kaze/AKAZEFeatures.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/AKAZEFeatures.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/AKAZEFeatures.cpp.o
 .PHONY : src/kaze/AKAZEFeatures.cpp.o
 
 src/kaze/AKAZEFeatures.i: src/kaze/AKAZEFeatures.cpp.i
@@ -624,7 +624,7 @@ src/kaze/AKAZEFeatures.i: src/kaze/AKAZEFeatures.cpp.i
 
 # target to preprocess a source file
 src/kaze/AKAZEFeatures.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/AKAZEFeatures.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/AKAZEFeatures.cpp.i
 .PHONY : src/kaze/AKAZEFeatures.cpp.i
 
 src/kaze/AKAZEFeatures.s: src/kaze/AKAZEFeatures.cpp.s
@@ -633,7 +633,7 @@ src/kaze/AKAZEFeatures.s: src/kaze/AKAZEFeatures.cpp.s
 
 # target to generate assembly for a file
 src/kaze/AKAZEFeatures.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/AKAZEFeatures.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/AKAZEFeatures.cpp.s
 .PHONY : src/kaze/AKAZEFeatures.cpp.s
 
 src/kaze/KAZEFeatures.o: src/kaze/KAZEFeatures.cpp.o
@@ -642,7 +642,7 @@ src/kaze/KAZEFeatures.o: src/kaze/KAZEFeatures.cpp.o
 
 # target to build an object file
 src/kaze/KAZEFeatures.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/KAZEFeatures.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/KAZEFeatures.cpp.o
 .PHONY : src/kaze/KAZEFeatures.cpp.o
 
 src/kaze/KAZEFeatures.i: src/kaze/KAZEFeatures.cpp.i
@@ -651,7 +651,7 @@ src/kaze/KAZEFeatures.i: src/kaze/KAZEFeatures.cpp.i
 
 # target to preprocess a source file
 src/kaze/KAZEFeatures.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/KAZEFeatures.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/KAZEFeatures.cpp.i
 .PHONY : src/kaze/KAZEFeatures.cpp.i
 
 src/kaze/KAZEFeatures.s: src/kaze/KAZEFeatures.cpp.s
@@ -660,7 +660,7 @@ src/kaze/KAZEFeatures.s: src/kaze/KAZEFeatures.cpp.s
 
 # target to generate assembly for a file
 src/kaze/KAZEFeatures.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/KAZEFeatures.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/KAZEFeatures.cpp.s
 .PHONY : src/kaze/KAZEFeatures.cpp.s
 
 src/kaze/fed.o: src/kaze/fed.cpp.o
@@ -669,7 +669,7 @@ src/kaze/fed.o: src/kaze/fed.cpp.o
 
 # target to build an object file
 src/kaze/fed.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/fed.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/fed.cpp.o
 .PHONY : src/kaze/fed.cpp.o
 
 src/kaze/fed.i: src/kaze/fed.cpp.i
@@ -678,7 +678,7 @@ src/kaze/fed.i: src/kaze/fed.cpp.i
 
 # target to preprocess a source file
 src/kaze/fed.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/fed.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/fed.cpp.i
 .PHONY : src/kaze/fed.cpp.i
 
 src/kaze/fed.s: src/kaze/fed.cpp.s
@@ -687,7 +687,7 @@ src/kaze/fed.s: src/kaze/fed.cpp.s
 
 # target to generate assembly for a file
 src/kaze/fed.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/fed.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/fed.cpp.s
 .PHONY : src/kaze/fed.cpp.s
 
 src/kaze/nldiffusion_functions.o: src/kaze/nldiffusion_functions.cpp.o
@@ -696,7 +696,7 @@ src/kaze/nldiffusion_functions.o: src/kaze/nldiffusion_functions.cpp.o
 
 # target to build an object file
 src/kaze/nldiffusion_functions.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/nldiffusion_functions.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/nldiffusion_functions.cpp.o
 .PHONY : src/kaze/nldiffusion_functions.cpp.o
 
 src/kaze/nldiffusion_functions.i: src/kaze/nldiffusion_functions.cpp.i
@@ -705,7 +705,7 @@ src/kaze/nldiffusion_functions.i: src/kaze/nldiffusion_functions.cpp.i
 
 # target to preprocess a source file
 src/kaze/nldiffusion_functions.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/nldiffusion_functions.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/nldiffusion_functions.cpp.i
 .PHONY : src/kaze/nldiffusion_functions.cpp.i
 
 src/kaze/nldiffusion_functions.s: src/kaze/nldiffusion_functions.cpp.s
@@ -714,7 +714,7 @@ src/kaze/nldiffusion_functions.s: src/kaze/nldiffusion_functions.cpp.s
 
 # target to generate assembly for a file
 src/kaze/nldiffusion_functions.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/nldiffusion_functions.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/kaze/nldiffusion_functions.cpp.s
 .PHONY : src/kaze/nldiffusion_functions.cpp.s
 
 src/keypoint.o: src/keypoint.cpp.o
@@ -723,7 +723,7 @@ src/keypoint.o: src/keypoint.cpp.o
 
 # target to build an object file
 src/keypoint.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/keypoint.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/keypoint.cpp.o
 .PHONY : src/keypoint.cpp.o
 
 src/keypoint.i: src/keypoint.cpp.i
@@ -732,7 +732,7 @@ src/keypoint.i: src/keypoint.cpp.i
 
 # target to preprocess a source file
 src/keypoint.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/keypoint.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/keypoint.cpp.i
 .PHONY : src/keypoint.cpp.i
 
 src/keypoint.s: src/keypoint.cpp.s
@@ -741,7 +741,7 @@ src/keypoint.s: src/keypoint.cpp.s
 
 # target to generate assembly for a file
 src/keypoint.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/keypoint.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/keypoint.cpp.s
 .PHONY : src/keypoint.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -750,7 +750,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/main.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -759,7 +759,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/main.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -768,7 +768,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/main.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/matchers.o: src/matchers.cpp.o
@@ -777,7 +777,7 @@ src/matchers.o: src/matchers.cpp.o
 
 # target to build an object file
 src/matchers.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/matchers.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/matchers.cpp.o
 .PHONY : src/matchers.cpp.o
 
 src/matchers.i: src/matchers.cpp.i
@@ -786,7 +786,7 @@ src/matchers.i: src/matchers.cpp.i
 
 # target to preprocess a source file
 src/matchers.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/matchers.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/matchers.cpp.i
 .PHONY : src/matchers.cpp.i
 
 src/matchers.s: src/matchers.cpp.s
@@ -795,7 +795,7 @@ src/matchers.s: src/matchers.cpp.s
 
 # target to generate assembly for a file
 src/matchers.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/matchers.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/matchers.cpp.s
 .PHONY : src/matchers.cpp.s
 
 src/mser.o: src/mser.cpp.o
@@ -804,7 +804,7 @@ src/mser.o: src/mser.cpp.o
 
 # target to build an object file
 src/mser.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/mser.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/mser.cpp.o
 .PHONY : src/mser.cpp.o
 
 src/mser.i: src/mser.cpp.i
@@ -813,7 +813,7 @@ src/mser.i: src/mser.cpp.i
 
 # target to preprocess a source file
 src/mser.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/mser.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/mser.cpp.i
 .PHONY : src/mser.cpp.i
 
 src/mser.s: src/mser.cpp.s
@@ -822,7 +822,7 @@ src/mser.s: src/mser.cpp.s
 
 # target to generate assembly for a file
 src/mser.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/mser.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/mser.cpp.s
 .PHONY : src/mser.cpp.s
 
 src/orb.o: src/orb.cpp.o
@@ -831,7 +831,7 @@ src/orb.o: src/orb.cpp.o
 
 # target to build an object file
 src/orb.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/orb.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/orb.cpp.o
 .PHONY : src/orb.cpp.o
 
 src/orb.i: src/orb.cpp.i
@@ -840,7 +840,7 @@ src/orb.i: src/orb.cpp.i
 
 # target to preprocess a source file
 src/orb.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/orb.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/orb.cpp.i
 .PHONY : src/orb.cpp.i
 
 src/orb.s: src/orb.cpp.s
@@ -849,7 +849,7 @@ src/orb.s: src/orb.cpp.s
 
 # target to generate assembly for a file
 src/orb.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/orb.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/features2d/CMakeFiles/opencv_features2d.dir/build.make modules/features2d/CMakeFiles/opencv_features2d.dir/src/orb.cpp.s
 .PHONY : src/orb.cpp.s
 
 # Help Target
@@ -951,6 +951,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

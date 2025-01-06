@@ -19,41 +19,42 @@ EnvelopeDetector::~EnvelopeDetector()
 {
 	if (m_rmsWindow != NULL)
 	{
-        AK_PLUGIN_DELETE(m_allocator, m_rmsWindow);
+        // AK_PLUGIN_DELETE(m_allocator, m_rmsWindow);
         m_rmsWindow = NULL;
 	}
 
 	if (m_rmsHistoryWindow != NULL)
 	{
-        AK_PLUGIN_DELETE(m_allocator, m_rmsHistoryWindow);
+        // AK_PLUGIN_DELETE(m_allocator, m_rmsHistoryWindow);
         m_rmsHistoryWindow = NULL;
 	}
 
 	if (m_delayLine != NULL)
 	{
-        AK_PLUGIN_FREE(m_allocator, m_delayLine);
+        // AK_PLUGIN_FREE(m_allocator, m_delayLine);
         m_delayLine = NULL;
 	}
 
 }
 
-void EnvelopeDetector::init(AK::IAkPluginMemAlloc* Allocator)
+// void EnvelopeDetector::init(AK::IAkPluginMemAlloc* Allocator)
+void EnvelopeDetector::init()
 {
-    m_rmsWindow = AK_PLUGIN_NEW(Allocator, RingBuffer(MAX_BUFFER_SIZE, Allocator));
-    m_rmsWindow->clear(0.0f);
+//     m_rmsWindow = AK_PLUGIN_NEW(Allocator, RingBuffer(MAX_BUFFER_SIZE, Allocator));
+//     m_rmsWindow->clear(0.0f);
 
-    m_rmsHistoryWindow = AK_PLUGIN_NEW(Allocator, RingBuffer(MAX_LOOKAHEAD, Allocator));
-    m_rmsHistoryWindow->clear(0.0f);
+//     m_rmsHistoryWindow = AK_PLUGIN_NEW(Allocator, RingBuffer(MAX_LOOKAHEAD, Allocator));
+//     m_rmsHistoryWindow->clear(0.0f);
     
-    m_inputBuffer = NULL;
+//     m_inputBuffer = NULL;
     
-    m_delayLine = (float*)AK_PLUGIN_ALLOC(Allocator, sizeof(float)*MAX_LOOKAHEAD);
-    for (int i = 0; i<MAX_LOOKAHEAD; ++i)
-    {
-        m_delayLine[i] = 0.0f;
-    }
+//     m_delayLine = (float*)AK_PLUGIN_ALLOC(Allocator, sizeof(float)*MAX_LOOKAHEAD);
+//     for (int i = 0; i<MAX_LOOKAHEAD; ++i)
+//     {
+//         m_delayLine[i] = 0.0f;
+//     }
     
-    m_allocator = Allocator;
+//     m_allocator = Allocator;
 }
 
 void EnvelopeDetector::setAttackTime(float newAttackTime)

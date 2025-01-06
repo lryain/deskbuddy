@@ -22,7 +22,8 @@ public:
     Yin (double sampleRate, int bufferSize);
     ~Yin();
     
-    void prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator);
+//     void prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator);
+    void prepareToPlay(float sampleRate, int blockSize);
     float processBlockAndGetPitch(vector<float> buffer);
 	
 	float processBlockAndGetPitch(float* fftBuffer);

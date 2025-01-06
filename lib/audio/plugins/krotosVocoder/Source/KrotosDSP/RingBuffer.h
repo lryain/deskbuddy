@@ -15,14 +15,15 @@ Author:  KrotosMacMini
 
 #include <cstring>
 #include <memory>
-#include <AK/SoundEngine/Common/IAkPluginMemAlloc.h>
+// #include <AK/SoundEngine/Common/IAkPluginMemAlloc.h>
 
 /** Ring buffer helper class
  */
 class RingBuffer
 {
 public:    
-    RingBuffer(int size, AK::IAkPluginMemAlloc* Allocator);
+//     RingBuffer(int size, AK::IAkPluginMemAlloc* Allocator);
+    RingBuffer();
     ~RingBuffer();
     int getLength();
     void write(float value);
@@ -37,7 +38,7 @@ private:
     int m_readHead {0};
     int m_writeHead{0};
     
-    AK::IAkPluginMemAlloc* m_allocator{NULL};
+//     AK::IAkPluginMemAlloc* m_allocator{NULL};
 };
 
 

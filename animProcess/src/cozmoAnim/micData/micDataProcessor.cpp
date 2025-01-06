@@ -13,9 +13,9 @@
 
 
 // Signal Essence Includes
-#include "mmif.h"
-#include "policy_actions.h"
-#include "se_diag.h"
+// #include "mmif.h"
+// #include "policy_actions.h"
+// #include "se_diag.h"
 
 #include "cozmoAnim/animContext.h"
 #include "cozmoAnim/animProcessMessages.h"
@@ -32,7 +32,7 @@
 #include "util/console/consoleFunction.h"
 #include "util/cpuProfiler/cpuProfiler.h"
 #include "util/fileUtils/fileUtils.h"
-#include "util/helpers/ankiDefines.h"
+#include "util/helpers/lryaDefines.h"
 #include "util/logging/logging.h"
 #include "util/math/math.h"
 #include "util/threading/threadPriority.h"
@@ -114,16 +114,17 @@ MicDataProcessor::MicDataProcessor(const Anim::AnimContext* context, MicDataSyst
 , _beatDetector(std::make_unique<BeatDetector>())
 {
   // Init the various SE processing
-  MMIfInit(0, nullptr);
+//   TODO: 替换 SE
+//   MMIfInit(0, nullptr);
   InitVAD();
 
   // Cache off the indices of the SE processing variables we will be accessing
-  _bestSearchBeamIndex = SEDiagGetIndex("fdsearch_best_beam_index");
-  _bestSearchBeamConfidence = SEDiagGetIndex("fdsearch_best_beam_confidence");
-  _selectedSearchBeamIndex = SEDiagGetIndex("search_result_best_beam_index");
-  _selectedSearchBeamConfidence = SEDiagGetIndex("search_result_best_beam_confidence");
-  _searchConfidenceState = SEDiagGetIndex("fdsearch_confidence_state");
-  _policyFallbackFlag = SEDiagGetIndex("policy_fallback_flag");
+//   _bestSearchBeamIndex = SEDiagGetIndex("fdsearch_best_beam_index");
+//   _bestSearchBeamConfidence = SEDiagGetIndex("fdsearch_best_beam_confidence");
+//   _selectedSearchBeamIndex = SEDiagGetIndex("search_result_best_beam_index");
+//   _selectedSearchBeamConfidence = SEDiagGetIndex("search_result_best_beam_confidence");
+//   _searchConfidenceState = SEDiagGetIndex("fdsearch_confidence_state");
+//   _policyFallbackFlag = SEDiagGetIndex("policy_fallback_flag");
   
   SetupConsoleFuncs();
 }
@@ -148,14 +149,14 @@ void MicDataProcessor::Init()
 
 void MicDataProcessor::InitVAD()
 {
-  _sVadConfig.reset(new SVadConfig_t());
-  _sVadObject.reset(new SVadObject_t());
+//   _sVadConfig.reset(new SVadConfig_t());
+//   _sVadObject.reset(new SVadObject_t());
 
-  /* set up VAD */
-  SVadSetDefaultConfig(_sVadConfig.get(), kSamplesPerBlockPerChannel, (float)AudioUtil::kSampleRate_hz);
-  _sVadConfig->AbsThreshold = 250.0f; // was 400
-  _sVadConfig->HangoverCountDownStart = 10;  // was 25, make 25 blocks (1/4 second) to see it actually end a couple times
-  SVadInit(_sVadObject.get(), _sVadConfig.get());
+//   /* set up VAD */
+//   SVadSetDefaultConfig(_sVadConfig.get(), kSamplesPerBlockPerChannel, (float)AudioUtil::kSampleRate_hz);
+//   _sVadConfig->AbsThreshold = 250.0f; // was 400
+//   _sVadConfig->HangoverCountDownStart = 10;  // was 25, make 25 blocks (1/4 second) to see it actually end a couple times
+//   SVadInit(_sVadObject.get(), _sVadConfig.get());
 }
 
 void MicDataProcessor::VoiceTriggerWordDetection(const AudioUtil::SpeechRecognizerCallbackInfo& info)
@@ -378,7 +379,7 @@ MicDataProcessor::~MicDataProcessor()
   _processThread.join();
   _processTriggerThread.join();
 
-  MMIfDestroy();
+//   MMIfDestroy();
 }
 
 void MicDataProcessor::ProcessRawAudio(RobotTimeStamp_t timestamp,
@@ -461,7 +462,7 @@ MicDirectionData MicDataProcessor::ProcessMicrophonesSE(const AudioUtil::AudioSa
                                                         float robotAngle)
 {
   std::lock_guard<std::mutex> lock(_seInteractMutex);
-  PolicySetAbsoluteOrientation(robotAngle);
+//   PolicySetAbsoluteOrientation(robotAngle);
   // Note that currently we are only monitoring the moving flag. We _could_ also discard mic data when the robot
   // is picked up, but that is being evaluated with design before implementation, see VIC-1219
   const bool robotIsMoving = static_cast<bool>(robotStatus & (uint32_t)RobotStatusFlag::IS_MOVING);
@@ -491,7 +492,7 @@ MicDirectionData MicDataProcessor::ProcessMicrophonesSE(const AudioUtil::AudioSa
   {
     // When the robot has stopped moving (and the gears are no longer making noise) or the speaker has just
     // stopped playing audio, we reset the mic direction confidence values to be based on non-noisy data
-    MMIfResetLocationSearch();
+//     MMIfResetLocationSearch();
   }
 
   // We only care about checking one channel, and since the channel data is uninterleaved when passed in here,
@@ -506,12 +507,12 @@ MicDirectionData MicDataProcessor::ProcessMicrophonesSE(const AudioUtil::AudioSa
     // of always thinking we hear a voice when the robot moves or plays audio from the speaker, so we maximize our
     // chances of hearing any triggers over the noise. So when the robot is moving, ignore the VAD, and instead just set
     // activity to true.
-    const float vadConfidence = 1.0f;
-    activityFlag = DoSVad(_sVadObject.get(),           // object
-                          vadConfidence,               // confidence it is okay to measure noise floor, i.e. no known activity like gear noise
-                          (int16_t*)audioChunk);       // pointer to input data
-    latestPowerValue = _sVadObject->AvePowerInBlock;
-    latestNoiseFloor = _sVadObject->NoiseFloor;
+//     const float vadConfidence = 1.0f;
+//     activityFlag = DoSVad(_sVadObject.get(),           // object
+//                           vadConfidence,               // confidence it is okay to measure noise floor, i.e. no known activity like gear noise
+//                           (int16_t*)audioChunk);       // pointer to input data
+//     latestPowerValue = _sVadObject->AvePowerInBlock;
+//     latestNoiseFloor = _sVadObject->NoiseFloor;
   
     if (hasRobotNoise)
     {
@@ -623,13 +624,13 @@ MicDirectionData MicDataProcessor::ProcessMicrophonesSE(const AudioUtil::AudioSa
     case ProcessingState::SigEsBeamformingOn:
     {
       // Signal Essense Processing
-      static const std::array<
-          AudioUtil::AudioSample, 
-          kSamplesPerBlockPerChannel * kNumInputChannels> dummySpeakerOut{};
+//       static const std::array<
+//           AudioUtil::AudioSample, 
+//           kSamplesPerBlockPerChannel * kNumInputChannels> dummySpeakerOut{};
       {
         LRYA_CPU_PROFILE("ProcessMicrophonesSE");
         // Process the current audio block with SE software
-        MMIfProcessMicrophones(dummySpeakerOut.data(), audioChunk, bufferOut);
+        // MMIfProcessMicrophones(dummySpeakerOut.data(), audioChunk, bufferOut);
       }
       directionIsAvailable = true;
       break;
@@ -649,19 +650,19 @@ MicDirectionData MicDataProcessor::ProcessMicrophonesSE(const AudioUtil::AudioSa
   }
   else
   {
-    const auto latestDirection = SEDiagGetUInt16(_bestSearchBeamIndex);
-    const auto latestConf = SEDiagGetInt16(_bestSearchBeamConfidence);
-    const auto selectedDirection = SEDiagGetUInt16(_selectedSearchBeamIndex);
-    const auto selectedConf = SEDiagGetInt16(_selectedSearchBeamConfidence);
-    const auto* searchConfState = SEDiagGet(_searchConfidenceState);
-    result.winningDirection = latestDirection;
-    result.winningConfidence = latestConf;
-    result.selectedDirection = selectedDirection;
-    result.selectedConfidence = selectedConf;
-    const auto* confListSrc = reinterpret_cast<const float*>(searchConfState->u.vp);
-    // NOTE currently SE only calculates the 12 main directions (not "unknown" or directly above the mics)
-    // so we only copy the 12 main directions
-    std::copy(confListSrc, confListSrc + kLastValidIndex + 1, result.confidenceList.begin());
+//     const auto latestDirection = SEDiagGetUInt16(_bestSearchBeamIndex);
+//     const auto latestConf = SEDiagGetInt16(_bestSearchBeamConfidence);
+//     const auto selectedDirection = SEDiagGetUInt16(_selectedSearchBeamIndex);
+//     const auto selectedConf = SEDiagGetInt16(_selectedSearchBeamConfidence);
+//     const auto* searchConfState = SEDiagGet(_searchConfidenceState);
+//     result.winningDirection = latestDirection;
+//     result.winningConfidence = latestConf;
+//     result.selectedDirection = selectedDirection;
+//     result.selectedConfidence = selectedConf;
+//     const auto* confListSrc = reinterpret_cast<const float*>(searchConfState->u.vp);
+//     // NOTE currently SE only calculates the 12 main directions (not "unknown" or directly above the mics)
+//     // so we only copy the 12 main directions
+//     std::copy(confListSrc, confListSrc + kLastValidIndex + 1, result.confidenceList.begin());
   }
   return result;
 }
@@ -848,7 +849,7 @@ void MicDataProcessor::MuteMics(bool mute)
 void MicDataProcessor::ResetMicListenDirection()
 {
   std::lock_guard<std::mutex> lock(_seInteractMutex);
-  PolicyDoAutoSearch();
+//   PolicyDoAutoSearch();
 }
 
 float MicDataProcessor::GetIncomingMicDataPercentUsed()
@@ -867,13 +868,13 @@ float MicDataProcessor::GetIncomingMicDataPercentUsed()
 void MicDataProcessor::SetActiveMicDataProcessingState(MicDataProcessor::ProcessingState state)
 {
   // Set the correct flag for Signal Essence lib version
-#if SE_V009
-  // v009
-  static const FallbackFlag_t kEcho_Cancel_Flag = FBF_FORCE_ECHO_CANCEL_WITH_NR;
-#else
-  // v008
-  static const FallbackFlag_t kEcho_Cancel_Flag = FBF_FORCE_ECHO_CANCEL;
-#endif
+// #if SE_V009
+//   // v009
+//   static const FallbackFlag_t kEcho_Cancel_Flag = FBF_FORCE_ECHO_CANCEL_WITH_NR;
+// #else
+//   // v008
+//   static const FallbackFlag_t kEcho_Cancel_Flag = FBF_FORCE_ECHO_CANCEL;
+// #endif
   
   if (state != _activeProcState) {
     if (ENABLE_MIC_PROCESSING_STATE_UPDATE_LOG) {
@@ -889,9 +890,10 @@ void MicDataProcessor::SetActiveMicDataProcessingState(MicDataProcessor::Process
       case ProcessingState::SigEsBeamformingOff:
       case ProcessingState::SigEsBeamformingOn:
       {
-        const bool shouldUseFallbackPolicy = (state == ProcessingState::SigEsBeamformingOff);
-        const FallbackFlag_t policySetting = shouldUseFallbackPolicy ? kEcho_Cancel_Flag : FBF_AUTO_SELECT;
-        SEDiagSetEnumAsInt(_policyFallbackFlag, policySetting);
+        // const bool shouldUseFallbackPolicy = (state == ProcessingState::SigEsBeamformingOff);
+        // const FallbackFlag_t policySetting = shouldUseFallbackPolicy ? kEcho_Cancel_Flag : FBF_AUTO_SELECT;
+        // printf("policySetting: %d", policySetting);
+        // SEDiagSetEnumAsInt(_policyFallbackFlag, policySetting);
         break;
       }
     }

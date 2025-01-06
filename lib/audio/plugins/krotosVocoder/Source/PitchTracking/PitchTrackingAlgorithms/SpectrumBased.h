@@ -24,7 +24,8 @@ public:
     SpectrumBased();
     ~SpectrumBased();
 
-    void prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator);
+//     void prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator);
+    void prepareToPlay(float sampleRate, int blockSize);
     float processBlockAndGetPitch(vector<float> buffer);
     float processBlockAndGetPitch(kiss_fft_cpx* buffer);
 	float processBlockAndGetPitch(float* fftBuffer);
@@ -37,7 +38,7 @@ private:
     //Constants
     const float m_minFrequency { 80.0f };
     const float m_maxFrequency { 500.0f };
-    const int m_medianFilterOrder{ 11 };
+//     const int m_medianFilterOrder{ 11 };
 
     //Parameters
     float m_samplingRate;
@@ -50,7 +51,7 @@ private:
     std::vector<kiss_fft_cpx> m_internalBuffer;
     RingBuffer* m_medianFilterBuffer;
 
-    AK::IAkPluginMemAlloc* m_allocator{NULL};
+//     AK::IAkPluginMemAlloc* m_allocator{NULL};
     
 
 };

@@ -8,7 +8,7 @@
 /// Logging implementation for debugging purposes
 
 #include "Logging.h"
-#include <AK/Tools/Common/AkPlatformFuncs.h>
+// #include <AK/Tools/Common/AkPlatformFuncs.h>
 #ifdef AK_LINUX
 #include <sys/time.h>
 #include <stdarg.h>
@@ -88,8 +88,9 @@ namespace AK
 #endif
 			va_end(arglist);
 
-			AkThreadID threadId = AKPLATFORM::CurrentThread();
-
+			// AkThreadID threadId = AKPLATFORM::CurrentThread();
+                        // FIX: dummy threadId
+                        int threadId = 100;
 			char timestamp[256];
 			GetTimeStamp(timestamp, 256);
 			const char * filenameShort = NULL;

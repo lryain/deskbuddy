@@ -26,7 +26,7 @@
 #include "util/environment/locale.h"
 #include "util/fileUtils/fileUtils.h"
 #include "util/logging/logging.h"
-#include "util/helpers/ankiDefines.h"
+#include "util/helpers/lryaDefines.h"
 #include "util/helpers/templateHelpers.h"
 #include "util/math/numericCast.h"
 #include "util/time/universalTime.h"
@@ -43,7 +43,7 @@
 #ifndef EXCLUDE_LRYA_AUDIO_LIBS
 
 #define USE_AUDIO_ENGINE 1
-#include "audioEngine/plugins/ankiPluginInterface.h"
+#include "audioEngine/plugins/lryaPluginInterface.h"
 #include "audioEngine/plugins/hijackAudioPlugIn.h"
 #include "audioEngine/plugins/wavePortalPlugIn.h"
 #else

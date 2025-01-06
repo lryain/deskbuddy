@@ -16,11 +16,14 @@
 class Cepstrum : public PitchTrackerAbstractClass
 {
 public:
-    Cepstrum(AK::IAkPluginMemAlloc* Allocator);
-    Cepstrum(float newHopSize,float newBufferSize,float newSampleRate, AK::IAkPluginMemAlloc* Allocator);
+//     Cepstrum(AK::IAkPluginMemAlloc* Allocator);
+    Cepstrum();
+//     Cepstrum(float newHopSize,float newBufferSize,float newSampleRate, AK::IAkPluginMemAlloc* Allocator);
+    Cepstrum(float newHopSize,float newBufferSize,float newSampleRate);
     ~Cepstrum();
 
-    void prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator);
+//     void prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator);
+    void prepareToPlay(float sampleRate, int blockSize);
     float processBlockAndGetPitch(vector<float> buffer);
 
 	float processBlockAndGetPitch(float* fftBuffer);
@@ -53,7 +56,7 @@ private:
 	AudioAnalysisFramework* preAnalyser{ NULL };
 	AudioAnalysisFramework* postAnalyser{ NULL };
     
-    AK::IAkPluginMemAlloc* m_allocator{NULL};
+//     AK::IAkPluginMemAlloc* m_allocator{NULL};
 };
 
 

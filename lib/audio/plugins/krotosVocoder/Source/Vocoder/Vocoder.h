@@ -39,9 +39,11 @@ public:
         NumberOfCarrierType
     };
 
-    Vocoder(AK::IAkPluginMemAlloc* in_pAllocator);
+//     Vocoder(AK::IAkPluginMemAlloc* in_pAllocator);
+    Vocoder();
 
-    void prepareToPlay(int samplingRate, AK::IAkPluginMemAlloc* in_pAllocator);
+//     void prepareToPlay(int samplingRate, AK::IAkPluginMemAlloc* in_pAllocator);
+    void prepareToPlay(int samplingRate);
     void processBlock(vector<float> &buffer);
     void processBlock(vector<float> &buffer, vector<float> &externalCarrier);
 

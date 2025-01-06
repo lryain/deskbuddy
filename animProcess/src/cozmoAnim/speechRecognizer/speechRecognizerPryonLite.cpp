@@ -13,7 +13,7 @@
 
 #include "speechRecognizerPryonLite.h"
 #include "util/console/consoleInterface.h"
-#include "util/helpers/ankiDefines.h"
+#include "util/helpers/lryaDefines.h"
 #include "util/helpers/templateHelpers.h"
 #include "util/logging/logging.h"
 #include "util/math/math.h"
@@ -31,7 +31,7 @@
 
 // TODO: Waiting for Amazon to provide libs for Mac platform, until then compile out recognizer for other platforms
 #if defined(LRYA_PLATFORM_MATEOS)
-#define PRYON_ENABLED 1
+#define PRYON_ENABLED 0
 #else
 #define PRYON_ENABLED 0
 #endif

@@ -11,7 +11,7 @@ Author:  KrotosMacMini
 ==============================================================================
 */
 
-#include <AK/SoundEngine/Common/IAkPluginMemAlloc.h>
+// #include <AK/SoundEngine/Common/IAkPluginMemAlloc.h>
 
 #include "Autocorrelation.h"
 #include "Cepstrum.h"
@@ -47,7 +47,7 @@ public:
     void setAlgorithm(Algorithm algorithm);
     Algorithm getAlgorithm();
 
-    void setAllocator(AK::IAkPluginMemAlloc* in_pAllocator) { m_pAllocator = in_pAllocator; }
+//     void setAllocator(AK::IAkPluginMemAlloc* in_pAllocator) { m_pAllocator = in_pAllocator; }
 
 private:
     //Constants
@@ -60,7 +60,7 @@ private:
     Algorithm m_algorithm  { Algorithm::McLeod };
 
 	PitchTrackerAbstractClass* m_detector{ NULL };
-	AK::IAkPluginMemAlloc* m_pAllocator{ NULL };
+	// AK::IAkPluginMemAlloc* m_pAllocator{ NULL };
 };
 
 #endif

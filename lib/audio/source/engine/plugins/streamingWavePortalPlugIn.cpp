@@ -15,11 +15,11 @@
 
 #include "audioEngine/audioTools/streamingWaveDataInstance.h"
 #include "audioEngine/plugins/wavePortalFxTypes.h"
-#include "AK/SoundEngine/Common/AkTypes.h"
-#include "AK/SoundEngine/Common/AkSoundEngine.h"
+// #include "AK/SoundEngine/Common/AkTypes.h"
+// #include "AK/SoundEngine/Common/AkSoundEngine.h"
 #include "audioEngine/audioDefines.h"
-#include "streamingWavePortalFxFactory.h"
-#include "streamingWavePortalFx.h"
+// #include "streamingWavePortalFxFactory.h"
+// #include "streamingWavePortalFx.h"
 #include "util/logging/logging.h"
 
 
@@ -41,7 +41,7 @@ StreamingWavePortalPlugIn::~StreamingWavePortalPlugIn()
 bool StreamingWavePortalPlugIn::RegisterPlugIn()
 {
   // Add static CreateFx callback function
-  StreamingWavePortalFx::PostCreateFxFunc = [this](StreamingWavePortalFx* plugin) { SetupEnginePlugInFx(plugin); };
+//   StreamingWavePortalFx::PostCreateFxFunc = [this](StreamingWavePortalFx* plugin) { SetupEnginePlugInFx(plugin); };
   return true;
 }
 
@@ -99,49 +99,49 @@ bool StreamingWavePortalPlugIn::IsPluginActive( PluginId_t pluginId ) const
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-void StreamingWavePortalPlugIn::SetupEnginePlugInFx( StreamingWavePortalFx* plugIn )
-{
-  plugIn->SetInitCallback( [this] ( StreamingWavePortalFx* pluginInstance )
-  {
-    // Get data for plugin instance
-    const auto pluginID = pluginInstance->GetPluginId();
-    {
-      std::lock_guard<std::mutex> lock(_dataInstanceMutex);
-      const auto findIt = _dataInstanceMap.find( pluginID );
-      if ( findIt != _dataInstanceMap.end() ) {
-        findIt->second->SetIsPluginActive( true );
-        pluginInstance->SetDataInstance( findIt->second );
-      } else {
-        // Can't find data instance for plugin Id
-        LOG_ERROR("StreamingWavePortalPlugin.SetupEnginePlugInFx", "No data instance for pluginID %d", pluginID);
-        pluginInstance->SetDataInstance( nullptr );
-      }
-    }
+// void StreamingWavePortalPlugIn::SetupEnginePlugInFx( StreamingWavePortalFx* plugIn )
+// {
+//   plugIn->SetInitCallback( [this] ( StreamingWavePortalFx* pluginInstance )
+//   {
+//     // Get data for plugin instance
+//     const auto pluginID = pluginInstance->GetPluginId();
+//     {
+//       std::lock_guard<std::mutex> lock(_dataInstanceMutex);
+//       const auto findIt = _dataInstanceMap.find( pluginID );
+//       if ( findIt != _dataInstanceMap.end() ) {
+//         findIt->second->SetIsPluginActive( true );
+//         pluginInstance->SetDataInstance( findIt->second );
+//       } else {
+//         // Can't find data instance for plugin Id
+//         LOG_ERROR("StreamingWavePortalPlugin.SetupEnginePlugInFx", "No data instance for pluginID %d", pluginID);
+//         pluginInstance->SetDataInstance( nullptr );
+//       }
+//     }
 
-    if ( _initFunc != nullptr ) {
-      _initFunc(this);
-    }
+//     if ( _initFunc != nullptr ) {
+//       _initFunc(this);
+//     }
 
-  });
+//   });
 
-  plugIn->SetTerminateCallback( [this] ( StreamingWavePortalFx* pluginInstance )
-  {
-    // Remove local shared pointer
-    {
-      std::lock_guard<std::mutex> lock(_dataInstanceMutex);
-      const auto findIt = _dataInstanceMap.find( pluginInstance->GetPluginId() );
-      if ( findIt != _dataInstanceMap.end() ) {
-        findIt->second->SetIsPluginActive( false );
-        _dataInstanceMap.erase(findIt);
-      }
-    }
+//   plugIn->SetTerminateCallback( [this] ( StreamingWavePortalFx* pluginInstance )
+//   {
+//     // Remove local shared pointer
+//     {
+//       std::lock_guard<std::mutex> lock(_dataInstanceMutex);
+//       const auto findIt = _dataInstanceMap.find( pluginInstance->GetPluginId() );
+//       if ( findIt != _dataInstanceMap.end() ) {
+//         findIt->second->SetIsPluginActive( false );
+//         _dataInstanceMap.erase(findIt);
+//       }
+//     }
 
-    if ( _termFunc != nullptr ) {
-      _termFunc(this);
-    }
+//     if ( _termFunc != nullptr ) {
+//       _termFunc(this);
+//     }
 
-  });
-}
+//   });
+// }
 
 
 } // PlugIns

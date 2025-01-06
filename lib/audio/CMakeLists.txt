@@ -27,8 +27,8 @@ include(lrya_build_strip)
 add_compile_definitions(EXCLUDE_LRYA_AUDIO_LIBS ON)
 
 option(USE_STREAMING_WAVE_PORTAL_PLUGIN "Use STREAMING_WAVE_PORTAL Plugin" OFF)
-option(USE_KROTOS_VOCODER_PLUGIN "Use Krotos Vocoder plugin" OFF)
-option(USE_AKALSASINK_PLUGIN "Use AK Alsa Sink plugin" OFF)
+option(USE_KROTOS_VOCODER_PLUGIN "Use Krotos Vocoder plugin" ON)
+option(USE_AKALSASINK_PLUGIN "Use AK Alsa Sink plugin" ON)
 option(USE_HIJACK_PLUGIN "Use Hijack plugin" OFF)
 option(USE_WAVE_PORTAL_PLUGIN "Use Wave Portal plugin" OFF)
 
@@ -102,7 +102,7 @@ if(USE_HIJACK_PLUGIN)
         PRIVATE
         ${LRYA_BUILD_CXX_COMPILE_DEFINITIONS}
         )
-
+        message("hijack_audio includes ----------------------------> $<BUILD_INTERFACE:${HIJACK_DIR}/pluginInclude>")
         target_include_directories(hijack_audio
         PUBLIC
         $<BUILD_INTERFACE:${HIJACK_DIR}/pluginInclude>
@@ -117,7 +117,7 @@ if(USE_HIJACK_PLUGIN)
 
         lrya_build_strip(TARGET hijack_audio)
 else()
-        message("Skipping AKALSASINK Plugin")
+        message("Skipping Hijack Audio Plugin")
 endif()
 
 #
@@ -226,21 +226,21 @@ if(USE_AKALSASINK_PLUGIN)
         set(AKALSASINK_PLUGIN_DIR ${AKALSASINK_DIR}/soundEnginePlugin)
 
         add_library(ak_alsa_sink STATIC
-        ${AKALSASINK_PLUGIN_DIR}/AkAlsaSink.cpp
-        ${AKALSASINK_PLUGIN_DIR}/AkAlsaSinkParams.cpp
+        # ${AKALSASINK_PLUGIN_DIR}/AkAlsaSink.cpp
+        # ${AKALSASINK_PLUGIN_DIR}/AkAlsaSinkParams.cpp
         ${AKALSASINK_DIR}/common/src/Logging.cpp
-        ${AKALSASINK_DIR}/common/src/WAVFileWriter.cpp
+        # ${AKALSASINK_DIR}/common/src/WAVFileWriter.cpp
         )
 
         target_include_directories(ak_alsa_sink
         PUBLIC  
         $<BUILD_INTERFACE:${AKALSASINK_DIR}/pluginInclude>
-        $<BUILD_INTERFACE:${AKALSASINK_PLUGIN_DIR}>
+        # $<BUILD_INTERFACE:${AKALSASINK_PLUGIN_DIR}>
         $<BUILD_INTERFACE:${AKALSASINK_DIR}/common/include>
         PRIVATE
         $<BUILD_INTERFACE:${AKALSASINK_DIR}/common/src>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${WWISE_SDK_ROOT}/include>
+        # $<BUILD_INTERFACE:${WWISE_SDK_ROOT}/include>
         )
 
         target_link_libraries(ak_alsa_sink
@@ -290,12 +290,12 @@ add_library(audio_engine
   ${AUDIO_ENGINE_DIR}/soundbankLoader.cpp
 #   ${AUDIO_ENGINE_DIR}/wwiseComponent.cpp
   ${AUDIO_ENGINE_DIR}/audioTools/audioWaveFileReader.cpp
-#   ${AUDIO_ENGINE_DIR}/audioTools/streamingWaveDataInstance.cpp
+  ${AUDIO_ENGINE_DIR}/audioTools/streamingWaveDataInstance.cpp
 #   ${AUDIO_ENGINE_DIR}/plugins/akAlsaSinkPlugIn.cpp
   ${AUDIO_ENGINE_DIR}/plugins/lryaPluginInterface.cpp
 #   ${AUDIO_ENGINE_DIR}/plugins/hijackAudioPlugIn.cpp
 #   ${AUDIO_ENGINE_DIR}/plugins/wavePortalPlugIn.cpp
-#   ${AUDIO_ENGINE_DIR}/plugins/streamingWavePortalPlugIn.cpp
+  ${AUDIO_ENGINE_DIR}/plugins/streamingWavePortalPlugIn.cpp
 )
 
 target_include_directories(audio_engine

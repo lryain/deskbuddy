@@ -28,7 +28,7 @@
 namespace Lrya {
 namespace AudioEngine {
 namespace PlugIns {
-class StreamingWavePortalFx;
+// class StreamingWavePortalFx;
 
 
 class AUDIOENGINE_EXPORT StreamingWavePortalPlugIn
@@ -80,7 +80,7 @@ public:
   // This is for private use only
   // Wwise SDK's expects a c function when registering a plug-in. This method allows that callback function to
   // integrate the plug-in Fx with this class.
-  void SetupEnginePlugInFx( StreamingWavePortalFx* plugIn );
+//   void SetupEnginePlugInFx( StreamingWavePortalFx* plugIn );
 
 private:
 

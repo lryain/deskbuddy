@@ -11,8 +11,8 @@
  */
 
 #include "audioEngine/plugins/hijackAudioPlugIn.h"
-#include "AK/SoundEngine/Common/AkTypes.h"
-#include "AK/SoundEngine/Common/AkSoundEngine.h"
+// #include "AK/SoundEngine/Common/AkTypes.h"
+// #include "AK/SoundEngine/Common/AkSoundEngine.h"
 #include "audioEngine/audioDefines.h"
 #include "hijackFxFactory.h"
 #include "hijackFx.h"

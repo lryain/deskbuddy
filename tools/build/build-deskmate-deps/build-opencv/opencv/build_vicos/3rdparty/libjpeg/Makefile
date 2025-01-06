@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos
+CMAKE_BINARY_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -93,7 +93,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && /usr/bin/cpack --config ./CPackConfig.cmake
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && /usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -138,7 +138,7 @@ install/local/fast: preinstall/fast
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CPackSourceConfig.cmake
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -159,14 +159,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/3rdparty/libjpeg/CMakeFiles/progress.marks
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 3rdparty/libjpeg/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles 0
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/3rdparty/libjpeg/CMakeFiles/progress.marks
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 3rdparty/libjpeg/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 3rdparty/libjpeg/clean
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 3rdparty/libjpeg/clean
 .PHONY : clean
 
 # The main clean target
@@ -176,22 +176,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 3rdparty/libjpeg/preinstall
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 3rdparty/libjpeg/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 3rdparty/libjpeg/preinstall
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 3rdparty/libjpeg/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/rule:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/rule
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/rule
 .PHONY : 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/rule
 
 # Convenience name for target.
@@ -201,7 +201,7 @@ libjpeg: 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/rule
 
 # fast build rule for target.
 libjpeg/fast:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build
 .PHONY : libjpeg/fast
 
 jaricom.o: jaricom.c.o
@@ -210,7 +210,7 @@ jaricom.o: jaricom.c.o
 
 # target to build an object file
 jaricom.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jaricom.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jaricom.c.o
 .PHONY : jaricom.c.o
 
 jaricom.i: jaricom.c.i
@@ -219,7 +219,7 @@ jaricom.i: jaricom.c.i
 
 # target to preprocess a source file
 jaricom.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jaricom.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jaricom.c.i
 .PHONY : jaricom.c.i
 
 jaricom.s: jaricom.c.s
@@ -228,7 +228,7 @@ jaricom.s: jaricom.c.s
 
 # target to generate assembly for a file
 jaricom.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jaricom.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jaricom.c.s
 .PHONY : jaricom.c.s
 
 jcapimin.o: jcapimin.c.o
@@ -237,7 +237,7 @@ jcapimin.o: jcapimin.c.o
 
 # target to build an object file
 jcapimin.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapimin.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapimin.c.o
 .PHONY : jcapimin.c.o
 
 jcapimin.i: jcapimin.c.i
@@ -246,7 +246,7 @@ jcapimin.i: jcapimin.c.i
 
 # target to preprocess a source file
 jcapimin.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapimin.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapimin.c.i
 .PHONY : jcapimin.c.i
 
 jcapimin.s: jcapimin.c.s
@@ -255,7 +255,7 @@ jcapimin.s: jcapimin.c.s
 
 # target to generate assembly for a file
 jcapimin.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapimin.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapimin.c.s
 .PHONY : jcapimin.c.s
 
 jcapistd.o: jcapistd.c.o
@@ -264,7 +264,7 @@ jcapistd.o: jcapistd.c.o
 
 # target to build an object file
 jcapistd.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapistd.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapistd.c.o
 .PHONY : jcapistd.c.o
 
 jcapistd.i: jcapistd.c.i
@@ -273,7 +273,7 @@ jcapistd.i: jcapistd.c.i
 
 # target to preprocess a source file
 jcapistd.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapistd.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapistd.c.i
 .PHONY : jcapistd.c.i
 
 jcapistd.s: jcapistd.c.s
@@ -282,7 +282,7 @@ jcapistd.s: jcapistd.c.s
 
 # target to generate assembly for a file
 jcapistd.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapistd.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcapistd.c.s
 .PHONY : jcapistd.c.s
 
 jcarith.o: jcarith.c.o
@@ -291,7 +291,7 @@ jcarith.o: jcarith.c.o
 
 # target to build an object file
 jcarith.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcarith.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcarith.c.o
 .PHONY : jcarith.c.o
 
 jcarith.i: jcarith.c.i
@@ -300,7 +300,7 @@ jcarith.i: jcarith.c.i
 
 # target to preprocess a source file
 jcarith.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcarith.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcarith.c.i
 .PHONY : jcarith.c.i
 
 jcarith.s: jcarith.c.s
@@ -309,7 +309,7 @@ jcarith.s: jcarith.c.s
 
 # target to generate assembly for a file
 jcarith.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcarith.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcarith.c.s
 .PHONY : jcarith.c.s
 
 jccoefct.o: jccoefct.c.o
@@ -318,7 +318,7 @@ jccoefct.o: jccoefct.c.o
 
 # target to build an object file
 jccoefct.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccoefct.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccoefct.c.o
 .PHONY : jccoefct.c.o
 
 jccoefct.i: jccoefct.c.i
@@ -327,7 +327,7 @@ jccoefct.i: jccoefct.c.i
 
 # target to preprocess a source file
 jccoefct.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccoefct.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccoefct.c.i
 .PHONY : jccoefct.c.i
 
 jccoefct.s: jccoefct.c.s
@@ -336,7 +336,7 @@ jccoefct.s: jccoefct.c.s
 
 # target to generate assembly for a file
 jccoefct.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccoefct.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccoefct.c.s
 .PHONY : jccoefct.c.s
 
 jccolor.o: jccolor.c.o
@@ -345,7 +345,7 @@ jccolor.o: jccolor.c.o
 
 # target to build an object file
 jccolor.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccolor.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccolor.c.o
 .PHONY : jccolor.c.o
 
 jccolor.i: jccolor.c.i
@@ -354,7 +354,7 @@ jccolor.i: jccolor.c.i
 
 # target to preprocess a source file
 jccolor.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccolor.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccolor.c.i
 .PHONY : jccolor.c.i
 
 jccolor.s: jccolor.c.s
@@ -363,7 +363,7 @@ jccolor.s: jccolor.c.s
 
 # target to generate assembly for a file
 jccolor.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccolor.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jccolor.c.s
 .PHONY : jccolor.c.s
 
 jcdctmgr.o: jcdctmgr.c.o
@@ -372,7 +372,7 @@ jcdctmgr.o: jcdctmgr.c.o
 
 # target to build an object file
 jcdctmgr.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcdctmgr.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcdctmgr.c.o
 .PHONY : jcdctmgr.c.o
 
 jcdctmgr.i: jcdctmgr.c.i
@@ -381,7 +381,7 @@ jcdctmgr.i: jcdctmgr.c.i
 
 # target to preprocess a source file
 jcdctmgr.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcdctmgr.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcdctmgr.c.i
 .PHONY : jcdctmgr.c.i
 
 jcdctmgr.s: jcdctmgr.c.s
@@ -390,7 +390,7 @@ jcdctmgr.s: jcdctmgr.c.s
 
 # target to generate assembly for a file
 jcdctmgr.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcdctmgr.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcdctmgr.c.s
 .PHONY : jcdctmgr.c.s
 
 jchuff.o: jchuff.c.o
@@ -399,7 +399,7 @@ jchuff.o: jchuff.c.o
 
 # target to build an object file
 jchuff.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jchuff.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jchuff.c.o
 .PHONY : jchuff.c.o
 
 jchuff.i: jchuff.c.i
@@ -408,7 +408,7 @@ jchuff.i: jchuff.c.i
 
 # target to preprocess a source file
 jchuff.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jchuff.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jchuff.c.i
 .PHONY : jchuff.c.i
 
 jchuff.s: jchuff.c.s
@@ -417,7 +417,7 @@ jchuff.s: jchuff.c.s
 
 # target to generate assembly for a file
 jchuff.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jchuff.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jchuff.c.s
 .PHONY : jchuff.c.s
 
 jcinit.o: jcinit.c.o
@@ -426,7 +426,7 @@ jcinit.o: jcinit.c.o
 
 # target to build an object file
 jcinit.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcinit.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcinit.c.o
 .PHONY : jcinit.c.o
 
 jcinit.i: jcinit.c.i
@@ -435,7 +435,7 @@ jcinit.i: jcinit.c.i
 
 # target to preprocess a source file
 jcinit.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcinit.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcinit.c.i
 .PHONY : jcinit.c.i
 
 jcinit.s: jcinit.c.s
@@ -444,7 +444,7 @@ jcinit.s: jcinit.c.s
 
 # target to generate assembly for a file
 jcinit.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcinit.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcinit.c.s
 .PHONY : jcinit.c.s
 
 jcmainct.o: jcmainct.c.o
@@ -453,7 +453,7 @@ jcmainct.o: jcmainct.c.o
 
 # target to build an object file
 jcmainct.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmainct.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmainct.c.o
 .PHONY : jcmainct.c.o
 
 jcmainct.i: jcmainct.c.i
@@ -462,7 +462,7 @@ jcmainct.i: jcmainct.c.i
 
 # target to preprocess a source file
 jcmainct.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmainct.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmainct.c.i
 .PHONY : jcmainct.c.i
 
 jcmainct.s: jcmainct.c.s
@@ -471,7 +471,7 @@ jcmainct.s: jcmainct.c.s
 
 # target to generate assembly for a file
 jcmainct.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmainct.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmainct.c.s
 .PHONY : jcmainct.c.s
 
 jcmarker.o: jcmarker.c.o
@@ -480,7 +480,7 @@ jcmarker.o: jcmarker.c.o
 
 # target to build an object file
 jcmarker.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmarker.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmarker.c.o
 .PHONY : jcmarker.c.o
 
 jcmarker.i: jcmarker.c.i
@@ -489,7 +489,7 @@ jcmarker.i: jcmarker.c.i
 
 # target to preprocess a source file
 jcmarker.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmarker.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmarker.c.i
 .PHONY : jcmarker.c.i
 
 jcmarker.s: jcmarker.c.s
@@ -498,7 +498,7 @@ jcmarker.s: jcmarker.c.s
 
 # target to generate assembly for a file
 jcmarker.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmarker.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmarker.c.s
 .PHONY : jcmarker.c.s
 
 jcmaster.o: jcmaster.c.o
@@ -507,7 +507,7 @@ jcmaster.o: jcmaster.c.o
 
 # target to build an object file
 jcmaster.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmaster.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmaster.c.o
 .PHONY : jcmaster.c.o
 
 jcmaster.i: jcmaster.c.i
@@ -516,7 +516,7 @@ jcmaster.i: jcmaster.c.i
 
 # target to preprocess a source file
 jcmaster.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmaster.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmaster.c.i
 .PHONY : jcmaster.c.i
 
 jcmaster.s: jcmaster.c.s
@@ -525,7 +525,7 @@ jcmaster.s: jcmaster.c.s
 
 # target to generate assembly for a file
 jcmaster.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmaster.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcmaster.c.s
 .PHONY : jcmaster.c.s
 
 jcomapi.o: jcomapi.c.o
@@ -534,7 +534,7 @@ jcomapi.o: jcomapi.c.o
 
 # target to build an object file
 jcomapi.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcomapi.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcomapi.c.o
 .PHONY : jcomapi.c.o
 
 jcomapi.i: jcomapi.c.i
@@ -543,7 +543,7 @@ jcomapi.i: jcomapi.c.i
 
 # target to preprocess a source file
 jcomapi.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcomapi.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcomapi.c.i
 .PHONY : jcomapi.c.i
 
 jcomapi.s: jcomapi.c.s
@@ -552,7 +552,7 @@ jcomapi.s: jcomapi.c.s
 
 # target to generate assembly for a file
 jcomapi.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcomapi.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcomapi.c.s
 .PHONY : jcomapi.c.s
 
 jcparam.o: jcparam.c.o
@@ -561,7 +561,7 @@ jcparam.o: jcparam.c.o
 
 # target to build an object file
 jcparam.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcparam.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcparam.c.o
 .PHONY : jcparam.c.o
 
 jcparam.i: jcparam.c.i
@@ -570,7 +570,7 @@ jcparam.i: jcparam.c.i
 
 # target to preprocess a source file
 jcparam.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcparam.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcparam.c.i
 .PHONY : jcparam.c.i
 
 jcparam.s: jcparam.c.s
@@ -579,7 +579,7 @@ jcparam.s: jcparam.c.s
 
 # target to generate assembly for a file
 jcparam.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcparam.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcparam.c.s
 .PHONY : jcparam.c.s
 
 jcprepct.o: jcprepct.c.o
@@ -588,7 +588,7 @@ jcprepct.o: jcprepct.c.o
 
 # target to build an object file
 jcprepct.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcprepct.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcprepct.c.o
 .PHONY : jcprepct.c.o
 
 jcprepct.i: jcprepct.c.i
@@ -597,7 +597,7 @@ jcprepct.i: jcprepct.c.i
 
 # target to preprocess a source file
 jcprepct.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcprepct.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcprepct.c.i
 .PHONY : jcprepct.c.i
 
 jcprepct.s: jcprepct.c.s
@@ -606,7 +606,7 @@ jcprepct.s: jcprepct.c.s
 
 # target to generate assembly for a file
 jcprepct.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcprepct.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcprepct.c.s
 .PHONY : jcprepct.c.s
 
 jcsample.o: jcsample.c.o
@@ -615,7 +615,7 @@ jcsample.o: jcsample.c.o
 
 # target to build an object file
 jcsample.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcsample.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcsample.c.o
 .PHONY : jcsample.c.o
 
 jcsample.i: jcsample.c.i
@@ -624,7 +624,7 @@ jcsample.i: jcsample.c.i
 
 # target to preprocess a source file
 jcsample.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcsample.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcsample.c.i
 .PHONY : jcsample.c.i
 
 jcsample.s: jcsample.c.s
@@ -633,7 +633,7 @@ jcsample.s: jcsample.c.s
 
 # target to generate assembly for a file
 jcsample.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcsample.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jcsample.c.s
 .PHONY : jcsample.c.s
 
 jctrans.o: jctrans.c.o
@@ -642,7 +642,7 @@ jctrans.o: jctrans.c.o
 
 # target to build an object file
 jctrans.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jctrans.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jctrans.c.o
 .PHONY : jctrans.c.o
 
 jctrans.i: jctrans.c.i
@@ -651,7 +651,7 @@ jctrans.i: jctrans.c.i
 
 # target to preprocess a source file
 jctrans.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jctrans.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jctrans.c.i
 .PHONY : jctrans.c.i
 
 jctrans.s: jctrans.c.s
@@ -660,7 +660,7 @@ jctrans.s: jctrans.c.s
 
 # target to generate assembly for a file
 jctrans.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jctrans.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jctrans.c.s
 .PHONY : jctrans.c.s
 
 jdapimin.o: jdapimin.c.o
@@ -669,7 +669,7 @@ jdapimin.o: jdapimin.c.o
 
 # target to build an object file
 jdapimin.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapimin.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapimin.c.o
 .PHONY : jdapimin.c.o
 
 jdapimin.i: jdapimin.c.i
@@ -678,7 +678,7 @@ jdapimin.i: jdapimin.c.i
 
 # target to preprocess a source file
 jdapimin.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapimin.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapimin.c.i
 .PHONY : jdapimin.c.i
 
 jdapimin.s: jdapimin.c.s
@@ -687,7 +687,7 @@ jdapimin.s: jdapimin.c.s
 
 # target to generate assembly for a file
 jdapimin.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapimin.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapimin.c.s
 .PHONY : jdapimin.c.s
 
 jdapistd.o: jdapistd.c.o
@@ -696,7 +696,7 @@ jdapistd.o: jdapistd.c.o
 
 # target to build an object file
 jdapistd.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapistd.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapistd.c.o
 .PHONY : jdapistd.c.o
 
 jdapistd.i: jdapistd.c.i
@@ -705,7 +705,7 @@ jdapistd.i: jdapistd.c.i
 
 # target to preprocess a source file
 jdapistd.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapistd.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapistd.c.i
 .PHONY : jdapistd.c.i
 
 jdapistd.s: jdapistd.c.s
@@ -714,7 +714,7 @@ jdapistd.s: jdapistd.c.s
 
 # target to generate assembly for a file
 jdapistd.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapistd.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdapistd.c.s
 .PHONY : jdapistd.c.s
 
 jdarith.o: jdarith.c.o
@@ -723,7 +723,7 @@ jdarith.o: jdarith.c.o
 
 # target to build an object file
 jdarith.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdarith.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdarith.c.o
 .PHONY : jdarith.c.o
 
 jdarith.i: jdarith.c.i
@@ -732,7 +732,7 @@ jdarith.i: jdarith.c.i
 
 # target to preprocess a source file
 jdarith.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdarith.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdarith.c.i
 .PHONY : jdarith.c.i
 
 jdarith.s: jdarith.c.s
@@ -741,7 +741,7 @@ jdarith.s: jdarith.c.s
 
 # target to generate assembly for a file
 jdarith.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdarith.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdarith.c.s
 .PHONY : jdarith.c.s
 
 jdatadst.o: jdatadst.c.o
@@ -750,7 +750,7 @@ jdatadst.o: jdatadst.c.o
 
 # target to build an object file
 jdatadst.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatadst.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatadst.c.o
 .PHONY : jdatadst.c.o
 
 jdatadst.i: jdatadst.c.i
@@ -759,7 +759,7 @@ jdatadst.i: jdatadst.c.i
 
 # target to preprocess a source file
 jdatadst.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatadst.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatadst.c.i
 .PHONY : jdatadst.c.i
 
 jdatadst.s: jdatadst.c.s
@@ -768,7 +768,7 @@ jdatadst.s: jdatadst.c.s
 
 # target to generate assembly for a file
 jdatadst.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatadst.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatadst.c.s
 .PHONY : jdatadst.c.s
 
 jdatasrc.o: jdatasrc.c.o
@@ -777,7 +777,7 @@ jdatasrc.o: jdatasrc.c.o
 
 # target to build an object file
 jdatasrc.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatasrc.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatasrc.c.o
 .PHONY : jdatasrc.c.o
 
 jdatasrc.i: jdatasrc.c.i
@@ -786,7 +786,7 @@ jdatasrc.i: jdatasrc.c.i
 
 # target to preprocess a source file
 jdatasrc.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatasrc.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatasrc.c.i
 .PHONY : jdatasrc.c.i
 
 jdatasrc.s: jdatasrc.c.s
@@ -795,7 +795,7 @@ jdatasrc.s: jdatasrc.c.s
 
 # target to generate assembly for a file
 jdatasrc.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatasrc.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdatasrc.c.s
 .PHONY : jdatasrc.c.s
 
 jdcoefct.o: jdcoefct.c.o
@@ -804,7 +804,7 @@ jdcoefct.o: jdcoefct.c.o
 
 # target to build an object file
 jdcoefct.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcoefct.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcoefct.c.o
 .PHONY : jdcoefct.c.o
 
 jdcoefct.i: jdcoefct.c.i
@@ -813,7 +813,7 @@ jdcoefct.i: jdcoefct.c.i
 
 # target to preprocess a source file
 jdcoefct.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcoefct.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcoefct.c.i
 .PHONY : jdcoefct.c.i
 
 jdcoefct.s: jdcoefct.c.s
@@ -822,7 +822,7 @@ jdcoefct.s: jdcoefct.c.s
 
 # target to generate assembly for a file
 jdcoefct.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcoefct.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcoefct.c.s
 .PHONY : jdcoefct.c.s
 
 jdcolor.o: jdcolor.c.o
@@ -831,7 +831,7 @@ jdcolor.o: jdcolor.c.o
 
 # target to build an object file
 jdcolor.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcolor.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcolor.c.o
 .PHONY : jdcolor.c.o
 
 jdcolor.i: jdcolor.c.i
@@ -840,7 +840,7 @@ jdcolor.i: jdcolor.c.i
 
 # target to preprocess a source file
 jdcolor.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcolor.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcolor.c.i
 .PHONY : jdcolor.c.i
 
 jdcolor.s: jdcolor.c.s
@@ -849,7 +849,7 @@ jdcolor.s: jdcolor.c.s
 
 # target to generate assembly for a file
 jdcolor.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcolor.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdcolor.c.s
 .PHONY : jdcolor.c.s
 
 jddctmgr.o: jddctmgr.c.o
@@ -858,7 +858,7 @@ jddctmgr.o: jddctmgr.c.o
 
 # target to build an object file
 jddctmgr.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jddctmgr.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jddctmgr.c.o
 .PHONY : jddctmgr.c.o
 
 jddctmgr.i: jddctmgr.c.i
@@ -867,7 +867,7 @@ jddctmgr.i: jddctmgr.c.i
 
 # target to preprocess a source file
 jddctmgr.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jddctmgr.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jddctmgr.c.i
 .PHONY : jddctmgr.c.i
 
 jddctmgr.s: jddctmgr.c.s
@@ -876,7 +876,7 @@ jddctmgr.s: jddctmgr.c.s
 
 # target to generate assembly for a file
 jddctmgr.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jddctmgr.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jddctmgr.c.s
 .PHONY : jddctmgr.c.s
 
 jdhuff.o: jdhuff.c.o
@@ -885,7 +885,7 @@ jdhuff.o: jdhuff.c.o
 
 # target to build an object file
 jdhuff.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdhuff.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdhuff.c.o
 .PHONY : jdhuff.c.o
 
 jdhuff.i: jdhuff.c.i
@@ -894,7 +894,7 @@ jdhuff.i: jdhuff.c.i
 
 # target to preprocess a source file
 jdhuff.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdhuff.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdhuff.c.i
 .PHONY : jdhuff.c.i
 
 jdhuff.s: jdhuff.c.s
@@ -903,7 +903,7 @@ jdhuff.s: jdhuff.c.s
 
 # target to generate assembly for a file
 jdhuff.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdhuff.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdhuff.c.s
 .PHONY : jdhuff.c.s
 
 jdinput.o: jdinput.c.o
@@ -912,7 +912,7 @@ jdinput.o: jdinput.c.o
 
 # target to build an object file
 jdinput.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdinput.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdinput.c.o
 .PHONY : jdinput.c.o
 
 jdinput.i: jdinput.c.i
@@ -921,7 +921,7 @@ jdinput.i: jdinput.c.i
 
 # target to preprocess a source file
 jdinput.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdinput.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdinput.c.i
 .PHONY : jdinput.c.i
 
 jdinput.s: jdinput.c.s
@@ -930,7 +930,7 @@ jdinput.s: jdinput.c.s
 
 # target to generate assembly for a file
 jdinput.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdinput.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdinput.c.s
 .PHONY : jdinput.c.s
 
 jdmainct.o: jdmainct.c.o
@@ -939,7 +939,7 @@ jdmainct.o: jdmainct.c.o
 
 # target to build an object file
 jdmainct.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmainct.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmainct.c.o
 .PHONY : jdmainct.c.o
 
 jdmainct.i: jdmainct.c.i
@@ -948,7 +948,7 @@ jdmainct.i: jdmainct.c.i
 
 # target to preprocess a source file
 jdmainct.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmainct.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmainct.c.i
 .PHONY : jdmainct.c.i
 
 jdmainct.s: jdmainct.c.s
@@ -957,7 +957,7 @@ jdmainct.s: jdmainct.c.s
 
 # target to generate assembly for a file
 jdmainct.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmainct.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmainct.c.s
 .PHONY : jdmainct.c.s
 
 jdmarker.o: jdmarker.c.o
@@ -966,7 +966,7 @@ jdmarker.o: jdmarker.c.o
 
 # target to build an object file
 jdmarker.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmarker.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmarker.c.o
 .PHONY : jdmarker.c.o
 
 jdmarker.i: jdmarker.c.i
@@ -975,7 +975,7 @@ jdmarker.i: jdmarker.c.i
 
 # target to preprocess a source file
 jdmarker.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmarker.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmarker.c.i
 .PHONY : jdmarker.c.i
 
 jdmarker.s: jdmarker.c.s
@@ -984,7 +984,7 @@ jdmarker.s: jdmarker.c.s
 
 # target to generate assembly for a file
 jdmarker.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmarker.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmarker.c.s
 .PHONY : jdmarker.c.s
 
 jdmaster.o: jdmaster.c.o
@@ -993,7 +993,7 @@ jdmaster.o: jdmaster.c.o
 
 # target to build an object file
 jdmaster.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmaster.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmaster.c.o
 .PHONY : jdmaster.c.o
 
 jdmaster.i: jdmaster.c.i
@@ -1002,7 +1002,7 @@ jdmaster.i: jdmaster.c.i
 
 # target to preprocess a source file
 jdmaster.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmaster.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmaster.c.i
 .PHONY : jdmaster.c.i
 
 jdmaster.s: jdmaster.c.s
@@ -1011,7 +1011,7 @@ jdmaster.s: jdmaster.c.s
 
 # target to generate assembly for a file
 jdmaster.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmaster.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmaster.c.s
 .PHONY : jdmaster.c.s
 
 jdmerge.o: jdmerge.c.o
@@ -1020,7 +1020,7 @@ jdmerge.o: jdmerge.c.o
 
 # target to build an object file
 jdmerge.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmerge.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmerge.c.o
 .PHONY : jdmerge.c.o
 
 jdmerge.i: jdmerge.c.i
@@ -1029,7 +1029,7 @@ jdmerge.i: jdmerge.c.i
 
 # target to preprocess a source file
 jdmerge.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmerge.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmerge.c.i
 .PHONY : jdmerge.c.i
 
 jdmerge.s: jdmerge.c.s
@@ -1038,7 +1038,7 @@ jdmerge.s: jdmerge.c.s
 
 # target to generate assembly for a file
 jdmerge.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmerge.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdmerge.c.s
 .PHONY : jdmerge.c.s
 
 jdpostct.o: jdpostct.c.o
@@ -1047,7 +1047,7 @@ jdpostct.o: jdpostct.c.o
 
 # target to build an object file
 jdpostct.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdpostct.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdpostct.c.o
 .PHONY : jdpostct.c.o
 
 jdpostct.i: jdpostct.c.i
@@ -1056,7 +1056,7 @@ jdpostct.i: jdpostct.c.i
 
 # target to preprocess a source file
 jdpostct.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdpostct.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdpostct.c.i
 .PHONY : jdpostct.c.i
 
 jdpostct.s: jdpostct.c.s
@@ -1065,7 +1065,7 @@ jdpostct.s: jdpostct.c.s
 
 # target to generate assembly for a file
 jdpostct.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdpostct.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdpostct.c.s
 .PHONY : jdpostct.c.s
 
 jdsample.o: jdsample.c.o
@@ -1074,7 +1074,7 @@ jdsample.o: jdsample.c.o
 
 # target to build an object file
 jdsample.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdsample.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdsample.c.o
 .PHONY : jdsample.c.o
 
 jdsample.i: jdsample.c.i
@@ -1083,7 +1083,7 @@ jdsample.i: jdsample.c.i
 
 # target to preprocess a source file
 jdsample.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdsample.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdsample.c.i
 .PHONY : jdsample.c.i
 
 jdsample.s: jdsample.c.s
@@ -1092,7 +1092,7 @@ jdsample.s: jdsample.c.s
 
 # target to generate assembly for a file
 jdsample.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdsample.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdsample.c.s
 .PHONY : jdsample.c.s
 
 jdtrans.o: jdtrans.c.o
@@ -1101,7 +1101,7 @@ jdtrans.o: jdtrans.c.o
 
 # target to build an object file
 jdtrans.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdtrans.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdtrans.c.o
 .PHONY : jdtrans.c.o
 
 jdtrans.i: jdtrans.c.i
@@ -1110,7 +1110,7 @@ jdtrans.i: jdtrans.c.i
 
 # target to preprocess a source file
 jdtrans.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdtrans.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdtrans.c.i
 .PHONY : jdtrans.c.i
 
 jdtrans.s: jdtrans.c.s
@@ -1119,7 +1119,7 @@ jdtrans.s: jdtrans.c.s
 
 # target to generate assembly for a file
 jdtrans.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdtrans.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jdtrans.c.s
 .PHONY : jdtrans.c.s
 
 jerror.o: jerror.c.o
@@ -1128,7 +1128,7 @@ jerror.o: jerror.c.o
 
 # target to build an object file
 jerror.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jerror.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jerror.c.o
 .PHONY : jerror.c.o
 
 jerror.i: jerror.c.i
@@ -1137,7 +1137,7 @@ jerror.i: jerror.c.i
 
 # target to preprocess a source file
 jerror.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jerror.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jerror.c.i
 .PHONY : jerror.c.i
 
 jerror.s: jerror.c.s
@@ -1146,7 +1146,7 @@ jerror.s: jerror.c.s
 
 # target to generate assembly for a file
 jerror.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jerror.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jerror.c.s
 .PHONY : jerror.c.s
 
 jfdctflt.o: jfdctflt.c.o
@@ -1155,7 +1155,7 @@ jfdctflt.o: jfdctflt.c.o
 
 # target to build an object file
 jfdctflt.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctflt.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctflt.c.o
 .PHONY : jfdctflt.c.o
 
 jfdctflt.i: jfdctflt.c.i
@@ -1164,7 +1164,7 @@ jfdctflt.i: jfdctflt.c.i
 
 # target to preprocess a source file
 jfdctflt.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctflt.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctflt.c.i
 .PHONY : jfdctflt.c.i
 
 jfdctflt.s: jfdctflt.c.s
@@ -1173,7 +1173,7 @@ jfdctflt.s: jfdctflt.c.s
 
 # target to generate assembly for a file
 jfdctflt.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctflt.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctflt.c.s
 .PHONY : jfdctflt.c.s
 
 jfdctfst.o: jfdctfst.c.o
@@ -1182,7 +1182,7 @@ jfdctfst.o: jfdctfst.c.o
 
 # target to build an object file
 jfdctfst.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctfst.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctfst.c.o
 .PHONY : jfdctfst.c.o
 
 jfdctfst.i: jfdctfst.c.i
@@ -1191,7 +1191,7 @@ jfdctfst.i: jfdctfst.c.i
 
 # target to preprocess a source file
 jfdctfst.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctfst.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctfst.c.i
 .PHONY : jfdctfst.c.i
 
 jfdctfst.s: jfdctfst.c.s
@@ -1200,7 +1200,7 @@ jfdctfst.s: jfdctfst.c.s
 
 # target to generate assembly for a file
 jfdctfst.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctfst.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctfst.c.s
 .PHONY : jfdctfst.c.s
 
 jfdctint.o: jfdctint.c.o
@@ -1209,7 +1209,7 @@ jfdctint.o: jfdctint.c.o
 
 # target to build an object file
 jfdctint.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctint.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctint.c.o
 .PHONY : jfdctint.c.o
 
 jfdctint.i: jfdctint.c.i
@@ -1218,7 +1218,7 @@ jfdctint.i: jfdctint.c.i
 
 # target to preprocess a source file
 jfdctint.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctint.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctint.c.i
 .PHONY : jfdctint.c.i
 
 jfdctint.s: jfdctint.c.s
@@ -1227,7 +1227,7 @@ jfdctint.s: jfdctint.c.s
 
 # target to generate assembly for a file
 jfdctint.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctint.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jfdctint.c.s
 .PHONY : jfdctint.c.s
 
 jidctflt.o: jidctflt.c.o
@@ -1236,7 +1236,7 @@ jidctflt.o: jidctflt.c.o
 
 # target to build an object file
 jidctflt.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctflt.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctflt.c.o
 .PHONY : jidctflt.c.o
 
 jidctflt.i: jidctflt.c.i
@@ -1245,7 +1245,7 @@ jidctflt.i: jidctflt.c.i
 
 # target to preprocess a source file
 jidctflt.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctflt.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctflt.c.i
 .PHONY : jidctflt.c.i
 
 jidctflt.s: jidctflt.c.s
@@ -1254,7 +1254,7 @@ jidctflt.s: jidctflt.c.s
 
 # target to generate assembly for a file
 jidctflt.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctflt.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctflt.c.s
 .PHONY : jidctflt.c.s
 
 jidctfst.o: jidctfst.c.o
@@ -1263,7 +1263,7 @@ jidctfst.o: jidctfst.c.o
 
 # target to build an object file
 jidctfst.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctfst.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctfst.c.o
 .PHONY : jidctfst.c.o
 
 jidctfst.i: jidctfst.c.i
@@ -1272,7 +1272,7 @@ jidctfst.i: jidctfst.c.i
 
 # target to preprocess a source file
 jidctfst.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctfst.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctfst.c.i
 .PHONY : jidctfst.c.i
 
 jidctfst.s: jidctfst.c.s
@@ -1281,7 +1281,7 @@ jidctfst.s: jidctfst.c.s
 
 # target to generate assembly for a file
 jidctfst.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctfst.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctfst.c.s
 .PHONY : jidctfst.c.s
 
 jidctint.o: jidctint.c.o
@@ -1290,7 +1290,7 @@ jidctint.o: jidctint.c.o
 
 # target to build an object file
 jidctint.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctint.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctint.c.o
 .PHONY : jidctint.c.o
 
 jidctint.i: jidctint.c.i
@@ -1299,7 +1299,7 @@ jidctint.i: jidctint.c.i
 
 # target to preprocess a source file
 jidctint.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctint.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctint.c.i
 .PHONY : jidctint.c.i
 
 jidctint.s: jidctint.c.s
@@ -1308,7 +1308,7 @@ jidctint.s: jidctint.c.s
 
 # target to generate assembly for a file
 jidctint.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctint.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jidctint.c.s
 .PHONY : jidctint.c.s
 
 jmemansi.o: jmemansi.c.o
@@ -1317,7 +1317,7 @@ jmemansi.o: jmemansi.c.o
 
 # target to build an object file
 jmemansi.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemansi.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemansi.c.o
 .PHONY : jmemansi.c.o
 
 jmemansi.i: jmemansi.c.i
@@ -1326,7 +1326,7 @@ jmemansi.i: jmemansi.c.i
 
 # target to preprocess a source file
 jmemansi.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemansi.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemansi.c.i
 .PHONY : jmemansi.c.i
 
 jmemansi.s: jmemansi.c.s
@@ -1335,7 +1335,7 @@ jmemansi.s: jmemansi.c.s
 
 # target to generate assembly for a file
 jmemansi.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemansi.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemansi.c.s
 .PHONY : jmemansi.c.s
 
 jmemmgr.o: jmemmgr.c.o
@@ -1344,7 +1344,7 @@ jmemmgr.o: jmemmgr.c.o
 
 # target to build an object file
 jmemmgr.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemmgr.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemmgr.c.o
 .PHONY : jmemmgr.c.o
 
 jmemmgr.i: jmemmgr.c.i
@@ -1353,7 +1353,7 @@ jmemmgr.i: jmemmgr.c.i
 
 # target to preprocess a source file
 jmemmgr.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemmgr.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemmgr.c.i
 .PHONY : jmemmgr.c.i
 
 jmemmgr.s: jmemmgr.c.s
@@ -1362,7 +1362,7 @@ jmemmgr.s: jmemmgr.c.s
 
 # target to generate assembly for a file
 jmemmgr.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemmgr.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jmemmgr.c.s
 .PHONY : jmemmgr.c.s
 
 jquant1.o: jquant1.c.o
@@ -1371,7 +1371,7 @@ jquant1.o: jquant1.c.o
 
 # target to build an object file
 jquant1.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant1.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant1.c.o
 .PHONY : jquant1.c.o
 
 jquant1.i: jquant1.c.i
@@ -1380,7 +1380,7 @@ jquant1.i: jquant1.c.i
 
 # target to preprocess a source file
 jquant1.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant1.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant1.c.i
 .PHONY : jquant1.c.i
 
 jquant1.s: jquant1.c.s
@@ -1389,7 +1389,7 @@ jquant1.s: jquant1.c.s
 
 # target to generate assembly for a file
 jquant1.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant1.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant1.c.s
 .PHONY : jquant1.c.s
 
 jquant2.o: jquant2.c.o
@@ -1398,7 +1398,7 @@ jquant2.o: jquant2.c.o
 
 # target to build an object file
 jquant2.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant2.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant2.c.o
 .PHONY : jquant2.c.o
 
 jquant2.i: jquant2.c.i
@@ -1407,7 +1407,7 @@ jquant2.i: jquant2.c.i
 
 # target to preprocess a source file
 jquant2.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant2.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant2.c.i
 .PHONY : jquant2.c.i
 
 jquant2.s: jquant2.c.s
@@ -1416,7 +1416,7 @@ jquant2.s: jquant2.c.s
 
 # target to generate assembly for a file
 jquant2.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant2.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jquant2.c.s
 .PHONY : jquant2.c.s
 
 jutils.o: jutils.c.o
@@ -1425,7 +1425,7 @@ jutils.o: jutils.c.o
 
 # target to build an object file
 jutils.c.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jutils.c.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jutils.c.o
 .PHONY : jutils.c.o
 
 jutils.i: jutils.c.i
@@ -1434,7 +1434,7 @@ jutils.i: jutils.c.i
 
 # target to preprocess a source file
 jutils.c.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jutils.c.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jutils.c.i
 .PHONY : jutils.c.i
 
 jutils.s: jutils.c.s
@@ -1443,7 +1443,7 @@ jutils.s: jutils.c.s
 
 # target to generate assembly for a file
 jutils.c.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jutils.c.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/build.make 3rdparty/libjpeg/CMakeFiles/libjpeg.dir/jutils.c.s
 .PHONY : jutils.c.s
 
 # Help Target
@@ -1611,6 +1611,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

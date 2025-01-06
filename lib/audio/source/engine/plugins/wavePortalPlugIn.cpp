@@ -19,11 +19,11 @@
 
 #include "audioEngine/plugins/wavePortalPlugIn.h"
 #include "audioEngine/plugins/wavePortalFxTypes.h"
-#include "AK/SoundEngine/Common/AkTypes.h"
-#include "AK/SoundEngine/Common/AkSoundEngine.h"
+// #include "AK/SoundEngine/Common/AkTypes.h"
+// #include "AK/SoundEngine/Common/AkSoundEngine.h"
 #include "audioEngine/audioDefines.h"
-#include "wavePortalFxFactory.h"
-#include "wavePortalFx.h"
+// #include "wavePortalFxFactory.h"
+// #include "wavePortalFx.h"
 #include <assert.h>
 
 
@@ -48,7 +48,7 @@ WavePortalPlugIn::~WavePortalPlugIn()
 bool WavePortalPlugIn::RegisterPlugIn()
 {
   // Hijack Audio Streaming
-    WavePortalFx::PostCreateFxFunc = [this](WavePortalFx* plugin) { SetupEnginePlugInFx(plugin); };
+//     WavePortalFx::PostCreateFxFunc = [this](WavePortalFx* plugin) { SetupEnginePlugInFx(plugin); };
   
   return true;
 }
@@ -70,35 +70,35 @@ void WavePortalPlugIn::ClearAudioData()
 }
   
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-void WavePortalPlugIn::SetupEnginePlugInFx( WavePortalFx* plugIn )
-{
-  // We should always set the source data before calling the event that creates the plug-in
-  assert( _audioDataStream != nullptr );
+// void WavePortalPlugIn::SetupEnginePlugInFx( WavePortalFx* plugIn )
+// {
+//   // We should always set the source data before calling the event that creates the plug-in
+//   assert( _audioDataStream != nullptr );
   
-  // Give audio data ownership to the running plugin
-  plugIn->SetAudioDataStreamOwnership( _audioDataStream );
-  // No longer own data stream
-  _audioDataStream = nullptr;
+//   // Give audio data ownership to the running plugin
+//   plugIn->SetAudioDataStreamOwnership( _audioDataStream );
+//   // No longer own data stream
+//   _audioDataStream = nullptr;
   
-  // Set Active flag while plug-in is in uses
-  plugIn->SetInitCallback( [this] ( const WavePortalFx* pluginInstance )
-  {
-    _isActive = true;
+//   // Set Active flag while plug-in is in uses
+//   plugIn->SetInitCallback( [this] ( const WavePortalFx* pluginInstance )
+//   {
+//     _isActive = true;
     
-    if ( _initFunc != nullptr ) {
-      _initFunc(this);
-    }
-  });
+//     if ( _initFunc != nullptr ) {
+//       _initFunc(this);
+//     }
+//   });
   
-  plugIn->SetTerminateCallback( [this] ( const WavePortalFx* pluginInstance )
-  {
-    _isActive = false;
+//   plugIn->SetTerminateCallback( [this] ( const WavePortalFx* pluginInstance )
+//   {
+//     _isActive = false;
     
-    if ( _termFunc != nullptr ) {
-      _termFunc(this);
-    }
-  });
-}
+//     if ( _termFunc != nullptr ) {
+//       _termFunc(this);
+//     }
+//   });
+// }
 
 
 } // PlugIns

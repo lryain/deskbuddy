@@ -15,19 +15,22 @@ using namespace std;
 
 McLeod::McLeod()
 {
-    prepareToPlay(DEFAULT_SAMPLE_RATE, MAX_BUFFER_SIZE, NULL);
+//     prepareToPlay(DEFAULT_SAMPLE_RATE, MAX_BUFFER_SIZE, NULL);
+    prepareToPlay(DEFAULT_SAMPLE_RATE, MAX_BUFFER_SIZE);
 }
 
 McLeod::McLeod(double sampleRate, int bufferSize)
 {
-    prepareToPlay(sampleRate,bufferSize, NULL);
+//     prepareToPlay(sampleRate,bufferSize, NULL);
+    prepareToPlay(sampleRate,bufferSize);
 }
 
 McLeod::~McLeod()
 {
 }
 
-void McLeod::prepareToPlay(float newSampleRate, int newBufferSize, AK::IAkPluginMemAlloc* Allocator)
+// void McLeod::prepareToPlay(float newSampleRate, int newBufferSize, AK::IAkPluginMemAlloc* Allocator)
+void McLeod::prepareToPlay(float newSampleRate, int newBufferSize)
 {
     sampleRate = newSampleRate;
     bufferSize = newBufferSize;

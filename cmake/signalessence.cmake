@@ -37,7 +37,8 @@ set(SIGNALESSENCE_INCLUDE_PATHS
 )
 
 set(SIGNALESSENCE_LIBS
-  mmfx
+#   mmfx
+""
 )
 
 if (MATEOS)

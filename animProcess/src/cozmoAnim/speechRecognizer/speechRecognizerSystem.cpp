@@ -148,7 +148,7 @@ void SpeechRecognizerSystem::UpdateNotch(const AudioUtil::AudioSample* audioChun
   if (LRYA_DEV_CHEATS) {
     static int pcmfd = -1;
     if ((pcmfd < 0) && kSaveRawMicInput) {
-      const auto path = "/data/data/com.anki.deskmate/cache/speechRecognizerRaw.pcm";
+      const auto path = "/data/data/com.lrya.deskmate/cache/speechRecognizerRaw.pcm";
       pcmfd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
     }
     

@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos
+CMAKE_BINARY_DIR = /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -93,7 +93,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && /usr/bin/cpack --config ./CPackConfig.cmake
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && /usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -127,7 +127,7 @@ install/local/fast: preinstall/fast
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CPackSourceConfig.cmake
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -159,14 +159,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/modules/core/CMakeFiles/progress.marks
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/core/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/CMakeFiles 0
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/modules/core/CMakeFiles/progress.marks
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/core/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/core/clean
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/core/clean
 .PHONY : clean
 
 # The main clean target
@@ -176,22 +176,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/core/preinstall
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/core/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/core/preinstall
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/core/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 modules/core/CMakeFiles/opencv_core.dir/rule:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f CMakeFiles/Makefile2 modules/core/CMakeFiles/opencv_core.dir/rule
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f CMakeFiles/Makefile2 modules/core/CMakeFiles/opencv_core.dir/rule
 .PHONY : modules/core/CMakeFiles/opencv_core.dir/rule
 
 # Convenience name for target.
@@ -201,7 +201,7 @@ opencv_core: modules/core/CMakeFiles/opencv_core.dir/rule
 
 # fast build rule for target.
 opencv_core/fast:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/build
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/build
 .PHONY : opencv_core/fast
 
 opencl_kernels_core.o: opencl_kernels_core.cpp.o
@@ -210,7 +210,7 @@ opencl_kernels_core.o: opencl_kernels_core.cpp.o
 
 # target to build an object file
 opencl_kernels_core.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/opencl_kernels_core.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/opencl_kernels_core.cpp.o
 .PHONY : opencl_kernels_core.cpp.o
 
 opencl_kernels_core.i: opencl_kernels_core.cpp.i
@@ -219,7 +219,7 @@ opencl_kernels_core.i: opencl_kernels_core.cpp.i
 
 # target to preprocess a source file
 opencl_kernels_core.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/opencl_kernels_core.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/opencl_kernels_core.cpp.i
 .PHONY : opencl_kernels_core.cpp.i
 
 opencl_kernels_core.s: opencl_kernels_core.cpp.s
@@ -228,7 +228,7 @@ opencl_kernels_core.s: opencl_kernels_core.cpp.s
 
 # target to generate assembly for a file
 opencl_kernels_core.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/opencl_kernels_core.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/opencl_kernels_core.cpp.s
 .PHONY : opencl_kernels_core.cpp.s
 
 src/algorithm.o: src/algorithm.cpp.o
@@ -237,7 +237,7 @@ src/algorithm.o: src/algorithm.cpp.o
 
 # target to build an object file
 src/algorithm.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/algorithm.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/algorithm.cpp.o
 .PHONY : src/algorithm.cpp.o
 
 src/algorithm.i: src/algorithm.cpp.i
@@ -246,7 +246,7 @@ src/algorithm.i: src/algorithm.cpp.i
 
 # target to preprocess a source file
 src/algorithm.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/algorithm.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/algorithm.cpp.i
 .PHONY : src/algorithm.cpp.i
 
 src/algorithm.s: src/algorithm.cpp.s
@@ -255,7 +255,7 @@ src/algorithm.s: src/algorithm.cpp.s
 
 # target to generate assembly for a file
 src/algorithm.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/algorithm.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/algorithm.cpp.s
 .PHONY : src/algorithm.cpp.s
 
 src/alloc.o: src/alloc.cpp.o
@@ -264,7 +264,7 @@ src/alloc.o: src/alloc.cpp.o
 
 # target to build an object file
 src/alloc.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/alloc.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/alloc.cpp.o
 .PHONY : src/alloc.cpp.o
 
 src/alloc.i: src/alloc.cpp.i
@@ -273,7 +273,7 @@ src/alloc.i: src/alloc.cpp.i
 
 # target to preprocess a source file
 src/alloc.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/alloc.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/alloc.cpp.i
 .PHONY : src/alloc.cpp.i
 
 src/alloc.s: src/alloc.cpp.s
@@ -282,7 +282,7 @@ src/alloc.s: src/alloc.cpp.s
 
 # target to generate assembly for a file
 src/alloc.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/alloc.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/alloc.cpp.s
 .PHONY : src/alloc.cpp.s
 
 src/arithm.o: src/arithm.cpp.o
@@ -291,7 +291,7 @@ src/arithm.o: src/arithm.cpp.o
 
 # target to build an object file
 src/arithm.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/arithm.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/arithm.cpp.o
 .PHONY : src/arithm.cpp.o
 
 src/arithm.i: src/arithm.cpp.i
@@ -300,7 +300,7 @@ src/arithm.i: src/arithm.cpp.i
 
 # target to preprocess a source file
 src/arithm.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/arithm.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/arithm.cpp.i
 .PHONY : src/arithm.cpp.i
 
 src/arithm.s: src/arithm.cpp.s
@@ -309,7 +309,7 @@ src/arithm.s: src/arithm.cpp.s
 
 # target to generate assembly for a file
 src/arithm.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/arithm.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/arithm.cpp.s
 .PHONY : src/arithm.cpp.s
 
 src/array.o: src/array.cpp.o
@@ -318,7 +318,7 @@ src/array.o: src/array.cpp.o
 
 # target to build an object file
 src/array.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/array.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/array.cpp.o
 .PHONY : src/array.cpp.o
 
 src/array.i: src/array.cpp.i
@@ -327,7 +327,7 @@ src/array.i: src/array.cpp.i
 
 # target to preprocess a source file
 src/array.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/array.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/array.cpp.i
 .PHONY : src/array.cpp.i
 
 src/array.s: src/array.cpp.s
@@ -336,7 +336,7 @@ src/array.s: src/array.cpp.s
 
 # target to generate assembly for a file
 src/array.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/array.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/array.cpp.s
 .PHONY : src/array.cpp.s
 
 src/command_line_parser.o: src/command_line_parser.cpp.o
@@ -345,7 +345,7 @@ src/command_line_parser.o: src/command_line_parser.cpp.o
 
 # target to build an object file
 src/command_line_parser.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/command_line_parser.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/command_line_parser.cpp.o
 .PHONY : src/command_line_parser.cpp.o
 
 src/command_line_parser.i: src/command_line_parser.cpp.i
@@ -354,7 +354,7 @@ src/command_line_parser.i: src/command_line_parser.cpp.i
 
 # target to preprocess a source file
 src/command_line_parser.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/command_line_parser.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/command_line_parser.cpp.i
 .PHONY : src/command_line_parser.cpp.i
 
 src/command_line_parser.s: src/command_line_parser.cpp.s
@@ -363,7 +363,7 @@ src/command_line_parser.s: src/command_line_parser.cpp.s
 
 # target to generate assembly for a file
 src/command_line_parser.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/command_line_parser.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/command_line_parser.cpp.s
 .PHONY : src/command_line_parser.cpp.s
 
 src/conjugate_gradient.o: src/conjugate_gradient.cpp.o
@@ -372,7 +372,7 @@ src/conjugate_gradient.o: src/conjugate_gradient.cpp.o
 
 # target to build an object file
 src/conjugate_gradient.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/conjugate_gradient.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/conjugate_gradient.cpp.o
 .PHONY : src/conjugate_gradient.cpp.o
 
 src/conjugate_gradient.i: src/conjugate_gradient.cpp.i
@@ -381,7 +381,7 @@ src/conjugate_gradient.i: src/conjugate_gradient.cpp.i
 
 # target to preprocess a source file
 src/conjugate_gradient.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/conjugate_gradient.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/conjugate_gradient.cpp.i
 .PHONY : src/conjugate_gradient.cpp.i
 
 src/conjugate_gradient.s: src/conjugate_gradient.cpp.s
@@ -390,7 +390,7 @@ src/conjugate_gradient.s: src/conjugate_gradient.cpp.s
 
 # target to generate assembly for a file
 src/conjugate_gradient.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/conjugate_gradient.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/conjugate_gradient.cpp.s
 .PHONY : src/conjugate_gradient.cpp.s
 
 src/convert.o: src/convert.cpp.o
@@ -399,7 +399,7 @@ src/convert.o: src/convert.cpp.o
 
 # target to build an object file
 src/convert.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/convert.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/convert.cpp.o
 .PHONY : src/convert.cpp.o
 
 src/convert.i: src/convert.cpp.i
@@ -408,7 +408,7 @@ src/convert.i: src/convert.cpp.i
 
 # target to preprocess a source file
 src/convert.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/convert.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/convert.cpp.i
 .PHONY : src/convert.cpp.i
 
 src/convert.s: src/convert.cpp.s
@@ -417,7 +417,7 @@ src/convert.s: src/convert.cpp.s
 
 # target to generate assembly for a file
 src/convert.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/convert.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/convert.cpp.s
 .PHONY : src/convert.cpp.s
 
 src/copy.o: src/copy.cpp.o
@@ -426,7 +426,7 @@ src/copy.o: src/copy.cpp.o
 
 # target to build an object file
 src/copy.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/copy.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/copy.cpp.o
 .PHONY : src/copy.cpp.o
 
 src/copy.i: src/copy.cpp.i
@@ -435,7 +435,7 @@ src/copy.i: src/copy.cpp.i
 
 # target to preprocess a source file
 src/copy.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/copy.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/copy.cpp.i
 .PHONY : src/copy.cpp.i
 
 src/copy.s: src/copy.cpp.s
@@ -444,7 +444,7 @@ src/copy.s: src/copy.cpp.s
 
 # target to generate assembly for a file
 src/copy.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/copy.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/copy.cpp.s
 .PHONY : src/copy.cpp.s
 
 src/cuda_gpu_mat.o: src/cuda_gpu_mat.cpp.o
@@ -453,7 +453,7 @@ src/cuda_gpu_mat.o: src/cuda_gpu_mat.cpp.o
 
 # target to build an object file
 src/cuda_gpu_mat.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_gpu_mat.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_gpu_mat.cpp.o
 .PHONY : src/cuda_gpu_mat.cpp.o
 
 src/cuda_gpu_mat.i: src/cuda_gpu_mat.cpp.i
@@ -462,7 +462,7 @@ src/cuda_gpu_mat.i: src/cuda_gpu_mat.cpp.i
 
 # target to preprocess a source file
 src/cuda_gpu_mat.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_gpu_mat.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_gpu_mat.cpp.i
 .PHONY : src/cuda_gpu_mat.cpp.i
 
 src/cuda_gpu_mat.s: src/cuda_gpu_mat.cpp.s
@@ -471,7 +471,7 @@ src/cuda_gpu_mat.s: src/cuda_gpu_mat.cpp.s
 
 # target to generate assembly for a file
 src/cuda_gpu_mat.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_gpu_mat.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_gpu_mat.cpp.s
 .PHONY : src/cuda_gpu_mat.cpp.s
 
 src/cuda_host_mem.o: src/cuda_host_mem.cpp.o
@@ -480,7 +480,7 @@ src/cuda_host_mem.o: src/cuda_host_mem.cpp.o
 
 # target to build an object file
 src/cuda_host_mem.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_host_mem.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_host_mem.cpp.o
 .PHONY : src/cuda_host_mem.cpp.o
 
 src/cuda_host_mem.i: src/cuda_host_mem.cpp.i
@@ -489,7 +489,7 @@ src/cuda_host_mem.i: src/cuda_host_mem.cpp.i
 
 # target to preprocess a source file
 src/cuda_host_mem.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_host_mem.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_host_mem.cpp.i
 .PHONY : src/cuda_host_mem.cpp.i
 
 src/cuda_host_mem.s: src/cuda_host_mem.cpp.s
@@ -498,7 +498,7 @@ src/cuda_host_mem.s: src/cuda_host_mem.cpp.s
 
 # target to generate assembly for a file
 src/cuda_host_mem.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_host_mem.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_host_mem.cpp.s
 .PHONY : src/cuda_host_mem.cpp.s
 
 src/cuda_info.o: src/cuda_info.cpp.o
@@ -507,7 +507,7 @@ src/cuda_info.o: src/cuda_info.cpp.o
 
 # target to build an object file
 src/cuda_info.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_info.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_info.cpp.o
 .PHONY : src/cuda_info.cpp.o
 
 src/cuda_info.i: src/cuda_info.cpp.i
@@ -516,7 +516,7 @@ src/cuda_info.i: src/cuda_info.cpp.i
 
 # target to preprocess a source file
 src/cuda_info.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_info.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_info.cpp.i
 .PHONY : src/cuda_info.cpp.i
 
 src/cuda_info.s: src/cuda_info.cpp.s
@@ -525,7 +525,7 @@ src/cuda_info.s: src/cuda_info.cpp.s
 
 # target to generate assembly for a file
 src/cuda_info.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_info.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_info.cpp.s
 .PHONY : src/cuda_info.cpp.s
 
 src/cuda_stream.o: src/cuda_stream.cpp.o
@@ -534,7 +534,7 @@ src/cuda_stream.o: src/cuda_stream.cpp.o
 
 # target to build an object file
 src/cuda_stream.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_stream.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_stream.cpp.o
 .PHONY : src/cuda_stream.cpp.o
 
 src/cuda_stream.i: src/cuda_stream.cpp.i
@@ -543,7 +543,7 @@ src/cuda_stream.i: src/cuda_stream.cpp.i
 
 # target to preprocess a source file
 src/cuda_stream.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_stream.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_stream.cpp.i
 .PHONY : src/cuda_stream.cpp.i
 
 src/cuda_stream.s: src/cuda_stream.cpp.s
@@ -552,7 +552,7 @@ src/cuda_stream.s: src/cuda_stream.cpp.s
 
 # target to generate assembly for a file
 src/cuda_stream.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_stream.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/cuda_stream.cpp.s
 .PHONY : src/cuda_stream.cpp.s
 
 src/datastructs.o: src/datastructs.cpp.o
@@ -561,7 +561,7 @@ src/datastructs.o: src/datastructs.cpp.o
 
 # target to build an object file
 src/datastructs.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/datastructs.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/datastructs.cpp.o
 .PHONY : src/datastructs.cpp.o
 
 src/datastructs.i: src/datastructs.cpp.i
@@ -570,7 +570,7 @@ src/datastructs.i: src/datastructs.cpp.i
 
 # target to preprocess a source file
 src/datastructs.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/datastructs.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/datastructs.cpp.i
 .PHONY : src/datastructs.cpp.i
 
 src/datastructs.s: src/datastructs.cpp.s
@@ -579,7 +579,7 @@ src/datastructs.s: src/datastructs.cpp.s
 
 # target to generate assembly for a file
 src/datastructs.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/datastructs.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/datastructs.cpp.s
 .PHONY : src/datastructs.cpp.s
 
 src/directx.o: src/directx.cpp.o
@@ -588,7 +588,7 @@ src/directx.o: src/directx.cpp.o
 
 # target to build an object file
 src/directx.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/directx.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/directx.cpp.o
 .PHONY : src/directx.cpp.o
 
 src/directx.i: src/directx.cpp.i
@@ -597,7 +597,7 @@ src/directx.i: src/directx.cpp.i
 
 # target to preprocess a source file
 src/directx.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/directx.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/directx.cpp.i
 .PHONY : src/directx.cpp.i
 
 src/directx.s: src/directx.cpp.s
@@ -606,7 +606,7 @@ src/directx.s: src/directx.cpp.s
 
 # target to generate assembly for a file
 src/directx.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/directx.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/directx.cpp.s
 .PHONY : src/directx.cpp.s
 
 src/downhill_simplex.o: src/downhill_simplex.cpp.o
@@ -615,7 +615,7 @@ src/downhill_simplex.o: src/downhill_simplex.cpp.o
 
 # target to build an object file
 src/downhill_simplex.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/downhill_simplex.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/downhill_simplex.cpp.o
 .PHONY : src/downhill_simplex.cpp.o
 
 src/downhill_simplex.i: src/downhill_simplex.cpp.i
@@ -624,7 +624,7 @@ src/downhill_simplex.i: src/downhill_simplex.cpp.i
 
 # target to preprocess a source file
 src/downhill_simplex.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/downhill_simplex.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/downhill_simplex.cpp.i
 .PHONY : src/downhill_simplex.cpp.i
 
 src/downhill_simplex.s: src/downhill_simplex.cpp.s
@@ -633,7 +633,7 @@ src/downhill_simplex.s: src/downhill_simplex.cpp.s
 
 # target to generate assembly for a file
 src/downhill_simplex.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/downhill_simplex.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/downhill_simplex.cpp.s
 .PHONY : src/downhill_simplex.cpp.s
 
 src/dxt.o: src/dxt.cpp.o
@@ -642,7 +642,7 @@ src/dxt.o: src/dxt.cpp.o
 
 # target to build an object file
 src/dxt.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/dxt.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/dxt.cpp.o
 .PHONY : src/dxt.cpp.o
 
 src/dxt.i: src/dxt.cpp.i
@@ -651,7 +651,7 @@ src/dxt.i: src/dxt.cpp.i
 
 # target to preprocess a source file
 src/dxt.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/dxt.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/dxt.cpp.i
 .PHONY : src/dxt.cpp.i
 
 src/dxt.s: src/dxt.cpp.s
@@ -660,7 +660,7 @@ src/dxt.s: src/dxt.cpp.s
 
 # target to generate assembly for a file
 src/dxt.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/dxt.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/dxt.cpp.s
 .PHONY : src/dxt.cpp.s
 
 src/gl_core_3_1.o: src/gl_core_3_1.cpp.o
@@ -669,7 +669,7 @@ src/gl_core_3_1.o: src/gl_core_3_1.cpp.o
 
 # target to build an object file
 src/gl_core_3_1.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/gl_core_3_1.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/gl_core_3_1.cpp.o
 .PHONY : src/gl_core_3_1.cpp.o
 
 src/gl_core_3_1.i: src/gl_core_3_1.cpp.i
@@ -678,7 +678,7 @@ src/gl_core_3_1.i: src/gl_core_3_1.cpp.i
 
 # target to preprocess a source file
 src/gl_core_3_1.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/gl_core_3_1.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/gl_core_3_1.cpp.i
 .PHONY : src/gl_core_3_1.cpp.i
 
 src/gl_core_3_1.s: src/gl_core_3_1.cpp.s
@@ -687,7 +687,7 @@ src/gl_core_3_1.s: src/gl_core_3_1.cpp.s
 
 # target to generate assembly for a file
 src/gl_core_3_1.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/gl_core_3_1.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/gl_core_3_1.cpp.s
 .PHONY : src/gl_core_3_1.cpp.s
 
 src/glob.o: src/glob.cpp.o
@@ -696,7 +696,7 @@ src/glob.o: src/glob.cpp.o
 
 # target to build an object file
 src/glob.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/glob.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/glob.cpp.o
 .PHONY : src/glob.cpp.o
 
 src/glob.i: src/glob.cpp.i
@@ -705,7 +705,7 @@ src/glob.i: src/glob.cpp.i
 
 # target to preprocess a source file
 src/glob.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/glob.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/glob.cpp.i
 .PHONY : src/glob.cpp.i
 
 src/glob.s: src/glob.cpp.s
@@ -714,7 +714,7 @@ src/glob.s: src/glob.cpp.s
 
 # target to generate assembly for a file
 src/glob.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/glob.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/glob.cpp.s
 .PHONY : src/glob.cpp.s
 
 src/hal_internal.o: src/hal_internal.cpp.o
@@ -723,7 +723,7 @@ src/hal_internal.o: src/hal_internal.cpp.o
 
 # target to build an object file
 src/hal_internal.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/hal_internal.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/hal_internal.cpp.o
 .PHONY : src/hal_internal.cpp.o
 
 src/hal_internal.i: src/hal_internal.cpp.i
@@ -732,7 +732,7 @@ src/hal_internal.i: src/hal_internal.cpp.i
 
 # target to preprocess a source file
 src/hal_internal.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/hal_internal.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/hal_internal.cpp.i
 .PHONY : src/hal_internal.cpp.i
 
 src/hal_internal.s: src/hal_internal.cpp.s
@@ -741,7 +741,7 @@ src/hal_internal.s: src/hal_internal.cpp.s
 
 # target to generate assembly for a file
 src/hal_internal.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/hal_internal.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/hal_internal.cpp.s
 .PHONY : src/hal_internal.cpp.s
 
 src/kmeans.o: src/kmeans.cpp.o
@@ -750,7 +750,7 @@ src/kmeans.o: src/kmeans.cpp.o
 
 # target to build an object file
 src/kmeans.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/kmeans.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/kmeans.cpp.o
 .PHONY : src/kmeans.cpp.o
 
 src/kmeans.i: src/kmeans.cpp.i
@@ -759,7 +759,7 @@ src/kmeans.i: src/kmeans.cpp.i
 
 # target to preprocess a source file
 src/kmeans.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/kmeans.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/kmeans.cpp.i
 .PHONY : src/kmeans.cpp.i
 
 src/kmeans.s: src/kmeans.cpp.s
@@ -768,7 +768,7 @@ src/kmeans.s: src/kmeans.cpp.s
 
 # target to generate assembly for a file
 src/kmeans.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/kmeans.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/kmeans.cpp.s
 .PHONY : src/kmeans.cpp.s
 
 src/lapack.o: src/lapack.cpp.o
@@ -777,7 +777,7 @@ src/lapack.o: src/lapack.cpp.o
 
 # target to build an object file
 src/lapack.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lapack.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lapack.cpp.o
 .PHONY : src/lapack.cpp.o
 
 src/lapack.i: src/lapack.cpp.i
@@ -786,7 +786,7 @@ src/lapack.i: src/lapack.cpp.i
 
 # target to preprocess a source file
 src/lapack.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lapack.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lapack.cpp.i
 .PHONY : src/lapack.cpp.i
 
 src/lapack.s: src/lapack.cpp.s
@@ -795,7 +795,7 @@ src/lapack.s: src/lapack.cpp.s
 
 # target to generate assembly for a file
 src/lapack.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lapack.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lapack.cpp.s
 .PHONY : src/lapack.cpp.s
 
 src/lda.o: src/lda.cpp.o
@@ -804,7 +804,7 @@ src/lda.o: src/lda.cpp.o
 
 # target to build an object file
 src/lda.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lda.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lda.cpp.o
 .PHONY : src/lda.cpp.o
 
 src/lda.i: src/lda.cpp.i
@@ -813,7 +813,7 @@ src/lda.i: src/lda.cpp.i
 
 # target to preprocess a source file
 src/lda.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lda.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lda.cpp.i
 .PHONY : src/lda.cpp.i
 
 src/lda.s: src/lda.cpp.s
@@ -822,7 +822,7 @@ src/lda.s: src/lda.cpp.s
 
 # target to generate assembly for a file
 src/lda.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lda.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lda.cpp.s
 .PHONY : src/lda.cpp.s
 
 src/logger.o: src/logger.cpp.o
@@ -831,7 +831,7 @@ src/logger.o: src/logger.cpp.o
 
 # target to build an object file
 src/logger.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/logger.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/logger.cpp.o
 .PHONY : src/logger.cpp.o
 
 src/logger.i: src/logger.cpp.i
@@ -840,7 +840,7 @@ src/logger.i: src/logger.cpp.i
 
 # target to preprocess a source file
 src/logger.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/logger.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/logger.cpp.i
 .PHONY : src/logger.cpp.i
 
 src/logger.s: src/logger.cpp.s
@@ -849,7 +849,7 @@ src/logger.s: src/logger.cpp.s
 
 # target to generate assembly for a file
 src/logger.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/logger.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/logger.cpp.s
 .PHONY : src/logger.cpp.s
 
 src/lpsolver.o: src/lpsolver.cpp.o
@@ -858,7 +858,7 @@ src/lpsolver.o: src/lpsolver.cpp.o
 
 # target to build an object file
 src/lpsolver.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lpsolver.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lpsolver.cpp.o
 .PHONY : src/lpsolver.cpp.o
 
 src/lpsolver.i: src/lpsolver.cpp.i
@@ -867,7 +867,7 @@ src/lpsolver.i: src/lpsolver.cpp.i
 
 # target to preprocess a source file
 src/lpsolver.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lpsolver.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lpsolver.cpp.i
 .PHONY : src/lpsolver.cpp.i
 
 src/lpsolver.s: src/lpsolver.cpp.s
@@ -876,7 +876,7 @@ src/lpsolver.s: src/lpsolver.cpp.s
 
 # target to generate assembly for a file
 src/lpsolver.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lpsolver.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/lpsolver.cpp.s
 .PHONY : src/lpsolver.cpp.s
 
 src/mathfuncs.o: src/mathfuncs.cpp.o
@@ -885,7 +885,7 @@ src/mathfuncs.o: src/mathfuncs.cpp.o
 
 # target to build an object file
 src/mathfuncs.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs.cpp.o
 .PHONY : src/mathfuncs.cpp.o
 
 src/mathfuncs.i: src/mathfuncs.cpp.i
@@ -894,7 +894,7 @@ src/mathfuncs.i: src/mathfuncs.cpp.i
 
 # target to preprocess a source file
 src/mathfuncs.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs.cpp.i
 .PHONY : src/mathfuncs.cpp.i
 
 src/mathfuncs.s: src/mathfuncs.cpp.s
@@ -903,7 +903,7 @@ src/mathfuncs.s: src/mathfuncs.cpp.s
 
 # target to generate assembly for a file
 src/mathfuncs.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs.cpp.s
 .PHONY : src/mathfuncs.cpp.s
 
 src/mathfuncs_core.dispatch.o: src/mathfuncs_core.dispatch.cpp.o
@@ -912,7 +912,7 @@ src/mathfuncs_core.dispatch.o: src/mathfuncs_core.dispatch.cpp.o
 
 # target to build an object file
 src/mathfuncs_core.dispatch.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs_core.dispatch.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs_core.dispatch.cpp.o
 .PHONY : src/mathfuncs_core.dispatch.cpp.o
 
 src/mathfuncs_core.dispatch.i: src/mathfuncs_core.dispatch.cpp.i
@@ -921,7 +921,7 @@ src/mathfuncs_core.dispatch.i: src/mathfuncs_core.dispatch.cpp.i
 
 # target to preprocess a source file
 src/mathfuncs_core.dispatch.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs_core.dispatch.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs_core.dispatch.cpp.i
 .PHONY : src/mathfuncs_core.dispatch.cpp.i
 
 src/mathfuncs_core.dispatch.s: src/mathfuncs_core.dispatch.cpp.s
@@ -930,7 +930,7 @@ src/mathfuncs_core.dispatch.s: src/mathfuncs_core.dispatch.cpp.s
 
 # target to generate assembly for a file
 src/mathfuncs_core.dispatch.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs_core.dispatch.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/mathfuncs_core.dispatch.cpp.s
 .PHONY : src/mathfuncs_core.dispatch.cpp.s
 
 src/matmul.o: src/matmul.cpp.o
@@ -939,7 +939,7 @@ src/matmul.o: src/matmul.cpp.o
 
 # target to build an object file
 src/matmul.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matmul.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matmul.cpp.o
 .PHONY : src/matmul.cpp.o
 
 src/matmul.i: src/matmul.cpp.i
@@ -948,7 +948,7 @@ src/matmul.i: src/matmul.cpp.i
 
 # target to preprocess a source file
 src/matmul.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matmul.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matmul.cpp.i
 .PHONY : src/matmul.cpp.i
 
 src/matmul.s: src/matmul.cpp.s
@@ -957,7 +957,7 @@ src/matmul.s: src/matmul.cpp.s
 
 # target to generate assembly for a file
 src/matmul.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matmul.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matmul.cpp.s
 .PHONY : src/matmul.cpp.s
 
 src/matop.o: src/matop.cpp.o
@@ -966,7 +966,7 @@ src/matop.o: src/matop.cpp.o
 
 # target to build an object file
 src/matop.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matop.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matop.cpp.o
 .PHONY : src/matop.cpp.o
 
 src/matop.i: src/matop.cpp.i
@@ -975,7 +975,7 @@ src/matop.i: src/matop.cpp.i
 
 # target to preprocess a source file
 src/matop.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matop.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matop.cpp.i
 .PHONY : src/matop.cpp.i
 
 src/matop.s: src/matop.cpp.s
@@ -984,7 +984,7 @@ src/matop.s: src/matop.cpp.s
 
 # target to generate assembly for a file
 src/matop.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matop.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matop.cpp.s
 .PHONY : src/matop.cpp.s
 
 src/matrix.o: src/matrix.cpp.o
@@ -993,7 +993,7 @@ src/matrix.o: src/matrix.cpp.o
 
 # target to build an object file
 src/matrix.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix.cpp.o
 .PHONY : src/matrix.cpp.o
 
 src/matrix.i: src/matrix.cpp.i
@@ -1002,7 +1002,7 @@ src/matrix.i: src/matrix.cpp.i
 
 # target to preprocess a source file
 src/matrix.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix.cpp.i
 .PHONY : src/matrix.cpp.i
 
 src/matrix.s: src/matrix.cpp.s
@@ -1011,7 +1011,7 @@ src/matrix.s: src/matrix.cpp.s
 
 # target to generate assembly for a file
 src/matrix.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix.cpp.s
 .PHONY : src/matrix.cpp.s
 
 src/matrix_decomp.o: src/matrix_decomp.cpp.o
@@ -1020,7 +1020,7 @@ src/matrix_decomp.o: src/matrix_decomp.cpp.o
 
 # target to build an object file
 src/matrix_decomp.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix_decomp.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix_decomp.cpp.o
 .PHONY : src/matrix_decomp.cpp.o
 
 src/matrix_decomp.i: src/matrix_decomp.cpp.i
@@ -1029,7 +1029,7 @@ src/matrix_decomp.i: src/matrix_decomp.cpp.i
 
 # target to preprocess a source file
 src/matrix_decomp.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix_decomp.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix_decomp.cpp.i
 .PHONY : src/matrix_decomp.cpp.i
 
 src/matrix_decomp.s: src/matrix_decomp.cpp.s
@@ -1038,7 +1038,7 @@ src/matrix_decomp.s: src/matrix_decomp.cpp.s
 
 # target to generate assembly for a file
 src/matrix_decomp.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix_decomp.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/matrix_decomp.cpp.s
 .PHONY : src/matrix_decomp.cpp.s
 
 src/merge.o: src/merge.cpp.o
@@ -1047,7 +1047,7 @@ src/merge.o: src/merge.cpp.o
 
 # target to build an object file
 src/merge.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/merge.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/merge.cpp.o
 .PHONY : src/merge.cpp.o
 
 src/merge.i: src/merge.cpp.i
@@ -1056,7 +1056,7 @@ src/merge.i: src/merge.cpp.i
 
 # target to preprocess a source file
 src/merge.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/merge.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/merge.cpp.i
 .PHONY : src/merge.cpp.i
 
 src/merge.s: src/merge.cpp.s
@@ -1065,7 +1065,7 @@ src/merge.s: src/merge.cpp.s
 
 # target to generate assembly for a file
 src/merge.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/merge.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/merge.cpp.s
 .PHONY : src/merge.cpp.s
 
 src/ocl.o: src/ocl.cpp.o
@@ -1074,7 +1074,7 @@ src/ocl.o: src/ocl.cpp.o
 
 # target to build an object file
 src/ocl.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ocl.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ocl.cpp.o
 .PHONY : src/ocl.cpp.o
 
 src/ocl.i: src/ocl.cpp.i
@@ -1083,7 +1083,7 @@ src/ocl.i: src/ocl.cpp.i
 
 # target to preprocess a source file
 src/ocl.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ocl.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ocl.cpp.i
 .PHONY : src/ocl.cpp.i
 
 src/ocl.s: src/ocl.cpp.s
@@ -1092,7 +1092,7 @@ src/ocl.s: src/ocl.cpp.s
 
 # target to generate assembly for a file
 src/ocl.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ocl.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ocl.cpp.s
 .PHONY : src/ocl.cpp.s
 
 src/opencl/runtime/opencl_clamdblas.o: src/opencl/runtime/opencl_clamdblas.cpp.o
@@ -1101,7 +1101,7 @@ src/opencl/runtime/opencl_clamdblas.o: src/opencl/runtime/opencl_clamdblas.cpp.o
 
 # target to build an object file
 src/opencl/runtime/opencl_clamdblas.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdblas.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdblas.cpp.o
 .PHONY : src/opencl/runtime/opencl_clamdblas.cpp.o
 
 src/opencl/runtime/opencl_clamdblas.i: src/opencl/runtime/opencl_clamdblas.cpp.i
@@ -1110,7 +1110,7 @@ src/opencl/runtime/opencl_clamdblas.i: src/opencl/runtime/opencl_clamdblas.cpp.i
 
 # target to preprocess a source file
 src/opencl/runtime/opencl_clamdblas.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdblas.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdblas.cpp.i
 .PHONY : src/opencl/runtime/opencl_clamdblas.cpp.i
 
 src/opencl/runtime/opencl_clamdblas.s: src/opencl/runtime/opencl_clamdblas.cpp.s
@@ -1119,7 +1119,7 @@ src/opencl/runtime/opencl_clamdblas.s: src/opencl/runtime/opencl_clamdblas.cpp.s
 
 # target to generate assembly for a file
 src/opencl/runtime/opencl_clamdblas.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdblas.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdblas.cpp.s
 .PHONY : src/opencl/runtime/opencl_clamdblas.cpp.s
 
 src/opencl/runtime/opencl_clamdfft.o: src/opencl/runtime/opencl_clamdfft.cpp.o
@@ -1128,7 +1128,7 @@ src/opencl/runtime/opencl_clamdfft.o: src/opencl/runtime/opencl_clamdfft.cpp.o
 
 # target to build an object file
 src/opencl/runtime/opencl_clamdfft.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdfft.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdfft.cpp.o
 .PHONY : src/opencl/runtime/opencl_clamdfft.cpp.o
 
 src/opencl/runtime/opencl_clamdfft.i: src/opencl/runtime/opencl_clamdfft.cpp.i
@@ -1137,7 +1137,7 @@ src/opencl/runtime/opencl_clamdfft.i: src/opencl/runtime/opencl_clamdfft.cpp.i
 
 # target to preprocess a source file
 src/opencl/runtime/opencl_clamdfft.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdfft.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdfft.cpp.i
 .PHONY : src/opencl/runtime/opencl_clamdfft.cpp.i
 
 src/opencl/runtime/opencl_clamdfft.s: src/opencl/runtime/opencl_clamdfft.cpp.s
@@ -1146,7 +1146,7 @@ src/opencl/runtime/opencl_clamdfft.s: src/opencl/runtime/opencl_clamdfft.cpp.s
 
 # target to generate assembly for a file
 src/opencl/runtime/opencl_clamdfft.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdfft.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_clamdfft.cpp.s
 .PHONY : src/opencl/runtime/opencl_clamdfft.cpp.s
 
 src/opencl/runtime/opencl_core.o: src/opencl/runtime/opencl_core.cpp.o
@@ -1155,7 +1155,7 @@ src/opencl/runtime/opencl_core.o: src/opencl/runtime/opencl_core.cpp.o
 
 # target to build an object file
 src/opencl/runtime/opencl_core.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_core.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_core.cpp.o
 .PHONY : src/opencl/runtime/opencl_core.cpp.o
 
 src/opencl/runtime/opencl_core.i: src/opencl/runtime/opencl_core.cpp.i
@@ -1164,7 +1164,7 @@ src/opencl/runtime/opencl_core.i: src/opencl/runtime/opencl_core.cpp.i
 
 # target to preprocess a source file
 src/opencl/runtime/opencl_core.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_core.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_core.cpp.i
 .PHONY : src/opencl/runtime/opencl_core.cpp.i
 
 src/opencl/runtime/opencl_core.s: src/opencl/runtime/opencl_core.cpp.s
@@ -1173,7 +1173,7 @@ src/opencl/runtime/opencl_core.s: src/opencl/runtime/opencl_core.cpp.s
 
 # target to generate assembly for a file
 src/opencl/runtime/opencl_core.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_core.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opencl/runtime/opencl_core.cpp.s
 .PHONY : src/opencl/runtime/opencl_core.cpp.s
 
 src/opengl.o: src/opengl.cpp.o
@@ -1182,7 +1182,7 @@ src/opengl.o: src/opengl.cpp.o
 
 # target to build an object file
 src/opengl.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opengl.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opengl.cpp.o
 .PHONY : src/opengl.cpp.o
 
 src/opengl.i: src/opengl.cpp.i
@@ -1191,7 +1191,7 @@ src/opengl.i: src/opengl.cpp.i
 
 # target to preprocess a source file
 src/opengl.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opengl.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opengl.cpp.i
 .PHONY : src/opengl.cpp.i
 
 src/opengl.s: src/opengl.cpp.s
@@ -1200,7 +1200,7 @@ src/opengl.s: src/opengl.cpp.s
 
 # target to generate assembly for a file
 src/opengl.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opengl.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/opengl.cpp.s
 .PHONY : src/opengl.cpp.s
 
 src/out.o: src/out.cpp.o
@@ -1209,7 +1209,7 @@ src/out.o: src/out.cpp.o
 
 # target to build an object file
 src/out.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/out.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/out.cpp.o
 .PHONY : src/out.cpp.o
 
 src/out.i: src/out.cpp.i
@@ -1218,7 +1218,7 @@ src/out.i: src/out.cpp.i
 
 # target to preprocess a source file
 src/out.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/out.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/out.cpp.i
 .PHONY : src/out.cpp.i
 
 src/out.s: src/out.cpp.s
@@ -1227,7 +1227,7 @@ src/out.s: src/out.cpp.s
 
 # target to generate assembly for a file
 src/out.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/out.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/out.cpp.s
 .PHONY : src/out.cpp.s
 
 src/ovx.o: src/ovx.cpp.o
@@ -1236,7 +1236,7 @@ src/ovx.o: src/ovx.cpp.o
 
 # target to build an object file
 src/ovx.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ovx.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ovx.cpp.o
 .PHONY : src/ovx.cpp.o
 
 src/ovx.i: src/ovx.cpp.i
@@ -1245,7 +1245,7 @@ src/ovx.i: src/ovx.cpp.i
 
 # target to preprocess a source file
 src/ovx.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ovx.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ovx.cpp.i
 .PHONY : src/ovx.cpp.i
 
 src/ovx.s: src/ovx.cpp.s
@@ -1254,7 +1254,7 @@ src/ovx.s: src/ovx.cpp.s
 
 # target to generate assembly for a file
 src/ovx.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ovx.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/ovx.cpp.s
 .PHONY : src/ovx.cpp.s
 
 src/parallel.o: src/parallel.cpp.o
@@ -1263,7 +1263,7 @@ src/parallel.o: src/parallel.cpp.o
 
 # target to build an object file
 src/parallel.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel.cpp.o
 .PHONY : src/parallel.cpp.o
 
 src/parallel.i: src/parallel.cpp.i
@@ -1272,7 +1272,7 @@ src/parallel.i: src/parallel.cpp.i
 
 # target to preprocess a source file
 src/parallel.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel.cpp.i
 .PHONY : src/parallel.cpp.i
 
 src/parallel.s: src/parallel.cpp.s
@@ -1281,7 +1281,7 @@ src/parallel.s: src/parallel.cpp.s
 
 # target to generate assembly for a file
 src/parallel.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel.cpp.s
 .PHONY : src/parallel.cpp.s
 
 src/parallel_pthreads.o: src/parallel_pthreads.cpp.o
@@ -1290,7 +1290,7 @@ src/parallel_pthreads.o: src/parallel_pthreads.cpp.o
 
 # target to build an object file
 src/parallel_pthreads.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel_pthreads.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel_pthreads.cpp.o
 .PHONY : src/parallel_pthreads.cpp.o
 
 src/parallel_pthreads.i: src/parallel_pthreads.cpp.i
@@ -1299,7 +1299,7 @@ src/parallel_pthreads.i: src/parallel_pthreads.cpp.i
 
 # target to preprocess a source file
 src/parallel_pthreads.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel_pthreads.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel_pthreads.cpp.i
 .PHONY : src/parallel_pthreads.cpp.i
 
 src/parallel_pthreads.s: src/parallel_pthreads.cpp.s
@@ -1308,7 +1308,7 @@ src/parallel_pthreads.s: src/parallel_pthreads.cpp.s
 
 # target to generate assembly for a file
 src/parallel_pthreads.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel_pthreads.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/parallel_pthreads.cpp.s
 .PHONY : src/parallel_pthreads.cpp.s
 
 src/pca.o: src/pca.cpp.o
@@ -1317,7 +1317,7 @@ src/pca.o: src/pca.cpp.o
 
 # target to build an object file
 src/pca.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/pca.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/pca.cpp.o
 .PHONY : src/pca.cpp.o
 
 src/pca.i: src/pca.cpp.i
@@ -1326,7 +1326,7 @@ src/pca.i: src/pca.cpp.i
 
 # target to preprocess a source file
 src/pca.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/pca.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/pca.cpp.i
 .PHONY : src/pca.cpp.i
 
 src/pca.s: src/pca.cpp.s
@@ -1335,7 +1335,7 @@ src/pca.s: src/pca.cpp.s
 
 # target to generate assembly for a file
 src/pca.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/pca.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/pca.cpp.s
 .PHONY : src/pca.cpp.s
 
 src/persistence.o: src/persistence.cpp.o
@@ -1344,7 +1344,7 @@ src/persistence.o: src/persistence.cpp.o
 
 # target to build an object file
 src/persistence.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/persistence.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/persistence.cpp.o
 .PHONY : src/persistence.cpp.o
 
 src/persistence.i: src/persistence.cpp.i
@@ -1353,7 +1353,7 @@ src/persistence.i: src/persistence.cpp.i
 
 # target to preprocess a source file
 src/persistence.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/persistence.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/persistence.cpp.i
 .PHONY : src/persistence.cpp.i
 
 src/persistence.s: src/persistence.cpp.s
@@ -1362,7 +1362,7 @@ src/persistence.s: src/persistence.cpp.s
 
 # target to generate assembly for a file
 src/persistence.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/persistence.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/persistence.cpp.s
 .PHONY : src/persistence.cpp.s
 
 src/rand.o: src/rand.cpp.o
@@ -1371,7 +1371,7 @@ src/rand.o: src/rand.cpp.o
 
 # target to build an object file
 src/rand.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/rand.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/rand.cpp.o
 .PHONY : src/rand.cpp.o
 
 src/rand.i: src/rand.cpp.i
@@ -1380,7 +1380,7 @@ src/rand.i: src/rand.cpp.i
 
 # target to preprocess a source file
 src/rand.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/rand.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/rand.cpp.i
 .PHONY : src/rand.cpp.i
 
 src/rand.s: src/rand.cpp.s
@@ -1389,7 +1389,7 @@ src/rand.s: src/rand.cpp.s
 
 # target to generate assembly for a file
 src/rand.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/rand.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/rand.cpp.s
 .PHONY : src/rand.cpp.s
 
 src/softfloat.o: src/softfloat.cpp.o
@@ -1398,7 +1398,7 @@ src/softfloat.o: src/softfloat.cpp.o
 
 # target to build an object file
 src/softfloat.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/softfloat.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/softfloat.cpp.o
 .PHONY : src/softfloat.cpp.o
 
 src/softfloat.i: src/softfloat.cpp.i
@@ -1407,7 +1407,7 @@ src/softfloat.i: src/softfloat.cpp.i
 
 # target to preprocess a source file
 src/softfloat.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/softfloat.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/softfloat.cpp.i
 .PHONY : src/softfloat.cpp.i
 
 src/softfloat.s: src/softfloat.cpp.s
@@ -1416,7 +1416,7 @@ src/softfloat.s: src/softfloat.cpp.s
 
 # target to generate assembly for a file
 src/softfloat.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/softfloat.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/softfloat.cpp.s
 .PHONY : src/softfloat.cpp.s
 
 src/split.o: src/split.cpp.o
@@ -1425,7 +1425,7 @@ src/split.o: src/split.cpp.o
 
 # target to build an object file
 src/split.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/split.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/split.cpp.o
 .PHONY : src/split.cpp.o
 
 src/split.i: src/split.cpp.i
@@ -1434,7 +1434,7 @@ src/split.i: src/split.cpp.i
 
 # target to preprocess a source file
 src/split.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/split.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/split.cpp.i
 .PHONY : src/split.cpp.i
 
 src/split.s: src/split.cpp.s
@@ -1443,7 +1443,7 @@ src/split.s: src/split.cpp.s
 
 # target to generate assembly for a file
 src/split.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/split.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/split.cpp.s
 .PHONY : src/split.cpp.s
 
 src/stat.o: src/stat.cpp.o
@@ -1452,7 +1452,7 @@ src/stat.o: src/stat.cpp.o
 
 # target to build an object file
 src/stat.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.cpp.o
 .PHONY : src/stat.cpp.o
 
 src/stat.i: src/stat.cpp.i
@@ -1461,7 +1461,7 @@ src/stat.i: src/stat.cpp.i
 
 # target to preprocess a source file
 src/stat.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.cpp.i
 .PHONY : src/stat.cpp.i
 
 src/stat.s: src/stat.cpp.s
@@ -1470,7 +1470,7 @@ src/stat.s: src/stat.cpp.s
 
 # target to generate assembly for a file
 src/stat.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.cpp.s
 .PHONY : src/stat.cpp.s
 
 src/stat.dispatch.o: src/stat.dispatch.cpp.o
@@ -1479,7 +1479,7 @@ src/stat.dispatch.o: src/stat.dispatch.cpp.o
 
 # target to build an object file
 src/stat.dispatch.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.dispatch.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.dispatch.cpp.o
 .PHONY : src/stat.dispatch.cpp.o
 
 src/stat.dispatch.i: src/stat.dispatch.cpp.i
@@ -1488,7 +1488,7 @@ src/stat.dispatch.i: src/stat.dispatch.cpp.i
 
 # target to preprocess a source file
 src/stat.dispatch.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.dispatch.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.dispatch.cpp.i
 .PHONY : src/stat.dispatch.cpp.i
 
 src/stat.dispatch.s: src/stat.dispatch.cpp.s
@@ -1497,7 +1497,7 @@ src/stat.dispatch.s: src/stat.dispatch.cpp.s
 
 # target to generate assembly for a file
 src/stat.dispatch.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.dispatch.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stat.dispatch.cpp.s
 .PHONY : src/stat.dispatch.cpp.s
 
 src/stl.o: src/stl.cpp.o
@@ -1506,7 +1506,7 @@ src/stl.o: src/stl.cpp.o
 
 # target to build an object file
 src/stl.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stl.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stl.cpp.o
 .PHONY : src/stl.cpp.o
 
 src/stl.i: src/stl.cpp.i
@@ -1515,7 +1515,7 @@ src/stl.i: src/stl.cpp.i
 
 # target to preprocess a source file
 src/stl.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stl.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stl.cpp.i
 .PHONY : src/stl.cpp.i
 
 src/stl.s: src/stl.cpp.s
@@ -1524,7 +1524,7 @@ src/stl.s: src/stl.cpp.s
 
 # target to generate assembly for a file
 src/stl.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stl.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/stl.cpp.s
 .PHONY : src/stl.cpp.s
 
 src/system.o: src/system.cpp.o
@@ -1533,7 +1533,7 @@ src/system.o: src/system.cpp.o
 
 # target to build an object file
 src/system.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/system.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/system.cpp.o
 .PHONY : src/system.cpp.o
 
 src/system.i: src/system.cpp.i
@@ -1542,7 +1542,7 @@ src/system.i: src/system.cpp.i
 
 # target to preprocess a source file
 src/system.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/system.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/system.cpp.i
 .PHONY : src/system.cpp.i
 
 src/system.s: src/system.cpp.s
@@ -1551,7 +1551,7 @@ src/system.s: src/system.cpp.s
 
 # target to generate assembly for a file
 src/system.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/system.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/system.cpp.s
 .PHONY : src/system.cpp.s
 
 src/tables.o: src/tables.cpp.o
@@ -1560,7 +1560,7 @@ src/tables.o: src/tables.cpp.o
 
 # target to build an object file
 src/tables.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/tables.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/tables.cpp.o
 .PHONY : src/tables.cpp.o
 
 src/tables.i: src/tables.cpp.i
@@ -1569,7 +1569,7 @@ src/tables.i: src/tables.cpp.i
 
 # target to preprocess a source file
 src/tables.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/tables.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/tables.cpp.i
 .PHONY : src/tables.cpp.i
 
 src/tables.s: src/tables.cpp.s
@@ -1578,7 +1578,7 @@ src/tables.s: src/tables.cpp.s
 
 # target to generate assembly for a file
 src/tables.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/tables.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/tables.cpp.s
 .PHONY : src/tables.cpp.s
 
 src/trace.o: src/trace.cpp.o
@@ -1587,7 +1587,7 @@ src/trace.o: src/trace.cpp.o
 
 # target to build an object file
 src/trace.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/trace.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/trace.cpp.o
 .PHONY : src/trace.cpp.o
 
 src/trace.i: src/trace.cpp.i
@@ -1596,7 +1596,7 @@ src/trace.i: src/trace.cpp.i
 
 # target to preprocess a source file
 src/trace.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/trace.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/trace.cpp.i
 .PHONY : src/trace.cpp.i
 
 src/trace.s: src/trace.cpp.s
@@ -1605,7 +1605,7 @@ src/trace.s: src/trace.cpp.s
 
 # target to generate assembly for a file
 src/trace.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/trace.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/trace.cpp.s
 .PHONY : src/trace.cpp.s
 
 src/types.o: src/types.cpp.o
@@ -1614,7 +1614,7 @@ src/types.o: src/types.cpp.o
 
 # target to build an object file
 src/types.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/types.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/types.cpp.o
 .PHONY : src/types.cpp.o
 
 src/types.i: src/types.cpp.i
@@ -1623,7 +1623,7 @@ src/types.i: src/types.cpp.i
 
 # target to preprocess a source file
 src/types.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/types.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/types.cpp.i
 .PHONY : src/types.cpp.i
 
 src/types.s: src/types.cpp.s
@@ -1632,7 +1632,7 @@ src/types.s: src/types.cpp.s
 
 # target to generate assembly for a file
 src/types.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/types.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/types.cpp.s
 .PHONY : src/types.cpp.s
 
 src/umatrix.o: src/umatrix.cpp.o
@@ -1641,7 +1641,7 @@ src/umatrix.o: src/umatrix.cpp.o
 
 # target to build an object file
 src/umatrix.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/umatrix.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/umatrix.cpp.o
 .PHONY : src/umatrix.cpp.o
 
 src/umatrix.i: src/umatrix.cpp.i
@@ -1650,7 +1650,7 @@ src/umatrix.i: src/umatrix.cpp.i
 
 # target to preprocess a source file
 src/umatrix.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/umatrix.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/umatrix.cpp.i
 .PHONY : src/umatrix.cpp.i
 
 src/umatrix.s: src/umatrix.cpp.s
@@ -1659,7 +1659,7 @@ src/umatrix.s: src/umatrix.cpp.s
 
 # target to generate assembly for a file
 src/umatrix.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/umatrix.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/umatrix.cpp.s
 .PHONY : src/umatrix.cpp.s
 
 src/utils/filesystem.o: src/utils/filesystem.cpp.o
@@ -1668,7 +1668,7 @@ src/utils/filesystem.o: src/utils/filesystem.cpp.o
 
 # target to build an object file
 src/utils/filesystem.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/utils/filesystem.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/utils/filesystem.cpp.o
 .PHONY : src/utils/filesystem.cpp.o
 
 src/utils/filesystem.i: src/utils/filesystem.cpp.i
@@ -1677,7 +1677,7 @@ src/utils/filesystem.i: src/utils/filesystem.cpp.i
 
 # target to preprocess a source file
 src/utils/filesystem.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/utils/filesystem.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/utils/filesystem.cpp.i
 .PHONY : src/utils/filesystem.cpp.i
 
 src/utils/filesystem.s: src/utils/filesystem.cpp.s
@@ -1686,7 +1686,7 @@ src/utils/filesystem.s: src/utils/filesystem.cpp.s
 
 # target to generate assembly for a file
 src/utils/filesystem.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/utils/filesystem.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/utils/filesystem.cpp.s
 .PHONY : src/utils/filesystem.cpp.s
 
 src/va_intel.o: src/va_intel.cpp.o
@@ -1695,7 +1695,7 @@ src/va_intel.o: src/va_intel.cpp.o
 
 # target to build an object file
 src/va_intel.cpp.o:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/va_intel.cpp.o
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/va_intel.cpp.o
 .PHONY : src/va_intel.cpp.o
 
 src/va_intel.i: src/va_intel.cpp.i
@@ -1704,7 +1704,7 @@ src/va_intel.i: src/va_intel.cpp.i
 
 # target to preprocess a source file
 src/va_intel.cpp.i:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/va_intel.cpp.i
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/va_intel.cpp.i
 .PHONY : src/va_intel.cpp.i
 
 src/va_intel.s: src/va_intel.cpp.s
@@ -1713,7 +1713,7 @@ src/va_intel.s: src/va_intel.cpp.s
 
 # target to generate assembly for a file
 src/va_intel.cpp.s:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/va_intel.cpp.s
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(MAKE) -f modules/core/CMakeFiles/opencv_core.dir/build.make modules/core/CMakeFiles/opencv_core.dir/src/va_intel.cpp.s
 .PHONY : src/va_intel.cpp.s
 
 # Help Target
@@ -1911,6 +1911,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

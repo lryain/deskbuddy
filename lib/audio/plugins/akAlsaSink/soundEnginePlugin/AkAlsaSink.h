@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include <AK/SoundEngine/Common/IAkPlugin.h>
+// #include <AK/SoundEngine/Common/IAkPlugin.h>
 #include <alsa/asoundlib.h>
 #include "audioEngine/plugins/akAlsaSinkPluginTypes.h"
 #include "AkAlsaSinkParams.h"

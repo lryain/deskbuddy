@@ -65,13 +65,13 @@ bool SpeechRecognizerSnowboy::Init()
     struct stat buffer;
     const char* wakewordPath;
 
-    if (stat("/data/data/com.anki.deskmate/persistent/customWakeWord/wakeword.pmdl", &buffer) == 0) {
-      wakewordPath = "/data/data/com.anki.deskmate/persistent/customWakeWord/wakeword.pmdl";
+    if (stat("/data/data/com.lrya.deskmate/persistent/customWakeWord/wakeword.pmdl", &buffer) == 0) {
+      wakewordPath = "/data/data/com.lrya.deskmate/persistent/customWakeWord/wakeword.pmdl";
     } else {
-      wakewordPath = "/anki/data/assets/cozmo_resources/assets/snowboyModels/hey_vector.pmdl";
+      wakewordPath = "/lrya/data/assets/cozmo_resources/assets/snowboyModels/hey_vector.pmdl";
     }
 
-    execl("/anki/bin/sb_server", "sb_server", "/anki/data/assets/cozmo_resources/assets/snowboyModels/common.res", wakewordPath, (char*)nullptr);
+    execl("/lrya/bin/sb_server", "sb_server", "/lrya/data/assets/cozmo_resources/assets/snowboyModels/common.res", wakewordPath, (char*)nullptr);
     LOG_ERROR("SpeechRecognizerSnowboy.Init", "Failed to exec sb_server");
     std::exit(EXIT_FAILURE);
   }

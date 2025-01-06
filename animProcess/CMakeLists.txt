@@ -56,7 +56,7 @@ target_link_libraries(mate_anim
   # vendor
   ${OPENCV_LIBS}
   ${FLATBUFFERS_LIBS}
-  signal_essence
+#   signal_essence2
 #   ${TEXT2SPEECH_LIBS}
 #   ${PRYON_LITE_LIBS}
   ${SPEEXDSP_LIBS}
@@ -98,7 +98,7 @@ if (MATEOS)
   target_link_libraries(mate-anim
     PRIVATE
     mate_anim
-    mateCrashReports
+    deskmateCrashReports
     # NOTE: deliberately using non-robot cti_common here to ease build
     #       pain given differing include paths for clad types. This still
     #       does not expose cpplite clad messaging within the anim process

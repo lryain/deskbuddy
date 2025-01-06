@@ -14,13 +14,15 @@ using namespace std;
 Yin::Yin()
 {
     threshold   = 0.1;
-    prepareToPlay(DEFAULT_SAMPLE_RATE, MAX_BUFFER_SIZE, NULL);
+//     prepareToPlay(DEFAULT_SAMPLE_RATE, MAX_BUFFER_SIZE, NULL);
+    prepareToPlay(DEFAULT_SAMPLE_RATE, MAX_BUFFER_SIZE);
 }
 
 Yin::Yin(double sampleRate, int bufferSize)
 {
     threshold   = 0.1;
-    prepareToPlay(sampleRate,bufferSize, NULL);
+//     prepareToPlay(sampleRate,bufferSize, NULL);
+    prepareToPlay(sampleRate,bufferSize);
 
 }
 
@@ -29,7 +31,8 @@ Yin::~Yin()
     
 }
 
-void Yin::prepareToPlay(float newSampleRate, int newBufferSize, AK::IAkPluginMemAlloc* Allocator)
+// void Yin::prepareToPlay(float newSampleRate, int newBufferSize, AK::IAkPluginMemAlloc* Allocator)
+void Yin::prepareToPlay(float newSampleRate, int newBufferSize)
 {
     sampleRate = newSampleRate;
     bufferSize = newBufferSize;

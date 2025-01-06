@@ -159,119 +159,119 @@ set_target_properties(opencv_videostab PROPERTIES
 # Import target "opencv_core" for configuration "Release"
 set_property(TARGET opencv_core APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_core PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_core.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_core.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_core.so.3.4"
   )
 
 # Import target "opencv_flann" for configuration "Release"
 set_property(TARGET opencv_flann APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_flann PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_flann.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_flann.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_flann.so.3.4"
   )
 
 # Import target "opencv_imgproc" for configuration "Release"
 set_property(TARGET opencv_imgproc APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_imgproc PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_imgproc.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_imgproc.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_imgproc.so.3.4"
   )
 
 # Import target "opencv_ml" for configuration "Release"
 set_property(TARGET opencv_ml APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_ml PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_ml.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_ml.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_ml.so.3.4"
   )
 
 # Import target "opencv_objdetect" for configuration "Release"
 set_property(TARGET opencv_objdetect APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_objdetect PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_objdetect.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_objdetect.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_objdetect.so.3.4"
   )
 
 # Import target "opencv_photo" for configuration "Release"
 set_property(TARGET opencv_photo APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_photo PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_photo.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_photo.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_photo.so.3.4"
   )
 
 # Import target "opencv_video" for configuration "Release"
 set_property(TARGET opencv_video APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_video PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_video.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_video.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_video.so.3.4"
   )
 
 # Import target "opencv_dnn" for configuration "Release"
 set_property(TARGET opencv_dnn APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_dnn PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_dnn.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_dnn.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_dnn.so.3.4"
   )
 
 # Import target "opencv_imgcodecs" for configuration "Release"
 set_property(TARGET opencv_imgcodecs APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_imgcodecs PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_imgcodecs.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_imgcodecs.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_imgcodecs.so.3.4"
   )
 
 # Import target "opencv_shape" for configuration "Release"
 set_property(TARGET opencv_shape APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_shape PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_shape.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_shape.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_shape.so.3.4"
   )
 
 # Import target "opencv_videoio" for configuration "Release"
 set_property(TARGET opencv_videoio APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_videoio PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_videoio.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_videoio.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_videoio.so.3.4"
   )
 
 # Import target "opencv_highgui" for configuration "Release"
 set_property(TARGET opencv_highgui APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_highgui PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_highgui.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_highgui.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_highgui.so.3.4"
   )
 
 # Import target "opencv_superres" for configuration "Release"
 set_property(TARGET opencv_superres APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_superres PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_superres.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_superres.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_superres.so.3.4"
   )
 
 # Import target "opencv_features2d" for configuration "Release"
 set_property(TARGET opencv_features2d APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_features2d PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_features2d.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_features2d.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_features2d.so.3.4"
   )
 
 # Import target "opencv_calib3d" for configuration "Release"
 set_property(TARGET opencv_calib3d APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_calib3d PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_calib3d.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_calib3d.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_calib3d.so.3.4"
   )
 
 # Import target "opencv_stitching" for configuration "Release"
 set_property(TARGET opencv_stitching APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_stitching PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_stitching.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_stitching.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_stitching.so.3.4"
   )
 
 # Import target "opencv_videostab" for configuration "Release"
 set_property(TARGET opencv_videostab APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(opencv_videostab PROPERTIES
-  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_vicos/lib/libopencv_videostab.so.3.4.0"
+  IMPORTED_LOCATION_RELEASE "/home/pi/deskbuddy/tools/build/build-victor-deps/build-opencv/opencv/build_mateos/lib/libopencv_videostab.so.3.4.0"
   IMPORTED_SONAME_RELEASE "libopencv_videostab.so.3.4"
   )
 

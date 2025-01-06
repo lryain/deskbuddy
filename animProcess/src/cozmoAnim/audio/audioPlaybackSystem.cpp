@@ -19,7 +19,7 @@
 #include "cozmoAnim/audio/cozmoAudioController.h"
 #include "audioEngine/audioTools/standardWaveDataContainer.h"
 #include "audioEngine/audioTypeTranslator.h"
-#include "audioEngine/plugins/ankiPluginInterface.h"
+#include "audioEngine/plugins/lryaPluginInterface.h"
 
 #include "util/fileUtils/fileUtils.h"
 #include "util/logging/logging.h"

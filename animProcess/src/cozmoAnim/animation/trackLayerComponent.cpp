@@ -19,7 +19,7 @@
 //#include "lrya/cozmo/basestation/components/desiredFaceDistortionComponent.h"
 #include "cozmoAnim/animContext.h"
 #include "util/console/consoleInterface.h"
-#include "util/helpers/ankiDefines.h"
+#include "util/helpers/lryaDefines.h"
 
 namespace Lrya {
 namespace Vector {

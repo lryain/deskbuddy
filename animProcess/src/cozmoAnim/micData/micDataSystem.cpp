@@ -29,7 +29,7 @@
 #include "cozmoAnim/micData/micDataSystem.h"
 #include "cozmoAnim/showAudioStreamStateManager.h"
 
-#include "audioEngine/plugins/ankiPluginInterface.h"
+#include "audioEngine/plugins/lryaPluginInterface.h"
 
 #include "coretech/common/engine/utils/data/dataPlatform.h"
 #include "osState/osState.h"
@@ -335,7 +335,8 @@ void MicDataSystem::RecordAudioInternal(uint32_t duration_ms, const std::string&
   if (runFFT)
   {
     auto weakptr = std::weak_ptr<FFTResultData>(_fftResultData);
-    newJob->_rawAudioFFTCallback = [weakdata = std::move(weakptr)] (std::vector<uint32>&& result) {
+//     FIX uin32 => uint32_t
+    newJob->_rawAudioFFTCallback = [weakdata = std::move(weakptr)] (std::vector<uint32_t>&& result) {
       if (auto resultdata = weakdata.lock())
       {
         std::lock_guard<std::mutex> _lock(resultdata->_fftResultMutex);

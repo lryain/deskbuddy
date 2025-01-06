@@ -9,7 +9,7 @@
 
 #include "textToSpeechProvider.h"
 
-#include "util/helpers/ankiDefines.h"
+#include "util/helpers/lryaDefines.h"
 
 // Which provider implementation do we use for this platform?
 #if defined(LRYA_PLATFORM_OSX)

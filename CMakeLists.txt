@@ -161,7 +161,7 @@ include(audio) # See ./cmake/audio.cmake for definitions and lib
 # include(wwise) # for Wwise targets
 include(protobuf) # for protobuf target
 include(breakpad) # for breakpad targets
-# include(avs-device-sdk)
+include(avs-device-sdk)
 
 include(speexdsp)
 include(pffft)
@@ -179,7 +179,7 @@ import(coretech "coretech")
 add_subdirectory("lib/lrya-ble")
 add_subdirectory("lib/crash-reporting-mateos")
 add_subdirectory("lib/micData")
-add_subdirectory("lib/signalEssence")
+# add_subdirectory("lib/signalEssence")
 add_subdirectory("platform")
 add_subdirectory("clad")
 add_subdirectory("cloud")
@@ -242,7 +242,7 @@ include(okao)
 include(flatbuffers)
 include(sodium)
 include(aubio)
-include(signalessence)
+# include(signalessence)
 # include(pryon_lite)
 
 # write_license_html()

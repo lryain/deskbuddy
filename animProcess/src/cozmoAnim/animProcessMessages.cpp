@@ -188,7 +188,11 @@ namespace {
     auto * micDataSystem = _context->GetMicDataSystem();
     if (micDataSystem != nullptr)
     {
+      #if LRYA_DEV_CHEATS
       micDataSystem->SetForceRecordClip(true);
+      #else
+      
+      #endif
     }
   }
   CONSOLE_FUNC(RecordMicDataClip, "MicData");

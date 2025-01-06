@@ -88,7 +88,7 @@ bool NotchDetector::HasNotch()
   
   static int sIdx = 0;
   if( kSaveNotches ) {
-    std::ofstream fout("/data/data/com.anki.deskmate/cache/alexa/notch" + std::to_string(sIdx) + ".csv");
+    std::ofstream fout("/data/data/com.lrya.deskmate/cache/alexa/notch" + std::to_string(sIdx) + ".csv");
     ++sIdx;
     std::stringstream ss;
     for( size_t i=0; i<kNumPowers; ++i ) {

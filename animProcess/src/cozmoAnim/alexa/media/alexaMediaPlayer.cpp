@@ -39,7 +39,7 @@ TODO (VIC-9853): re-implement this properly. I think it should more closely rese
 #include "streamReader.h"
 
 #include "audioEngine/audioTypeTranslator.h"
-#include "audioEngine/plugins/ankiPluginInterface.h"
+#include "audioEngine/plugins/lryaPluginInterface.h"
 #include "audioEngine/plugins/streamingWavePortalPlugIn.h"
 #include "coretech/common/engine/utils/data/dataPlatform.h"
 #include "coretech/common/engine/utils/timer.h"
@@ -54,7 +54,7 @@ TODO (VIC-9853): re-implement this properly. I think it should more closely rese
 #include "util/container/ringBuffContiguousRead.h"
 #include "util/dispatchQueue/dispatchQueue.h"
 #include "util/fileUtils/fileUtils.h"
-#include "util/helpers/ankiDefines.h"
+#include "util/helpers/lryaDefines.h"
 #include "util/logging/logging.h"
 #include "util/threading/threadPriority.h"
 #include "util/logging/DAS.h"

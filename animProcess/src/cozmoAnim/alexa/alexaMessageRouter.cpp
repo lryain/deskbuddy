@@ -62,7 +62,7 @@ namespace {
   {
     static std::string alexaCacheFolder = "";
     if( alexaCacheFolder.empty() ) {
-      alexaCacheFolder = "/data/data/com.anki.deskmate/cache/alexa/";
+      alexaCacheFolder = "/data/data/com.lrya.deskmate/cache/alexa/";
       if( !alexaCacheFolder.empty() && Util::FileUtils::DirectoryDoesNotExist( alexaCacheFolder ) ) {
         Util::FileUtils::CreateDirectory( alexaCacheFolder );
       }

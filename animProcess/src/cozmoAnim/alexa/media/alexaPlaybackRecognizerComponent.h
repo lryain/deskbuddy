@@ -18,7 +18,7 @@
 
 
 #include "audioEngine/plugins/akAlsaSinkPluginTypes.h"
-#include "audioEngine/plugins/ankiPluginInterface.h"
+#include "audioEngine/plugins/lryaPluginInterface.h"
 #include "util/container/fixedCircularBuffer.h"
 #include <AVSCommon/Utils/MediaPlayer/MediaPlayerObserverInterface.h>
 

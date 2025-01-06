@@ -11,7 +11,7 @@
 #ifndef __cozmo_textToSpeech_textToSpeechProvider_mac_H__
 #define __cozmo_textToSpeech_textToSpeechProvider_mac_H__
 
-#include "util/helpers/ankiDefines.h"
+#include "util/helpers/lryaDefines.h"
 
 #if defined(LRYA_PLATFORM_OSX)
 

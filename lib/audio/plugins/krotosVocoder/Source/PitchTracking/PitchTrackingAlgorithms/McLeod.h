@@ -21,7 +21,8 @@ public:
     McLeod (double sampleRate, int bufferSize);
     ~McLeod();
 
-    void prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator);
+//     void prepareToPlay(float sampleRate, int blockSize, AK::IAkPluginMemAlloc* Allocator);
+    void prepareToPlay(float sampleRate, int blockSize);
     float processBlockAndGetPitch(vector<float> buffer);
 
 	float processBlockAndGetPitch(float* fftBuffer);

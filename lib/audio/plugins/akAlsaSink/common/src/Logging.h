@@ -10,8 +10,8 @@
 #pragma once
 
 #include <stdio.h>
-#include <AK/Tools/Common/AkLock.h>
-#include <AK/Tools/Common/AkAutoLock.h>
+// #include <AK/Tools/Common/AkLock.h>
+// #include <AK/Tools/Common/AkAutoLock.h>
 
 #define DEBUG_LOG 1
 #define AK_ALSA_SINK_LOGS 1

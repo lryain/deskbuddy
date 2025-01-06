@@ -13,12 +13,14 @@ using namespace std;
 
 Autocorrelation::Autocorrelation()
 {
-    prepareToPlay(DEFAULT_SAMPLE_RATE,MAX_BUFFER_SIZE, NULL);
+//     prepareToPlay(DEFAULT_SAMPLE_RATE,MAX_BUFFER_SIZE, NULL);
+    prepareToPlay(DEFAULT_SAMPLE_RATE,MAX_BUFFER_SIZE);
 }
 
 Autocorrelation::Autocorrelation(double newSampleRate,int newBufferSize)
 {
-    prepareToPlay(newSampleRate,newBufferSize, NULL);
+//     prepareToPlay(newSampleRate,newBufferSize, NULL);
+    prepareToPlay(newSampleRate,newBufferSize);
 }
 
 Autocorrelation::~Autocorrelation()
@@ -26,7 +28,8 @@ Autocorrelation::~Autocorrelation()
     
 }
 
-void Autocorrelation::prepareToPlay(float newSampleRate, int newBufferSize, AK::IAkPluginMemAlloc* Allocator)
+// void Autocorrelation::prepareToPlay(float newSampleRate, int newBufferSize, AK::IAkPluginMemAlloc* Allocator)
+void Autocorrelation::prepareToPlay(float newSampleRate, int newBufferSize)
 {
     sampleRate = newSampleRate;
     bufferSize = newBufferSize;
