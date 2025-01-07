@@ -2,7 +2,8 @@
 # breakpad.cmake
 #
 if (NOT TARGET breakpad_client)
-set(BREAKPAD_PATH "${CMAKE_SOURCE_DIR}/lib/crash-reporting-mateos/Breakpad")
+# change breakpad path to 3rd/breakpad
+set(BREAKPAD_PATH "${CMAKE_SOURCE_DIR}/3rd/breakpad/mateos/dist")
 set(BREAKPAD_INCLUDE_PATHS "${BREAKPAD_PATH}/include")
 set(BREAKPAD_LICENSE "BSD-4,${CMAKE_SOURCE_DIR}/licenses/breakpad.license")
 
@@ -11,13 +12,13 @@ set(BREAKPAD_LIBS "")
 set(BREAKPAD_EXES "")
 
 if (MATEOS)
-#     set(BREAKPAD_LIB_PATH "${BREAKPAD_PATH}/libs/armeabi-v7a")
-    set(BREAKPAD_LIB_PATH "${BREAKPAD_PATH}/lib")
+    set(BREAKPAD_LIB_PATH "${BREAKPAD_PATH}/libs/armeabihf-v7a")
+#     set(BREAKPAD_LIB_PATH "${BREAKPAD_PATH}/lib")
     set(BREAKPAD_LIBS
       breakpad_client
     )
-#     set(BREAKPAD_EXE_PATH "${BREAKPAD_PATH}/bin/armeabi-v7a")
-    set(BREAKPAD_EXE_PATH "${BREAKPAD_PATH}/bin")
+    set(BREAKPAD_EXE_PATH "${BREAKPAD_PATH}/bin/armeabihf-v7a")
+#     set(BREAKPAD_EXE_PATH "${BREAKPAD_PATH}/bin")
     set(BREAKPAD_EXES
     )
 endif()

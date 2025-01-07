@@ -5,7 +5,7 @@ project(deskmateCrashReports)
 #
 # Build options
 #
-option(USE_GOOGLE_BREAKPAD "Enable Google Breakpad crash reports" OFF)
+option(USE_GOOGLE_BREAKPAD "Enable Google Breakpad crash reports" ON)
 option(USE_TOMBSTONE_HOOKS "Enable Android tombstone hooks" ON)
 
 message(STATUS "---------> USE_GOOGLE_BREAKPAD is ${USE_GOOGLE_BREAKPAD}")
@@ -31,9 +31,11 @@ if (MATEOS)
       PRIVATE
       USE_GOOGLE_BREAKPAD
     )
+#     3rd/breakpad/linux/dist/include/breakpad
     target_include_directories(deskmateCrashReports
       PRIVATE
-      $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/lib/crash-reporting-mateos/Breakpad/include/breakpad>
+#       $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/lib/crash-reporting-mateos/Breakpad/include/breakpad>
+      $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/3rd/breakpad/mateos/dist/include/breakpad>
     )
     target_link_libraries(deskmateCrashReports
       PRIVATE

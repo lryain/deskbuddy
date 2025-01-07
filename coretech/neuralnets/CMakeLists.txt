@@ -68,7 +68,7 @@ if(NEURAL_NET_PLATFORM STREQUAL "TensorFlow")
       ${LRYA_THIRD_PARTY_DIR}/opencv/mateos/include
       ${TENSORFLOW_PATH}/tensorflow/lite
       ${TENSORFLOW_PATH}/tensorflow/lite/gen_MATEOS/proto
-      ${TENSORFLOW_PATH}/tensorflow/lite/gen_MATEOS/protobuf/armeabi-v7a/include
+      ${TENSORFLOW_PATH}/tensorflow/lite/gen_MATEOS/protobuf/armeabihf-v7a/include
       ${TENSORFLOW_PATH}/tensorflow/lite/gen_MATEOS/downloads/eigen
       ${TENSORFLOW_PATH}/tensorflow/lite/gen_MATEOS/downloads/nsync/public
       ${TENSORFLOW_PATH}
@@ -79,7 +79,7 @@ if(NEURAL_NET_PLATFORM STREQUAL "TensorFlow")
       -Wl,--whole-archive 
 #       ${TENSORFLOW_PATH}/tensorflow/lite/gen_MATEOS/lib/libtensorflow-core.a
       -Wl,--no-whole-archive
-      ${TENSORFLOW_PATH}/tensorflow/lite/gen_MATEOS/protobuf/armeabi-v7a/lib/libprotobuf.a
+      ${TENSORFLOW_PATH}/tensorflow/lite/gen_MATEOS/protobuf/armeabihf-v7a/lib/libprotobuf.a
       ${TENSORFLOW_PATH}/tensorflow/lite/gen_MATEOS/downloads/nsync/builds/default.mateos.c++11/libnsync.a
       c++   # NOTE: VicOS uses libc++, so TensorFlow must be built to match
       log

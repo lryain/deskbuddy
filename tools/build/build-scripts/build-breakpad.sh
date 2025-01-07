@@ -48,18 +48,21 @@ while getopts ":hp:r:s" opt; do
     esac
 done
 
-rm -rf build-breakpad/${BREAKPAD_BUILD_PLATFORM}/dist
-
-mkdir -p build-breakpad/${BREAKPAD_BUILD_PLATFORM}/dist/bin
+BREAKPAD_BUILD_PLATFORM="mateos"
+# rm -rf build-breakpad/${BREAKPAD_BUILD_PLATFORM}/dist
+# mkdir -p build-breakpad/${BREAKPAD_BUILD_PLATFORM}/dist/bin
 
 pushd build-breakpad
 if [ ! -d depot_tools ]; then
+    echo "depot_tools already exist!"
     git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
 fi
 
 pushd depot_tools
-./update_depot_tools
+echo "update_depot_tools..."
+# ./update_depot_tools
 popd # depot_tools
+echo "done update_depot_tools"
 
 if [ "${BREAKPAD_BUILD_PLATFORM}" = "android" ]; then
     # Set up Android NDK if necessary
@@ -76,29 +79,32 @@ if [ "${BREAKPAD_BUILD_PLATFORM}" = "android" ]; then
 
 elif [ "${BREAKPAD_BUILD_PLATFORM}" = "mateos" ]; then
     # Set up MATEOS toolchain if necessary
-    MATEOS_SDK_ROOT=`${TOPLEVEL}/tools/lryabuild/mateos.py --install ${BREAKPAD_MATEOS_VERSION} | tail -1`
+#     MATEOS_SDK_ROOT=`${TOPLEVEL}/tools/lryabuild/mateos.py --install ${BREAKPAD_MATEOS_VERSION} | tail -1`
+    MATEOS_SDK_ROOT=""
     echo MATEOS_SDK_ROOT = $MATEOS_SDK_ROOT
-
-    export PATH="${MATEOS_SDK_ROOT}/prebuilt/bin":"$PATH"
+#     export PATH="${MATEOS_SDK_ROOT}/prebuilt/bin":"$PATH"
 fi
 
 export PATH=`pwd`/depot_tools:"$PATH"
 
 pushd ${BREAKPAD_BUILD_PLATFORM}
 
-if [ -d src ]; then
-    pushd src
-    [ -e Makefile ] && make distclean
-    git clean -dffx android/sample_app
-    popd # src
-else
-    fetch breakpad
-fi
+# if [ -d src ]; then
+#     pushd src
+#     [ -e Makefile ] && make distclean
+#     git clean -dffx android/sample_app
+#     popd # src
+# else
+#     fetch breakpad
+# fi
+echo "---> gclient sync --reset -v --revision src@$BREAKPAD_REVISION_TO_BUILD"
 
-gclient sync --reset -v --revision src@$BREAKPAD_REVISION_TO_BUILD
+# gclient sync --reset -v --revision src@$BREAKPAD_REVISION_TO_BUILD
 
 DISTDIR=`pwd`/dist
 pushd src
+echo "00 ---> pushd src"
+
 if [ $BREAKPAD_BUILD_PLATFORM = "android" ]; then
     ./configure --host=arm-linux-androideabi \
                 --disable-processor \
@@ -130,46 +136,51 @@ if [ $BREAKPAD_BUILD_PLATFORM = "android" ]; then
     # Remove un-needed directories from the distribution
     rm -rf $DISTDIR/share $DISTDIR/lib $DISTDIR/bin
 elif [ $BREAKPAD_BUILD_PLATFORM = "mateos" ]; then
-    MATEOS_TOOLCHAIN_ROOT=${MATEOS_SDK_ROOT}/prebuilt
-    MATEOS_TOOLCHAIN_NAME=""
-    MATEOS_TOOLCHAIN_PREFIX=${MATEOS_TOOLCHAIN_ROOT}/bin/${MATEOS_TOOLCHAIN_NAME}-
-
-    MATEOS_CC="CC=${MATEOS_TOOLCHAIN_PREFIX}clang"
-    MATEOS_CXX="CXX=${MATEOS_TOOLCHAIN_PREFIX}clang++"
-    MATEOS_RANLIB="RANLIB=${MATEOS_TOOLCHAIN_PREFIX}ranlib"
-    MATEOS_AR="AR=${MATEOS_TOOLCHAIN_PREFIX}ar"
-    MATEOS_NM="NM=${MATEOS_TOOLCHAIN_PREFIX}nm"
-    MATEOS_CPPFLAGS="CPPFLAGS=-I${MATEOS_TOOLCHAIN_ROOT}/include/c++/v1"
-    MATEOS_HOST="--host=${MATEOS_TOOLCHAIN_NAME}"
-    MATEOS_FLAGS="$MATEOS_CC $MATEOS_CXX $MATEOS_RANLIB $MATEOS_AR $MATEOS_NM $MATEOS_CPPFLAGS $MATEOS_HOST"
-    echo MATEOS_FLAGS = $MATEOS_FLAGS
+    echo "01 ---> start build for mateos"
+    MATEOS_CC="CC=clang"
+    MATEOS_CXX="CXX=clang++"
+    MATEOS_RANLIB="RANLIB=ranlib"
+#     MATEOS_AR="AR=ar"
+#     MATEOS_NM="NM=nm"
+#     MATEOS_FLAGS="$MATEOS_CC $MATEOS_CXX $MATEOS_RANLIB $MATEOS_CPPFLAGS $MATEOS_CFLAGS"
+#     echo MATEOS_FLAGS = $MATEOS_FLAGS
 
     BREAKPAD_FLAGS="--disable-processor --disable-tools"
     PREFIX_MATEOS="--prefix=$DISTDIR"
-    echo "*** Configuring Breakpad for Vicos..."
-    ./configure $MATEOS_FLAGS $BREAKPAD_FLAGS $PREFIX_MATEOS
-    echo "*** Building Breakpad for Vicos..."
-    make
+    echo "***8 Configuring Breakpad for Mateos..."
+#     CC=clang CXX=clang++ CFLAGS="-Os -fPIC" CXXFLAGS="-Os -stdlib=libc++ -fPIC" 
+    CC=clang CXX=clang++ CFLAGS="-Os -fPIC" CXXFLAGS="-Os -stdlib=libc++ -fPIC"  ./configure $BREAKPAD_FLAGS $PREFIX_MATEOS
+    echo "***9 Building Breakpad for Mateos..."
+    echo "***10 make -j4..."
+    make -j4
+    echo "***11 make install..."
 
     make install
  
-    echo "*** Cleanup..."
-    mkdir -p $DISTDIR/libs/armeabi-v7a
-    cp -pv $DISTDIR/lib/libbreakpad_client.a $DISTDIR/libs/armeabi-v7a/
-
+    echo "***12 Cleanup..."
+    mkdir -p $DISTDIR/libs/armeabihf-v7a
+    cp -pv $DISTDIR/lib/libbreakpad_client.a $DISTDIR/libs/armeabihf-v7a/
+    cp -pv build/Release/dump_syms $DISTDIR/bin/
     # patch linux_syscall_support.h to avoid an implicit cast
     pushd $DISTDIR/include/breakpad/third_party/lss
+    echo "***13 patch..."
+
     patch \
       linux_syscall_support.h \
       -i $DISTDIR/../../../../build-scripts/patch-linux_syscall_support.h.txt
     rm linux_syscall_support.h.orig
     popd # $DISTDIR/include/breakpad/third_party/lss
+    echo "***14 Remove..."
 
     # Remove un-needed directories from the distribution
-    rm -rf $DISTDIR/share $DISTDIR/lib $DISTDIR/bin
+#     rm -rf $DISTDIR/share $DISTDIR/lib $DISTDIR/bin
 else
+    echo "***20 else (./configure --prefix=$DISTDIR...)"
+
     ./configure --prefix=$DISTDIR
-    make
+    echo "***21 make -j4...)"
+    make -j4
+    echo "***22 done make...)"
 
     if [ $BREAKPAD_BUILD_PLATFORM = "mac" ]; then
         pushd src/tools/mac/dump_syms
@@ -177,10 +188,12 @@ else
         cp -pv build/Release/dump_syms $DISTDIR/bin/
         popd # src/tools/mac/dump_syms
     fi
+    echo "***23 make check...)"
 
     if [ $BREAKPAD_BUILD_RUN_UNIT_TESTS -eq 1 ]; then
         make check
     fi
+    echo "***24 make install...)"
 
     make install
 fi
