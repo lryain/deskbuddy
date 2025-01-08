@@ -14,7 +14,8 @@
                         "spidev.h": "c",
                         "lcd.h": "c",
                         "mman.h": "c",
-                        "thread": "c"
+                        "thread": "c",
+                        "wiringpi.h": "c"
                 }
         }
 }

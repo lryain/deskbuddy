@@ -20,7 +20,7 @@ static const int DAT_CLOCK = 90000000;
 static const int MAX_TRANSFER = 0x1000;
 
 #define FRAME_WIDTH     240
-#define FRAME_HEIGHT    180
+#define FRAME_HEIGHT    240
 
 static const INIT_SCRIPT init_scr[] = {
 	{ 0x0E, 0 },
@@ -43,6 +43,27 @@ static const INIT_SCRIPT init_scr[] = {
 	{ 0x29, 0 },
 
 	{ 0 }
+};
+
+
+static const INIT_SCRIPT initIPS[] = {
+  // IPS initialization
+  { 0x01, 1, {0x80},            150 },    // Soft reset, no args, 150 ms delay
+  { 0x11, 1, {0x80},            255 },    // Out of sleep, no args, 500 ms delay
+  { 0x3A, 2, {0x81, 0x55},      10 },     // COLMOD, 1 arg, 10ms delay
+  { 0x36, 1, {0x00} },                    // MADCTL, 1 arg (RGB), no delay,
+  { 0x26, 1, {0x02} },                    // GAMSET, 1 arg (curve 2 (G1.8)), no delay
+  { 0xBA, 1, {0x04} },                    // DGMEN, 1 arg (enable gamma), no delay,
+  { 0x21, 1, {0x80},            10 },     // INVON, no args, 10 ms delay
+  { 0x13, 1, {0x80},            10 },     // NORON, no args, 10 ms delay
+  { 0x29, 1, {0x80},            255 },    // DISPON, no args, 500 ms delay
+  { 0 }
+};
+static const INIT_SCRIPT winIPS[] = {
+  { 0x2A, 4, {0, 0, 0, 239} },          // CASET (column set) xstart, xend (MSB first)
+  { 0x2B, 4, {0, 0, 0, 239} },          // RASET (row set) ystart, yend (MSB first)
+  { 0x2C },                             // RAMWR (RAM write)
+  { 0 }
 };
 
 static int spi_fd;
@@ -70,9 +91,9 @@ void spi(int cmd, int bytes, const void* data) {
 
 static void init() {
 	int idx;
-	for (idx = 0; init_scr[idx].cmd; idx++) {
-		spi(TRUE, 1, &init_scr[idx].cmd);
-		spi(FALSE, init_scr[idx].data_bytes, init_scr[idx].data);
+	for (idx = 0; initIPS[idx].cmd; idx++) {
+		spi(TRUE, 1, &initIPS[idx].cmd);
+		spi(FALSE, initIPS[idx].data_bytes, initIPS[idx].data);
 	}
 }
 
@@ -97,7 +118,7 @@ int main(int argc, char** argv) {
 	pinMode(RESET_PIN, OUTPUT);
 	pinMode(DnC_PIN, OUTPUT);
 
-	spi_fd = open("/dev/spidev1.0", O_RDWR);
+	spi_fd = open("/dev/spidev0.0", O_RDWR);
 	ioctl(spi_fd, SPI_IOC_RD_MODE, &MODE);
 
 	// Send reset signal
