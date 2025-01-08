@@ -124,16 +124,16 @@ endif()
 #
 # cozmo_resources_tts
 #
-lrya_build_copy_assets(
-  TARGET        cozmo_resources_tts
-  SRCLIST_DIR   ${LRYA_SRCLIST_DIR}
-  OUTPUT_DIR   "${CMAKE_BINARY_DIR}/data/assets/cozmo_resources"
-  RELATIVE_OUTPUT_DIR "cozmo_resources"
-  OUT_DSTS ASSET_OUTPUT_FILES
-  OUT_RELATIVE_DSTS ASSET_OUTPUT_RELATIVE_DSTS
-)
+# lrya_build_copy_assets(
+#   TARGET        cozmo_resources_tts
+#   SRCLIST_DIR   ${LRYA_SRCLIST_DIR}
+#   OUTPUT_DIR   "${CMAKE_BINARY_DIR}/data/assets/cozmo_resources"
+#   RELATIVE_OUTPUT_DIR "cozmo_resources"
+#   OUT_DSTS ASSET_OUTPUT_FILES
+#   OUT_RELATIVE_DSTS ASSET_OUTPUT_RELATIVE_DSTS
+# )
 
-add_asset_target(cozmo_resources_tts)
+# add_asset_target(cozmo_resources_tts)
 
 #
 # cozmo_resources_beta, cozmo_resources_shipping, cozmo_resources_development

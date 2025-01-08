@@ -20,7 +20,7 @@ source ${SCRIPT_PATH}/host_robot_ip_override.sh
 
 robot_set_host
 
-messages_src=/data/data/com.anki.deskmate/persistent/messages
+messages_src=/data/data/com.lrya.deskmate/persistent/messages
 
 datetime=$(date '+%m%d-%k%M%S');
 copy_destination=~/Downloads/messages$datetime

@@ -21,11 +21,11 @@ export DISTDIR=${DISTTOP}/${DEPNAME}
 export MAKE_DEP_ARCHIVE_SH=${TOPLEVEL}/deps/make-dep-archive.sh
 echo "-------------> DISTDIR: ${DISTDIR}"
 # echo "Finding/Installing mateos-sdk ${MATEOS_SDK_VERSION}"
-# MATEOSPY=${TOPLEVEL}/tools/ankibuild/mateos.py
+# MATEOSPY=${TOPLEVEL}/tools/lryabuild/mateos.py
 # export MATEOS_SDK_HOME=$(${MATEOSPY} --install ${MATEOS_SDK_VERSION} | tail -1)
 
 # echo "Finding/Installing cmake 3.9.6 ......"
-# CMAKEPY=${TOPLEVEL}/tools/ankibuild/cmake.py
+# CMAKEPY=${TOPLEVEL}/tools/lryabuild/cmake.py
 # export CMAKE_EXE=$(${CMAKEPY} --install-cmake 3.9.6 | tail -1)
 export CMAKE_EXE=cmake
 

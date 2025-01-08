@@ -20,7 +20,7 @@ source ${SCRIPT_PATH}/host_robot_ip_override.sh
 
 robot_set_host
 
-micdata_src=/data/data/com.anki.deskmate/cache/micdata
+micdata_src=/data/data/com.lrya.deskmate/cache/micdata
 
 datetime=$(date '+%m%d-%k%M%S');
 copy_destination=~/Downloads/micdata$datetime

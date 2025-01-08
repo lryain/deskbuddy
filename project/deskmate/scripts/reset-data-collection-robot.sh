@@ -23,5 +23,5 @@ source ${GIT_PROJ_ROOT}/project/deskmate/scripts/host_robot_ip_override.sh
 
 robot_set_host
 
-robot_sh rm -rf /data/data/com.anki.deskmate/cache/camera/images/*
-robot_sh "printf ${DATE} > /data/data/com.anki.deskmate/persistent/devImageCapturePrefix.txt"
+robot_sh rm -rf /data/data/com.lrya.deskmate/cache/camera/images/*
+robot_sh "printf ${DATE} > /data/data/com.lrya.deskmate/persistent/devImageCapturePrefix.txt"

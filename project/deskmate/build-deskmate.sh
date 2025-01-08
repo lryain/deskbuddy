@@ -33,7 +33,7 @@ function usage() {
 #
 # defaults
 #
-VERBOSE=0
+VERBOSE=1
 CONFIGURE=0
 GEN_SRC_ONLY=0
 RM_BUILD_ASSETS=0

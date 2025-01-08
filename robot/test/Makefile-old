@@ -1,31 +1,32 @@
-# MATEOS_BUILD_TOOL_VER:=1.1.0-r04
+MATEOS_BUILD_TOOL_VER:=1.1.0-r04
 
-# MATEOS_ARM_TOOLS_ROOT:=~/.lrya/mateos-sdk/dist/$(MATEOS_BUILD_TOOL_VER)
+MATEOS_ARM_TOOLS_ROOT:=~/.lrya/mateos-sdk/dist/$(MATEOS_BUILD_TOOL_VER)
 
-# MATEOS_ARM_TOOLS_BIN:=$(MATEOS_ARM_TOOLS_ROOT)/prebuilt/bin
+MATEOS_ARM_TOOLS_BIN:=$(MATEOS_ARM_TOOLS_ROOT)/prebuilt/bin
 
 # Compilation Tools
 
-# CROSS_COMPILE = $(MATEOS_ARM_TOOLS_BIN)/arm-oe-linux-gnueabi-
+CROSS_COMPILE = $(MATEOS_ARM_TOOLS_BIN)/arm-oe-linux-gnueabi-
 
-ARMCC = clang
-# CFLAGS = -c -fPIC -Wall -Werror
-CFLAGS = -lwiringPi -fPIC -Wall
-# CORE_DIR = ../../core
-# CORE = $(CORE_DIR)/libcore.a
+ARMCC = $(CROSS_COMPILE)clang
+
+CFLAGS = -c -fPIC -Wall -Werror
+
+CORE_DIR = ../../core
+CORE = $(CORE_DIR)/libcore.a
 
 # Compiler flags
 # Specify all the flags below which you want to use for your compilation, For this simple example, we only need to specify the include directory path
 #CFLAGS          :=  -pie -I. -fPIC
 
 # link with core lib
-# LIBS    += -lcore
-# LIBPATH += -L$(CORE_DIR)
-# CFLAGS  += -I../ -O2
-# CFLAGS  += -I$(CORE_DIR)/inc
+LIBS    += -lcore
+LIBPATH += -L$(CORE_DIR)
+CFLAGS  += -I../ -O2
+CFLAGS  += -I$(CORE_DIR)/inc
 
-# CFLAGS  += -I../../syscon
-# CFLAGS  += -I../../hal
+CFLAGS  += -I../../syscon
+CFLAGS  += -I../../hal
 
 
 # All the c files in this directory will be compiled
@@ -36,12 +37,12 @@ OBJDIR = .output
 
 # CPPUTEST_HOME = /usr/local/Cellar/cpputest/3.8
 
-# DEFINES += -DMATEOS
+DEFINES += -DMATEOS
 
 # CPPFLAGS += -I$(CPPUTEST_HOME)
 # CPPFLAGS += -I"../../robot/include"
 # CPPFLAGS += -I"../hal/include"
-# CPPFLAGS += -I"../../robot/generated/clad/robot"
+# # CPPFLAGS += -I"../../robot/generated/clad/robot"
 # CPPFLAGS += $(DEFINES)
 
 # CXXFLAGS += -include $(CPPUTEST_HOME)/include/CppUTest/MemoryLeakDetectorNewMacros.h
@@ -65,11 +66,13 @@ OBJDIR = .output
 lcd_test:  lcd_test.c
 	$(ARMCC) $(CFLAGS) lcd_test.c -o lcd_test
 
-# app:
-# 	gcc $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $(CODE_UNDER_TEST)
 
-# test: lcd_test
-# 	./a.out -c
+
+app:
+	gcc $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $(CODE_UNDER_TEST)
+
+test: app
+	./a.out -c
 
 $(OBJDIR)/spine_hal.o:
 	$(CROSS_COMPILE)clang $(CFLAGS) ../../hal/spine/spine_hal.c  -o $@

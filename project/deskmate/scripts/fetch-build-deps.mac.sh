@@ -26,7 +26,7 @@ if [ -z "$is_brew" ]; then
 fi
 
 vlog "Check homebrew dependencies"
-./tools/build/tools/ankibuild/installBuildDeps.py \
+./tools/build/tools/lryabuild/installBuildDeps.py \
     -d python2 \
     ninja \
     python3 \
@@ -38,13 +38,13 @@ vlog "Check homebrew dependencies"
     curl-openssl
 
 vlog "mateos sdk"
-./tools/build/tools/ankibuild/mateos.py --install 1.1.0-r04
+./tools/build/tools/lryabuild/mateos.py --install 1.1.0-r04
 
 vlog "CMake"
-./tools/build/tools/ankibuild/cmake.py
+./tools/build/tools/lryabuild/cmake.py
 
 vlog "Go"
-./tools/build/tools/ankibuild/go.py
+./tools/build/tools/lryabuild/go.py
 
 vlog "git-lfs"
 $GIT lfs install

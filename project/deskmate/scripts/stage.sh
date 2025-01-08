@@ -19,7 +19,7 @@ source ${SCRIPT_PATH}/deskmate_env.sh
 # Settings can be overridden through environment
 : ${VERBOSE:=0}
 : ${LRYA_BUILD_TYPE:="Debug"}
-: ${INSTALL_ROOT:="/anki"}
+: ${INSTALL_ROOT:="/lrya"}
 
 function usage() {
   echo "$SCRIPT_NAME [OPTIONS]"
@@ -70,7 +70,10 @@ done
 : ${PLATFORM_NAME:="mateos"}
 : ${BUILD_ROOT:="${TOPLEVEL}/_build/${PLATFORM_NAME}/${LRYA_BUILD_TYPE}"}
 : ${STAGING_DIR:="${TOPLEVEL}/_build/staging/${LRYA_BUILD_TYPE}"}
-
+# echo "BUILD_ROOT: ${BUILD_ROOT}"
+# echo "STAGING_DIR: ${STAGING_DIR}"
+# echo "KEEPARG: ${KEEPARG}"
 # install.sh is a script that is run here by stage.sh, but also independently by
 # bitbake when building the Victor OS.
+echo "--> ${SCRIPT_PATH}/install.sh ${KEEPARG} ${BUILD_ROOT} ${STAGING_DIR}"
 ${SCRIPT_PATH}/install.sh ${KEEPARG} ${BUILD_ROOT} ${STAGING_DIR}

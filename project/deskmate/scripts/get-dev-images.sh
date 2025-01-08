@@ -17,4 +17,4 @@ source ${TOPLEVEL}/project/deskmate/scripts/host_robot_ip_override.sh
 
 robot_set_host
 
-robot_cp_from -r /data/data/com.anki.deskmate/cache/camera/images/$1 .
+robot_cp_from -r /data/data/com.lrya.deskmate/cache/camera/images/$1 .

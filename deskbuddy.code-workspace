@@ -3,5 +3,18 @@
 		{
 			"path": "."
 		}
-	]
+        ],
+        "settings": {
+                "files.associations": {
+                        "*.ino": "arduino-output",
+                        "logging.h": "c",
+                        "cerrno": "c",
+                        "*.tcc": "c",
+                        "fstream": "cpp",
+                        "spidev.h": "c",
+                        "lcd.h": "c",
+                        "mman.h": "c",
+                        "thread": "c"
+                }
+        }
 }

@@ -6,7 +6,7 @@ if [ $# -eq 0 ]; then
 fi
 
 GIT_PROJ_ROOT=`git rev-parse --show-toplevel`
-MATEOS_SDK=`${GIT_PROJ_ROOT}/tools/build/tools/ankibuild/mateos.py --find 1.1.0-r04`
+MATEOS_SDK=`${GIT_PROJ_ROOT}/tools/build/tools/lryabuild/mateos.py --find 1.1.0-r04`
 
 if [ ! -d "$MATEOS_SDK" ]; then
 	echo "Could not find mateos SDK"

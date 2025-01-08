@@ -104,7 +104,7 @@ robot_sh test -f "/lib/systemd/system/vic-switchboard.service"
 if [ $? -ne 0 ]; then
     echo "Creating switchboard service"
     robot_sh touch "/lib/systemd/system/vic-switchboard.service"
-    robot_sh 'printf "[Unit]\nDescription=Victor switchboard daemon\nSourcePath=/anki/bin/vic-switchboard\nPartOf=anki-robot.target\nWants=vic-init.service\nAfter=vic-init.service\nConditionFileIsExecutable=/usr/bin/logwrapper\nConditionFileIsExecutable=/anki/bin/vic-switchboard\n[Service]\nEnvironmentFile=/anki/etc/vic-switchboard.env\nExecStart=/usr/bin/logwrapper /anki/bin/vic-switchboard $VIC_SWITCHBOARD_OPTS\nRestart=no\n[Install]\nWantedBy=anki-robot.target\n" > /lib/systemd/system/vic-switchboard.service'
+    robot_sh 'printf "[Unit]\nDescription=Victor switchboard daemon\nSourcePath=/lrya/bin/vic-switchboard\nPartOf=lrya-robot.target\nWants=vic-init.service\nAfter=vic-init.service\nConditionFileIsExecutable=/usr/bin/logwrapper\nConditionFileIsExecutable=/lrya/bin/vic-switchboard\n[Service]\nEnvironmentFile=/lrya/etc/vic-switchboard.env\nExecStart=/usr/bin/logwrapper /lrya/bin/vic-switchboard $VIC_SWITCHBOARD_OPTS\nRestart=no\n[Install]\nWantedBy=lrya-robot.target\n" > /lib/systemd/system/vic-switchboard.service'
     robot_sh systemctl daemon-reload
     robot_sh systemctl enable --now vic-switchboard
 fi

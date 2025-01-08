@@ -49,6 +49,8 @@ fi
 
 pushd $1 > /dev/null 2>&1
 BUILDDIR=`pwd`
+echo "1. pwd"
+pwd
 popd > /dev/null 2>&1
 
 if [ $KEEP == false ]; then
@@ -57,11 +59,14 @@ fi
 mkdir -p $2/lrya
 pushd $2/lrya > /dev/null 2>&1
 DISTDIR=`pwd`
+echo "2. pwd"
+pwd
 popd > /dev/null 2>&1
 
 pushd ${BUILDDIR} > /dev/null 2>&1
 # Build list of files for distribution
 DIST_LIST="dist.$$.lst"
+echo "3. dist.lst: ${DIST_LIST}"
 rm -f "dist.*.lst"
 touch ${DIST_LIST}
 
@@ -78,9 +83,10 @@ if [ -d etc ]; then
 fi
 
 if [ -d data ]; then
+  echo "3. if [ -d data ]; then"
   find data >> ${DIST_LIST}
 fi
-
+echo "Copy files to distribution directory from DIST_LIST: ${DIST_LIST} to DISTDIR: ${DISTDIR}"
 # Copy files to distribution directory
 rsync \
     ${VERBOSE} \
