@@ -117,7 +117,7 @@ int main(int argc, char** argv)
   // we need to skip frames
   uint32_t timeCount = 0;
   printf("9.Start drawing the boot animation to the screen\n");
-  lcd_set_brightness(5);
+  lcd_set_brightness(50);
   while (!gShutdown)
   {
     // Figure out which frame we should play in order to adhere to

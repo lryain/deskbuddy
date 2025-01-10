@@ -24,7 +24,6 @@
 // Use one of the following 4 methods for talking to the SPI/GPIO
 // #define USE_GENERIC
 #define USE_PIGPIO
-//#define USE_BCM2835
 //#define USE_WIRINGPI
 
 // For generic SPI access (kernel drivers), select the board pinout (only one)
@@ -52,9 +51,6 @@
 #include <wiringPiSPI.h>
 #endif // USE_WIRINGPI
 #include <linux/types.h>
-#ifdef USE_BCM2835
-#include <bcm2835.h>
-#endif
 #include "core/lcd.h"
 #ifdef USE_PIGPIO
 #include <pigpio.h>
@@ -90,6 +86,7 @@ static void spilcdWriteData16(unsigned short us);
 static void spilcdSetPosition(int x, int y, int w, int h);
 static void spilcdWriteDataBlock(unsigned char *pData, int iLen);
 static void myPinWrite(int iPin, int iValue);
+int setLCDLight (int pin, int pwm);
 int lcd_set_brightness(const int brightness);
 static int _lcd_set_brightness(const int brightness);
 int spilcdFill(unsigned short usData);
@@ -180,17 +177,6 @@ static int iPIGPins[] = {-1,-1,-1,2,-1,3,-1,4,14,-1,15,
 static int iWPPins[] = {-1,-1,-1,8,-1,9,-1,7,15,-1,16,0,1,
         2,-1,3,4,-1,5,12,-1,13,6,14,10,-1,11,30,31,21,-1,22,26,23,-1,24,27,25,28,-1,29};
 #endif // USE_WIRINGPI
-
-#ifdef USE_BCM2835
-static int iBCM2835Pins[] = {-1,-1,-1,RPI_V2_GPIO_P1_03,-1,RPI_V2_GPIO_P1_05,-1,
-	RPI_V2_GPIO_P1_07, RPI_V2_GPIO_P1_08,-1, RPI_V2_GPIO_P1_10, RPI_V2_GPIO_P1_11,
-        RPI_V2_GPIO_P1_12, RPI_V2_GPIO_P1_13, -1, RPI_V2_GPIO_P1_15,RPI_V2_GPIO_P1_16,
-        -1, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_19, -1, RPI_V2_GPIO_P1_21, RPI_V2_GPIO_P1_22,
-        RPI_V2_GPIO_P1_23, RPI_V2_GPIO_P1_24, -1, RPI_V2_GPIO_P1_26, -1, -1,
-        RPI_V2_GPIO_P1_29, -1, RPI_V2_GPIO_P1_31, RPI_V2_GPIO_P1_32, RPI_V2_GPIO_P1_33,
-        -1, RPI_V2_GPIO_P1_35, RPI_V2_GPIO_P1_36, RPI_V2_GPIO_P1_37, RPI_V2_GPIO_P1_38,
-        -1, RPI_V2_GPIO_P1_40};
-#endif // BCM2835
 
 // Sets the D/C pin to data or command mode
 void spilcdSetMode(int iMode)
@@ -356,9 +342,6 @@ static void myspiWrite(unsigned char *pBuf, int iLen)
 #ifdef USE_PIGPIO
     spiWrite(file_spi, (char *)pBuf, iLen);
 #endif
-#ifdef USE_BCM2835
-    bcm2835_spi_writenb((char *)pBuf, iLen);
-#endif
 #ifdef USE_WIRINGPI
     write(file_spi, (char *)pBuf, iLen);
 #endif
@@ -385,13 +368,6 @@ char szTemp[64];
 	{ // do something
 	}
 #endif // USE_GENERIC
-
-#ifdef USE_BCM2835
-	if (iValue)
-		bcm2835_gpio_set(iPin);
-	else
-		bcm2835_gpio_clr(iPin);
-#endif
 
 #ifdef USE_PIGPIO
 	gpioWrite(iPin, iValue);
@@ -610,36 +586,6 @@ int i, iCount;
 	iLCDType = iType;
 	iScrollOffset = 0; // current hardware scroll register value
 
-#ifdef USE_BCM2835
-     iDCPin = iBCM2835Pins[iDC]; // use the pin numbers as-is
-     iResetPin = iBCM2835Pins[iReset];
-     if (iLED != -1)
-        iLEDPin = iBCM2835Pins[iLED];
-     if (iDCPin == -1 || iResetPin == -1)
-     {
-        printf("One or more invalid GPIO Pin numbers\n");
-        return -1;
-     }
-     if (!bcm2835_init())
-	{
-	printf("failed to initialize BCM2835 library\n");
-        return -1;
-	}
-    bcm2835_spi_begin();
-    bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);      // The default
-    bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);                   // The default
-    if (iSPIFreq >= 32000000)
-       bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_4); // 32Mhz
-    else if (iSPIFreq >= 16000000)
-       bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_8); // 16Mhz
-    else
-       bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_16); // 8Mhz
-
-    bcm2835_spi_chipSelect(BCM2835_SPI_CS0);                      // The default
-    bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      // the default
-    file_spi = 0;
-#endif // USE_BCM2835
-
 #ifdef USE_PIGPIO
 	iDCPin = iPIGPins[iDC];
 	iResetPin = iPIGPins[iReset];
@@ -709,23 +655,30 @@ int i, iCount;
 	GenericAddGPIO(iResetPin, GPIO_OUT, 0);
 	if (iLEDPin != -1)
 		GenericAddGPIO(iLEDPin, GPIO_OUT, 0);
+        
 #endif // USE_GENERIC
 
-#ifdef USE_BCM2835
-	bcm2835_gpio_fsel(iDCPin, BCM2835_GPIO_FSEL_OUTP);
-	bcm2835_gpio_fsel(iResetPin, BCM2835_GPIO_FSEL_OUTP);
-	if (iLEDPin != -1)
-        	bcm2835_gpio_fsel(iLEDPin, BCM2835_GPIO_FSEL_OUTP);
-#endif
 #ifdef USE_PIGPIO
 	gpioSetMode(iDCPin, PI_OUTPUT);
 	gpioSetMode(iResetPin, PI_OUTPUT);
 	// if (iLEDPin != -1)
 	// 	gpioSetMode(iLEDPin, PI_OUTPUT); 
 //     origPwmPinMode = gpioGetMode(iLEDPin);
-    gpioSetMode(iLEDPin, PI_OUTPUT);
-    gpioSetPWMfrequency(iLEDPin, PWM_FREQUENCY);
-    gpioSetPWMrange(iLEDPin, RPM_MAX);          // Set PWM range to Max RPM
+        if (gpioSetMode(iLEDPin, PI_OUTPUT) < 0) {
+                fprintf(stderr, "iLEDPin Failed to gpioSetMode\n");
+                return -1;
+        }
+        if (gpioSetPWMfrequency(iLEDPin, PWM_FREQUENCY) < 0) {
+                fprintf(stderr, "iLEDPin Failed to gpioSetPWMfrequency\n");
+                return -1;
+        }
+        if (gpioSetPWMrange(iLEDPin, RPM_MAX) < 0) {
+                fprintf(stderr, "iLEDPin Failed to gpioSetPWMrange\n");
+                return -1;
+        }
+//     gpioSetMode(iLEDPin, PI_OUTPUT);
+//     gpioSetPWMfrequency(iLEDPin, PWM_FREQUENCY);
+//     gpioSetPWMrange(iLEDPin, RPM_MAX);          // Set PWM range to Max RPM
     setLCDLight(iLEDPin, 0);              // Set Fan speed to 0 initially
 //     printf("[PWM] GPIO:Mode | %d:%d\n", iLEDPin, origPwmPinMode);
 #endif
@@ -863,13 +816,6 @@ int iGPIO;
 	GenericAddGPIO(iGPIO, GPIO_IN, 1);
 #endif // USE_GENERIC
 
-#ifdef USE_BCM2835
-        iGPIO = iBCM2835Pins[iPin];
-        if (iGPIO == 0) // invalid pin number
-                return -1;
-        bcm2835_gpio_fsel(iGPIO, BCM2835_GPIO_FSEL_INPT);
-        bcm2835_gpio_set_pud(iGPIO,  BCM2835_GPIO_PUD_UP);
-#endif
 #ifdef USE_PIGPIO
         iGPIO = iPIGPins[iPin];
         if (iGPIO == -1) // invalid pin
@@ -923,10 +869,6 @@ int rc;
         iGPIO = iWPPins[iPin];
         return (digitalRead(iGPIO) == HIGH);
 #endif // USE_WIRINGPI
-#ifdef USE_BCM2835
-        iGPIO = iBCM2835Pins[iPin];
-        return (bcm2835_gpio_lev(iGPIO) == HIGH);
-#endif // USE_BCM2835
 } /* spilcdReadPin() */
 
 //
@@ -1120,10 +1062,6 @@ void spilcdShutdown(void)
 #ifdef USE_PIGPIO
 		gpioTerminate();
 #endif
-#ifdef USE_BCM2835
-        bcm2835_spi_end();
-        bcm2835_close();
-#endif
 
 	}
 } /* spilcdShutdown() */
@@ -1212,7 +1150,7 @@ void lcd_spi_transfer(const void* data, int bytes) {
   while (bytes > 0) {
     const size_t count = bytes > MAX_TRANSFER ? MAX_TRANSFER : bytes;
 
-    myspiWrite(tx_buf, count);
+    myspiWrite((unsigned char *)tx_buf, count);
 
     bytes -= count;
     tx_buf += count;

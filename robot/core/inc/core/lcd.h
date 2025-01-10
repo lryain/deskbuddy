@@ -36,6 +36,7 @@ typedef enum
 } DC_MODE;
 
 int lcd_init(void);
+
 void lcd_draw_frame2(const uint16_t* frame, size_t size);
 void lcd_spi_transfer(const void* data, int bytes);
 // int spilcdFills(unsigned short* usData);
