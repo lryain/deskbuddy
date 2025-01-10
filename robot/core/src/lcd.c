@@ -158,6 +158,12 @@ static inline const bool IsXray()
 
 static int lcd_fd;
 
+
+// just a test func
+void testFunc(){
+        printf("---------------> this is just a test!\n");
+}
+
 lcd_display_t lcd_display_version() {
   return IsXray() ? MIDAS : SANTEK;
 }

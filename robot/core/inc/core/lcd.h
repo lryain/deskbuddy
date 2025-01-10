@@ -48,6 +48,8 @@ void lcd_draw_frame2(const uint16_t* frame, size_t size);
 int lcd_set_brightness(int b); //0..20
 void lcd_shutdown(void);
 
+void testFunc();
+
 #ifdef __cplusplus
 }
 #endif

@@ -39,7 +39,7 @@ list(APPEND MATEOS_COMPILER_FLAGS_CXX ${OLD_CXX_FLAGS})
 # Generic flags.
 list(APPEND MATEOS_COMPILER_FLAGS
     -DMATEOS
-    -D_LIBCPP_DISABLE_AVAILABILITY
+#     -D_LIBCPP_DISABLE_AVAILABILITY
     -Qunused-arguments
 	-ffunction-sections
 	-fdata-sections

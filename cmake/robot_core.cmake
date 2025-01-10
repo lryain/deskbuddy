@@ -4,6 +4,10 @@ if (MATEOS)
   file(GLOB ROBOT_CORE_SRCS ${CMAKE_SOURCE_DIR}/robot/core/src/*.c)
   file(GLOB ROBOT_CORE_INCS ${CMAKE_SOURCE_DIR}/robot/core/inc/*.h)
 
+#   robot/core/inc/core/spi_lcd.h
+  message("-----------------> ROBOT_CORE_INCS: ${ROBOT_CORE_INCS}")
+  message("-----------------> ROBOT_CORE_SRCS: ${ROBOT_CORE_SRCS}")
+
   set(ROBOT_CORE_LIBS
     robot_core
   )
@@ -22,6 +26,9 @@ if (MATEOS)
     target_link_libraries(${LIB}
       PRIVATE
       gpio
+      pigpio
+#       pthread
+#       rt
     )
 
     set_target_properties(${LIB} PROPERTIES

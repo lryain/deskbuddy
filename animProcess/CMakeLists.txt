@@ -131,8 +131,11 @@ if (MATEOS)
     PRIVATE
     robot_core
 #     ${ASAN_EXE_LINKER_FLAGS}
+#     pigpio
     util
     PUBLIC
+    gpio
+# spi_lcd
     robot_interface  # Needs to be public for cozmoConfig.h
   )
 

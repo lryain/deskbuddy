@@ -12,6 +12,7 @@ set_property(TARGET robot_interface
                ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_subdirectory(clad)
+# add_subdirectory(spi_lcd)
 
 set(PLATFORM_LIBS "")
 set(PLATFORM_INCLUDES "")
