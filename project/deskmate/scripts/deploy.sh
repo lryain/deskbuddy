@@ -14,7 +14,7 @@ then
 fi
 : ${TOPLEVEL:=`$GIT rev-parse --show-toplevel`}
 
-source ${SCRIPT_PATH}/mate_env.sh
+source ${SCRIPT_PATH}/deskmate_env.sh
 
 # Settings can be overridden through environment
 : ${VERBOSE:=0}
@@ -105,12 +105,14 @@ echo "   INSTALL_ROOT: ${INSTALL_ROOT}"
 : ${STAGING_DIR:="${TOPLEVEL}/_build/staging/${LRYA_BUILD_TYPE}"}
 
 # Remount rootfs read-write if necessary
+echo "1. Remount rootfs read-write if necessary"
 MOUNT_STATE=$(\
     robot_sh "grep ' / ext4.*\sro[\s,]' /proc/mounts > /dev/null 2>&1 && echo ro || echo rw"\
 )
 [[ "$MOUNT_STATE" == "ro" ]] && logv "remount rw /" && robot_sh "/bin/mount -o remount,rw /"
 
 function cleanup() {
+  echo "in cleanup..."
   # Remount rootfs read-only if it was previously mounted read-only before deployment
   # This function used to be this single line:
   # [[ "$MOUNT_STATE" == "ro" ]] && logv "remount ro /" && robot_sh "/bin/mount -o remount,ro /"
@@ -122,13 +124,14 @@ function cleanup() {
 }
 
 # trap ctrl-c and call ctrl_c()
+echo "2. trap cleanup INT"
 trap cleanup INT
-
 
 # echo 0  if versions are equal
 # echo -1 if $1 < $2
 # echo 1  if $1 > $2
 function compare_mate_compat_version() {
+    echo "in compare_mate_compat_version..."
     local A_VER=$1
     local B_VER=$2
     if [[ ${A_VER} -gt ${B_VER} ]]; then
@@ -143,6 +146,7 @@ function compare_mate_compat_version() {
 # echo -1 if $1 < $2
 # echo 1  if $1 > $2
 function compare_lrya_version() {
+  echo "in compare_lrya_version..."
   local A_VER=( ${1//./ })
   local B_VER=( ${2//./ })
 
@@ -168,65 +172,66 @@ function compare_lrya_version() {
 }
 
 # run version check
-CUR_OS_VERSION=$(robot_sh "cat /etc/os-version")
-DEPLOY_VERSION=$(cat ${STAGING_DIR}/lrya/etc/version)
+# CUR_OS_VERSION=$(robot_sh "cat /etc/os-version")
+# DEPLOY_VERSION=$(cat ${STAGING_DIR}/lrya/etc/version)
 
-VER_CMP=$(compare_lrya_version $DEPLOY_VERSION $CUR_OS_VERSION)
+# VER_CMP=$(compare_lrya_version $DEPLOY_VERSION $CUR_OS_VERSION)
 
-if [ ${VER_CMP} -eq 1 ]; then
-  # deploy > os :
-  echo "Target deploy version (${DEPLOY_VERSION}) is newer than Robot OS version (${CUR_OS_VERSION})."
-elif [ ${VER_CMP} -eq -1 ]; then
-  # deploy < os
-  echo "Target deploy version (${DEPLOY_VERSION}) is older than Robot OS version (${CUR_OS_VERSION})."
-fi
+# if [ ${VER_CMP} -eq 1 ]; then
+#   # deploy > os :
+#   echo "Target deploy version (${DEPLOY_VERSION}) is newer than Robot OS version (${CUR_OS_VERSION})."
+# elif [ ${VER_CMP} -eq -1 ]; then
+#   # deploy < os
+#   echo "Target deploy version (${DEPLOY_VERSION}) is older than Robot OS version (${CUR_OS_VERSION})."
+# fi
 
-if [ ${VER_CMP} -ne 0 ]; then
-  if [ $IGNORE_VERSION_MISMATCH -eq 1 ]; then
-      printf '%s%s%s%s\n' \
-             "$(tput setaf 9)" \
-             "$(tput blink)" \
-             "Ignoring OS version mismatch.  This is probably a really bad idea!!!" \
-             "$(tput sgr0)"
-  else
-    echo "OS version mismatch. Update your robot or your branch!"
-    echo "If you are certain you want to deploy anyway, use the -b option."
-    echo "When things don't work, please update your robot and/or your branch and try again!"
-#     cleanup
-#     exit 1
-  fi
-fi
+# if [ ${VER_CMP} -ne 0 ]; then
+#   if [ $IGNORE_VERSION_MISMATCH -eq 1 ]; then
+#       printf '%s%s%s%s\n' \
+#              "$(tput setaf 9)" \
+#              "$(tput blink)" \
+#              "Ignoring OS version mismatch.  This is probably a really bad idea!!!" \
+#              "$(tput sgr0)"
+#   else
+#     echo "OS version mismatch. Update your robot or your branch!"
+#     echo "If you are certain you want to deploy anyway, use the -b option."
+#     echo "When things don't work, please update your robot and/or your branch and try again!"
+# #     cleanup
+# #     exit 1
+#   fi
+# fi
 
-OS_COMPAT_VERSION=$(robot_sh "cat /etc/mateos-compat-version || echo 0")
-DEPLOY_VERSION=$(cat ${STAGING_DIR}/lrya/etc/mateos-compat-version)
+# OS_COMPAT_VERSION=$(robot_sh "cat /etc/mateos-compat-version || echo 0")
+# DEPLOY_VERSION=$(cat ${STAGING_DIR}/lrya/etc/mateos-compat-version)
 
-VER_CMP=$(compare_mate_compat_version $DEPLOY_VERSION $OS_COMPAT_VERSION)
+# VER_CMP=$(compare_mate_compat_version $DEPLOY_VERSION $OS_COMPAT_VERSION)
 
-if [[ ${VER_CMP} -gt 0 ]]; then
-    echo -e "Target deploy compatibility version (${DEPLOY_VERSION}) is newer than robot version (${OS_COMPAT_VERSION}).\nYou need to upgrade the OS version on your robot.  Try ./project/mateos/scripts/robot_sh.sh update-os"
-elif [[ ${VER_CMP} -lt 0 ]]; then
-    echo -e "Target deploy compatibility version (${DEPLOY_VERSION}) is older than robot version (${OS_COMPAT_VERSION}).\nYou need to rebase your current branch to pick up required changes for compatibility with the robot."
-fi
+# if [[ ${VER_CMP} -gt 0 ]]; then
+#     echo -e "Target deploy compatibility version (${DEPLOY_VERSION}) is newer than robot version (${OS_COMPAT_VERSION}).\nYou need to upgrade the OS version on your robot.  Try ./project/mateos/scripts/robot_sh.sh update-os"
+# elif [[ ${VER_CMP} -lt 0 ]]; then
+#     echo -e "Target deploy compatibility version (${DEPLOY_VERSION}) is older than robot version (${OS_COMPAT_VERSION}).\nYou need to rebase your current branch to pick up required changes for compatibility with the robot."
+# fi
 
-if [[ ${VER_CMP} -ne 0 ]]; then
-    if [[ $IGNORE_COMPATIBILITY_MISMATCH -eq 1 ]]; then
-        printf '%s%s%s%s\n' \
-               "$(tput setaf 9)" \
-               "$(tput blink)" \
-               "Ignoring compatibility version mismatch.  This is probably a really bad idea!!!" \
-               "$(tput sgr0)"
-    else
-        echo "Compatibility version mismatch.  Update your robot or your branch!"
-        echo "If you are certain that you want to deplay anyway, use the -i option."
-        echo "When things don't work, please update your robot and/or your branch and try again!"
-        cleanup
-        exit 1
-    fi
-fi
+# if [[ ${VER_CMP} -ne 0 ]]; then
+#     if [[ $IGNORE_COMPATIBILITY_MISMATCH -eq 1 ]]; then
+#         printf '%s%s%s%s\n' \
+#                "$(tput setaf 9)" \
+#                "$(tput blink)" \
+#                "Ignoring compatibility version mismatch.  This is probably a really bad idea!!!" \
+#                "$(tput sgr0)"
+#     else
+#         echo "Compatibility version mismatch.  Update your robot or your branch!"
+#         echo "If you are certain that you want to deplay anyway, use the -i option."
+#         echo "When things don't work, please update your robot and/or your branch and try again!"
+#         cleanup
+#         exit 1
+#     fi
+# fi
 
 set +e
 ( # TRY deploy
 logv "start deploy"
+echo "3. start deploy..."
 
 set -e
 
@@ -235,73 +240,89 @@ set -e
 # deployment, exe and shared library files can't be replaced.
 #
 logv "stop mateos services"
-robot_sh "/bin/systemctl stop mateos.target"
+echo "4. stop mateos services..."
 
+# robot_sh "/bin/systemctl stop mateos.target"
+echo "5. create target dirs..."
 logv "create target dirs"
 robot_sh mkdir -p "${INSTALL_ROOT}"
+echo "5.1. done create ${INSTALL_ROOT} dir"
 robot_sh mkdir -p "${INSTALL_ROOT}/etc"
+echo "5.2. done create ${INSTALL_ROOT}/etc dir"
 robot_sh mkdir -p "${LIB_INSTALL_PATH}"
+echo "5.3. done create ${LIB_INSTALL_PATH}/etc dir"
 robot_sh mkdir -p "${BIN_INSTALL_PATH}"
+echo "5.4. done create ${BIN_INSTALL_PATH}/etc dir"
 robot_sh mkdir -p "${DEVICE_RSYNC_BIN_DIR}"
+echo "5.5. done create ${DEVICE_RSYNC_BIN_DIR}/etc dir"
 
 # install rsync binary and config if needed
 logv "install rsync if necessary"
+echo "6. install rsync if necessary..."
 set +e
 robot_sh [ -f "$DEVICE_RSYNC_BIN_DIR/rsync.bin" ]
 if [ $? -ne 0 ] || [ $FORCE_RSYNC_BIN -eq 1 ]; then
-  echo "loading rsync to device"
+  echo "6.1 loading rsync to device"
   robot_cp ${RSYNC_BIN_DIR}/rsync.bin ${DEVICE_RSYNC_BIN_DIR}/rsync.bin
 fi
 
 robot_sh [ -f "$DEVICE_RSYNC_CONF_DIR/rsyncd.conf" ]
 if [ $? -ne 0 ] || [ $FORCE_RSYNC_BIN -eq 1 ]; then
-  echo "loading rsync config to device"
+  echo "6.2 loading rsync config to device"
   robot_cp ${RSYNC_BIN_DIR}/rsyncd.conf ${DEVICE_RSYNC_CONF_DIR}/rsyncd.conf
 fi
 
 robot_sh [ -f "$DEVICE_RSYNC_CONF_DIR/rsyncd.service" ]
 if [ $? -ne 0 ] || [ $FORCE_RSYNC_BIN -eq 1 ]; then
-  echo "loading rsyncd.service to device"
+  echo "6.3 loading rsyncd.service to device"
   robot_cp ${RSYNC_BIN_DIR}/rsyncd.service ${DEVICE_RSYNC_CONF_DIR}/rsyncd.service
   robot_sh "/bin/systemctl daemon-reload"
 fi
 set -e
 
+echo "7. starting rsync daemon..."
 logv "starting rsync daemon"
 robot_sh "/bin/systemctl is-active rsyncd.service > /dev/null 2>&1\
           || /bin/systemctl start rsyncd.service && sleep 0.5"
 
+echo "8. pushd -------> ${STAGING_DIR}"
 pushd ${STAGING_DIR} > /dev/null 2>&1
 
 #
 # Use --inplace to avoid consuming temp space & minimize number of writes
 # Use --delete to purge files that are no longer present in build tree
 #
+echo "9. starting rsync..."
 RSYNC_ARGS="-rlptD -zvP --chmod=ug+rwx --chown=:2901 --inplace --delete"
 if [ $FORCE_DEPLOY -eq 1 ]; then
   # Ignore times, delete before transfer, and force deletion of directories
   RSYNC_ARGS="-rlptD -IzvP --chmod=ug+rwx --chown=:2901 --inplace --delete --delete-before --force"
 fi
 
+echo "9.1. RSYNC_CMD: rsync $RSYNC_ARGS ./lrya/ root@${LRYA_ROBOT_HOST}:/lrya/"
 logv "rsync"
 set +e
 rsync $RSYNC_ARGS \
-  ./lrya/ rsync://${LRYA_ROBOT_HOST}:1873/lrya_root/
+  ./lrya/ root@${LRYA_ROBOT_HOST}:/lrya/
 RSYNC_RESULT=$?
 set -e
+echo "9.2. RSYNC_RESULT: ${RSYNC_RESULT}"
 
 popd > /dev/null 2>&1
 
+echo "9.3. stop rsync daemon..."
 logv "stop rsync daemon"
 robot_sh "/bin/systemctl stop rsyncd"
 
 logv "finish deploy"
+echo "10. finish deploy!"
 
 exit $RSYNC_RESULT
 ) # End TRY deploy
 
 DEPLOY_RESULT=$?
 set -e
+echo "11. DEPLOY_RESULT: ${DEPLOY_RESULT}"
 
 if [ $DEPLOY_RESULT -eq 0 ]; then
   logv "deploy succeeded"
