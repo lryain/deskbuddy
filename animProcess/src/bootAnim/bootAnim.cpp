@@ -22,7 +22,6 @@
 #include <algorithm>
 #include <signal.h>
 #include "core/common.h"
-#include "core/spi_lcd.h"
 #include "core/lcd.h"
 #include "platform/gpio/gpio.h"
 
@@ -63,7 +62,9 @@ int main(int argc, char** argv)
   signal(SIGINT,  handler);
 
   // 目前对于2.4寸的ILI9341屏这个频率相对文档，帧率在30左右
-  rc = spilcdInit(LCD, 0, 0, 18250000, 18, 22, 11); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
+  // 把11换成12 刚好是18硬件PWM
+//   rc = spilcdInit(LCD, 0, 0, 18250000, 18, 22, 12); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
+  rc = lcd_init();
   if (rc != 0)
   {
         printf("Problem initializing spilcd library\n");
@@ -116,6 +117,7 @@ int main(int argc, char** argv)
   // we need to skip frames
   uint32_t timeCount = 0;
   printf("9.Start drawing the boot animation to the screen\n");
+  lcd_set_brightness(5);
   while (!gShutdown)
   {
     // Figure out which frame we should play in order to adhere to

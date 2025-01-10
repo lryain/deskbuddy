@@ -27,8 +27,8 @@ if (MATEOS)
       PRIVATE
       gpio
       pigpio
-#       pthread
-#       rt
+      pthread
+      rt
     )
 
     set_target_properties(${LIB} PROPERTIES

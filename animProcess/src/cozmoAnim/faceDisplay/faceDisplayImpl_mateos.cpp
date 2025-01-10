@@ -60,7 +60,7 @@ namespace Vector {
 } // namespace Vector
 } // namespace Lrya
 
-extern "C" void core_common_on_exit(void)
-{
-  lcd_shutdown();
-}
+// extern "C" void core_common_on_exit(void)
+// {
+//   lcd_shutdown();
+// }
