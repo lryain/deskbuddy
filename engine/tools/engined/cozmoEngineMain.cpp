@@ -265,7 +265,7 @@ int main(int argc, char* argv[])
   };
 
   char config_file_path[PATH_MAX] = { 0 };
-  const char* env_config = getenv("VIC_ENGINE_CONFIG");
+  const char* env_config = getenv("MATE_ENGINE_CONFIG");
   if (env_config != NULL) {
     strncpy(config_file_path, env_config, sizeof(config_file_path));
   }
@@ -317,7 +317,7 @@ int main(int argc, char* argv[])
 
   Json::Value config;
 
-  printf("config_file: %s\n", config_file_path);
+  printf("0. ----------------> config_file: %s\n", config_file_path);
   if (strlen(config_file_path) > 0) {
     std::string config_file{config_file_path};
     if (!Lrya::Util::FileUtils::FileExists(config_file)) {

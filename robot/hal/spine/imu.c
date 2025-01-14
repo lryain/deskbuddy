@@ -361,6 +361,7 @@ const char* imu_open(void)
   if (gSPI_fd < 0) {
     return "IMU: Can't open SPI DEVICE "DEFAULT_IMU_SPI_DEVICE;
   }
+  printf("ok -------------> IMU: Opened SPI DEVICE %s\n", DEFAULT_IMU_SPI_DEVICE);
 
   /* Setup */
   /*

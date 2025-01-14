@@ -55,7 +55,7 @@
             "request": "launch",
             "program": "/lrya/bin/mate-anim",
             "env": {
-                "VIC_ANIM_CONFIG": "/lrya/etc/config/platform_config.json"
+                "MATE_ANIM_CONFIG": "/lrya/etc/config/platform_config.json"
             },
             "initCommands": [
                 "platform select remote-linux",
@@ -71,7 +71,7 @@
             "request": "launch",
             "program": "/lrya/bin/mate-engine",
             "env": {
-                "VIC_ENGINE_CONFIG": "/lrya/etc/config/platform_config.json"
+                "MATE_ENGINE_CONFIG": "/lrya/etc/config/platform_config.json"
             },
             "initCommands": [
                 "platform select remote-linux",

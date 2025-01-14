@@ -95,6 +95,7 @@ AnimEngine::~AnimEngine()
 
 Result AnimEngine::Init()
 {
+  printf("3.1.1.1. in AnimEngine::Init()...\n");
   if (_isInitialized) {
     LOG_INFO("AnimEngine.Init.ReInit", "Reinitializing already-initialized CozmoEngineImpl with new config.");
   }
@@ -106,51 +107,68 @@ Result AnimEngine::Init()
   }
 # endif
   _context->SetRandomSeed(seed);
+  printf("3.1.1.2. done SetRandomSeed\n");
 
   OSState::getInstance()->SetUpdatePeriod(1000);
 
   RobotDataLoader * dataLoader = _context->GetDataLoader();
+  printf("3.1.1.3. done _context->GetDataLoader()\n");
   dataLoader->LoadConfigData();
+  printf("3.1.1.4. done dataLoader->LoadConfigData()\n");
   dataLoader->LoadNonConfigData();
+//   printf("3.1.1.5. done dataLoader->LoadNonConfigData()\n");
 
   _ttsComponent = std::make_unique<TextToSpeechComponent>(_context.get());
   _context->GetMicDataSystem()->Init(*dataLoader);
+//   printf("3.1.1.6. done _context->GetMicDataSystem()->Init()\n");
 
   // animation streamer must be initialized after loading non config data (otherwise there are no animations loaded)
   _animationStreamer->Init(_ttsComponent.get());
+//   printf("3.1.1.7. done _animationStreamer->Init(_ttsComponent.get())\n");
   _context->GetBackpackLightComponent()->Init();
+//   printf("3.1.1.8. done _context->GetBackpackLightComponent()->Init()\n");
 
   // Create and set up EngineRobotAudioInput to receive Engine->Robot messages and broadcast Robot->Engine
   auto* audioMux = _context->GetAudioMultiplexer();
+//   printf("3.1.1.9. done _context->GetAudioMultiplexer()\n");
   auto regId = audioMux->RegisterInput( new Audio::EngineRobotAudioInput() );
   // Easy access to Audio Controller
   _audioControllerPtr = _context->GetAudioController();
+//   printf("3.1.2.0. done _context->GetAudioController()\n");
 
   // Set up message handler
   auto * audioInput = static_cast<Audio::EngineRobotAudioInput*>(audioMux->GetInput(regId));
   _streamingAnimationModifier = std::make_unique<StreamingAnimationModifier>(_animationStreamer.get(), audioInput, _ttsComponent.get());
+//   printf("3.1.2.1. done _streamingAnimationModifier\n");
 
   // set up audio stream state manager
   {
     _context->GetShowAudioStreamStateManager()->SetAnimationStreamer(_animationStreamer.get());
   }
 
+//   printf("3.1.2.2. done set up audio stream state manager\n");
 
   AnimProcessMessages::Init(this, _animationStreamer.get(), _streamingAnimationModifier.get(), audioInput, _context.get());
+//   printf("3.1.2.3. done AnimProcessMessages::Init()\n");
 
   _context->GetWebService()->Start(_context->GetDataPlatform(),
                                    _context->GetDataLoader()->GetWebServerAnimConfig());
+//   printf("3.1.2.4. done _context->GetWebService()->Start()\n");
   FaceInfoScreenManager::getInstance()->Init(_context.get(), _animationStreamer.get());
+//   printf("3.1.2.5. done FaceInfoScreenManager::getInstance()->Init()\n");
 
   _context->GetAlexa()->Init(_context.get());
+//   printf("3.1.2.6. _context->GetAlexa()->Init()\n");
 
   const auto pm = _context->GetPerfMetric();
   pm->Init(_context->GetDataPlatform(), _context->GetWebService());
+//   printf("3.1.2.7. pm->Init()\n");
   pm->SetAnimationStreamer(_animationStreamer.get());
   if (pm->GetAutoRecord())
   {
     pm->Start();
   }
+  printf("3.1.2.8. pm->Start()\n");
 
   // Make sure OpenCV isn't threading
   Result cvResult = SetNumOpencvThreads( NUM_ANIM_OPENCV_THREADS, "AnimEngine.Init" );
@@ -158,9 +176,11 @@ Result AnimEngine::Init()
   {
     return cvResult;
   }
+//   printf("3.1.2.9. done SetNumOpencvThreads()!! \n");
 
   _sdkAudioComponent = std::make_unique<SdkAudioComponent>(_context.get());
 
+  printf("3.1.3.0. AnimEngine.Init.Success  ------>  return!! \n");
   LOG_INFO("AnimEngine.Init.Success","Success");
   _isInitialized = true;
 
@@ -193,47 +213,60 @@ Result AnimEngine::Update(const BaseStationTime_t currTime_nanosec)
 
   BaseStationTimer::getInstance()->UpdateTime(currTime_nanosec);
 
+  printf("1.0 -------------> start _context->GetWebService()->Update()\n");fflush(stdout);
   _context->GetWebService()->Update();
 
+  printf("1.1 -------------> start AnimProcessMessages::Update()\n");fflush(stdout);
   Result result = AnimProcessMessages::Update(currTime_nanosec);
   if (RESULT_OK != result) {
     LOG_WARNING("AnimEngine.Update", "Unable to process messages (result %d)", result);
     return result;
   }
 
+  printf("1.2 -------------> start OSState::getInstance()->Update()\n");fflush(stdout);
   OSState::getInstance()->Update(currTime_nanosec);
 
+  printf("1.3 -------------> start _ttsComponent->Update()\n");fflush(stdout);
   _ttsComponent->Update();
 
+  printf("1.4 -------------> start _context->GetDataLoader()->GetSpriteCache()->Update()\n");fflush(stdout);
   // Clear out sprites that have passed their cache time
   _context->GetDataLoader()->GetSpriteCache()->Update(currTime_nanosec);
 
+  printf("1.5 -------------> start _streamingAnimationModifier->ApplyAlterationsBeforeUpdate(_animationStreamer.get())\n");fflush(stdout);
   // Update animations
   _streamingAnimationModifier->ApplyAlterationsBeforeUpdate(_animationStreamer.get());
 
+  printf("1.6 -------------> start _animationStreamer->Update()\n");fflush(stdout);
   _animationStreamer->Update();
 
+  printf("1.7 -------------> start ApplyAlterationsAfterUpdate()\n");fflush(stdout);
   _streamingAnimationModifier->ApplyAlterationsAfterUpdate(_animationStreamer.get());
 
+  printf("1.8 -------------> start Update audio controller\n");fflush(stdout);
   // Update audio controller
   if (_audioControllerPtr != nullptr) {
     // Update mic info in Audio Engine
     const auto& micDirectionMsg = _context->GetMicDataSystem()->GetLatestMicDirectionMsg();
     _microphoneAudioClient->ProcessMessage(micDirectionMsg);
     // Tick the Audio Engine at the end of each anim frame
+    printf("1.8.1 -------------> start _audioControllerPtr->Update()\n");fflush(stdout);
     _audioControllerPtr->Update();
   }
 
+  printf("1.9 -------------> start Update backpack lights\n");fflush(stdout);
   // Update backpack lights
   _context->GetBackpackLightComponent()->Update();
 
 #if LRYA_PROFILE_ANIMCOMMS_SOCKET_BUFFER_STATS
   {
     // Update socket buffer counters
+    printf("1.9.1 -------------> start Update socket buffer counters\n");fflush(stdout);
     AnimComms::UpdateSocketBufferStats();
   }
 #endif
 
+  printf("1.10 -------------> done!\n");fflush(stdout);
   return RESULT_OK;
 }
 

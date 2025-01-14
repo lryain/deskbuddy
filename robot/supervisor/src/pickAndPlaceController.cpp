@@ -258,6 +258,7 @@ namespace Lrya {
 
       static void StartBackingOut()
       {
+        printf("0.1 -------------> in PickAndPlaceController::StartBackingOut()\n");fflush(stdout);
         static const f32 MIN_BACKOUT_DIST_MM = 35.f;
 
         f32 backoutDist_mm = 0;

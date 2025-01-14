@@ -149,51 +149,66 @@ namespace Lrya {
 
       Result Init(const int * shutdownSignal)
       {
+        printf("1.0 -------------> start cozmoBot::Init()\n");fflush(stdout);
+
         Result lastResult = RESULT_OK;
 
         initialized_ = true;
 
         // HAL and supervisor init
+        printf("1.1 -------------> start HAL::Init()\n");fflush(stdout);
         lastResult = HAL::Init(shutdownSignal);
         LryaConditionalErrorAndReturnValue(lastResult == RESULT_OK, lastResult, "CozmoBot.InitFail.HAL", "");
 
+        printf("1.2 -------------> start BackpackLightController::Init()\n");fflush(stdout);
         lastResult = BackpackLightController::Init();
         LryaConditionalErrorAndReturnValue(lastResult == RESULT_OK, lastResult, "CozmoBot.InitFail.BackpackLightController", "");
 
+        printf("1.3 -------------> start Messages::Init()\n");fflush(stdout);
         lastResult = Messages::Init();
         LryaConditionalErrorAndReturnValue(lastResult == RESULT_OK, lastResult, "CozmoBot.InitFail.Messages", "");
 
+        printf("1.4 -------------> start Localization::Init()\n");fflush(stdout);
         lastResult = Localization::Init();
         LryaConditionalErrorAndReturnValue(lastResult == RESULT_OK, lastResult, "CozmoBot.InitFail.Localization", "");
 
+        printf("1.5 -------------> start PathFollower::Init()\n");fflush(stdout);
         lastResult = PathFollower::Init();
         LryaConditionalErrorAndReturnValue(lastResult == RESULT_OK, lastResult, "CozmoBot.InitFail.PathFollower", "");
 
+        printf("1.6 -------------> start IMUFilter::Init()\n");fflush(stdout);
         lastResult = IMUFilter::Init();
         LryaConditionalErrorAndReturnValue(lastResult == RESULT_OK, lastResult, "CozmoBot.InitFail.IMUFilter", "");
 
+        printf("1.7 -------------> start DockingController::Init()\n");fflush(stdout);
         lastResult = DockingController::Init();
         LryaConditionalErrorAndReturnValue(lastResult == RESULT_OK, lastResult, "CozmoBot.InitFail.DockingController", "");
 
         // Before liftController?!
+        printf("1.8 -------------> start PickAndPlaceController::Init()\n");fflush(stdout);
         lastResult = PickAndPlaceController::Init();
         LryaConditionalErrorAndReturnValue(lastResult == RESULT_OK, lastResult, "CozmoBot.InitFail.PickAndPlaceController", "");
 
+        printf("1.9 -------------> start LiftController::Init()\n");fflush(stdout);
         lastResult = LiftController::Init();
         LryaConditionalErrorAndReturnValue(lastResult == RESULT_OK, lastResult, "CozmoBot.InitFail.LiftController", "");
 
         // Calibrate motors
         const bool autoStarted = true;
         const auto reason = MotorCalibrationReason::Startup;
+        printf("1.10 -------------> start LiftController::StartCalibrationRoutine()\n");fflush(stdout);
         LiftController::StartCalibrationRoutine(autoStarted, reason);
+        printf("1.11 -------------> start HeadController::StartCalibrationRoutine()\n");fflush(stdout);
         HeadController::StartCalibrationRoutine(autoStarted, reason);
 
         // If there was rampost error, check if battery is too hot or too low and shutdown if so.
         // The appropriate icon should already be on the face from rampost.
         if (HasRampostError()) {
+          printf("1.21 -------------> HasRampostError()\n");fflush(stdout);
           hotBattOnStart_ = HAL::BatteryIsOverheated();
           lowBattOnStart_ = HAL::BatteryIsLow() && !HAL::BatteryIsOnCharger();
         }
+        printf("1.12 -------------> RESULT_OK return!\n");fflush(stdout);
 
         return RESULT_OK;
 
@@ -562,29 +577,45 @@ namespace Lrya {
         // Sensor updates
         //////////////////////////////////////////////////////////////
         MARK_NEXT_TIME_PROFILE(CozmoBot, IMU);
+        // printf("1.0 -------------> start IMUFilter::Update()\n");fflush(stdout);
+
         IMUFilter::Update();
+        // printf("1.1 -------------> done IMUFilter::Update()\n");fflush(stdout);
         ProxSensors::Update();
+        // printf("1.2 -------------> done ProxSensors::Update()\n");fflush(stdout);
 
         //////////////////////////////////////////////////////////////
         // Head & Lift Position Updates
         //////////////////////////////////////////////////////////////
 
         MARK_NEXT_TIME_PROFILE(CozmoBot, EYEHEADLIFT);
+        // printf("1.3 -------------> done MARK_NEXT_TIME_PROFILE\n");fflush(stdout);
         HeadController::Update();
+        // printf("1.4 -------------> done HeadController::Update()\n");fflush(stdout);
         LiftController::Update();
+        // printf("1.5 -------------> done LiftController::Update()\n");fflush(stdout);
 
         MARK_NEXT_TIME_PROFILE(CozmoBot, LIGHTS);
+        // printf("1.6 -------------> done MARK_NEXT_TIME_PROFILE\n");fflush(stdout);
         BackpackLightController::Update();
+        // printf("1.7 -------------> done BackpackLightController::Update()\n");fflush(stdout);
 
         MARK_NEXT_TIME_PROFILE(CozmoBot, PATHDOCK);
+        // printf("1.8 -------------> done MARK_NEXT_TIME_PROFILE\n");fflush(stdout);
         PathFollower::Update();
+        // printf("1.9 -------------> done PathFollower::Update()\n");fflush(stdout);
         PickAndPlaceController::Update();
+        // printf("1.10 -------------> done PickAndPlaceController::Update()\n");fflush(stdout);
         DockingController::Update();
+        // printf("1.11 -------------> done DockingController::Update()\n");fflush(stdout);
 
         // Manage the various motion controllers:
         SpeedController::Manage();
+        // printf("1.12 -------------> done SpeedController::Update()\n");fflush(stdout);
         SteeringController::Manage();
+        // printf("1.13 -------------> done SteeringController::Update()\n");fflush(stdout);
         WheelController::Manage();
+        // printf("1.14 -------------> done WheelController::Update()\n");fflush(stdout);
 
         //////////////////////////////////////////////////////////////
         // Power management
@@ -596,15 +627,18 @@ namespace Lrya {
           lastOnChargerChangedTime_ms_ = HAL::GetTimeStamp();
           s_onCharger = HAL::BatteryIsOnCharger();
         }
+        // printf("1.15 -------------> done Check if on-charger state changed\n");fflush(stdout);
 
         //////////////////////////////////////////////////////////////
         // Feedback / Display
         //////////////////////////////////////////////////////////////
 
         Messages::UpdateRobotStateMsg();
+        // printf("1.16 -------------> done WheelController::Update()\n");fflush(stdout);
 
         // Now that the robot state msg has been updated, send mic data (which uses some of robot state)
         Messages::SendMicDataMsgs();
+        // printf("1.17 -------------> done WheelController::Update()\n");fflush(stdout);
 
         // Print time profile stats
         END_TIME_PROFILE(CozmoBot);
@@ -615,6 +649,7 @@ namespace Lrya {
         // Check if main took too long
         u32 cycleEndTime = HAL::GetMicroCounter();
         u32 cycleTime = cycleEndTime - cycleStartTime;
+        // printf("1.18 -------------> start tracepoint()\n");fflush(stdout);
         tracepoint(lrya_ust, mate_robot_loop_duration, cycleTime);
         if (cycleTime > MAIN_TOO_LONG_TIME_THRESH_USEC) {
           EventStart(EventType::MAIN_CYCLE_TOO_LONG);
@@ -627,6 +662,7 @@ namespace Lrya {
         }
         lastCycleStartTime_usec_ = cycleStartTime;          
 
+        // printf("1.19 -------------> start Report main cycle time error\n");fflush(stdout);
         // Report main cycle time error
         if (nextMainCycleTimeErrorReportTime_usec_ < cycleEndTime) {
 
@@ -670,8 +706,10 @@ namespace Lrya {
 
           nextMainCycleTimeErrorReportTime_usec_ = cycleEndTime + MAIN_CYCLE_ERROR_REPORTING_PERIOD_USEC;
         }
+        // printf("1.20 -------------> start EventStop()\n");fflush(stdout);
 
         EventStop(EventType::MAIN_STEP);
+        // printf("1.21 -------------> done return\n");fflush(stdout);
 
         return RESULT_OK;
 

@@ -114,6 +114,8 @@ namespace {
   static void PlayAnimation(ConsoleFunctionContextRef context)
   {
     const char* name = ConsoleArg_Get_String(context, "name");
+    printf("0. -------------> PlayAnimation: %s\n", name);
+    
     if (name) {
 
       int numLoops = ConsoleArg_GetOptional_Int(context, "numLoops", 1);
@@ -122,12 +124,14 @@ namespace {
         _dispatchQueue = Lrya::Util::Dispatch::Create("AddAnimation", Lrya::Util::ThreadPriority::Low);
       }
       Lrya::Util::Dispatch::Async(_dispatchQueue, [name, numLoops] {
+        printf("1.1. -------------> PlayAnimation -> start _animStreamer->SetPendingStreamingAnimation: %s\n", name);
         _animStreamer->SetPendingStreamingAnimation(name, numLoops);
       });
 
       char numLoopsStr[4+1];
       snprintf(numLoopsStr, sizeof(numLoopsStr), "%d", (numLoops > 9999) ? 9999 : numLoops);
       std::string text = std::string("Playing ")+name+" "+numLoopsStr+" times<br>";
+      printf("2. -------------> now playing: %s\n", text.c_str());
       context->channel->WriteLog("%s", text.c_str());
     } else {
       context->channel->WriteLog("PlayAnimation name not specified.");
@@ -1008,7 +1012,8 @@ Result AnimProcessMessages::Update(BaseStationTime_t currTime_nanosec)
   // Simulator never has EMR
   FaceInfoScreenManager::getInstance()->SetShouldDrawFAC(false);
 #else
-  FaceInfoScreenManager::getInstance()->SetShouldDrawFAC(!Factory::GetEMR()->fields.PACKED_OUT_FLAG);
+  FaceInfoScreenManager::getInstance()->SetShouldDrawFAC(false);
+//   FaceInfoScreenManager::getInstance()->SetShouldDrawFAC(!Factory::GetEMR()->fields.PACKED_OUT_FLAG);
 #endif
 #endif
 

@@ -44,7 +44,7 @@ void Shutdown(int signum)
 static std::unique_ptr<DataPlatform> GetDataPlatform()
 {
   std::string path = DEFAULT_PLATFORM_CONFIG;
-  const char * cp = getenv("VIC_DASMGR_PLATFORM_CONFIG");
+  const char * cp = getenv("MATE_DASMGR_PLATFORM_CONFIG");
   if (cp != nullptr) {
     path = cp;
   }

@@ -42,7 +42,7 @@ RUN_INSTALL=1
 CMAKE_TARGET=""
 EXPORT_COMPILE_COMMANDS=0
 IGNORE_EXTERNAL_DEPENDENCIES=0
-BUILD_SHARED_LIBS=1
+BUILD_SHARED_LIBS=0
 
 CONFIGURATION=Debug
 PLATFORM=mateos
@@ -112,7 +112,7 @@ while getopts ":x:c:p:a:t:g:F:D:hvfdCTeISX" opt; do
             IGNORE_EXTERNAL_DEPENDENCIES=1
             ;;
         S)
-            BUILD_SHARED_LIBS=0
+            BUILD_SHARED_LIBS=1
             ;;
         X)
             RM_BUILD_ASSETS=1
@@ -479,12 +479,15 @@ if [ $CONFIGURE -eq 1 ]; then
     PLATFORM_ARGS+=(${ADDITIONAL_PLATFORM_ARGS[@]})
 
 #     echo "0.cmake: ${CMAKE_EXE} ${TOPLEVEL} ${VERBOSE_ARG} -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=${CONFIGURATION} -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} ${EXPORT_FLAGS} ${FEATURE_FLAGS} ${DEFINES} ${PLATFORM_ARGS[@]}"
-
+        # -DCMAKE_CXX_FLAGS="-fuse-ld=gold" \
+        # -Wl,--incremental
+        # -Wl,--no-threads
     $CMAKE_EXE ${TOPLEVEL} \
         ${VERBOSE_ARG} \
         -G"${GENERATOR}" \
         -DCMAKE_C_COMPILER=/usr/bin/clang \
         -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
+        -DCMAKE_CXX_FLAGS="-fuse-ld=lld" \
         -DCMAKE_BUILD_TYPE=${CONFIGURATION} \
         -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} \
         -DGOPATH=${GOPATH} \

@@ -37,7 +37,7 @@
 #endif
 
 // Whether or not to read/process imu data on a thread
-#define PROCESS_IMU_ON_THREAD 1
+#define PROCESS_IMU_ON_THREAD 0
 
 namespace Lrya {
 namespace Vector {

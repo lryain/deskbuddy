@@ -13,8 +13,8 @@ kCalibOffset = 4194304
 if not os.path.isfile(OLD_EMR):
     exit("No old EMR file found")
 
-if not os.path.islink(NEW_EMR):
-    exit("No EMR partition, need partition table upgrade first")
+# if not os.path.islink(NEW_EMR):
+#     exit("No EMR partition, need partition table upgrade first")
 
 with open(NEW_EMR, "wb") as new_emr_fh:
 

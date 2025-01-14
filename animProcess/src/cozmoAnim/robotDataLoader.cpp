@@ -126,6 +126,8 @@ void RobotDataLoader::LoadConfigData()
 
 void RobotDataLoader::LoadNonConfigData()
 {
+  printf("3.1.2.0. in LoadNonConfigData()\n");
+
   if (_platform == nullptr) {
     return;
   }
@@ -135,6 +137,7 @@ void RobotDataLoader::LoadNonConfigData()
   //  2) SpriteSequences use sprite map to load sequenceName -> all images in sequence directory
   //  3) Canned animations use SpriteSequences for their FaceAnimation keyframe
   LoadIndependentSpritePaths();
+  printf("3.1.2.1. d done LoadIndependentSpritePaths()\n");
   {
     std::vector<std::string> spriteSequenceDirs = {kPathToExternalSpriteSequences, kPathToEngineSpriteSequences};
     SpriteSequenceLoader seqLoader;
@@ -142,10 +145,12 @@ void RobotDataLoader::LoadNonConfigData()
                                                      _spritePathMap.get(),
                                                      _spriteCache.get(),
                                                      spriteSequenceDirs);
+    printf("3.1.2.2. d done LoadSpriteSequences()\n");
     _spriteSequenceContainer.reset(sContainer);
   }
 
   {
+    printf("3.1.2.3.  Set up container\n");
     // Set up container
     _cannedAnimations = std::make_unique<CannedAnimationContainer>();
 
@@ -154,6 +159,7 @@ void RobotDataLoader::LoadNonConfigData()
                                      _spriteSequenceContainer.get(), 
                                      _loadingCompleteRatio, _abortLoad);
 
+    printf("3.1.2.4. done animLoader()\n");
     std::vector<std::string> paths;
     if(FACTORY_TEST)
     {
@@ -167,12 +173,18 @@ void RobotDataLoader::LoadNonConfigData()
 
     // Load the gathered files into the container
     const auto& fileInfo = animLoader.CollectAnimFiles(paths);
+    printf("3.1.2.5.1. done CollectAnimFiles() %s - %s\n", paths[0].c_str(),paths[1].c_str());
+    _cannedAnimations.get();
+    printf("3.1.2.5.22. done _cannedAnimations.get()\n");
     animLoader.LoadAnimationsIntoContainer(fileInfo, _cannedAnimations.get());
+    printf("3.1.2.5.2. done LoadAnimationsIntoContainer()\n");
   }
 
   // After we've finished loading Sprites and SpriteSequences, retroactively verify
   // any AssetID's requested before/during loading
+    printf("3.1.2.5.3. start CheckUnverifiedAssetIDs()\n");
   _spritePathMap->CheckUnverifiedAssetIDs();
+    printf("3.1.2.5.4. done LoadAnimationsIntoContainer()\n");
 
   // Backpack light animations
   {
@@ -181,15 +193,19 @@ void RobotDataLoader::LoadNonConfigData()
                                      _spriteSequenceContainer.get(), 
                                      _loadingCompleteRatio, _abortLoad);
 
+    printf("3.1.2.6. done animLoader()\n");
     const auto& fileInfo = animLoader.CollectAnimFiles({"config/engine/lights/backpackLights"});
     LoadBackpackLightAnimations(fileInfo);
+    printf("3.1.2.7. done LoadBackpackLightAnimations()\n");
   }
 
   {
     LoadBackpackAnimationTriggerMap();
+    printf("3.1.2.8. done LoadBackpackAnimationTriggerMap()\n");
   }
   
   SetupProceduralAnimation();
+  printf("3.1.2.9. done SetupProceduralAnimation()\n");
 }
 
 void RobotDataLoader::LoadAnimationFile(const std::string& path)

@@ -535,12 +535,13 @@ namespace Lrya {
       
       Result Update()
       {
-      
+        // printf("0.1 -------------> in DockingController::Update()\n");fflush(stdout);
         // If we failed to dock and are now backing up ignore error signals until we are
         // DIST_TO_BACKUP_ON_FAILURE_MM away from our initial backing up pose
         if(failureMode_ == BACKING_UP)
         {
 #if(TRACK_BLOCK)
+        //   printf("0.1.1 -------------> in DockingController::TRACK_BLOCK\n");fflush(stdout);
           if(dockingErrSignalMsgReady_)
           {
             // Keep looking at marker while backing up
@@ -548,6 +549,7 @@ namespace Lrya {
             HeadController::SetDesiredAngle(desiredHeadAngle);
           }
 #endif
+          printf("0.2 -------------> start DockingController::GetDistTo()\n");fflush(stdout);
           
           if(Localization::GetDistTo(backupPose_.x(), backupPose_.y()) > DIST_TO_BACKUP_ON_FAILURE_MM)
           {
@@ -568,6 +570,7 @@ namespace Lrya {
             return RESULT_OK;
           }
         }
+        // printf("0.2.1 -------------> start while dockingErrSignalMsgReady_\n");fflush(stdout);
       
         // Get any docking error signal available from the vision system
         // and update our path accordingly.
@@ -661,6 +664,7 @@ namespace Lrya {
 
         } // while new docking error message has mail
 
+        // printf("0.2.2 -------------> start markerOutOfFOV_\n");fflush(stdout);
 
 
         // Check if the pose of the marker that was in field of view should

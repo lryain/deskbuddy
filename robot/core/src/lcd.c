@@ -567,9 +567,9 @@ static unsigned char ucE1_1[] = {0x00, 0x25, 0x27, 0x05, 0x10, 0x09, 0x3a, 0x78,
 // LED pin is optional - pass as -1 to disable
 //
 // 目前对于2.4寸的ILI9341屏这个频率相对文档，帧率在30左右
-// 把11换成12 刚好是18硬件PWM
+// 把11换成12 刚好是18硬件PWM 但是18是SPI的CE0，換成33->13也是硬件PWM
 int lcd_init(void) {
-        return spilcdInit(LCD, 0, 0, 18250000, 18, 22, 12); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
+        return spilcdInit(LCD, 0, 0, 18250000, 18, 22, 33); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
 }
 
 int spilcdInit(int iType, int bFlipped, int iChannel, int iSPIFreq, int iDC, int iReset, int iLED)
@@ -679,7 +679,7 @@ int i, iCount;
 //     gpioSetMode(iLEDPin, PI_OUTPUT);
 //     gpioSetPWMfrequency(iLEDPin, PWM_FREQUENCY);
 //     gpioSetPWMrange(iLEDPin, RPM_MAX);          // Set PWM range to Max RPM
-    setLCDLight(iLEDPin, 0);              // Set Fan speed to 0 initially
+    setLCDLight(iLEDPin, 10);              // Set Fan speed to 0 initially
 //     printf("[PWM] GPIO:Mode | %d:%d\n", iLEDPin, origPwmPinMode);
 #endif
 

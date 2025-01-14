@@ -56,14 +56,14 @@ Lrya::Util::Data::DataPlatform* createPlatform(const std::string& persistentPath
 Lrya::Util::Data::DataPlatform* createPlatform()
 {
   char config_file_path[PATH_MAX] = { 0 };
-  const char* env_config = getenv("VIC_WEB_SERVER_CONFIG");
+  const char* env_config = getenv("MATE_WEB_SERVER_CONFIG");
   if (env_config != NULL) {
     strncpy(config_file_path, env_config, sizeof(config_file_path));
   }
 
   Json::Value config;
 
-  printf("config_file: %s\n", config_file_path);
+  printf("0. -------------> config_file: %s\n", config_file_path);
   if (strlen(config_file_path)) {
     std::string config_file{config_file_path};
     if (!Lrya::Util::FileUtils::FileExists(config_file)) {

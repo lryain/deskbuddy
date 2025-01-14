@@ -7,6 +7,7 @@ set(MATEOS_CPP_FEATURES rtti exceptions)
 
 # Standard cross-compiling stuff.
 set(MATEOS TRUE)
+option(MATEOS_CCACHE "Enable ccache" ON)
 
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
@@ -20,13 +21,15 @@ set(MATEOS_COMPILER_FLAGS_DEBUG)
 set(MATEOS_COMPILER_FLAGS_RELEASE)
 set(MATEOS_LINKER_FLAGS)
 set(MATEOS_LINKER_FLAGS_EXE)
+# set(CMAKE_CXX_FLAGS "-O0 -g")
 
 set(MATEOS_C_COMPILER   "/usr/bin/clang")
 set(MATEOS_CXX_COMPILER "/usr/bin/clang++")
 
-set(CMAKE_LINKER "/usr/lib/llvm-7/bin/ld.lld")
-set(CMAKE_EXE_LINKER_FLAGS_INIT "-fuse-ld=lld")
-set(CMAKE_SHARED_LINKER_FLAGS_INIT "-fuse-ld=lld")
+# no-keep-memory
+# set(CMAKE_LINKER "/usr/lib/llvm-7/bin/ld.lld")
+# set(CMAKE_EXE_LINKER_FLAGS_INIT "-fuse-ld=lld")
+# set(CMAKE_SHARED_LINKER_FLAGS_INIT "-fuse-ld=lld")
 
 # clang++ -std=c++17 -Wno-delete-non-virtual-dtor -Wno-explicit-specialization-after-instantiation ...
 
@@ -38,9 +41,9 @@ list(APPEND MATEOS_COMPILER_FLAGS_CXX ${OLD_CXX_FLAGS})
 
 # Generic flags.
 list(APPEND MATEOS_COMPILER_FLAGS
-    -DMATEOS
+        -DMATEOS
 #     -D_LIBCPP_DISABLE_AVAILABILITY
-    -Qunused-arguments
+        -Qunused-arguments
 	-ffunction-sections
 	-fdata-sections
 	-funwind-tables
@@ -56,6 +59,7 @@ list(APPEND MATEOS_COMPILER_FLAGS_CXX
 	-fno-rtti)
 list(APPEND MATEOS_COMPILER_FLAGS_RELEASE
   -D_FORTIFY_SOURCE=2)
+  
 list(APPEND MATEOS_LINKER_FLAGS
 	-Wl,--build-id
 	#-Wl,--gdb-index
@@ -67,7 +71,8 @@ list(APPEND MATEOS_LINKER_FLAGS_EXE
 
 # Debug and release flags.
 list(APPEND MATEOS_COMPILER_FLAGS_DEBUG
-	-O0
+	-O0 -g
+        -Wno-unused-function
         -fno-limit-debug-info)
 list(APPEND MATEOS_COMPILER_FLAGS_RELEASE
 	-Os
@@ -160,17 +165,18 @@ string(REPLACE ";" " " MATEOS_COMPILER_FLAGS_DEBUG   "${MATEOS_COMPILER_FLAGS_DE
 string(REPLACE ";" " " MATEOS_COMPILER_FLAGS_RELEASE "${MATEOS_COMPILER_FLAGS_RELEASE}")
 string(REPLACE ";" " " MATEOS_LINKER_FLAGS           "${MATEOS_LINKER_FLAGS}")
 string(REPLACE ";" " " MATEOS_LINKER_FLAGS_EXE       "${MATEOS_LINKER_FLAGS_EXE}")
-message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_COMPILER_FLAGS: ${MATEOS_COMPILER_FLAGS}")
-message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_COMPILER_FLAGS_CXX: ${MATEOS_COMPILER_FLAGS_CXX}")
-message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_COMPILER_FLAGS_DEBUG: ${MATEOS_COMPILER_FLAGS_DEBUG}")
-message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_COMPILER_FLAGS_RELEASE: ${MATEOS_COMPILER_FLAGS_RELEASE}")
-message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_LINKER_FLAGS: ${MATEOS_LINKER_FLAGS}")
-message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_LINKER_FLAGS_EXE: ${MATEOS_LINKER_FLAGS_EXE}")
+# message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_COMPILER_FLAGS: ${MATEOS_COMPILER_FLAGS}")
+# message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_COMPILER_FLAGS_CXX: ${MATEOS_COMPILER_FLAGS_CXX}")
+# message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_COMPILER_FLAGS_DEBUG: ${MATEOS_COMPILER_FLAGS_DEBUG}")
+# message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_COMPILER_FLAGS_RELEASE: ${MATEOS_COMPILER_FLAGS_RELEASE}")
+# message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_LINKER_FLAGS: ${MATEOS_LINKER_FLAGS}")
+# message("3. kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk --------------> MATEOS_LINKER_FLAGS_EXE: ${MATEOS_LINKER_FLAGS_EXE}")
 # ccache
 
 if(MATEOS_CCACHE)
     set(CMAKE_C_COMPILER_LAUNCHER   "${MATEOS_CCACHE}")
     set(CMAKE_CXX_COMPILER_LAUNCHER "${MATEOS_CCACHE}")
+    message("CMAKE_CXX_COMPILER_LAUNCHER: ${CMAKE_C_COMPILER_LAUNCHER}")
 endif()
 
 # 设置编译器
@@ -243,3 +249,37 @@ message(STATUS "+ CMAKE_LINKER=${CMAKE_LINKER}")
 message(STATUS "+ CMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
 message(STATUS "+ CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
 message(STATUS "+ CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=${CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES}")
+
+option(USE_ANKIASAN "Enable address sanitizer" OFF)
+if (USE_ANKIASAN)
+  # Depends on -shared-libasan, convert to OPTION
+  set(ASAN_CXX_FLAGS           PUBLIC
+                               -fsanitize=address
+                               -fno-omit-frame-pointer
+  )
+
+  set(ASAN_LINKER_FLAGS        PUBLIC
+                               -fsanitize=address
+  )
+
+  set(ASAN_SHARED_LINKER_FLAGS PUBLIC
+                               -fsanitize=address
+                               # requires SDK support -shared-libasan
+                               -ldl
+                               -lrt
+                               -L/usr/lib/llvm-7/lib/clang/7.0.1/lib/linux
+                               -Wl,-Bstatic
+                               -lclang_rt.asan-armhf
+                               -Wl,-Bdynamic
+  )
+
+  set(ASAN_EXE_LINKER_FLAGS    PUBLIC
+                               -fsanitize=address
+                               -ldl
+                               -lrt
+                               -L/usr/lib/llvm-7/lib/clang/7.0.1/lib/linux
+                               -Wl,-Bstatic
+                               -lclang_rt.asan-armhf
+                               -Wl,-Bdynamic
+  )
+endif()

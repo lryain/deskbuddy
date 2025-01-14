@@ -61,7 +61,6 @@ void PushIMU(const HAL::IMU_DataStructure& data)
   if (_imuNewestIdx == _imuLastReadIdx) {
     LryaWarn( "HAL.PushIMU.ArrayIsFull", "Dropping data");
   }
-
   _imuDataArr[_imuNewestIdx] = data;
 }
 
@@ -85,16 +84,19 @@ bool PopIMU(HAL::IMU_DataStructure& data)
 
 void ProcessIMUEvents()
 {
+//   printf("1. -------------> start ProcessIMUEvents\n");fflush(stdout);
   static u8 tempCount = 0;
   if(tempCount++ >= IMU_TEMP_UPDATE_FREQ_TICKS)
   {
     tempCount = 0;
     imu_update_temperature();
   }
+//   printf("1.1 -------------> start imu_manage\n");fflush(stdout);
 
   IMURawData rawData[IMU_MAX_SAMPLES_PER_READ];
   HAL::IMU_DataStructure imuData;
   const int imu_read_samples = imu_manage(rawData);
+//   printf("1.2 -------------> imu_read_samples: %d\n", imu_read_samples);fflush(stdout);
   if(imu_read_samples < 0)
   {
     LryaError("HAL.ProcessIMUEvents.IMUManageFailed", "");
@@ -109,6 +111,7 @@ void ProcessIMUEvents()
       DASMSG_SEND_ERROR();
     }
   }
+//   printf("1.3 -------------> start imu_read_samples\n");fflush(stdout);
 
   for (int i=0; i < imu_read_samples; i++) {
     for (int j=0 ; j<3 ; j++) {
@@ -116,8 +119,12 @@ void ProcessIMUEvents()
       imuData.gyro[j]  = rawData[i].gyro[j] * IMU_GYRO_SCALE_DPS * RADIANS_PER_DEGREE;
     }
     imuData.temperature_degC = IMU_TEMP_RAW_TO_C(rawData[i].temperature);
+//     printf("1.3.1 -------------> accel[0]: %f, gyro[0]: %f, temp is: %f\n", imuData.accel[0], imuData.gyro[0], imuData.temperature_degC);fflush(stdout);
+//     printf("1.3.1 -------------> accel[1]: %f, gyro[1]: %f, temp is: %f\n", imuData.accel[1], imuData.gyro[1], imuData.temperature_degC);fflush(stdout);
+//     printf("1.3.1 -------------> accel[2]: %f, gyro[2]: %f, temp is: %f\n", imuData.accel[2], imuData.gyro[2], imuData.temperature_degC);fflush(stdout);
     PushIMU(imuData);
   }
+  
 }
 
 bool OpenIMU()
@@ -128,7 +135,11 @@ bool OpenIMU()
     FaultCode::DisplayFaultCode(FaultCode::IMU_FAILURE);
     return false;
   }
+//   printf("1.done -------------> IMU: Opened SPI DEVICE\n");fflush(stdout);
+//   printf("1.1 -------------> start imu_init()\n");fflush(stdout);
   imu_init();
+//   printf("1.2 -------------> done imu_init()\n");fflush(stdout);
+  
   return true;
 }
 
@@ -136,6 +147,7 @@ bool OpenIMU()
 // Processing loop for reading imu on a thread
 void ProcessLoop()
 {
+//   printf("0.1 -------------> start ProcessLoop()\n");fflush(stdout);
 #ifdef IMU_DEBUG
   const s32 IMU_HDR_GRANULARITY = 1;
   const double IMU_HDR_MULTIPLIER = 1.0;
@@ -145,7 +157,7 @@ void ProcessLoop()
   const u32 IMU_HDR_MAX_VALUE = 30000;
   struct hdr_histogram *_hdr;
   u32 hdr_print_rate_limit = 0;
-
+//   printf("0.1.1 -------------> start hdr_init()\n");fflush(stdout);
   hdr_init(IMU_HDR_MIN_VALUE,
            IMU_HDR_MAX_VALUE,
            IMU_HDR_SIG_FIG,
@@ -185,12 +197,14 @@ void ProcessLoop()
 
 void InitIMU()
 {
-
+//   printf("0.1 -------------> in InitIMU()\n");fflush(stdout);
 #if PROCESS_IMU_ON_THREAD
   // Spin up the processing thread and detach it
   // This will open, init, and read the imu
+//   printf("0.1.1 -------------> start std::thread(ProcessLoop)()\n");fflush(stdout);
   _processor = std::thread(ProcessLoop);
 #else
+//   printf("0.2 -------------> start InitIMU()\n");fflush(stdout);
   OpenIMU();
 #endif
 }

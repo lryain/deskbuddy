@@ -146,7 +146,9 @@ Result InitEngineComms()
 {
   const RobotID_t robotID = OSState::getInstance()->GetRobotID();
   const std::string & server_path = std::string(ENGINE_ANIM_SERVER_PATH) + std::to_string(robotID);
-
+  
+  printf("----> robotID: %d", robotID);
+  
   LOG_INFO("AnimComms.InitEngineComms", "Start listening at %s", server_path.c_str());
 
   if (!_engineComms.StartListening(server_path)) {
@@ -161,13 +163,13 @@ Result InitComms()
 {
   Result result = InitRobotComms();
   if (RESULT_OK != result) {
-    LOG_ERROR("AnimComms.InitComms", "Unable to init robot comms (result %d)", result);
+    LOG_ERROR("AnimComms.InitComms.InitRobotComms", "Unable to init robot comms (result %d)", result);
     return result;
   }
 
   result = InitEngineComms();
   if (RESULT_OK != result) {
-    LOG_ERROR("AnimComms.InitComms", "Unable to init engine comms (result %d)", result);
+    LOG_ERROR("AnimComms.InitComms.InitEngineComms", "Unable to init engine comms (result %d)", result);
     return result;
   }
 

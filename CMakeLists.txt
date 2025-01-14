@@ -34,6 +34,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # add_definitions(-DMATEOS)
 
@@ -85,8 +86,8 @@ endif()
 #
 # Factory build options
 #
-option(FACTORY_TEST "Enable factory test features" OFF)
-option(FACTORY_TEST_DEV "Enable factory test development features" OFF)
+option(FACTORY_TEST "Enable factory test features" ON)
+option(FACTORY_TEST_DEV "Enable factory test development features" ON)
 
 if (FACTORY_TEST)
   add_definitions(-DFACTORY_TEST=1)
@@ -105,28 +106,28 @@ add_definitions(-DLRYA_BUILD_SHA="${LRYA_BUILD_SHA}")
 #
 # Pass LRYA defines from the command-line to all targets
 # 设置ccache缓存
-# get_cmake_property(opts CACHE_VARIABLES)
-# foreach(opt ${opts})
-#   if(opt STREQUAL "LRYA_BUILD_SHA")
-#     # ignore, set previously
+get_cmake_property(opts CACHE_VARIABLES)
+foreach(opt ${opts})
+  if(opt STREQUAL "LRYA_BUILD_SHA")
+    # ignore, set previously
 
-#   # we whitelist which defines are allowed to be added to prevent hidden, unexpected defines from sneaking in
-#   elseif((opt MATCHES "LRYA_") OR (opt MATCHES "REMOTE_CONSOLE_ENABLED") OR (opt MATCHES "DO_DEV_POSE_CHECKS"))
-#     get_property(helpstring CACHE ${opt} PROPERTY HELPSTRING)
+  # we whitelist which defines are allowed to be added to prevent hidden, unexpected defines from sneaking in
+  elseif((opt MATCHES "LRYA_") OR (opt MATCHES "REMOTE_CONSOLE_ENABLED") OR (opt MATCHES "DO_DEV_POSE_CHECKS"))
+    get_property(helpstring CACHE ${opt} PROPERTY HELPSTRING)
 
-#     if(${helpstring} MATCHES "cached value")
-#       # value was set from a previous run, but not this run, turn off
-#       # Note: remove_definitions #defines the value as OFF (which itself is undefined)
-#       unset(${opt} CACHE)
-#       add_definitions(-U${opt})
-#     else()
-#       # value was set this run, from the command-line
-#       add_definitions(-D${opt}=${${opt}})
-#       set_property(CACHE ${opt} PROPERTY HELPSTRING "cached value from a previous command-line")
+    if(${helpstring} MATCHES "cached value")
+      # value was set from a previous run, but not this run, turn off
+      # Note: remove_definitions #defines the value as OFF (which itself is undefined)
+      unset(${opt} CACHE)
+      add_definitions(-U${opt})
+    else()
+      # value was set this run, from the command-line
+      add_definitions(-D${opt}=${${opt}})
+      set_property(CACHE ${opt} PROPERTY HELPSTRING "cached value from a previous command-line")
 
-#     endif()
-#   endif()
-# endforeach()
+    endif()
+  endif()
+endforeach()
 
 set(LINK_FLAGS "${LINK_FLAGS} -Wl,--threads")
 
@@ -216,7 +217,7 @@ endif()
 #   add_subdirectory("auto-test")
 # endif()
 
-add_subdirectory("resources")
+# add_subdirectory("resources")
 
 if (MACOSX)
   add_subdirectory("test")

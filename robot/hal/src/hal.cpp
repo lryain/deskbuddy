@@ -525,6 +525,7 @@ extern "C"  ssize_t spine_write_ccc_frame(spine_ctx_t spine, const struct Contac
 
 Result HAL::Step(void)
 {
+  printf("1.0 -------------> in HAL::Step() -> call EventStep()\n");fflush(stdout);
   EventStep();
   EventStart(EventType::HAL_STEP);
 
@@ -535,6 +536,7 @@ Result HAL::Step(void)
   bool commander_is_active = false;
 
 #ifndef HAL_DUMMY_BODY
+  printf("1.1.0 -------------> in HAL::Step() -> HAL_DUMMY_BODY\n");fflush(stdout);
 
   headData_.framecounter++;
 
@@ -602,14 +604,18 @@ Result HAL::Step(void)
   }
 
 #if !PROCESS_IMU_ON_THREAD
+  printf("1.1.1 -------------> in HAL::Step() -> PROCESS_IMU_ON_THREAD\n");fflush(stdout);
   ProcessIMUEvents();
 #endif
+  printf("1.2. -------------> in HAL::Step() -> EventStart(EventType::READ_SPINE)\n");fflush(stdout);
 
   EventStart(EventType::READ_SPINE);
 
   const u32 startSpineGetFrameTime_ms = GetTimeStamp();
+  printf("1.3. -------------> in HAL::Step() -> do while -> spine_get_frame()\n");fflush(stdout);
   do {
     result = spine_get_frame();
+    printf("1.3.1. -------------> in HAL::Step() -> spine_get_frame() -> result: %d\n", result);fflush(stdout);
 
     // It's taking too long to get a frame!
     // Timeout is tuned to accommodate worst case back-to-back spine select timeouts
@@ -641,13 +647,17 @@ Result HAL::Step(void)
 #endif
 
 #endif // #ifndef HAL_DUMMY_BODY
+  printf("1.4. -------------> in HAL::Step() -> ProcessFailureCode\n");fflush(stdout);
 
   ProcessFailureCode();
+  printf("1.5. -------------> in HAL::Step() -> ProcessMicError\n");fflush(stdout);
 
   ProcessMicError();
+  printf("1.6. -------------> in HAL::Step() -> ProcessTouchLevel\n");fflush(stdout);
 
   ProcessTouchLevel(); // filter invalid values from touch sensor
 
+  printf("1.7. -------------> in HAL::Step() -> ProcessProxData\n");fflush(stdout);
   ProcessProxData();
 
 #if(DEBUG_TOUCH_SENSOR)
@@ -657,6 +667,7 @@ Result HAL::Step(void)
   }
   fprintf(fp, "%d\n", lastValidTouchIntensity_);
 #endif
+  printf("1.8. -------------> in HAL::Step() -> Monitor body temperature (For debugging only)\n");fflush(stdout);
 
   // Monitor body temperature (For debugging only)
   if (bodyData_ != nullptr) {
@@ -674,13 +685,16 @@ Result HAL::Step(void)
     }
   }
 
-
+  printf("1.9. -------------> in HAL::Step() -> PrintConsoleOutput\n");fflush(stdout);
   PrintConsoleOutput();
 
+  printf("1.10. -------------> in HAL::Step() -> PrintBodyDataUpdate\n");fflush(stdout);
   PrintBodyDataUpdate();
 
+  printf("1.11. -------------> in HAL::Step() -> EventStop(EventType::HAL_STEP)\n");fflush(stdout);
   EventStop(EventType::HAL_STEP);
 
+  printf("1.12. -------------> in HAL::Step() -> done! commander_is_active: %d\n", commander_is_active);fflush(stdout);
   //return a fail code if commander is active to prevent robotics from getting confused
   return (commander_is_active) ? RESULT_FAIL_IO_UNSYNCHRONIZED : result;
 }
@@ -890,11 +904,15 @@ ProxSensorDataRaw HAL::GetRawProxData()
 
 void ProcessProxData()
 {
+  printf("1.0 -------------> in ProcessProxData()\n");fflush(stdout);
+
   // No body prox sensor on Whiskey
   if(IsWhiskey())
   {
+    printf("1.1 -------------> in IsWhiskey()? yes!\n");fflush(stdout);
     return;
   }
+  printf("1.2 -------------> in IsWhiskey()? no!\n");fflush(stdout);
 
   if (HAL::PowerGetMode() == POWER_MODE_CALM) {
     proxData_.distance_mm      = PROX_CALM_MODE_DIST_MM;

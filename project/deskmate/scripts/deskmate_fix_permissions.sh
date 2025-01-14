@@ -31,15 +31,15 @@ MOUNT_STATE=$(\
 [[ "$MOUNT_STATE" == "ro" ]] && robot_sh "/bin/mount -o remount,rw /"
 
 robot_sh /bin/bash <<'EOT'
-chown -R lrya:lrya /lrya
+chown -R pi:pi /lrya
 chmod ug+rw /lrya
 
 test -f /data/etc/robot.pem && chown net:lrya /data/etc/robot.pem
-chown -R net:lrya /data/mate-gateway
+chown -R pi:pi /data/mate-gateway
 
 mkdir -p /data/data/com.lrya.deskmate
 chmod -R 770 /data/data/com.lrya.deskmate
-chown -R lrya:lrya /data/data/com.lrya.deskmate
+chown -R pi:pi /data/data/com.lrya.deskmate
 EOT
 
 [[ "$MOUNT_STATE" == "ro" ]] && robot_sh "/bin/mount -o remount,ro /"

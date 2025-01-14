@@ -59,14 +59,18 @@ Lrya::Util::Data::DataPlatform* createPlatform(const std::string& persistentPath
 Lrya::Util::Data::DataPlatform* createPlatform()
 {
   char config_file_path[PATH_MAX] = { 0 };
-  const char* env_config = getenv("VIC_ANIM_CONFIG");
+  const char* env_config = getenv("MATE_ANIM_CONFIG");
+  if (env_config == NULL) {
+    env_config = "/lrya/etc/config/platform_config.json";
+    printf("0. ---------------> getenv(MATE_ANIM_CONFIG) is NULL, use default path: %s\n", env_config);
+  }
   if (env_config != NULL) {
     strncpy(config_file_path, env_config, sizeof(config_file_path));
   }
 
   Json::Value config;
 
-  printf("config_file: %s\n", config_file_path);
+  printf("1. ---------------> config_file: %s\n", config_file_path);
   if (strlen(config_file_path) > 0) {
     std::string config_file{config_file_path};
     if (!Lrya::Util::FileUtils::FileExists(config_file)) {
@@ -124,6 +128,7 @@ int main(void)
 
   // - console filter for logs
   {
+    printf("2.console filter for logs...\n");
     using namespace Lrya::Util;
     ChannelFilter* consoleFilter = new ChannelFilter();
 
@@ -134,25 +139,31 @@ int main(void)
     {
       LOG_ERROR("CozmoAnimMain.main", "Failed to parse json file '%s'", consoleFilterConfigPath.c_str());
     }
+    printf("2.1.initialize console filter for this platform...\n");
   
     // initialize console filter for this platform
     const std::string& platformOS = dataPlatform->GetOSPlatformString();
     const Json::Value& consoleFilterConfigOnPlatform = consoleFilterConfig[platformOS];
     consoleFilter->Initialize(consoleFilterConfigOnPlatform);
+    printf("2.2.set filter in the loggers...\n");
 
     // set filter in the loggers
     std::shared_ptr<const IChannelFilter> filterPtr( consoleFilter );
 
     Lrya::Util::gLoggerProvider->SetFilter(filterPtr);
   }
+  printf("3.start LRYA_CONSOLE_SYSTEM_INIT...\n");
 
   // Set up the console vars to load from file, if it exists
   LRYA_CONSOLE_SYSTEM_INIT(dataPlatform->pathToResource(Lrya::Util::Data::Scope::Cache, "consoleVarsAnim.ini").c_str());
 
   // Create and init AnimEngine
   Anim::AnimEngine * animEngine = new Anim::AnimEngine(dataPlatform);
+  printf("3.1.start animEngine->Init()...\n");
 
   Result result = animEngine->Init();
+  
+  printf("3.2.animEngine->Init() status: %d\n", result);
   if (RESULT_OK != result) {
     LOG_ERROR("CozmoAnimMain.main.InitFailed", "Unable to initialize (exit %d)", result);
     delete animEngine;
@@ -162,6 +173,7 @@ int main(void)
     sync();
     exit(result);
   }
+  printf("3.2. done animEngine->Init()\n");
 
   using namespace std::chrono;
   using TimeClock = steady_clock;

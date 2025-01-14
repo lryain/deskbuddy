@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 
-#define DEFAULT_IMU_SPI_DEVICE "/dev/spidev0.0"
+#define DEFAULT_IMU_SPI_DEVICE "/dev/spidev1.0"
 
 #define IMU_ACC_RANGE 2.0    // g       [2.11.12: acc_range 2 => +- 2g ]
 #define IMU_GYRO_RANGE 500.0 // deg/sec [2.11.14: gyr_range 2 => +- 500s]

@@ -140,7 +140,7 @@ namespace Factory {
     }
   }
 
-  static const Factory::EMR* const GetEMR()
+  [[maybe_unused]] static const Factory::EMR* const GetEMR()
   {
     // Attempt to read the EMR, will do nothing if it has already been read
     ReadEMR();
@@ -167,13 +167,16 @@ static inline bool IsWhiskey()
     #define HEADID_HWREV_WHSK_MAX   0x19 //Whiskey (Old revisions end here)
     #define HEADID_HWREV_XRAY_EVT   0x20 //XRay (Vector 2.0)
   */
-  const uint32_t hardware = Factory::GetEMR()->fields.HW_VER;
-  return (hardware >= 0x7 && hardware && hardware <= 0x19);
+//   const uint32_t hardware = Factory::GetEMR()->fields.HW_VER;
+//   printf("1.0 -------------> IsWhiskey -> Factory::GetEMR()->fields.HW_VER -> hardware: %d \n", hardware);fflush(stdout);
+//   return (hardware >= 0x7 && hardware && hardware <= 0x19);
+  return true;
 }
 
 static inline const bool IsXray()
 {
 //     return (Factory::GetEMR()->fields.HW_VER >= 0x20);
+//     printf("1.1 -------------> IsWhiskey -> Factory::GetEMR()->fields.HW_VER >= 0x20 -> dummy return always true!!\n");fflush(stdout);
     return true;
 }
 

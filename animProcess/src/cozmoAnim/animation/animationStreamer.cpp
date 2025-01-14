@@ -400,12 +400,15 @@ namespace Anim {
     // TODO: Restore ability to subscribe to messages here?
     //       It's currently hard to do with CPPlite messages.
     // SetupHandlers(_context->GetExternalInterface());
+    printf("1.0 -------------> start AnimationStreamer::Init()\n");fflush(stdout);
 
     // Set neutral face
     DEV_ASSERT(nullptr != _context, "AnimationStreamer.Init.NullContext");
     DEV_ASSERT(nullptr != _context->GetDataLoader(), "AnimationStreamer.Init.NullRobotDataLoader");
     const std::string neutralFaceAnimName = "anim_neutral_eyes_01";
+    printf("1.1 -------------> _context->GetDataLoader()->GetCannedAnimation(%s)\n", neutralFaceAnimName.c_str());fflush(stdout);
     _neutralFaceAnimation = _context->GetDataLoader()->GetCannedAnimation(neutralFaceAnimName);
+    printf("1.2 -------------> _context->GetDataLoader()->GetCannedAnimation(%s)\n", neutralFaceAnimName.c_str());fflush(stdout);
     if (nullptr != _neutralFaceAnimation)
     {
       auto frame = _neutralFaceAnimation->GetTrack<ProceduralFaceKeyFrame>().GetFirstKeyFrame();

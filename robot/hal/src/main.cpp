@@ -69,7 +69,7 @@ int run()
 {
   using Result = Lrya::Result;
 
-  LryaInfo("robot.main", "Starting robot process");
+  LryaInfo("1.0. robot.main", "Starting robot process invoke --> Robot::Init(&shutdownSignal)");
 
   //Robot::Init calls HAL::INIT before anything else.
   // TODO: move HAL::Init here into HAL main.
@@ -85,6 +85,7 @@ int run()
     }
   }
 
+  printf("1.1. robot.main -------------> After Init:\n1.all memory ready\n2. IMU instantiated\n3.lock our pages \n");
   // After Init, all memory we need has been initialized and the IMU thread (if used) has been
   // instantiated, lock our pages
   int lock_r = mlockall(MCL_FUTURE);
@@ -94,10 +95,12 @@ int run()
 
   auto start = std::chrono::steady_clock::now();
 #if FACTORY_TEST
+  printf("1.1.1. robot.main -------------> FACTORY_TEST Enabled! \n");
   auto timeOfPowerOn = start;
   wasPackedOutAtBoot = Lrya::Vector::Factory::GetEMR()->fields.PACKED_OUT_FLAG;
 #endif
 
+  printf("1.2. robot.main -------------> start go into forever loop! invoke HAL::Step() \n");
   for (;;) {
     //HAL::Step should never return !OK, but if it does, best not to trust its data.
     if (Lrya::Vector::HAL::Step() == Lrya::RESULT_OK) {
