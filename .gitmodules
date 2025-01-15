@@ -1,5 +1,5 @@
-# [submodule "EXTERNALS"]
-# 	path = EXTERNALS
+[submodule "EXTERNALS"]
+	path = EXTERNALS
 	url = https://github.com/lryain/EXTERNALS
 # [submodule "ota/wire-os"]
 # 	path = ota/wire-os
