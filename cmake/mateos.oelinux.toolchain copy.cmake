@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6.0)
+cmake_minimum_required(VERSION 3.10.0)
 
 # CMake invokes the toolchain file twice during the first build, but only once
 # during subsequent rebuilds. This was causing the various flags to be added
@@ -27,6 +27,7 @@ if(NOT MATEOS_SDK)
 	elseif(DEFINED ENV{_MATEOS_SDK} AND IS_DIRECTORY "$ENV{_MATEOS_SDK}")
 		set(MATEOS_SDK "$ENV{_MATEOS_SDK}")
     else()
+        # message(FATAL_ERROR "Invalid mateos SDK. Define MATEOS_SDK_HOME the environment or set the MATEOS_SDK variable.")
         message(WARING "Invalid mateos SDK. Define MATEOS_SDK_HOME the environment or set the MATEOS_SDK variable.")
         set(MATEOS_SDK_HOME "/home/lryain/.lrya/mateos-sdk/dist/1.1.0-r04")
     endif()
@@ -58,17 +59,17 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 #set(CMAKE_ANDROID_ARCH_ABI ${MATEOS_ABI})
 
 # This is used as "prefix" for toolchain binaries
-set(MATEOS_TOOLCHAIN_NAME arm-linux-gnueabihf)
+set(MATEOS_TOOLCHAIN_NAME aarch64-unknown-linux-gnu)
 
 # This is used to construct the path prefix for the toolchain location
-set(MATEOS_TOOLCHAIN_ROOT arm-linux-gnueabihf)
+set(MATEOS_TOOLCHAIN_ROOT aarch64-unknown-linux-gnu)
 
 # uname -p on mateos returns unknown
-set(CMAKE_SYSTEM_PROCESSOR arm)
+set(CMAKE_SYSTEM_PROCESSOR aarch64)
 
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 
-set(MATEOS_LLVM_TRIPLE arm-linux-gnueabihf)
+set(MATEOS_LLVM_TRIPLE aarch64-unknown-linux-gnu)
 
 # Toolchain.
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL Linux)
@@ -130,26 +131,31 @@ list(APPEND MATEOS_LINKER_FLAGS_EXE
 
 # Debug and release flags.
 list(APPEND MATEOS_COMPILER_FLAGS_DEBUG
-        -O0 -g
-        -Wno-unused-function
-        -fno-limit-debug-info)
+	-O0
+    -Winstantiation-after-specialization 
+    # -fno-elide-constructors 
+    # -Werror=undefined-func-template
+    # -fno-limit-debug-info
+    )
 list(APPEND MATEOS_COMPILER_FLAGS_RELEASE
 	-Os
         -DNDEBUG)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     list(APPEND MATEOS_LINKER_FLAGS_EXE
-        -Wl,-rpath-link,${CMAKE_SOURCE_DIR}/_build/mateos/Debug/lib)
+        -Wl,-rpath-link,${CMAKE_SOURCE_DIR}/_build/mateos/Release/lib
+        -Wl,-rpath-link,${MATEOS_SDK}/sysroot/usr/lib/aarch64-linux-gnu)
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     list(APPEND MATEOS_LINKER_FLAGS_EXE
-        -Wl,-rpath-link,${CMAKE_SOURCE_DIR}/_build/mateos/Release/lib)
+        -Wl,-rpath-link,${CMAKE_SOURCE_DIR}/_build/mateos/Release/lib
+        -Wl,-rpath-link,${MATEOS_SDK}/sysroot/usr/lib/aarch64-linux-gnu)
 endif()
 
 # Toolchain and ABI specific flags.
 list(APPEND MATEOS_COMPILER_FLAGS
-	-march=armv7-a
+	-march=armv8-a
 	-mfloat-abi=hard
-	-mfpu=neon)
+	-mfpu=neon-fp-armv8)
 # list(APPEND MATEOS_LINKER_FLAGS
 # 	-Wl,--fix-cortex-a8)
 
@@ -166,16 +172,18 @@ list(APPEND MATEOS_LINKER_FLAGS
 	-lpthread)
 list(APPEND MATEOS_COMPILER_FLAGS_CXX
 	-stdlib=libc++
+    -lpthread
 	-std=c++14)
 
 set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES "")
 
 # Add libc++_shared.so
-# sysroot/usr/lib/arm-linux-gnueabihf
-set(MATEOS_CXX_STANDARD_LIBRARIES "${MATEOS_SDK}/sysroot/usr/lib/arm-linux-gnueabihf/libc++.so.1")
+# sysroot/usr/local/clang_6.0.1/lib
+# mateos-sdk/dist/1.1.0-r04/sysroot/usr/lib/arm-linux-gnueabihf
+set(MATEOS_CXX_STANDARD_LIBRARIES "${MATEOS_SDK}/sysroot/usr/local/clang_6.0.1/lib/libc++.so")
 
 # Add libunwind
-set(MATEOS_CXX_STANDARD_LIBRARIES "${MATEOS_SDK}/sysroot/usr/lib/arm-linux-gnueabihf/libunwind.a")
+set(MATEOS_CXX_STANDARD_LIBRARIES "${MATEOS_SDK}/sysroot/usr/local/clang_6.0.1/lib/libunwind.a")
 
 set(CMAKE_C_STANDARD_LIBRARIES_INIT "-lm")
 set(CMAKE_CXX_STANDARD_LIBRARIES_INIT "${CMAKE_C_STANDARD_LIBRARIES_INIT}")
@@ -183,7 +191,7 @@ if(MATEOS_CXX_STANDARD_LIBRARIES)
     string(REPLACE ";" "\" \"" MATEOS_CXX_STANDARD_LIBRARIES "\"${MATEOS_CXX_STANDARD_LIBRARIES}\"")
     set(CMAKE_CXX_STANDARD_LIBRARIES_INIT "${CMAKE_CXX_STANDARD_LIBRARIES_INIT} ${MATEOS_CXX_STANDARD_LIBRARIES}")
 endif()
-
+message("CMAKE_CXX_STANDARD_LIBRARIES_INIT: ${CMAKE_CXX_STANDARD_LIBRARIES_INIT} ===========================")
 # Configuration specific flags.
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 list(APPEND MATEOS_LINKER_FLAGS_EXE
@@ -207,8 +215,8 @@ endif()
 # set thumb mode (use -marm for arm mode)
 list(APPEND MATEOS_COMPILER_FLAGS -mthumb)
 
-# list(APPEND MATEOS_COMPILER_FLAGS
-#     -mfpu=neon)
+list(APPEND MATEOS_COMPILER_FLAGS
+    -mfpu=neon)
 #list(APPEND MATEOS_COMPILER_FLAGS
 #    -Wa,--noexecstack)
 list(APPEND MATEOS_LINKER_FLAGS
@@ -240,6 +248,8 @@ endif()
 set(CMAKE_C_COMPILER        "${MATEOS_C_COMPILER}")
 set(CMAKE_CXX_COMPILER      "${MATEOS_CXX_COMPILER}")
 set(_CMAKE_TOOLCHAIN_PREFIX "${MATEOS_TOOLCHAIN_PREFIX}")
+set(CMAKE_LINKER "${MATEOS_SDK}/prebuilt/bin/aarch64-unknown-linux-gnu-ld")
+message("0000000000000000000000000000-> CMAKE_LINKER: ${CMAKE_LINKER}")
 
 # Run the compiler ID checks before we set flags.
 # When passed the `-march=` flag, Clang can fail to compile if CMake doesn't
@@ -282,17 +292,24 @@ set(CMAKE_CXX_FLAGS_RELEASE   "${MATEOS_COMPILER_FLAGS_RELEASE} ${CMAKE_CXX_FLAG
 set(CMAKE_SHARED_LINKER_FLAGS "${MATEOS_LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS}")
 set(CMAKE_MODULE_LINKER_FLAGS "${MATEOS_LINKER_FLAGS} ${CMAKE_MODULE_LINKER_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS    "${MATEOS_LINKER_FLAGS} ${MATEOS_LINKER_FLAGS_EXE} ${CMAKE_EXE_LINKER_FLAGS}")
+# set(CMAKE_EXE_LINKER_FLAGS    "${MATEOS_SDK}/prebuilt/bin/aarch64-unknown-linux-gnu-ld")
 
+# list(APPEND CMAKE_CXX_FLAGS -I${CMAKE_SYSROOT}/usr/include/android)
+
+
+# include_directories(${CMAKE_SYSROOT}/usr/include/android)
+include_directories(${CMAKE_SYSROOT}/usr/local/include)
+link_directories(${CMAKE_SYSROOT}/usr/lib/aarch64-linux-gnu/android)
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 
-# <anki>
+# <lrya>
 # Work around missing CMAKE_SIZEOF_VOID_P
 #
 # Resolves build error
 #   FindWinSock.cmake:77 (if):
 #   if given arguments:
 #     "x86_64" "STREQUAL" "AMD64" "AND" "EQUAL" "4"
-# </anki>
+# </lrya>
 set(CMAKE_SIZEOF_VOID_P 4)
 
 # Debug.
@@ -300,8 +317,8 @@ message(STATUS "CMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
 message(STATUS "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
 message(STATUS "CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=${CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES}")
 
-option(USE_ANKIASAN "Enable address sanitizer" OFF)
-if (USE_ANKIASAN)
+option(USE_LRYAASAN "Enable address sanitizer" OFF)
+if (USE_LRYAASAN)
   # Depends on -shared-libasan, convert to OPTION
   set(ASAN_CXX_FLAGS           PUBLIC
                                -fsanitize=address
@@ -317,14 +334,14 @@ if (USE_ANKIASAN)
                                # requires SDK support -shared-libasan
                                -ldl
                                -lrt
-                               # sysroot/usr/lib/llvm-7/lib/clang/7.0.1/lib/linux
-                               -l${MATEOS_SDK}/sysroot/usr/lib/llvm-7/lib/clang/7.0.1/lib/linux/libclang_rt.asan-arm.a
+                               # sysroot/usr/local/clang_6.0.1/lib/clang/6.0.1/lib/linux
+                               -l${MATEOS_SDK}/sysroot/usr/local/clang_6.0.1/lib/clang/6.0.1/lib/linux/libclang_rt.asan-aarch64.a
   )
 
   set(ASAN_EXE_LINKER_FLAGS    PUBLIC
                                -fsanitize=address
                                -ldl
                                -lrt
-                               -l${MATEOS_SDK}/sysroot/usr/lib/llvm-7/lib/clang/7.0.1/lib/linux/libclang_rt.asan-arm.a
+                               -l${MATEOS_SDK}/sysroot/usr/local/clang_6.0.1/lib/clang/6.0.1/lib/linux/libclang_rt.asan-aarch64.a
   )
 endif()
