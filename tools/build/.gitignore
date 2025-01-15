@@ -1,6 +1,6 @@
 .DS_Store
 *.pyc
-
+tools/build/build-deskmate-deps
 build-breakpad/
 stage/
 build-android-sdk/
