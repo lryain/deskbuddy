@@ -1,6 +1,9 @@
-[submodule "EXTERNALS"]
-	path = EXTERNALS
-	url = https://github.com/lryain/EXTERNALS
+# [submodule "EXTERNALS"]
+# 	path = EXTERNALS
+# 	url = https://github.com/lryain/EXTERNALS
 # [submodule "ota/wire-os"]
 # 	path = ota/wire-os
 # 	url = https://github.com/lryain/wire-os
+[submodule "EXTERNALS"]
+	path = EXTERNALS
+	url = https://github.com/lryain/EXTERNALS.git
