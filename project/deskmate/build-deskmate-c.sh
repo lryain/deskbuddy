@@ -162,8 +162,8 @@ function usage_fix_lfs() {
 
 if [ -z "${CMAKE_EXE+x}" ]; then
     echo "Attempting to install cmake"
-    ${TOPLEVEL}/tools/build/tools/lryabuild/cmake.py --install-cmake 3.10.3
-    CMAKE_EXE=`${TOPLEVEL}/tools/build/tools/lryabuild/cmake.py --find-cmake 3.10.3`
+    ${TOPLEVEL}/tools/build/tools/lryabuild/cmake.py --install-cmake 3.12.4
+    CMAKE_EXE=`${TOPLEVEL}/tools/build/tools/lryabuild/cmake.py --find-cmake 3.12.4`
 fi
 
 if [ $IGNORE_EXTERNAL_DEPENDENCIES -eq 0 ]; then
