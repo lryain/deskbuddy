@@ -477,9 +477,9 @@ if [ $CONFIGURE -eq 1 ]; then
         PLATFORM_ARGS=(
             -DMACOSX=0
             -DANDROID=0
-            -DMATEOS=0
+            -DMATEOS=1
             -DMATEOS-CS=1
-            -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/mateos.oelinux.toolchain.cmake1"
+            -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/mateos.oelinux.toolchain.cmake"
             -DMATEOS_CPP_FEATURES='rtti exceptions'
         )
         echo "${PLATFORM_ARGS[@]}"
