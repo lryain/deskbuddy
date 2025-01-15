@@ -28,10 +28,10 @@ if(NOT MATEOS_SDK)
 		set(MATEOS_SDK "$ENV{_MATEOS_SDK}")
     else()
         message(WARING "Invalid mateos SDK. Define MATEOS_SDK_HOME the environment or set the MATEOS_SDK variable.")
-        set(MATEOS_SDK_HOME "/home/lryain/.lrya/mateos-sdk/dist/1.1.0-r04")
     endif()
 endif()
-
+set(MATEOS_SDK_HOME "/home/lryain/.lrya/mateos-sdk/dist/1.1.0-r04")
+set(MATEOS_SDK "/home/lryain/.lrya/mateos-sdk/dist/1.1.0-r04")
 set(ENV{_MATEOS_SDK} "${MATEOS_SDK}")
 message("0 --------------------> MATEOS_SDK: ${MATEOS_SDK}")
 

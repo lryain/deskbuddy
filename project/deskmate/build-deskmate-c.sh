@@ -45,7 +45,7 @@ IGNORE_EXTERNAL_DEPENDENCIES=0
 BUILD_SHARED_LIBS=0
 
 CONFIGURATION=Debug
-PLATFORM=mateos
+PLATFORM=mateos-cs
 GENERATOR=Ninja
 FEATURES=""
 DEFINES=""
@@ -454,6 +454,7 @@ if [ $CONFIGURE -eq 1 ]; then
             -DMACOSX=1
             -DANDROID=0
             -DMATEOS=0
+            -DMATEOS-CS=0
         #     -DMATEOS_CCACHE=ccache
             -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/macosx.toolchain.cmake"
         )
@@ -464,12 +465,25 @@ if [ $CONFIGURE -eq 1 ]; then
             -DMACOSX=0
             -DANDROID=0
             -DMATEOS=1
+            -DMATEOS-CS=0
         #     -DMATEOS_CCACHE=ccache
-            -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/mateos.oelinux.toolchain.cmake"
+            -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/mateos.raspi.toolchain.cmake"
             -DMATEOS_CPP_FEATURES='rtti exceptions'
         )
         echo "${PLATFORM_ARGS[@]}"
         echo "===> PLATFORM_ARGS: ${PLATFORM_ARGS[@]}"
+    elif [ "$PLATFORM" == "mateos-cs" ] ; then
+        echo "2 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > $PLATFORM = mateos-cs"
+        PLATFORM_ARGS=(
+            -DMACOSX=0
+            -DANDROID=0
+            -DMATEOS=0
+            -DMATEOS-CS=1
+            -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/mateos.oelinux.toolchain.cmake1"
+            -DMATEOS_CPP_FEATURES='rtti exceptions'
+        )
+        echo "${PLATFORM_ARGS[@]}"
+        echo "======================> PLATFORM_ARGS: ${PLATFORM_ARGS[@]}"
     else
         echo "unknown platform: ${PLATFORM}"
         exit 1
