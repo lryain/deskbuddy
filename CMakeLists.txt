@@ -35,8 +35,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-
-# add_definitions(-DMATEOS)
+# for linux cross-build only
+set(MATEOS ON)
 
 #
 # Special settings for xcode.
@@ -63,7 +63,7 @@ set(LRYA_PLATFORM_NAME "unknown")
 if(MACOSX)
     set(LRYA_PLATFORM_NAME "mac")
 elseif(MATEOS)
-    message(STATUS "11------------------------> MATEOS: ${MATEOS}")
+  message(STATUS "11------------------------> MATEOS: ${MATEOS}")
   set(LRYA_PLATFORM_NAME "mateos")
   set(SYMBOL_VISIBILITY_FLAGS "-fvisibility=hidden")
 else()

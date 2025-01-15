@@ -42,7 +42,8 @@ def find_lrya_cmake_exe(version):
 def install_cmake(version):
     platform_map = {
         'darwin': 'Darwin-x86_64',
-        'linux': 'Linux'
+        # for linux build
+        'linux': 'Linux-x86_64'
     }
 
     platform_name = platform.system().lower()
