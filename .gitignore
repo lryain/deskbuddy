@@ -244,7 +244,7 @@ UnityDASDll/UnityDASDll/bin/*
 
 # Lrya specific
 # kercre123 - turn this into a submodule
-# EXTERNALS
+EXTERNALS
 TAGS
 .subtreeconfig
 
@@ -410,7 +410,10 @@ robot_ip.txt
 !okaoVision/lib/MacOSX/*.a
 
 # The 3rd directory contains drops from 3rd party vendors and all files should be allowed
-!3rd/**
+# !3rd/**
+
+!lib/util/source/3rd/
+!lib/util/source/3rd/**
 
 deskmate-packages
 log.txt
