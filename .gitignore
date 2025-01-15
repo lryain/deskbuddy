@@ -70,7 +70,7 @@ simulator/plugins/physics/cozmo_physics/libcozmo_physics.dylib
 simulator/worlds/__generated__.wbt
 simulator/worlds/__GENERATED_FOR_*__.wbt
 project/build-scripts/webots/__GENERATED_ANIMATIONS_TEST__.cfg
-tools/build/build-deskmate-deps
+tools/build/build-deskmate-deps/
 
 # Mac OS
 *.DS_Store
