@@ -244,7 +244,7 @@ UnityDASDll/UnityDASDll/bin/*
 
 # Lrya specific
 # kercre123 - turn this into a submodule
-EXTERNALS
+# EXTERNALS
 TAGS
 .subtreeconfig
 
