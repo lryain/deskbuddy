@@ -41,4 +41,31 @@ target_include_directories(lrya-ble
 
 lrya_build_strip(TARGET lrya-ble)
 
+# lryabluetoothd
+
+# project(lryabluetoothd)
+
+# lrya_build_cxx_executable(lryabluetoothd ${LRYA_SRCLIST_DIR})
+
+# target_compile_definitions(lryabluetoothd
+#   PRIVATE
+#   ${PLATFORM_COMPILE_DEFS}
+# )
+
+# target_link_libraries(lryabluetoothd
+#   PRIVATE
+#   robot_core
+# #     ${ASAN_EXE_LINKER_FLAGS}
+# #     pigpio
+#   util
+#   PUBLIC
+#   gpio
+# # spi_lcd
+#   robot_interface  # Needs to be public for cozmoConfig.h
+# )
+
+# lrya_build_strip(TARGET lryabluetoothd)
+
+# lrya_build_target_license(lryabluetoothd "LRYA")
+
 endif(MATEOS)

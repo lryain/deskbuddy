@@ -1,6 +1,14 @@
 cxx_project(
     name = 'lrya-ble',
     srcs = cxx_src_glob(['.'],
+    excludes = ['*_mac.*',
+                '*_mateos.*',
+                './common-server/*',
+                './lryabluetoothd/*',
+                './lryabluetoothdummy/*',
+                './viccubetool/*',
+                './vicdevsetup/*'
+                ]
     ),
     headers = cxx_header_glob(['.'])
 )

@@ -1,0 +1,1 @@
+SUBDIRS = lryabluetoothd vicdevsetup viccubetool
