@@ -416,6 +416,7 @@ bool OffboardProcessor::WaitForResultCLAD(std::list<SalientPoint>& salientPoints
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool OffboardProcessor::Connect()
 {
+  printf("1. --------------> in OffboardProcessor::Connect()\n");
   static s32 numTries = 0;
   
   const char* serverPath = LOCAL_SOCKET_PATH "offboard_vision_server";

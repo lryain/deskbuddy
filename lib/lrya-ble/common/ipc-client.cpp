@@ -40,6 +40,8 @@ IPCClient::IPCClient(struct ev_loop* loop)
 
 bool IPCClient::Connect()
 {
+  printf("1. --------------> in IPCClient::Connect()\n");
+
   if (!connect_watcher_) {
     connect_watcher_ = new ev::io(loop_);
     connect_watcher_->set <IPCClient, &IPCClient::ConnectWatcherCallback> (this);

@@ -49,6 +49,8 @@ void UdpClient::set_nonblock(int socket) {
 
 bool UdpClient::Connect(const char *host_address, const unsigned short port)
 {
+  printf("1. --------------> in UdpClient::Connect()\n");
+  
   if (socketfd >= 0) {
     LOG_WARNING("UdpClient.Connect.AlreadyConnected", "");
     return false;
