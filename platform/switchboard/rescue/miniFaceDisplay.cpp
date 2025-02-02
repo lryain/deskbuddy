@@ -75,7 +75,7 @@ void DrawFaultCode(uint16_t fault, bool willRestart)
             kDrawTwice);
 
   Vision::ImageRGB565 img565(img);
-  lcd_draw_frame2(reinterpret_cast<u16*>(img565.GetDataPointer()), img565.GetNumRows() * img565.GetNumCols() * sizeof(u16));
+  lcd_write_buffer(reinterpret_cast<u16*>(img565.GetDataPointer()), img565.GetNumRows() * img565.GetNumCols() * sizeof(u16));
 }
 
 bool DrawImage(std::string& image_path)
@@ -90,7 +90,7 @@ bool DrawImage(std::string& image_path)
     return false;
   }
 
-  lcd_draw_frame2(reinterpret_cast<u16*>(img565.GetDataPointer()), img565.GetNumRows() * img565.GetNumCols() * sizeof(u16));
+  lcd_write_buffer(reinterpret_cast<u16*>(img565.GetDataPointer()), img565.GetNumRows() * img565.GetNumCols() * sizeof(u16));
   return true;
 }
 
@@ -113,7 +113,7 @@ bool DrawStartPairingScreen(const std::string& robotName)
   img.DrawTextCenteredHorizontally(kAppURL, kNormalFont, scale, kTextThickness, kWhiteColor, (FACE_DISPLAY_HEIGHT + textSize.height)/2, true);
 
   Vision::ImageRGB565 img565(img);
-  lcd_draw_frame2(reinterpret_cast<u16*>(img565.GetDataPointer()),
+  lcd_write_buffer(reinterpret_cast<u16*>(img565.GetDataPointer()),
                   img565.GetNumRows() * img565.GetNumCols() * sizeof(u16));
 
   return true;
@@ -142,7 +142,7 @@ void DrawShowPinScreen(const std::string& robotName, const std::string& pin)
   img.DrawTextCenteredHorizontally(pin, kNormalFont, 0.8f, kTextThickness, kWhiteColor, FACE_DISPLAY_HEIGHT-5, kDrawTwice);
 
   Vision::ImageRGB565 img565(img);
-  lcd_draw_frame2(reinterpret_cast<u16*>(img565.GetDataPointer()),
+  lcd_write_buffer(reinterpret_cast<u16*>(img565.GetDataPointer()),
                   img565.GetNumRows() * img565.GetNumCols() * sizeof(u16));
 }
 

@@ -49,8 +49,8 @@
 
 #define LOG_CHANNEL "Animations"
 
-#define DEBUG_ANIMATION_STREAMING 0
-#define DEBUG_ANIMATION_STREAMING_AUDIO 0
+#define DEBUG_ANIMATION_STREAMING 1
+#define DEBUG_ANIMATION_STREAMING_AUDIO 1
 
 namespace Lrya {
 namespace Vector {
@@ -1472,7 +1472,9 @@ namespace Anim {
     return lastResult;
   }// ExtractMessagesFromProceduralTracks()
 
-
+/**
+ *  Actually stream the animation (called each tick)
+ */
   Result AnimationStreamer::ExtractMessagesFromStreamingAnim(AnimationMessageWrapper& stateToSend)
   {
     LRYA_CPU_PROFILE("AnimationStreamer::ExtractMessagesFromStreamingAnim");
@@ -1504,6 +1506,7 @@ namespace Anim {
     }
 
     // Tracks which have no procedural alterations - grab any messages directly
+//     对于没有程序化修改的轨道Tracks，直接获取任何相关消息
     {
       auto & headTrack                  = _streamingAnimation->GetTrack<HeadAngleKeyFrame>();
       auto & liftTrack                  = _streamingAnimation->GetTrack<LiftHeightKeyFrame>();
@@ -1538,6 +1541,11 @@ namespace Anim {
     // This logic could/should be moved up to Update so that building the desired animation is a visibly linear
     // process instead of burying procedural content under canned animation oriented function calls.
     // Apply any track layers to the animation
+// 待办事项（str）：VIC - 13519 实现面部渲染线性化
+// 此逻辑的其余部分并非“从流式动画中提取消息”……这容易让人产生混淆。
+// 该逻辑可以（并且应该）上移至更新函数中，这样构建所需动画就会是一个明显的线性过程，
+// 而不是将程序性内容隐藏在面向预设动画的函数调用之下。
+// 对动画应用任何轨道层
     static const bool kStoreFace = true;
     ExtractMessagesRelatedToProceduralTrackComponent(_context, _streamingAnimation, _proceduralTrackComponent.get(),
                                                      _lockedTracks, _relativeStreamTime_ms, kStoreFace, stateToSend);
@@ -1545,7 +1553,9 @@ namespace Anim {
     return lastResult;
   } // ExtractMessagesFromStreamingAnim()
 
-
+  /**
+   * 将指定动画内的轨道与指定轨道层组件中的轨道进行合并，然后将合并结果赋值给待发送状态（stateToSend）。 
+   */
   Result AnimationStreamer::ExtractMessagesRelatedToProceduralTrackComponent(const Anim::AnimContext* context,
                                                                              Animation* anim,
                                                                              TrackLayerComponent* trackComp,
@@ -1555,7 +1565,8 @@ namespace Anim {
                                                                              AnimationMessageWrapper& stateToSend)
   {
     LRYA_CPU_PROFILE("AnimationStreamer::ExtractMessagesRelatedToProceduralTrackComponent");
-
+// 创建一个 TrackLayerComponent::LayeredKeyFrames 对象 layeredKeyFrames，用于存储合并后的关键帧。
+// 调用 trackComp->ApplyLayersToAnim 函数，将指定动画 anim 中的轨道与轨道层组件 trackComp 中的轨道进行合并，并将结果存储在 layeredKeyFrames 中。
     TrackLayerComponent::LayeredKeyFrames layeredKeyFrames;
     trackComp->ApplyLayersToAnim(anim,
                                  timeSinceAnimStart_ms,
@@ -1597,16 +1608,21 @@ namespace Anim {
       GetStreamableFace(context, layeredKeyFrames.faceKeyFrame.GetFace(), stateToSend.faceImg);
       stateToSend.haveFaceToSend = true;
     }
-
+// 如果动画不为空，指定面部渲染
     if (anim != nullptr)
     {
+// 创建一个复合图像对象将用于存储和处理面部渲染的图像数据。
       Vision::CompositeImage compImg(ProceduralFace::GetHueSatWrapper());
-
+// 调用 anim 对象的 PopulateCompositeImage 方法，将从 context 中获取的精灵缓存和精灵序列容器中的数据填充到 compImg 中。
+// 这个方法返回一个布尔值 renderFromCompImage，表示是否成功从复合图像中渲染。
       // Get the data from the SpriteBoxCompositor
       bool renderFromCompImage = anim->PopulateCompositeImage(*context->GetDataLoader()->GetSpriteCache(),
                                                               *context->GetDataLoader()->GetSpriteSequenceContainer(),
                                                               timeSinceAnimStart_ms, compImg);
-
+// 4. 处理面部渲染
+// 如果 haveEyesToRender 为真，表示需要渲染眼睛，则调用 InsertStreamableFaceIntoCompImg 方法将面部图像插入到复合图像中。
+// 创建一个 Vision::ImageRGBA 对象 img，并使用 compImg 中的数据填充它。
+// 将 img 中的数据设置到 stateToSend.faceImg 中，并将 stateToSend.haveFaceToSend 设置为 true，表示有面部图像需要发送。
       if (renderFromCompImage)
       {
         if (haveEyesToRender)
@@ -1625,7 +1641,7 @@ namespace Anim {
 
         stateToSend.haveFaceToSend = true;
       }
-
+// 如果 renderFromCompImage 或 haveEyesToRender 为真，则更新下一次允许渲染面部的时间 _nextProceduralFaceAllowedTime_ms。
       if(renderFromCompImage || haveEyesToRender)
       {
         const AnimTimeStamp_t currTime_ms = BaseStationTimer::getInstance()->GetCurrentTimeStamp();
@@ -1638,17 +1654,21 @@ namespace Anim {
     return RESULT_OK;
   }
 
-
+/**
+ * 选中的代码定义了一个名为 ExtractAnimationMessages 的成员函数，该函数属于 AnimationStreamer 类。
+ * 这个函数的主要作用是从当前正在播放的动画中提取动画消息，并将这些消息存储在 AnimationMessageWrapper 对象中，以便后续发送给机器人。
+ */
   Result AnimationStreamer::ExtractAnimationMessages(AnimationMessageWrapper& stateToSend)
   {
     Result lastResult = RESULT_OK;
-
+// 用于标记是否有新的动画消息被提取？
     bool streamUpdated = false;
 
     if (_streamingAnimation != nullptr)
     {
       if (IsStreamingAnimFinished())
       {
+        // 当前动画未Streaming播放完成，处理动画循环
         ++_loopCtr;
 
         if (_numLoops == 0 || _loopCtr < _numLoops)
@@ -1660,16 +1680,20 @@ namespace Anim {
                     _loopCtr, _numLoops,
                     _streamingAnimation->GetName().c_str());
           }
-
+          // 重置动画以便重新开始播放
           // Reset the animation so it can be played again:
           InitStreamingAnimation(_tag);
           _incrementTimeThisTick = false;
 
-          // To avoid streaming faceLayers set true and start streaming animation next Update() tick.
+        // To avoid streaming faceLayers set true and start streaming animation next Update() tick.
+        // 在动画流处理过程中，可能会有多个图层需要同时处理，其中包括 faceLayers。
+        // 为了确保这些图层不会在当前的更新周期中被流式传输，代码通过设置一个标志来推迟它们的处理。这意味着在当前的更新周期中，faceLayers 不会被流式传输，而是在下一个更新周期（即下一个 Update() 调用）中开始处理动画流。
+        // 这种做法有助于管理动画流的顺序和时机，确保不同图层的动画能够按照预期的顺序和时间进行流式传输，从而避免冲突或不一致的情况。通过推迟 faceLayers 的流式传输，可以更好地控制动画的播放效果和流畅度。
           streamUpdated = true;
         }
         else
         {
+        // 动画播放完毕，清理资源
           if (DEBUG_ANIMATION_STREAMING)
           {
             LOG_INFO("AnimationStreamer.Update.FinishedStreaming",
@@ -1690,10 +1714,12 @@ namespace Anim {
       } // if (IsStreamingAnimFinished())
       else
       {
+        // 从动画流中提取face消息，注意：这里才正式开始提取！
         // We do want to store this face to the robot since it's coming from an actual animation
         lastResult = ExtractMessagesFromStreamingAnim(stateToSend);
         streamUpdated = true;
         _lastAnimationStreamTime = BaseStationTimer::getInstance()->GetCurrentTimeInSeconds();
+        // // 发送动画结束消息
         // Send an end-of-animation keyframe when done
         if (!_streamingAnimation->HasFramesLeft() &&
             _relativeStreamTime_ms >= _streamingAnimation->GetLastKeyFrameEndTime_ms() &&
@@ -1778,11 +1804,17 @@ namespace Anim {
   }
 
 
-
+/**
+ * 这段代码定义了一个名为 AnimationStreamer::Update 的函数，它是 AnimationStreamer 类的一个成员函数。
+ * 这个函数的主要作用是更新动画流，包括处理待处理的动画、推进动画轨道、提取动画消息并发送给机器人。
+ * 
+ * 
+ */
   Result AnimationStreamer::Update()
   {
     _numLayersRendered = 0;
-
+// 使用互斥锁 _pendingAnimationMutex 保护对 _pendingAnimation 队列的访问。
+// 如果队列不为空，则调用 SetStreamingAnimation 函数来设置当前的流动画，并清空队列。
     {
       std::lock_guard<std::mutex> lock(_pendingAnimationMutex);
       if (!_pendingAnimation.empty()) {
@@ -1792,7 +1824,7 @@ namespace Anim {
         _pendingNumLoops = 0;
       }
     }
-
+// 如果处于手动更新模式，则根据当前手动帧号 kCurrentManualFrameNumber 和动画时间步长 ANIM_TIME_STEP_MS 计算相对流时间 _relativeStreamTime_ms。
     if (kIsInManualUpdateMode)
     {
       _relativeStreamTime_ms = kCurrentManualFrameNumber * ANIM_TIME_STEP_MS;
@@ -1801,26 +1833,27 @@ namespace Anim {
     Result lastResult = RESULT_OK;
     AnimationMessageWrapper messageWrapper(_faceDrawBuf);
 
-
+// 推进程序化轨道组件和流动画的轨道到指定的相对流时间。
     // Make sure the proceduralTrackLayers and streaming animation
     // are advanced to the appropriate keyframe
     _proceduralTrackComponent->AdvanceTracks(_relativeStreamTime_ms);
     if (_streamingAnimation != nullptr)
     {
       _streamingAnimation->AdvanceTracks(_relativeStreamTime_ms);
-
+// 如果流动画是程序化动画，则清除当前时间之前的所有关键帧。
       // Procedural animation is not presistent
       if (_streamingAnimation == _proceduralAnimation)
       {
         _proceduralAnimation->ClearUpToCurrent();
       }
     }
-
+// 非手动更新模式
     if (!kIsInManualUpdateMode)
     {
+// 如果不是手动更新模式，则调用 SetKeepAliveIfAppropriate 函数来设置保持活动状态
       // Check to see if we're not streaming anything and a keep alive should take over
       SetKeepAliveIfAppropriate();
-
+// 提取动画消息，并根据需要增加相对流时间。
       // Get the data to send to the robot
       lastResult = ExtractAnimationMessages(messageWrapper);
 
@@ -1830,7 +1863,7 @@ namespace Anim {
       }
       _incrementTimeThisTick = true;
 
-    }
+    }// 如果动画流不为空，开始提取动画轨道
     else if (_streamingAnimation != nullptr)
     {
       // TODO(str): VIC-13519 Linearize Face Rendering 
@@ -1847,7 +1880,8 @@ namespace Anim {
                                                        kStoreFace,
                                                        messageWrapper);
 
-      // AnimationInterpolator is unimplemented and does nothing at all in this call.
+      // 动画插值未实现，在这个调用什么都没做！
+//       AnimationInterpolator is unimplemented and does nothing at all in this call.
       AnimationInterpolator::GetInterpolationMessages(_streamingAnimation,
                                                       kCurrentManualFrameNumber,
                                                       messageWrapper);
@@ -1868,12 +1902,14 @@ namespace Anim {
     // A workaround to remove tracks that escaped through the engine process' track locking. This currently
     // happens only for composite weather animations and wake word animations, both of which bypass
     // action system's track locking.
+// 这是一个用于移除那些绕过了引擎进程轨道锁定机制的轨道的变通方法。
+// 目前，这种情况仅出现在复合天气动画和唤醒词动画中，这两种动画都会绕过动作系统的轨道锁定。 
     if (_streamingAnimation != nullptr)
     {
       InvalidateBannedTracks(_streamingAnimation->GetName(), messageWrapper);
     }
 
-    // Send the data
+    // Send the data stateToSend <=
     SendAnimationMessages(messageWrapper);
 
     // Send animState message

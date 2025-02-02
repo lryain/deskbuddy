@@ -41,21 +41,21 @@
 #define LOG_CHANNEL "ToF"
 
 namespace {
-  GPIO _powerGPIO = nullptr;
+//   GPIO _powerGPIO = nullptr;
 }
 
 int open_dev(VL53L1_Dev_t* dev)
 {
-  int res = gpio_create(POWER_GPIO, gpio_DIR_OUTPUT, gpio_LOW, &_powerGPIO);
-  if(res < 0)
-  {
-    LOG_ERROR("ToF.open_dev", "Failed to open gpio %d", POWER_GPIO);
-    return VL53L1_ERROR_GPIO_NOT_EXISTING;
-  }
+//   int res = gpio_create(POWER_GPIO, gpio_DIR_OUTPUT, gpio_LOW, &_powerGPIO);
+//   if(res < 0)
+//   {
+//     LOG_ERROR("ToF.open_dev", "Failed to open gpio %d", POWER_GPIO);
+//     return VL53L1_ERROR_GPIO_NOT_EXISTING;
+//   }
 
-  usleep(100000);
+//   usleep(100000);
 
-  gpio_set_value(_powerGPIO, gpio_HIGH);
+//   gpio_set_value(_powerGPIO, gpio_HIGH);
 
   // Wait for FW boot coming out of HW standby
   usleep(100000);
@@ -63,18 +63,19 @@ int open_dev(VL53L1_Dev_t* dev)
   VL53L1_Error status = VL53L1_ERROR_NONE;
 
   // Initialize the platform interface
-  dev->platform_data.i2c_file_handle = open("/dev/i2c-6", O_RDWR);
+  dev->platform_data.i2c_file_handle = open("/dev/i2c-1", O_RDWR);
   if(dev->platform_data.i2c_file_handle < 0)
   {
-    LOG_ERROR("ToF.open_dev", "Failed to open /dev/i2c-6 %d", errno);
+    LOG_ERROR("ToF.open_dev", "Failed to open /dev/i2c-1 %d", errno);
     return VL53L1_ERROR_INVALID_PARAMS;
   }
-  
+//   for 6180 0x29,
   status = VL53L1_platform_init(dev,
                                 0x29,
                                 1, /* comms_type  I2C*/
                                 400);       /* comms_speed_khz - 400kHz recommended */
   return_if_error(status, "Failed to init platform");
+  printf("8.1.0. --------> done VL53L1_platform_init\n");
 
   // Wait 2 sec for supplies to stabilize
   status = VL53L1_WaitMs(dev, 2000);
@@ -83,14 +84,17 @@ int open_dev(VL53L1_Dev_t* dev)
   // Wait for firmware to finish booting
   status = VL53L1_WaitDeviceBooted(dev);
   return_if_error(status, "WaitDeviceBooted failed");
+  printf("8.2.0. --------> done VL53L1_WaitDeviceBooted\n");
 
   // Initialise Dev data structure
   status = VL53L1_DataInit(dev);
   return_if_error(status, "DataInit failed");
+  printf("8.3.0. --------> done VL53L1_StaticInit...\n");
 
   VL53L1_DeviceInfo_t deviceInfo;
   status = VL53L1_GetDeviceInfo(dev, &deviceInfo);
   return_if_error(status, "GetDeviceInfo failed");
+  printf("8.4.0. --------> done VL53L1_WaitDeviceBooted\n");
 
   LOG_INFO("ToF.open_dev",
            "Name: %s Type: %s ID: %s Ver: %d.%d",
@@ -108,11 +112,13 @@ int open_dev(VL53L1_Dev_t* dev)
               deviceInfo.ProductRevisionMinor);
   }
 
+  printf("8.5.0. --------> start VL53L1_StaticInit...\n");
   status = VL53L1_StaticInit(dev);
   return_if_error(status, "StaticInit failed");
 
-  const int rc = load_calibration(dev);
-  return_if_error(rc, "load_calibration failed");
+  printf("8.6.0. --------> start load_calibration...\n");
+//   const int rc = load_calibration(dev);
+//   return_if_error(rc, "load_calibration failed");
 
   return status;
 }
@@ -127,13 +133,13 @@ int close_dev(VL53L1_Dev_t* dev)
     dev->platform_data.i2c_file_handle = -1;
   }
 
-  if(_powerGPIO != nullptr)
-  {
-    gpio_set_value(_powerGPIO, gpio_LOW);
+//   if(_powerGPIO != nullptr)
+//   {
+//     gpio_set_value(_powerGPIO, gpio_LOW);
     
-    gpio_close(_powerGPIO);
-    _powerGPIO = nullptr;
-  }
+//     gpio_close(_powerGPIO);
+//     _powerGPIO = nullptr;
+//   }
   
   return rc;
 }

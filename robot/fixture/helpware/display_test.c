@@ -104,13 +104,17 @@ void core_common_on_exit(void) {
 #define TERMBUFSZ 80
 #define LINEBUFSZ 256
 
+#define LCD LCD_ILI9341
+int width=320, height=240;
+unsigned short usColors[8] = {0xf800, 0x7e0, 0x1f, 0xffff, 0xffe0, 0x7ff, 0xf81f, 0x7bef};
 
 int main(int argc, const char* argv[])
 {
   bool exit = false;
   static char linebuf[LINEBUFSZ];
   int linelen = 0;
-
+int rc;
+// int x, y;
   ddprintf("Initializing\n");
 
   lcd_init();
@@ -118,6 +122,20 @@ int main(int argc, const char* argv[])
 
   display_init();
 
+// Scroll the display while drawing tiles in the landscape orientation
+spilcdSetOrientation(LCD_ORIENTATION_ROTATED);
+// for (x=0; x<=height; x++)
+// {
+//         if ((x & 15) == 0)
+//         {
+//                 for (y=0; y<=width-16; y+= 16)
+//                 {
+//                         spilcdDrawTile(height/2, y, 16, 16, (unsigned char *)usColors, 0);
+//                 }
+//         }
+//         spilcdScroll(1, -1);
+//         usleep(20000);
+// }
 
   while (!exit)
   {
@@ -138,7 +156,8 @@ int main(int argc, const char* argv[])
     }
     if (endl) {
       printf("parsing \"%s\"\n", linebuf);
-      display_parse(linebuf, endl-linebuf);
+//       display_parse(linebuf, endl-linebuf);
+      spilcdWriteString(0, height/2, linebuf, usColors[0], usColors[1],1);
       linelen = 0;
       printf("ok\n");
     }

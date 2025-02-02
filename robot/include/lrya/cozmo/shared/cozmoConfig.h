@@ -129,8 +129,10 @@ namespace Vector {
   const f32 SCREEN_SIZE[2] = {26.f, 13.f};
   
   // Face display resolution, in pixels
-  const s32 FACE_DISPLAY_WIDTH = IsXray() ? 160: 184;
-  const s32 FACE_DISPLAY_HEIGHT = IsXray() ? 80: 96;
+//   const s32 FACE_DISPLAY_WIDTH = IsXray() ? 160: 184;
+  const s32 FACE_DISPLAY_WIDTH = 320;
+//   const s32 FACE_DISPLAY_HEIGHT = IsXray() ? 80: 96;
+  const s32 FACE_DISPLAY_HEIGHT = 240;
   const s32 FACE_DISPLAY_NUM_PIXELS = FACE_DISPLAY_WIDTH * FACE_DISPLAY_HEIGHT;
 
   // Common conversion functionality for lift height

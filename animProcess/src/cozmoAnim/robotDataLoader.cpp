@@ -210,6 +210,8 @@ void RobotDataLoader::LoadNonConfigData()
 
 void RobotDataLoader::LoadAnimationFile(const std::string& path)
 {
+  printf("------------> 3.1.1.0. in RobotDataLoader::LoadAnimationFile()\n");
+  
   if (_platform == nullptr) {
     return;
   }
@@ -220,12 +222,18 @@ void RobotDataLoader::LoadAnimationFile(const std::string& path)
   animLoader.LoadAnimationIntoContainer(path, _cannedAnimations.get());
 
   const auto animName = Util::FileUtils::GetFileName(path, true, true);
+  printf("------------> 3.1.1.1. in RobotDataLoader::LoadAnimationFile: %s\n", animName.c_str());
+
   const auto * anim = _cannedAnimations->GetAnimation(animName);
+  printf("------------> 3.1.1.2. done _cannedAnimations->GetAnimation: %s\n", animName.c_str());
+
   if (anim == nullptr) {
     LOG_ERROR("RobotDataLoader.LoadAnimationFile", "Failed to load %s from %s", animName.c_str(), path.c_str());
     return;
   }
   NotifyAnimAdded(animName, anim->GetLastKeyFrameEndTime_ms());
+  printf("------------> 3.1.1.3. done NotifyAnimAdded\n");
+
 }
 
 void RobotDataLoader::LoadIndependentSpritePaths()
@@ -269,7 +277,9 @@ void RobotDataLoader::NotifyAnimAdded(const std::string& animName, uint32_t anim
   memcpy(msg.animName, animName.c_str(), animName.length());
   msg.animName_length = animName.length();
   msg.animLength = animLength;
+  printf("------------> 3.1.2.1. start SendAnimToEngine()...\n");
   AnimProcessMessages::SendAnimToEngine(msg);
+  printf("------------> 3.1.2.2. done SendAnimToEngine()!\n");
 }
   
 void RobotDataLoader::SetupProceduralAnimation()

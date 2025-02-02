@@ -146,6 +146,8 @@ void FaceDisplay::DrawToFace(const Vision::ImageRGB565& img)
 
 void FaceDisplay::DrawToFaceInternal(const Vision::ImageRGB565& img)
 {
+//   printf("0.2.0 ----------> in FaceDisplay::DrawToFaceInternal()\n");
+
   // Don't update images and pointers while the boot animation is still playing
   if(!_stopBootAnim)
   {
@@ -169,9 +171,12 @@ void FaceDisplay::DrawToFaceInternal(const Vision::ImageRGB565& img)
 void FaceDisplay::DrawFaceLoop()
 {
   Lrya::Util::SetThreadName(pthread_self(), "DrawFaceLoop");
-
+//   printf("0.1.0 ----------> in FaceDisplay::DrawFaceLoop()\n");
+// TODO: temp fix for debug 
+_stopBootAnim=true;
   while (!_stopDrawFace)
   {
+//     printf("0.1.1 ----------> in while (!_stopDrawFace)\n");
     // Note that this CPU profiler tag is less useful now that we are waiting on a condition variable in this loop
     LRYA_CPU_TICK("FaceDisplay::DrawFaceLoop", maxDrawTime_ms, Util::CpuProfiler::CpuProfilerLoggingTime(kDrawFace_Logging));
 
@@ -209,6 +214,9 @@ void FaceDisplay::DrawFaceLoop()
       // Only draw to the face once the boot anim has been stopped
       if(_displayImpl != nullptr && _stopBootAnim)
       {
+        // printf("0.1.2 ----------> in while, if(_displayImpl != nullptr && _stopBootAnim)\n");
+        // printf("0.1.3 ----------> in while, _displayImpl->FaceDraw(drawImage.GetRawDataPointer())\n");
+
         _displayImpl->FaceDraw(drawImage.GetRawDataPointer());
       }
 
@@ -220,16 +228,20 @@ void FaceDisplay::DrawFaceLoop()
     }
     else
     {
+        // printf("0.2.0 ----------> in while, else\n");
+
       _faceDrawMutex.unlock();
 
       if (_displayImpl == nullptr || !_stopBootAnim)
       {
+        // printf("0.2.1 ----------> in while, if (_displayImpl == nullptr || !_stopBootAnim)\n");
         // If we haven't created the display implementation instance, or we're still
         // waiting for the boot animation to complete, sleep for a bit and then check again
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
       }
       else
       {
+        // printf("0.2.2 ----------> in while, else\n");
         // Otherwise, we wait here for a signal that a face is ready to be drawn
         std::unique_lock<std::mutex> lock{_readyMutex};
         _readyCondition.wait(lock, [this]{ return _readyFace; });

@@ -1,6 +1,8 @@
 #ifndef SPI_LCD_H
 #define SPI_LCD_H
 
+#include <stddef.h>
+#include <stdint.h>
 //
 // Treat the LCD as a 240x320 portrait-mode image
 // or a 320x240 landscape mode image
@@ -25,9 +27,29 @@ static const int PWM_FREQUENCY = 1000; // PWM频率 (1kHz，适合背光调节)
 static const int RPM_MAX             = 200;  // Noctua Specs: Max=5000
 static const int RPM_MIN             = 50;  // Noctua Specs: Min=1000 [Kept 1500 as Min]
 
+#define LCD_FRAME_WIDTH    320
+#define LCD_FRAME_HEIGHT   240
+#define FRAME_WORDS (LCD_FRAME_WIDTH*LCD_FRAME_HEIGHT)
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef struct LcdFrame_t {
+  uint16_t data[LCD_FRAME_WIDTH*LCD_FRAME_HEIGHT];
+} LcdFrame;
+
+enum LcdColor {
+  lcd_BLACK   = 0x0000,
+  lcd_BLUE    = 0x001F,
+  lcd_GREEN   = 0x07E0,
+  lcd_CYAN    = 0x7FFF,
+  lcd_GRAY    = 0x8430,
+  lcd_RED     = 0xF800,
+  lcd_MAGENTA = 0xF81F,
+  lcd_YELLOW  = 0xFFE0,
+  lcd_WHITE   = 0xFFFF,
+};
 
 typedef enum
 {
@@ -36,15 +58,28 @@ typedef enum
 } DC_MODE;
 
 int lcd_init(void);
-
-void lcd_draw_frame2(const uint16_t* frame, size_t size);
-void lcd_spi_transfer(const void* data, int bytes);
+int lcd_write_buffer(uint16_t *buffer, int size);
+static void spilcdSetPosition(int x, int y, int w, int h);
+static void spilcdWriteDataBlock(unsigned char *ucBuf, int iLen);
+static void spilcdWriteData8(unsigned char c);
+static void spilcdWriteData16(unsigned short us);
+static void spilcdWriteCommand(unsigned char c);
+void spilcdWriteDataBlock(unsigned char *pData, int iLen);
+int spilcdFill(unsigned short usData);
+void draw_animate(void* frame);
+void spilcdWriteDataBlock2(unsigned char *ucBuf, int iLen);
+void lcd_draw_frame(const LcdFrame* frame);
+void lcd_spi_transfer(const void *data, int bytes);
 // int spilcdFills(unsigned short* usData);
 // 
 int lcd_set_brightness(const int brightness);
 void lcd_shutdown(void);
 void lcd_clear_screen(void);
-
+static void myPinWrite(int iPin, int iValue);
+int setLCDLight(int pin, int pwm);
+static int _lcd_set_brightness(const int brightness);
+int spilcdFill(unsigned short usData);
+int spilcdFills(uint16_t *usData);
 // Sets the D/C pin to data or command mode
 void spilcdSetMode(int iMode);
 //

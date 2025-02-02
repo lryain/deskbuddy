@@ -93,6 +93,10 @@ void TrackLayerComponent::AdvanceTracks(const TimeStamp_t toTime_ms)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+/**
+ * 从动画的各个轨道中提取当前关键帧并将其与可能存在的任何轨道层进行合并
+ * 输出 `layeredKeyframes` 结构体，该结构体包含了来自动画和各个轨道层最终合并后的关键帧 
+ */
 void TrackLayerComponent::ApplyLayersToAnim(Animation* anim,
                                             const TimeStamp_t timeSinceAnimStart_ms,
                                             LayeredKeyFrames& layeredKeyframes,
@@ -318,9 +322,14 @@ void TrackLayerComponent::ApplyAudioLayersToAnim(Animation* anim,
   // VIC-4224: Due to audio engine playback latency the animation audio keyframes are not in sync with the rest of the
   // animation tracks while playing. Therefore we have introduced a variable to offset that latency by playing audio
   // keyframes earlier so they better sync with the animation.
+// 1.处理音频偏移时间 由于音频引擎播放延迟，动画音频关键帧与其他动画轨道不同步。
+// 因此，引入了一个变量 kAudioAnimationOffset_ms 来偏移音频关键帧的播放时间，使其更好地与动画同步。
   const TimeStamp_t audioOffsetTime_ms = timeSinceAnimStart_ms + kAudioAnimationOffset_ms;
-
+// 2.处理动画中的音频关键帧
+// 如果指定了动画，则获取动画中的音频轨道，并遍历轨道中的所有关键帧。
+// 如果当前关键帧的播放时间与偏移后的时间匹配，则将该关键帧存储在 layeredKeyFrames.audioKeyFrame 中，并标记 layeredKeyFrames.haveAudioKeyFrame 为 true。
   if (anim != nullptr) {
+    // 从动画送取出轨道Track，然后重Track中取出所有关键帧KeyFrames
     auto& track = anim->GetTrack<RobotAudioKeyFrame>();
     auto& frameList = track.GetAllKeyframes();
 
@@ -336,7 +345,7 @@ void TrackLayerComponent::ApplyAudioLayersToAnim(Animation* anim,
       ++_audioKeyframeIt;
     }
   }
-  
+// 3. 处理音频层中的关键帧
   if (_audioLayerManager->HaveLayersToSend()) {
     auto applyFunc = [](const Animations::Track<RobotAudioKeyFrame>& layerTrack,
                         const TimeStamp_t timeSinceAnimStart_ms,

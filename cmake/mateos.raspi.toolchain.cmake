@@ -44,6 +44,7 @@ list(APPEND MATEOS_COMPILER_FLAGS
         -DMATEOS
 #     -D_LIBCPP_DISABLE_AVAILABILITY
         -Qunused-arguments
+        -Wno-unused-variable
 	-ffunction-sections
 	-fdata-sections
 	-funwind-tables
@@ -55,6 +56,7 @@ list(APPEND MATEOS_COMPILER_FLAGS
 list(APPEND MATEOS_COMPILER_FLAGS_CXX
         -Wno-delete-non-virtual-dtor
         -Qunused-arguments
+        -Wno-unused-variable
 	-fno-exceptions
 	-fno-rtti)
 list(APPEND MATEOS_COMPILER_FLAGS_RELEASE

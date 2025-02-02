@@ -515,7 +515,8 @@ const std::string& OSState::GetSerialNumberAsString()
        << std::setfill('0')
        << std::setw(8)
        << std::uppercase
-       << Factory::GetEMR()->fields.ESN;
+//        << Factory::GetEMR()->fields.ESN;
+       << 100;
     _serialNumString = ss.str();
   }
   return _serialNumString;

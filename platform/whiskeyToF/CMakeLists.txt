@@ -58,8 +58,8 @@ lrya_build_target_license(whiskeyToF "LRYA")
 # Below are two different tof test programs, tof_test and multizone
 # tof_test uses the whiskyToF library while multizone uses an ST provided test program
 # Don't build by default
-if (MATEOS AND FALSE)
-
+if (MATEOS AND TRUE)
+# add_definitions(-DFACTORY_TEST=1)
 project(tof_test)
 
 add_executable(tof_test

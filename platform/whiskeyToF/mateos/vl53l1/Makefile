@@ -27,10 +27,10 @@ ALL_BINS = vl53l1_platform_test vl53l1_mz_test
 all: $(ALL_BINS)
 
 
-vl53l1_platform_test: vl53l1_platform_test.c
+vl53l1_platform_test:
 	$(CC) $(CFLAGS) $(INCLUDE_FLAGS) $(CORE_SRC) $(PLAT_SRC) $(PROT_SRC) $< -o $@
 
-vl53l1_mz_test: vl53l1_MultiZones_Scanning_Example.c
+vl53l1_mz_test:
 	$(CC) $(CFLAGS) $(INCLUDE_FLAGS) $(CORE_SRC) $(PLAT_SRC) $(PROT_SRC) $< -o $@
 
 $(BIN_DIR): $(INSTALL_ROOT)

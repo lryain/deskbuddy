@@ -89,6 +89,7 @@ int load_calibration_from_disk(void* calib,
                                ssize_t size,
                                const std::string& path)
 {
+  printf("9.0. --------> in load_calibration_from_disk: %s\n", path.c_str());
   int rc = -1;
   FILE* f = fopen(path.c_str(), "r");
   if(f != nullptr)
@@ -116,6 +117,8 @@ int load_calibration_from_disk(void* calib,
 
 int load_calibration(VL53L1_Dev_t* dev)
 {
+  printf("9.0.0. --------> in load_calibration\n");
+
   PRINT_NAMED_INFO("load_calibration", "Loading calibration");
 
   VL53L1_CalibrationData_t calib;
@@ -165,7 +168,8 @@ int load_calibration(VL53L1_Dev_t* dev)
   else
   {
     PRINT_NAMED_INFO("load_calibration","Loading zone data");
-    rc = load_calibration_from_disk(&calibZone, sizeof(calibZone), "/factory/tofZone.bin");
+//     rc = load_calibration_from_disk(&calibZone, sizeof(calibZone), "/factory/tofZone.bin");
+//     rc = load_calibration_from_disk(&calibZone, sizeof(calibZone), "/factory/tofZone.bin");
   }
 
   if(rc < 0)
@@ -185,24 +189,30 @@ int load_calibration(VL53L1_Dev_t* dev)
 // --------------------Reference SPAD Calibration--------------------
 int run_refspad_calibration(VL53L1_Dev_t* dev)
 {
+  printf("10.0. --------> in Running refspad calibration\n");
   VL53L1_CalibrationData_t calib;
   memset(&calib, 0, sizeof(calib));
   
   VL53L1_Error rc = VL53L1_GetCalibrationData(dev, &calib);
   return_if_error(rc, "Get calibration data failed");
+  printf("10.1. --------> done VL53L1_GetCalibrationData \n");
 
   rc = VL53L1_PerformRefSpadManagement(dev);
   return_if_error(rc, "RefSPAD calibration failed");
+  printf("10.2. --------> done VL53L1_PerformRefSpadManagement \n");
 
   memset(&calib, 0, sizeof(calib));
   rc = VL53L1_GetCalibrationData(dev, &calib);
   return_if_error(rc, "Get calibration data failed");
+  printf("10.3. --------> done VL53L1_GetCalibrationData \n");
 
   rc = save_calibration_to_disk(calib);
   return_if_error(rc, "Save calibration to disk failed");
+  printf("10.4. --------> done save_calibration_to_disk \n");
 
   rc = VL53L1_SetCalibrationData(dev, &calib);
   return_if_error(rc, "Set calibration data failed");
+  printf("10.5. --------> done VL53L1_SetCalibrationData \n");
 
   return rc;
 }
@@ -313,52 +323,66 @@ int run_offset_calibration(VL53L1_Dev_t* dev, uint32_t distanceToTarget_mm, floa
 
 int perform_calibration(VL53L1_Dev_t* dev, uint32_t dist_mm, float reflectance)
 {
+  printf("0. --------> in perform_calibration\n");
   // Stop all ranging so we can change settings
   VL53L1_Error rc = VL53L1_StopMeasurement(dev);
   return_if_error(rc, "perform_calibration: error stopping ranging");
+  printf("1. --------> done VL53L1_StopMeasurement\n");
 
   // Switch to multi-zone scanning mode
   rc = VL53L1_SetPresetMode(dev, VL53L1_PRESETMODE_MULTIZONES_SCANNING);
   return_if_error(rc, "perform_calibration: error setting preset_mode");
+  printf("2. --------> done VL53L1_SetPresetMode\n");
 
   // Setup ROIs
   rc = setup_roi_grid(dev, 4, 4);
   return_if_error(rc, "perform_calibration: error setting up roi grid");
+  printf("3. --------> done setup_roi_grid\n");
 
   // Setup timing budget
   rc = VL53L1_SetMeasurementTimingBudgetMicroSeconds(dev, 8*2000);
   return_if_error(rc, "perform_calibration: error setting timing budged");
+  printf("4. --------> done VL53L1_SetMeasurementTimingBudgetMicroSeconds\n");
 
   // Set distance mode
   rc = VL53L1_SetDistanceMode(dev, VL53L1_DISTANCEMODE_SHORT);
   return_if_error(rc, "perform_calibration: error setting distance mode");
+  printf("5. --------> done VL53L1_SetDistanceMode\n");
 
   // Set output mode
   rc = VL53L1_SetOutputMode(dev, VL53L1_OUTPUTMODE_STRONGEST);
   return_if_error(rc, "perform_calibration: error setting distance mode");
+  printf("6. --------> done VL53L1_SetOutputMode\n");
 
   // Disable xtalk compensation
   rc = VL53L1_SetXTalkCompensationEnable(dev, 0);
   return_if_error(rc, "perform_calibration: error setting live xtalk");
+  printf("7. --------> done VL53L1_SetXTalkCompensationEnable\n");
 
   VL53L1_CalibrationData_t calib;
   memset(&calib, 0, sizeof(calib));
   VL53L1_SetCalibrationData(dev, &calib);
+  printf("8. --------> done VL53L1_SetCalibrationData\n");
   
   rc = VL53L1_GetCalibrationData(dev, &calib);
   return_if_error(rc, "perform_calibration: Get calibration data failed");
+  printf("9. --------> done VL53L1_GetCalibrationData\n");
 
   rc = save_calibration_to_disk(calib, "Orig");
   return_if_error(rc, "perform_calibration: Save calibration to disk failed");
+  printf("10. --------> done save_calibration_to_disk\n");
 
   rc = run_refspad_calibration(dev);
   return_if_error(rc, "perform_calibration: run_refspad_calibration");
+  printf("11. --------> done run_refspad_calibration\n");
   
   rc = run_xtalk_calibration(dev);
   return_if_error(rc, "perform_calibration: run_xtalk_calibration");
+  printf("12. --------> done run_xtalk_calibration\n");
 
   rc = run_offset_calibration(dev, dist_mm, reflectance);
   return_if_error(rc, "perform_calibration: run_offset_calibration");
+  printf("13. --------> done run_offset_calibration\n");
 
   return rc;
 }

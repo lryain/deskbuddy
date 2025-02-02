@@ -108,6 +108,8 @@ void ToFSensor::SetLogPath(const std::string& path)
 ToFSensor::CommandResult run_calibration(uint32_t distanceToTarget_mm,
                                          float targetReflectance)
 {
+  printf("8.0. --------> in run_calibration\n");
+
   int rc = perform_calibration(&_dev, distanceToTarget_mm, targetReflectance);
   if(rc < 0)
   {
@@ -115,6 +117,7 @@ ToFSensor::CommandResult run_calibration(uint32_t distanceToTarget_mm,
                       "Failed to calibrate right sensor %d",
                       rc);
   }
+  printf("8.1. --------> done run_calibration...\n");
 
   _isCalibrating = false;
 
@@ -128,13 +131,16 @@ int ToFSensor::PerformCalibration(uint32_t distanceToTarget_mm,
                                   float targetReflectance,
                                   const CommandCallback& callback)
 {
+  printf("8.0. --------> FACTORY_TEST: %d\n", FACTORY_TEST);
   #if FACTORY_TEST
+  printf("8.1.0. --------> FACTORY_TEST add PerformCalibration cmd...\n");
   std::lock_guard<std::mutex> lock(_commandLock);
   _distanceToCalibTarget_mm = distanceToTarget_mm;
   _calibTargetReflectance = targetReflectance;
   _commandQueue.push({Command::PerformCalibration, callback});
   _isCalibrating = true;
   #endif
+  printf("8.1.1. --------> done add PerformCalibration cmd...\n");
   
   return 0;
 }

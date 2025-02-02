@@ -339,6 +339,7 @@ void display_render(uint8_t layermask) {
   for (i=0;i<DISPLAY_NUM_LAYERS;i++) {
     if (layermask & (1<<i) ) {
     ddprintf("rendering layer %d\n", i);
+    printf("rendering layer %d\n", i);
       bitmap_render_text(bitmap, i, gFont[i]);
     }
   }
@@ -374,6 +375,7 @@ void display_draw_text(int layer, int line , uint16_t fg, uint16_t bg, const cha
     strncpy(textline+leftpad, text, nchars);
   }
   ddprintf("Drawing text %8s\n", textline);
+  printf("Drawing text %8s\n", textline);
   display_set_colors(layer, fg, bg);
   display_set_colors2(layer, line, fg, bg);
 

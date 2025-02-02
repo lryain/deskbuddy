@@ -1,5 +1,6 @@
 
 #define RELEASE
+// #define FACTORY_TEST 1
 
 #include "whiskeyToF/tof.h"
 
@@ -53,6 +54,7 @@ int main(int argc, char** argv)
   
   bool pause = false;
   
+    printf("8.0. --------> before SetupSensors...\n");
   ToFSensor::getInstance()->SetupSensors([](ToFSensor::CommandResult res)
                                          {
                                            if((int)res < 0)
@@ -61,6 +63,7 @@ int main(int argc, char** argv)
                                              exit(1);
                                            }
                                          });
+    printf("8.1. --------> done SetupSensors...\n");
 
   if(argc > 1)
   {
@@ -80,15 +83,20 @@ int main(int argc, char** argv)
         char* end;
         reflectance = strtof(argv[3], &end);
       }
+    printf("8.0. --------> Calibrating at %u with reflectance %f",
+                       dist,
+                       reflectance);
 
       PRINT_NAMED_INFO("ToFTest",
                        "Calibrating at %u with reflectance %f",
                        dist,
                        reflectance);
       
+      printf("8.0. --------> before ToFSensor::getInstance()->PerformCalibration ...\n");
       ToFSensor::getInstance()->PerformCalibration(dist, reflectance, nullptr);
-
+      printf("8.1. --------> before ToFSensor::getInstance()->SetupSensors ...\n");
       ToFSensor::getInstance()->SetupSensors(nullptr);
+      printf("8.2. --------> done ToFSensor::getInstance()->SetupSensors ...\n");
     }
     else if(argv[1][0] == 'p')
     {
@@ -96,6 +104,7 @@ int main(int argc, char** argv)
     }
   }
 
+  printf("8.3. --------> start ToFSensor::getInstance()->StartRanging...\n");
   ToFSensor::getInstance()->StartRanging([](ToFSensor::CommandResult res)
                                          {
                                            if((int)res < 0)
@@ -104,10 +113,12 @@ int main(int argc, char** argv)
                                              exit(1);
                                            }
                                          });
+  printf("8.4. --------> done ToFSensor::getInstance()->StartRanging.\n");
 
   while(shutdown == 0)
   {
     bool isUpdated = false;
+    printf("8.4.0 --------> in while...\n");
     RangeDataRaw data = ToFSensor::getInstance()->GetData(isUpdated);
 
     static uint32_t s = GetTimeStamp();
@@ -115,8 +126,11 @@ int main(int argc, char** argv)
     {
       s = GetTimeStamp();
       static bool b = false;
+      printf("8.4.1 --------> GetTimeStamp(): %d\n", s);
+
       if(b)
       {
+        printf("8.4.2.1 --------> ToFSensor::getInstance()->StartRanging()\n");
         printf("STARTING\n");
         ToFSensor::getInstance()->StartRanging([](ToFSensor::CommandResult res)
                                          {
@@ -129,6 +143,7 @@ int main(int argc, char** argv)
       }
       else
       {
+        printf("8.4.2.2 --------> ToFSensor::getInstance()->StopRanging()\n");
         printf("STOPPING\n");
         ToFSensor::getInstance()->StopRanging([](ToFSensor::CommandResult res)
                                          {
@@ -142,6 +157,7 @@ int main(int argc, char** argv)
       b = !b;
     }
 
+    printf("8.4.3 --------> if(!isUpdated)\n");
     
     if(!isUpdated)
     {
@@ -152,6 +168,8 @@ int main(int argc, char** argv)
     static RangeDataRaw lastValid = data;
       
     std::stringstream ss;
+    printf("8.4.4 --------> for(int i = 0; i < 4; i++)\n");
+
     for(int i = 0; i < 4; i++)
     {
       for(int j = 0; j < 4; j++)
@@ -183,6 +201,7 @@ int main(int argc, char** argv)
     }
     printf("%s\n", ss.str().c_str());    
   }
+  printf("8.4.5 --------> before ToFSensor::getInstance()->StopRanging()\n");
 
   printf("stopping\n");
   ToFSensor::getInstance()->StopRanging([](ToFSensor::CommandResult res)

@@ -212,6 +212,8 @@ void CannedAnimationLoader::LoadAnimationsInternal(const AnimDirInfo& info, Cann
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void CannedAnimationLoader::LoadAnimationFile(const std::string& path, CannedAnimationContainer* container)
 {
+  printf("------------> 3.2.1.0. in CannedAnimationLoader::LoadAnimationFile()\n");
+
   if (_abortLoad.load(std::memory_order_relaxed)) {
     return;
   }
@@ -222,6 +224,7 @@ void CannedAnimationLoader::LoadAnimationFile(const std::string& path, CannedAni
   const bool binFile = Util::FileUtils::FilenameHasSuffix(path.c_str(), "bin");
 
   if (binFile) {
+    printf("------------> 3.2.1.1. start Read the binary file: %s\n", path.c_str());
 
     // Read the binary file
     auto binFileContents = Util::FileUtils::ReadFileAsBinary(path);
@@ -263,6 +266,8 @@ void CannedAnimationLoader::LoadAnimationFile(const std::string& path, CannedAni
     }
 
   } else {
+    printf("------------> 3.2.1.2.  _platform->readAsJson: %s\n", path.c_str());
+
     Json::Value animDefs;
     // add json filename and callback (to perform load) here?
     const bool success = _platform->readAsJson(path.c_str(), animDefs);

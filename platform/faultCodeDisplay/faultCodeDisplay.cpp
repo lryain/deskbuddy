@@ -65,7 +65,7 @@ void DrawFaultCode(uint16_t fault, bool willRestart)
   img.DrawTextCenteredHorizontally(text, font, scale, thickness, color, FACE_DISPLAY_HEIGHT - size.y(), drawTwice);
 
   Vision::ImageRGB565 img565(img);
-  lcd_draw_frame2(reinterpret_cast<u16*>(img565.GetDataPointer()), img565.GetNumRows() * img565.GetNumCols() * sizeof(u16));
+  lcd_write_buffer(reinterpret_cast<u16*>(img565.GetDataPointer()), img565.GetNumRows() * img565.GetNumCols() * sizeof(u16));
 }
 
 bool DrawImage(std::string& image_path)
@@ -80,7 +80,7 @@ bool DrawImage(std::string& image_path)
     return false;
   }
 
-  lcd_draw_frame2(reinterpret_cast<u16*>(img565.GetDataPointer()), img565.GetNumRows() * img565.GetNumCols() * sizeof(u16));
+  lcd_write_buffer(reinterpret_cast<u16*>(img565.GetDataPointer()), img565.GetNumRows() * img565.GetNumCols() * sizeof(u16));
   return true;
 }
 

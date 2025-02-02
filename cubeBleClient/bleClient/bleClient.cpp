@@ -65,40 +65,55 @@ BleClient::~BleClient()
 
 void BleClient::Start()
 {
-  // Read the on-disk firmware file to ensure it exists.
-  // This will also retrieve its version string.
-  {
-    std::vector<uint8_t> unused;
-    if (!GetCubeFirmwareFromDisk(unused)) {
-      PRINT_NAMED_ERROR("BleClient.Start.FailedGettingFirmwareFromDisk",
-                        "Unable to read cube firmware from disk - aborting.");
-      return;
-    }
-  }
-  
   // Create a thread which will run the ev_loop for server comms
-  auto threadFunc = [this](){
-    if (!Connect()) {
-      PRINT_NAMED_WARNING("BleClient.LoopThread.ConnectFailed",
-                          "Unable to connect to ble server - will retry");
-    }
-    
-    // Start a connection check/retry timer to naively just always try to
-    // reconnect if we become disconnected
-    _connectionCheckTimer.start(kConnectionCheckTime_sec);
-    
-    // Start async watchers
-    _asyncBreakSignal.start();
-    _asyncStartScanSignal.start();
-    
-    // Start the loop (runs 'forever')
-    ev_loop(_loop, 0);
-  };
-  
-  // Kick off the thread
-  _loopThread = std::thread(threadFunc);
-  
+//   auto threadFunc = [this](){
+//     while (true) {
+// //       delay(2000);
+// //       sleep(3);
+//       PRINT_NAMED_WARNING("BleClient.LoopThread.ConnectFailed",
+//                           "Unable to connect to ble server - will retry");
+//     }
+//   }
+//   // Kick off the thread
+//   _loopThread = std::thread(threadFunc);
 }
+
+// void BleClient::Start()
+// {
+//   // Read the on-disk firmware file to ensure it exists.
+//   // This will also retrieve its version string.
+//   {
+//     std::vector<uint8_t> unused;
+//     if (!GetCubeFirmwareFromDisk(unused)) {
+//       PRINT_NAMED_ERROR("BleClient.Start.FailedGettingFirmwareFromDisk",
+//                         "Unable to read cube firmware from disk - aborting.");
+//       return;
+//     }
+//   }
+  
+//   // Create a thread which will run the ev_loop for server comms
+//   auto threadFunc = [this](){
+//     if (!Connect()) {
+//       PRINT_NAMED_WARNING("BleClient.LoopThread.ConnectFailed",
+//                           "Unable to connect to ble server - will retry");
+//     }
+    
+//     // Start a connection check/retry timer to naively just always try to
+//     // reconnect if we become disconnected
+//     _connectionCheckTimer.start(kConnectionCheckTime_sec);
+    
+//     // Start async watchers
+//     _asyncBreakSignal.start();
+//     _asyncStartScanSignal.start();
+    
+//     // Start the loop (runs 'forever')
+//     ev_loop(_loop, 0);
+//   };
+  
+//   // Kick off the thread
+//   _loopThread = std::thread(threadFunc);
+  
+// }
 
 void BleClient::Stop()
 {

@@ -343,6 +343,7 @@ namespace Anim {
 
     // Combine the tracks inside of the specified animations with the tracks in the track layer component
     // specified, and then assign the output to stateToSend
+    // 将指定动画内的轨道与指定轨道层组件中的轨道进行合并，然后将合并结果赋值给待发送状态（stateToSend）。 
     Result ExtractMessagesRelatedToProceduralTrackComponent(const Anim::AnimContext* context,
                                                                    Animation* anim,
                                                                    TrackLayerComponent* trackComp,

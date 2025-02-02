@@ -22,7 +22,7 @@
 
 
 //#define FIXTURE_TTY "/dev/ttyHSL1"
-#define FIXTURE_TTY "/dev/ttyHS0"
+#define FIXTURE_TTY "/dev/ttyUSB0"
 #define FIXTURE_BAUD B1000000
 
 #ifdef DEBUG_WO_SERIAL

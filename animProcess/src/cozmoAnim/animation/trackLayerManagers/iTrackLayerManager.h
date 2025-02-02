@@ -39,6 +39,11 @@ public:
   // how to combine the current keyframe in the layer's track with another keyframe
   // Both applyFunc and this function should return whether or not the frame was updated
   // Note: applyLayerFunc is responsible for moving to the next keyframe of a layer's track
+  /**
+   * 通过使用 `applyLayerFunc` 函数将所有图层应用到帧上来更新该帧，`applyLayerFunc` 函数应定义
+   * 如何将图层轨道中的当前关键帧与另一个关键帧进行合并 `applyFunc` 函数和此函数都应返回该帧是否已更新
+   * 注意：`applyLayerFunc` 函数负责移动到图层轨道的下一个关键帧 
+   */
   bool ApplyLayersToFrame(FRAME_TYPE& frame,
                           const TimeStamp_t timeSinceAnimStart_ms,
                           ApplyLayerFunc applyLayerFunc) const;

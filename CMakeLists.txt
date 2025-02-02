@@ -86,13 +86,17 @@ endif()
 #
 # Factory build options
 #
-option(FACTORY_TEST "Enable factory test features" ON)
+option(FACTORY_TEST "Enable factory test features" OFF)
 option(FACTORY_TEST_DEV "Enable factory test development features" ON)
+
+message(STATUS "---------------> FACTORY_TEST: ${FACTORY_TEST}")
 
 if (FACTORY_TEST)
   add_definitions(-DFACTORY_TEST=1)
+  message(STATUS "FACTORY_TEST: ${FACTORY_TEST}")
 else()
   add_definitions(-DFACTORY_TEST=0)
+  message(STATUS "FACTORY_TEST: ${FACTORY_TEST}")
 endif()
 
 if (FACTORY_TEST_DEV)

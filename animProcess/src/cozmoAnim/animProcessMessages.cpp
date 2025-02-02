@@ -1051,14 +1051,21 @@ bool AnimProcessMessages::SendAnimToRobot(const RobotInterface::EngineToRobot& m
 
 bool AnimProcessMessages::SendAnimToEngine(const RobotInterface::RobotToEngine & msg)
 {
+//   printf("------------> 3.1.3.0. in SendAnimToEngine()...\n");
+
   static Util::MessageProfiler msgProfiler("AnimProcessMessages::SendAnimToEngine");
 
   LOG_TRACE("AnimProcessMessages.SendAnimToEngine", "Send tag %d size %u", msg.tag, msg.Size());
+//   printf("------------> 3.1.3.1. start SendPacketToEngine!!!!!!!!!!!!\n");
   bool result = AnimComms::SendPacketToEngine(msg.GetBuffer(), msg.Size());
+  
+
   if (result) {
     msgProfiler.Update(msg.tag, msg.Size());
+//     printf("------------> 3.1.3.2. done SendAnimToEngine OK!\n");
   } else {
     msgProfiler.ReportOnFailure();
+//     printf("------------> 3.1.3.3. done SendAnimToEngine Fail!\n");
   }
   ++_messageCountAnimToEngine;
   return result;

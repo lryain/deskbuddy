@@ -67,6 +67,8 @@ public:
   // and combines it with any track layers that may exist
   // Outputs layeredKeyframes struct which contains the final combined
   // keyframes from the anim and the various track layers
+  // 从动画的各个轨道中提取当前关键帧并将其与可能存在的任何轨道层进行合并
+// 输出 `layeredKeyframes` 结构体，该结构体包含了来自动画和各个轨道层最终合并后的关键帧 
   void ApplyLayersToAnim(Animation* anim,
                          const TimeStamp_t timeSinceAnimStart_ms,
                          LayeredKeyFrames& layeredKeyFrames,

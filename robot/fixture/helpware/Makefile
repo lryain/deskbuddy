@@ -1,14 +1,15 @@
 
-MATEOS_BUILD_TOOL_VER:=1.1.0-r04
+# MATEOS_BUILD_TOOL_VER:=1.1.0-r04
 
 
-MATEOS_ARM_TOOLS_ROOT:=~/.lrya/mateos-sdk/dist/$(MATEOS_BUILD_TOOL_VER)
+# MATEOS_ARM_TOOLS_ROOT:=~/.lrya/mateos-sdk/dist/$(MATEOS_BUILD_TOOL_VER)
 
-MATEOS_ARM_TOOLS_BIN:=$(MATEOS_ARM_TOOLS_ROOT)/prebuilt/bin
+# MATEOS_ARM_TOOLS_BIN:=$(MATEOS_ARM_TOOLS_ROOT)/prebuilt/bin
 
-# Compilation Tools
+# # Compilation Tools
 
-CROSS_COMPILE = $(MATEOS_ARM_TOOLS_BIN)/arm-oe-linux-gnueabi-
+# CROSS_COMPILE = $(MATEOS_ARM_TOOLS_BIN)/arm-oe-linux-gnueabi-
+CROSS_COMPILE = ""
 
 CFLAGS = -c -fPIC -Wall -Werror
 
@@ -23,9 +24,13 @@ CORE = $(CORE_DIR)/libcore.a
 
 # link with core lib
 LIBS    += -lcore
+LIBS    += -lpigpio
 LIBPATH += -L$(CORE_DIR)
 CFLAGS  += -I../ -O2
 CFLAGS  += -I$(CORE_DIR)/inc
+CFLAGS  += -DMATEOS
+CFLAGS += -Wno-unused-variable
+CFLAGS += -Wno-unused-function
 
 CFLAGS  += -I../../syscon
 CFLAGS  += -I../../hal
@@ -77,7 +82,9 @@ BURN_OBJ = $(BURN_SRC:%.c=$(OBJDIR)/%.o)
 
 REMOTE_DEST = /data/local/fixture/
 
-all: $(MATEOS_ARM_TOOLS_BIN) $(DFU) $(ANIMATE) $(DISPLAY) $(HELPER) $(MENUMAN) $(BURN)
+# all: $(MATEOS_ARM_TOOLS_BIN) $(DFU) $(ANIMATE) $(DISPLAY) $(HELPER) $(MENUMAN) $(BURN)
+# all: $(DFU) $(ANIMATE) $(DISPLAY) $(DISPLAY_BLIT) $(HELPER) $(MENUMAN) $(BURN)
+all: $(DISPLAY_BLIT)
 
 $(CORE):
 	cd $(CORE_DIR) && make all
@@ -132,3 +139,4 @@ execute: $(app)
 
 clean:
 	rm -f $(APP) $(OBJDIR)/*.o
+	rm -f $(CORE_DIR)/libcore.a
