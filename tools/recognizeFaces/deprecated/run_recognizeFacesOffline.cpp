@@ -67,7 +67,7 @@ int main(int argc, const char *argv[])
 
   SetRecognitionParameters(handleArbitraryRotations, imageSize.width, faceDetectionThreshold);
 
-  cv::namedWindow("Image Feed", CV_WINDOW_AUTOSIZE);
+  cv::namedWindow("Image Feed", cv::WINDOW_AUTOSIZE);
 
   cv::VideoCapture cap;
   

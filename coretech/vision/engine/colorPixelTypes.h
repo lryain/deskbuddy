@@ -348,20 +348,106 @@ namespace Vision {
 
 
 // "Register" our RGB/RGBA pixels as DataTypes with OpenCV
+// namespace cv {
+
+//   template<> class DataDepth<Lrya::Vision::PixelRGB_<u8>  >     : public DataDepth<DataType<Vec<u8, 3> > >  { };
+//   template<> class DataDepth<Lrya::Vision::PixelRGB_<s16> >     : public DataDepth<DataType<Vec<s16,3> > >  { };
+//   template<> class DataDepth<Lrya::Vision::PixelRGB_<f32> >     : public DataDepth<DataType<Vec<f32,3> > >  { };
+//   template<> class DataDepth<Lrya::Vision::PixelRGBA>           : public DataDepth<DataType<Vec<u8, 4> > >  { };
+//   template<> class DataDepth<Lrya::Vision::PixelRGB565>         : public DataDepth<DataType<Vec<u8, 2> > >  { };
+  
+//   template<> class DataType<Lrya::Vision::PixelRGB_<u8>  >      : public DataType<Vec<u8, 3> > { };
+//   template<> class DataType<Lrya::Vision::PixelRGB_<s16> >      : public DataType<Vec<s16,3> > { };
+//   template<> class DataType<Lrya::Vision::PixelRGB_<f32> >      : public DataType<Vec<f32,3> > { };
+//   template<> class DataType<Lrya::Vision::PixelRGBA>            : public DataType<Vec<u8, 4> > { };
+//   template<> class DataType<Lrya::Vision::PixelRGB565>          : public DataType<Vec<u8, 2> > { };
+  
+// } // namespace cv
+
 namespace cv {
 
-  template<> class DataDepth<Lrya::Vision::PixelRGB_<u8>  >     : public DataDepth<DataType<Vec<u8, 3> > >  { };
-  template<> class DataDepth<Lrya::Vision::PixelRGB_<s16> >     : public DataDepth<DataType<Vec<s16,3> > >  { };
-  template<> class DataDepth<Lrya::Vision::PixelRGB_<f32> >     : public DataDepth<DataType<Vec<f32,3> > >  { };
-  template<> class DataDepth<Lrya::Vision::PixelRGBA>           : public DataDepth<DataType<Vec<u8, 4> > >  { };
-  template<> class DataDepth<Lrya::Vision::PixelRGB565>         : public DataDepth<DataType<Vec<u8, 2> > >  { };
-  
-  template<> class DataType<Lrya::Vision::PixelRGB_<u8>  >      : public DataType<Vec<u8, 3> > { };
-  template<> class DataType<Lrya::Vision::PixelRGB_<s16> >      : public DataType<Vec<s16,3> > { };
-  template<> class DataType<Lrya::Vision::PixelRGB_<f32> >      : public DataType<Vec<f32,3> > { };
-  template<> class DataType<Lrya::Vision::PixelRGBA>            : public DataType<Vec<u8, 4> > { };
-  template<> class DataType<Lrya::Vision::PixelRGB565>          : public DataType<Vec<u8, 2> > { };
-  
+template<> class DataDepth<Lrya::Vision::PixelRGB_<u8>  >     : public DataDepth<u8>  { };
+template<> class DataDepth<Lrya::Vision::PixelRGB_<s16> >     : public DataDepth<s16> { };
+template<> class DataDepth<Lrya::Vision::PixelRGB_<f32> >     : public DataDepth<float> { };
+template<> class DataDepth<Lrya::Vision::PixelRGBA>           : public DataDepth<u8>  { };
+template<> class DataDepth<Lrya::Vision::PixelRGB565>         : public DataDepth<u8>  { };
+
+template<> struct DataType<Lrya::Vision::PixelRGB_<u8> > {
+    typedef Lrya::Vision::PixelRGB_<u8> value_type;
+    typedef value_type work_type;
+    typedef u8 channel_type;
+    typedef Vec<u8,3> vec_type;  // 添加这行
+    enum {
+        generic_type = 0,
+        depth = CV_8U,
+        channels = 3,
+        fmt = CV_MAKETYPE(depth, channels),
+        type = CV_MAKETYPE(depth, channels)
+    };
+    static inline value_type zero() { return value_type(0,0,0); }
+    static inline value_type one()  { return value_type(1,1,1); }
+};
+template<> struct DataType<Lrya::Vision::PixelRGB_<s16> > {
+    typedef Lrya::Vision::PixelRGB_<s16> value_type;
+    typedef value_type work_type;
+    typedef s16 channel_type;
+    typedef Vec<u8,3> vec_type;  // 添加这行
+    enum {
+        generic_type = 0,
+        depth = CV_16S,
+        channels = 3,
+        fmt = CV_MAKETYPE(depth, channels),
+        type = CV_MAKETYPE(depth, channels)
+    };
+    static inline value_type zero() { return value_type(0,0,0); }
+    static inline value_type one()  { return value_type(1,1,1); }
+};
+template<> struct DataType<Lrya::Vision::PixelRGB_<f32> > {
+    typedef Lrya::Vision::PixelRGB_<f32> value_type;
+    typedef value_type work_type;
+    typedef float channel_type;
+    typedef Vec<u8,3> vec_type;  // 添加这行
+    enum {
+        generic_type = 0,
+        depth = CV_32F,
+        channels = 3,
+        fmt = CV_MAKETYPE(depth, channels),
+        type = CV_MAKETYPE(depth, channels)
+    };
+    static inline value_type zero() { return value_type(0,0,0); }
+    static inline value_type one()  { return value_type(1,1,1); }
+};
+template<> struct DataType<Lrya::Vision::PixelRGBA> {
+    typedef Lrya::Vision::PixelRGBA value_type;
+    typedef value_type work_type;
+    typedef u8 channel_type;
+    typedef Vec<u8,4> vec_type;  // 添加这行
+    enum {
+        generic_type = 0,
+        depth = CV_8U,
+        channels = 4,
+        fmt = CV_MAKETYPE(depth, channels),
+        type = CV_MAKETYPE(depth, channels)
+    };
+    static inline value_type zero() { return value_type(0,0,0,0); }
+    static inline value_type one()  { return value_type(1,1,1,1); }
+};
+template<> struct DataType<Lrya::Vision::PixelRGB565> {
+    typedef Lrya::Vision::PixelRGB565 value_type;
+    typedef value_type work_type;
+    typedef u8 channel_type;
+    typedef Vec<u8,2> vec_type;  // 添加这行
+    enum {
+        generic_type = 0,
+        depth = CV_8U,
+        channels = 2,
+        fmt = CV_MAKETYPE(depth, channels),
+        type = CV_MAKETYPE(depth, channels)
+    };
+    static inline value_type zero() { return value_type(0); }
+    static inline value_type one()  { return value_type(1); }
+};
+
 } // namespace cv
 
 #endif // __Lrya_Coretech_Vision_Basestation_RGBPixel_H__

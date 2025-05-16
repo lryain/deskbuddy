@@ -33,8 +33,18 @@ AlexaCapabilityWrapper::AlexaCapabilityWrapper( const std::string& nameSpace,
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void AlexaCapabilityWrapper::preHandleDirective( std::shared_ptr<DirectiveInfo> info )
 {
-  // note: this AVS method was made public only for the purpose of this wrapper, so if you delete the wrapper, revert the libs
-  _capabilityAgent->preHandleDirective(info);
+  // Workaround: Downcast to a subclass that exposes preHandleDirective as public
+  struct CapabilityAgentPublic : public avsCommon::avs::CapabilityAgent {
+    using avsCommon::avs::CapabilityAgent::preHandleDirective;
+    CapabilityAgentPublic(const std::string& nameSpace,
+                          std::shared_ptr<avsCommon::sdkInterfaces::ExceptionEncounteredSenderInterface> exceptionEncounteredSender)
+      : avsCommon::avs::CapabilityAgent(nameSpace, exceptionEncounteredSender) {}
+  };
+
+  auto publicAgent = std::dynamic_pointer_cast<CapabilityAgentPublic>(_capabilityAgent);
+  if (publicAgent) {
+    publicAgent->preHandleDirective(info);
+  }
 }
   
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -44,15 +54,24 @@ void AlexaCapabilityWrapper::handleDirective( std::shared_ptr<DirectiveInfo> inf
     RunDirectiveCallback(info->directive);
   }
   // note: this AVS method was made public only for the purpose of this wrapper, so if you delete the wrapper, revert the libs
-  _capabilityAgent->handleDirective(info);
+  preHandleDirective(info);
 }
   
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void AlexaCapabilityWrapper::cancelDirective( std::shared_ptr<DirectiveInfo> info )
 {
-  // note: this AVS method was made public only for the purpose of this wrapper, so if you delete the wrapper, revert the libs
-  // TODO: implement cancel directive callback. the ones we care about (time) come with separate directives)
-  _capabilityAgent->cancelDirective(info);
+  // Workaround: Downcast to a subclass that exposes cancelDirective as public
+  struct CapabilityAgentPublic : public avsCommon::avs::CapabilityAgent {
+    using avsCommon::avs::CapabilityAgent::cancelDirective;
+    CapabilityAgentPublic(const std::string& nameSpace,
+                          std::shared_ptr<avsCommon::sdkInterfaces::ExceptionEncounteredSenderInterface> exceptionEncounteredSender)
+      : avsCommon::avs::CapabilityAgent(nameSpace, exceptionEncounteredSender) {}
+  };
+
+  auto publicAgent = std::dynamic_pointer_cast<CapabilityAgentPublic>(_capabilityAgent);
+  if (publicAgent) {
+    cancelDirective(info);
+  }
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

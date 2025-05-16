@@ -19,9 +19,11 @@
 #include "util/string/stringUtils.h"
 
 // #include <log/logger.h>
+#include <log/log_read.h>
+#include <assert.h>
 // /usr/include/log/logger.h:4:2: error: "Deprecated: do not include log/logger.h, use log/log.h instead"
-#include <log/log.h>
-#include <log/logprint.h>
+#include <android/log.h>
+#include <android/log/logprint.h>
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <fcntl.h>
@@ -854,7 +856,7 @@ Result DASManager::Run(const bool & shutdown)
     }
 
     AndroidLogEntry logEntry;
-    rc = android_log_processLogBuffer(&logmsg.entry_v1, &logEntry);
+    rc = android_log_processLogBuffer(&logmsg.entry, &logEntry);
     if (rc != 0) {
       // Malformed log entry? Report the problem but keep reading.
       LOG_ERROR("DASManager.Run", "Unable to process log buffer (error %d)", rc);

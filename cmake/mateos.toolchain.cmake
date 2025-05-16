@@ -49,6 +49,10 @@ list(APPEND MATEOS_COMPILER_FLAGS
 #  -fsanitize=cfi
 	-no-canonical-prefixes)
 list(APPEND MATEOS_COMPILER_FLAGS_CXX
+    -Wunused-but-set-variable
+    -Wdeprecated-declarations
+    -Wunused-function
+    -Wformat
     -Qunused-arguments
 	-fno-exceptions
 	-fno-rtti)
@@ -71,6 +75,7 @@ list(APPEND MATEOS_LINKER_FLAGS
 list(APPEND MATEOS_COMPILER_FLAGS_DEBUG
 	-O0
     -Winstantiation-after-specialization 
+    -Wunused-but-set-variable
     # -fno-elide-constructors 
     # -Werror=undefined-func-template
     # -fno-limit-debug-info
@@ -113,11 +118,11 @@ list(APPEND MATEOS_COMPILER_FLAGS_CXX
 set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES "")
 
 # Add libc++_shared.so
-# /usr/lib/arm-linux-gnueabihf/libc++.so.1
-set(MATEOS_CXX_STANDARD_LIBRARIES "/usr/lib/arm-linux-gnueabihf/libc++.so.1")
+# /usr/lib/aarch64-linux-gnu/libc++.so.1
+set(MATEOS_CXX_STANDARD_LIBRARIES "/usr/lib/aarch64-linux-gnu/libc++.so.1")
 
 # Add libunwind
-# set(MATEOS_CXX_STANDARD_LIBRARIES "/usr/lib/arm-linux-gnueabihf/libunwind.a")
+# set(MATEOS_CXX_STANDARD_LIBRARIES "/usr/lib/aarch64-linux-gnu/libunwind.a")
 
 set(CMAKE_C_STANDARD_LIBRARIES_INIT "-lm")
 set(CMAKE_CXX_STANDARD_LIBRARIES_INIT "${CMAKE_C_STANDARD_LIBRARIES_INIT}")
@@ -148,9 +153,9 @@ endif()
 
 # set thumb mode (use -marm for arm mode)
 list(APPEND MATEOS_COMPILER_FLAGS -mthumb)
-
-list(APPEND MATEOS_COMPILER_FLAGS
-    -mfpu=neon)
+# 在RK3588 AArch64 架构上，NEON 支持是内置的，无需通过 -mfpu=neon 来激活
+# list(APPEND MATEOS_COMPILER_FLAGS
+#     -mfpu=neon)
 #list(APPEND MATEOS_COMPILER_FLAGS
 #    -Wa,--noexecstack)
 list(APPEND MATEOS_LINKER_FLAGS

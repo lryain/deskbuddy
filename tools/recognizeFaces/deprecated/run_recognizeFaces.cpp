@@ -121,7 +121,7 @@ int main(int argc, const char *argv[])
     }
   }
   
-  cv::namedWindow("Camera Feed", CV_WINDOW_AUTOSIZE);
+  cv::namedWindow("Camera Feed", cv::WINDOW_AUTOSIZE);
   
   bool trainingOn = false;
   f64 trainingStartTime;

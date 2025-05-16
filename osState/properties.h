@@ -2,7 +2,9 @@
 #define PROPERTIES_HELPER_H
 
 #include <cstdint>
-#include <sys/system_properties.h>
+// #include <sys/system_properties.h>
+#define PROP_NAME_MAX   32
+#define PROP_VALUE_MAX  92
 
 // 定义一个类似PROPERTY_VALUE_MAX的宏，用于限制读取值的长度，可根据实际情况调整
 #define PROPERTY_KEY_MAX   PROP_NAME_MAX

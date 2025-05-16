@@ -105,6 +105,12 @@ std::string ParseString(const Json::Value& config, const char* key, const std::s
     return node.asUInt();
   }
 
+  // 添加 unsigned int 的特化
+  template<>
+  unsigned int GetValue<unsigned int>(const Json::Value& node) {
+    return node.asUInt();
+  }
+
 #if !defined(__ANDROID__) && !defined(MATEOS)
   template<>
   uint32_t GetValue<uint32_t>(const Json::Value& node) {

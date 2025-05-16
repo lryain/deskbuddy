@@ -13,7 +13,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <utils/Compat.h>
+// #include <utils/Compat.h>
 
 #include "gpio.h"
 

@@ -34,12 +34,16 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-// #include <cutils/debugger.h>
-#include <cutils/sockets.h>
+// #include <android/cutils/debugger.h>
+#include <android/cutils/sockets.h>
 #include <errno.h>
-
+#ifdef ANDROID
+    #include <android/log.h>
+#else
+    #define ALOGE(fmt, ...) fprintf(stderr, "E/" LOG_TAG ": " fmt "\n", ##__VA_ARGS__)
+#endif
 #define LOG_TAG "DEBUG"
-#include <log/log.h>
+#include <android/log.h>
 #pragma clang diagnostic ignored "-Wimplicit-function-declaration"
 
 #ifndef TEMP_FAILURE_RETRY

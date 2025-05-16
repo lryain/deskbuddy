@@ -75,8 +75,8 @@ def download_and_install(archive_url,
 
     final_path = os.path.join(downloads_path, archive_file)
     download_path = final_path + ".tmp"
-    safe_rmfile(final_path)
-    safe_rmfile(download_path)
+    # safe_rmfile(final_path)
+    # safe_rmfile(download_path)
 
 
     # see if hash_url is actually already a hash
@@ -92,33 +92,33 @@ def download_and_install(archive_url,
         archive_file = os.path.basename(archive_url)
         download_hash = None
 
-        if code >= 200 and code < 300:
-            digests_path = os.path.join(downloads_path, os.path.basename(hash_url))
-            download_file = open(digests_path, 'w')
-            block_size = 1024 * 1024
-            sys.stdout.write("\nDownloading {0} {1}:\n  url = {2}\n  dst = {3}\n"
-                             .format(title, version, hash_url, digests_path))
-            for chunk in iter(lambda: handle.read(block_size), b''):
-                download_file.write(chunk)
+        # if code >= 200 and code < 300:
+        #     digests_path = os.path.join(downloads_path, os.path.basename(hash_url))
+        #     download_file = open(digests_path, 'w')
+        #     block_size = 1024 * 1024
+        #     sys.stdout.write("\nDownloading {0} {1}:\n  url = {2}\n  dst = {3}\n"
+        #                      .format(title, version, hash_url, digests_path))
+        #     for chunk in iter(lambda: handle.read(block_size), b''):
+        #         download_file.write(chunk)
 
-            download_file.close()
-            with open(digests_path, 'r') as f:
-                for line in f:
-                    if line.strip().endswith(archive_file):
-                        download_hash = line[0:64]
+        #     download_file.close()
+        #     with open(digests_path, 'r') as f:
+        #         for line in f:
+        #             if line.strip().endswith(archive_file):
+        #                 download_hash = line[0:64]
 
 
     handle = urllib.urlopen(archive_url)
     code = handle.getcode()
     if code >= 200 and code < 300:
-        download_file = open(download_path, 'w')
-        block_size = 1024 * 1024
-        sys.stdout.write("\nDownloading {0} {1}:\n  url = {2}\n  dst = {3}\n"
-                         .format(title, version, archive_url, final_path))
-        for chunk in iter(lambda: handle.read(block_size), b''):
-            download_file.write(chunk)
+        # download_file = open(download_path, 'w')
+        # block_size = 1024 * 1024
+        # sys.stdout.write("\nDownloading {0} {1}:\n  url = {2}\n  dst = {3}\n"
+        #                  .format(title, version, archive_url, final_path))
+        # for chunk in iter(lambda: handle.read(block_size), b''):
+        #     download_file.write(chunk)
 
-        download_file.close()
+        # download_file.close()
         sys.stdout.write("\n")
         sys.stdout.write("Verifying that SHA256 hash matches {0}\n".format(download_hash))
         sha256 = sha256sum(download_path)

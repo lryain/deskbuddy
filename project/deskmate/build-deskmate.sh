@@ -287,7 +287,7 @@ else
     exit 1
 fi
 
-# echo " ====================== GENERATOR: ${GENERATOR} - PROJECT_FILE: '${BUILD_DIR}/${PROJECT_FILE}' "
+echo " ====================== GENERATOR: ${GENERATOR} - PROJECT_FILE: '${BUILD_DIR}/${PROJECT_FILE}' "
 
 : ${CMAKE_MODULE_DIR:="${TOPLEVEL}/cmake"}
 
@@ -300,13 +300,17 @@ if [ ! -f ${CMAKE_EXE} ]; then
   exit 1
 fi
 
+# echo "1.0 --------------> GOROOT: ${GOROOT}"
 
 if [ -z "${GOROOT+x}" ]; then
-#     echo "--------------> GOROOT: ${GOROOT+x}"
-#     echo "--------------> GO_EXE: ${TOPLEVEL}/tools/build/tools/lryabuild/go.py"
+    # echo "1.1 --------------> go根目录变量 GOROOT 未设置"
     GO_EXE=`${TOPLEVEL}/tools/build/tools/lryabuild/go.py`
-#     echo "--------------> GO_EXE: ${GO_EXE}"
+    # echo "1.2 --------------> GO_EXE go可执行文件: ${GO_EXE}"
+    GO_EXE="/home/orangepi/.lrya/go/dist/go/1.13.8/bin/go"
     export GOROOT=$(dirname $(dirname $GO_EXE))
+    # echo "1.3 --------------> GOROOT: ${GOROOT}"
+    # export GOROOT=$(dirname $GO_EXE)
+    # echo "1.4 --------------> GOROOT: ${GOROOT}"
 else
     GO_EXE=$GOROOT/bin/go
 fi
@@ -318,7 +322,7 @@ if [ ! -f ${GO_EXE} ]; then
   exit 1
 fi
 
-# echo "--------------> Skipping go install for now!!"
+echo "--------------> Skipping go install for now!!"
 ${TOPLEVEL}/tools/build/tools/lryabuild/go.py --check-version $GO_EXE
 
 #
@@ -464,12 +468,12 @@ if [ $CONFIGURE -eq 1 ]; then
             -DMACOSX=0
             -DANDROID=0
             -DMATEOS=1
-        #     -DMATEOS_CCACHE=ccache
-            -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/mateos.raspi.toolchain.cmake"
+            -DMATEOS_CCACHE=ccache
+            -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/mateos.toolchain.cmake"
             -DMATEOS_CPP_FEATURES='rtti exceptions'
         )
         echo "${PLATFORM_ARGS[@]}"
-        echo "===> PLATFORM_ARGS: ${PLATFORM_ARGS[@]}"
+        echo "99 ===> PLATFORM_ARGS: ${PLATFORM_ARGS[@]}"
     else
         echo "unknown platform: ${PLATFORM}"
         exit 1
@@ -482,12 +486,15 @@ if [ $CONFIGURE -eq 1 ]; then
         # -DCMAKE_CXX_FLAGS="-fuse-ld=gold" \
         # -Wl,--incremental
         # -Wl,--no-threads
+    CMAKE_EXE=cmake
+    echo "99----------------------------${PLATFORM_ARGS}"
+    echo "0.-------------------------------------- cmake: ${CMAKE_EXE}"
+        # -DCMAKE_CXX_FLAGS="-fuse-ld=lld" \
     $CMAKE_EXE ${TOPLEVEL} \
         ${VERBOSE_ARG} \
         -G"${GENERATOR}" \
         -DCMAKE_C_COMPILER=/usr/bin/clang \
         -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
-        -DCMAKE_CXX_FLAGS="-fuse-ld=lld" \
         -DCMAKE_BUILD_TYPE=${CONFIGURATION} \
         -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS} \
         -DGOPATH=${GOPATH} \
@@ -525,6 +532,8 @@ else
   if [ -n "$CMAKE_TARGET" ]; then
     TARGET_ARG="--target $CMAKE_TARGET"
   fi
+echo "99.-------------------------------------- cmake: ${CMAKE_EXE}"
+echo "99.------------> CMAKE_EXE: ${CMAKE_EXE} --build . $TARGET_ARG $*"
   $CMAKE_EXE --build . $TARGET_ARG $*
   if [[ "$PLATFORM" == "mateos" && $RUN_INSTALL -eq 1 ]]; then
     # run install target on robot-platforms

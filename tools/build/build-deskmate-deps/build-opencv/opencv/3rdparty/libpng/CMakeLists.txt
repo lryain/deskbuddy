@@ -2,8 +2,7 @@
 #  CMake file for libpng. See root CMakeLists.txt
 #
 # ----------------------------------------------------------------------------
-SET(ARM 1)
-SET(ENABLE_NEON 1)
+
 if(ENABLE_NEON)
   project(${PNG_LIBRARY} C ASM)
 else()

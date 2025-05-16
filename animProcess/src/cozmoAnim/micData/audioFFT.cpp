@@ -90,11 +90,11 @@ void AudioFFT::Reset()
 {
   Cleanup();
 
-  _plan = (void*) PFFFT::pffft_new_setup( _N, PFFFT::PFFFT_REAL );
+  _plan = (void*) pffft_new_setup( _N, PFFFT_REAL );
   
   int numBytes = _N * sizeof(float);
-  _inData = (float*) PFFFT::pffft_aligned_malloc( numBytes );
-  _outData = (float*) PFFFT::pffft_aligned_malloc( numBytes );
+  _inData = (float*) pffft_aligned_malloc( numBytes );
+  _outData = (float*) pffft_aligned_malloc( numBytes );
   
   _hasEnoughSamples = false;
   _dirty = false;
@@ -120,22 +120,22 @@ void AudioFFT::DoDFT()
   // pffft docs say: "If 'work' is NULL, then stack will be used instead (this is probably the
   // best strategy for small FFTs, say for N < 16384)."
   float* work = nullptr;
-  PFFFT::pffft_transform_ordered( (PFFFT::PFFFT_Setup*)_plan, _inData, _outData, work, PFFFT::PFFFT_FORWARD );
+  pffft_transform_ordered( (PFFFT_Setup*)_plan, _inData, _outData, work, PFFFT_FORWARD );
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void AudioFFT::Cleanup()
 {
   if( _plan != nullptr ) {
-    PFFFT::pffft_destroy_setup( (PFFFT::PFFFT_Setup*)_plan );
+    pffft_destroy_setup( (PFFFT_Setup*)_plan );
     _plan = nullptr;
   }
   if( _inData ) {
-    PFFFT::pffft_aligned_free( (void*)_inData );
+    pffft_aligned_free( (void*)_inData );
     _inData = nullptr;
   }
   if( _outData ) {
-    PFFFT::pffft_aligned_free( (void*)_outData );
+    pffft_aligned_free( (void*)_outData );
     _outData = nullptr;
   }
 }

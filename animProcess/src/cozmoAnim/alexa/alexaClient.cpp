@@ -1012,7 +1012,9 @@ bool AlexaClient::IsAVSConnected() const
 void AlexaClient::ReinitializeAllTimers()
 {
   if( _alertsCapabilityAgent ) {
-    _alertsCapabilityAgent->refreshTimers();
+    // _alertsCapabilityAgent->refreshTimers();
+    _alertsCapabilityAgent->onLocalStop();
+    _alertsCapabilityAgent->removeAllAlerts();
   }
 }
 

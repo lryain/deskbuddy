@@ -36,7 +36,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 # for linux cross-build only
-set(MATEOS ON)
+# set(MATEOS ON)
 
 #
 # Special settings for xcode.

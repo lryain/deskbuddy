@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# -*- coding: utf-8 -*-
 
 from __future__ import print_function
 
@@ -28,7 +29,7 @@ def get_go_version_from_command(go_exe):
         if not m:
             return None
         version = m.group(1)
-
+    version = DEFAULT_VERSION
     return version
 
 def find_lrya_go_exe(version):
@@ -44,7 +45,7 @@ def find_lrya_go_exe(version):
 def install_go(version):
     platform_map = {
         'darwin': 'darwin-amd64',
-        'linux': 'linux-armv6l'
+        'linux': 'linux-arm64'
     }
 
     sha_map = {
@@ -58,12 +59,12 @@ def install_go(version):
         '1.10.4-linux': 'fa04efdb17a275a0c6e137f969a1c4eb878939e91e1da16060ce42f02c2ec5ec',
         '1.11-darwin': '9749e6cb9c6d05cf10445a7c9899b58e72325c54fee9783ed1ac679be8e1e073',
         '1.11-linux': 'b3fcf280ff86558e0559e185b601c9eade0fd24c900b4c63cd14d1d38613e499',
-        # arm64
-        # '1.11.13-linux': 'e94329c97b38b5bffe9c18e84e9f521dc995e02df7696897a7626293da9ac593'
-        # '1.11.13-linux': '50fe8e13592f8cf22304b9c4adfc11849a2c3d281b1d7e09c924ae24874c6daa'
-        # '1.12.17-linux': 'a53dd476129d496047487bfd53d021dd17e0c96895865a0e7d0469ce3db8c8d2'
         # armv6l https://golang.google.cn/dl/go1.13.8.linux-armv6l.tar.gz
-        '1.13.8-linux': '75f590d8e048a97cbf8b09837b15b3e6b44e1374718a96a5c3a994843ef44a4d'
+        # '1.13.8-linux': '75f590d8e048a97cbf8b09837b15b3e6b44e1374718a96a5c3a994843ef44a4d'
+        # go1.13.8.linux-arm64.tar.gz	Archive	Linux	ARM64	93MB	b46c0235054d0eb69a295a2634aec8a11c7ae19b3dc53556a626b89dc1f8cdb0
+        # https://golang.google.cn/dl/go1.13.8.linux-arm64.tar.gz
+        # arm64
+        '1.13.8-linux': 'b46c0235054d0eb69a295a2634aec8a11c7ae19b3dc53556a626b89dc1f8cdb0'
         # '1.13.8-linux': '0567734d558aef19112f2b2873caa0c600f1b4a5827930eb5a7f35235219e9d8'
     }
 
@@ -71,6 +72,7 @@ def install_go(version):
 
     go_platform = platform_map[platform_name]
     go_archive_url = "https://dl.google.com/go/go{}.{}.tar.gz".format(version, go_platform)
+    print("----------------> Downloading go %s" % go_archive_url)
     go_basename = "go-{}-{}".format(version, go_platform)
     go_downloads_path = toolget.get_lrya_tool_downloads_directory(GO)
     go_dist_path = toolget.get_lrya_tool_dist_directory(GO)
@@ -79,8 +81,11 @@ def install_go(version):
     if go_hash is None:
         print("Error: Don't know hash for %s" % go_basename)
         sys.exit(1)
-
-    toolget.download_and_install(go_archive_url,
+# 如果没有安装go，下载并安装
+# 检查go gz文件是否存在
+    if not os.path.exists(os.path.join(go_downloads_path, go_basename + ".tar.gz")):
+        print("Downloading %s" % go_archive_url)
+        toolget.download_and_install(go_archive_url,
                                  go_hash,
                                  go_downloads_path,
                                  go_dist_path,
@@ -88,12 +93,18 @@ def install_go(version):
                                  "go",
                                  version,
                                  "go")
+    else:
+        print("File %s already exists" % os.path.join(go_downloads_path, go_basename + ".tar.gz"))
+    
 
 def find_or_install_go(required_ver, go_exe=None):
+    print("查找或者安装指定版本的go： %s" % required_ver)
+
     if not go_exe:
         try:
             # print("go.py ---------------> subprocess.check_output(['which', 'go'])")
             go_exe = subprocess.check_output(['which', 'go'])
+            print("go_exe", go_exe)
         except subprocess.CalledProcessError as e:
             pass
 
@@ -110,6 +121,7 @@ def find_or_install_go(required_ver, go_exe=None):
             needs_install = False
 
     if needs_install:
+        print("没有检测到go，现在安装：Installing go version %s" % required_ver)
         install_go(required_ver)
         return find_lrya_go_exe(required_ver)
     else:
@@ -141,7 +153,6 @@ def parseArgs(scriptArgs):
 
 
 def main(argv):
-
     options = parseArgs(argv)
 
     if options.check_exe:

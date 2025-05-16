@@ -12,26 +12,26 @@ SCRIPT_PATH_ABSOLUTE=`pushd ${SCRIPT_PATH} >> /dev/null; pwd; popd >> /dev/null`
 
 source ${SCRIPT_PATH_ABSOLUTE}/common-preamble.sh \
        libsodium \
-       git@github.com:jedisct1/libsodium.git \
+       https://github.com/jedisct1/libsodium \
        ${LIBSODIUM_REVISION_TO_BUILD}
 
 cd ${BUILDDIR}/libsodium
 
 # Build for macOS
-echo "Building libsodium ${LIBSODIUM_REVISION_TO_BUILD} for macOS"
-PREFIX=${DISTDIR}/mac
-./autogen.sh
-mkdir -p ${PREFIX}
-RANLIB=/usr/bin/ranlib \
-AR=/usr/bin/ar \
-./configure \
-    --disable-soname-versions \
-    --enable-minimal \
-    --prefix="${PREFIX}"
+# echo "Building libsodium ${LIBSODIUM_REVISION_TO_BUILD} for macOS"
+# PREFIX=${DISTDIR}/mac
+# ./autogen.sh
+# mkdir -p ${PREFIX}
+# RANLIB=/usr/bin/ranlib \
+# AR=/usr/bin/ar \
+# ./configure \
+#     --disable-soname-versions \
+#     --enable-minimal \
+#     --prefix="${PREFIX}"
 
-make clean && \
-make -j3 install && \
-echo "Successfully built libsodium ${LIBSODIUM_REVISION_TO_BUILD} for macOS"
+# make clean && \
+# make -j8 install && \
+# echo "Successfully built libsodium ${LIBSODIUM_REVISION_TO_BUILD} for macOS"
 
 # Clean and then build for vicOS
 git clean -dffx .
@@ -54,7 +54,7 @@ export PREFIX="${DISTDIR}/mateos"
     # --with-sysroot="${MATEOS_SDK_HOME}/sysroot" || exit 1
 
 make clean && \
-make -j3 install && \
+make -j8 install && \
 echo "Successfully built libsodium ${LIBSODIUM_REVISION_TO_BUILD} for vicOS"
 
 

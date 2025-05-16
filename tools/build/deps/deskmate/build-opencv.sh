@@ -14,14 +14,14 @@ SCRIPT_PATH_ABSOLUTE=`pushd ${SCRIPT_PATH} >> /dev/null; pwd; popd >> /dev/null`
 
 source ${SCRIPT_PATH_ABSOLUTE}/common-preamble.sh \
        opencv \
-       git@github.com:opencv/opencv.git \
+       http://github.com/opencv/opencv.git \
        ${OPENCV_REVISION_TO_BUILD}
 
 echo "Finding/Installing protobuf ${PROTOBUF_VERSION}"
 DEPTOOLPY=${TOPLEVEL}/tools/lryabuild/deptool.py
 # PROTOBUF_DIR=$(${DEPTOOLPY} --project deskmate --name protobuf --url-prefix ${S3_ASSETS_URL_PREFIX} --install ${PROTOBUF_VERSION} | tail -1)
 # tools/build/dist/protobuf/mateos
-PROTOBUF_DIR=${TOPLEVEL}/dist/protobuf
+PROTOBUF_DIR=/home/orangepi/dev/deskbuddy/3rd/protobuf
 cd ${BUILDDIR}/opencv
 
 # 手动打补丁
@@ -40,7 +40,7 @@ pushd build_mateos
 
 # 编译器在toolchain中已经指定为clang
 ${CMAKE_EXE} \
-  -DCMAKE_TOOLCHAIN_FILE=/home/pi/deskbuddy/cmake/mateos.raspi.toolchain.cmake \
+  -DCMAKE_TOOLCHAIN_FILE=/home/orangepi/dev/deskbuddy/cmake/mateos.toolchain.cmake \
   -DCMAKE_INSTALL_PREFIX=${DISTDIR}/mateos \
   -DENABLE_NEON=ON \
   -DCMAKE_BUILD_TYPE=Release \
@@ -54,6 +54,7 @@ ${CMAKE_EXE} \
   -DBUILD_opencv_java=OFF \
   -DBUILD_TESTS=OFF \
   -DBUILD_TIFF=OFF \
+  -DBUILD_PNG=OFF \
   -DBUILD_WITH_DEBUG_INFO=OFF \
   -DBUILD_opencv_apps=OFF \
   -DBUILD_opencv_java=OFF \
@@ -62,6 +63,7 @@ ${CMAKE_EXE} \
   -DCMAKE_C_FLAGS_RELEASE="-O3 -DNDEBUG -fvisibility=hidden -ffunction-sections -fstack-protector-all" \
   -DCMAKE_CXX_FLAGS_RELEASE="-O3 -DNDEBUG -fvisibility=hidden  -ffunction-sections -fstack-protector-all -fvisibility-inlines-hidden" \
   -DENABLE_PRECOMPILED_HEADERS=OFF \
+  -DWITH_FFMPEG=OFF \
   -DWITH_EIGEN=OFF \
   -DWITH_JASPER=OFF \
   -DWITH_OPENEXR=OFF \

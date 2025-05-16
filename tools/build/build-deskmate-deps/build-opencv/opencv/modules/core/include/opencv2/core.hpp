@@ -96,7 +96,7 @@
  */
 
 namespace cv {
-
+#define OPENCV_TRAITS_ENABLE_DEPRECATED
 //! @addtogroup core_utils
 //! @{
 

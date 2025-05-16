@@ -16,6 +16,9 @@ source ${SCRIPT_PATH_ABSOLUTE}/common-preamble.sh \
        ${PROTOBUF_REVISION_TO_BUILD}
 
 cd ${BUILDDIR}/protobuf
+echo "0. pwd ----------------------------------"
+pwd
+echo "-------------- pwd"
 
 # Common build settings
 CMAKE_C_FLAGS="-O3 -DNDEBUG -fvisibility=hidden -ffunction-sections -fstack-protector-all -Wno-error"
@@ -32,7 +35,7 @@ pushd cmake/build/release
 
 # 编译器指定为clang
 ${CMAKE_EXE} \
-  -DCMAKE_TOOLCHAIN_FILE=/home/pi/deskbuddy/cmake/mateos.raspi.toolchain.cmake \
+  -DCMAKE_TOOLCHAIN_FILE=/home/orangepi/dev/deskbuddy/cmake/mateos.toolchain.cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_C_COMPILER=clang \
   -DCMAKE_CXX_COMPILER=clang++ \

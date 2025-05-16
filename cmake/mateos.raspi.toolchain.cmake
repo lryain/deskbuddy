@@ -89,10 +89,10 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 # Toolchain and ABI specific flags.
-list(APPEND MATEOS_COMPILER_FLAGS
-	-march=armv7-a
-	-mfloat-abi=hard
-	-mfpu=neon)
+# list(APPEND MATEOS_COMPILER_FLAGS
+# 	-march=armv7-a
+# 	-mfloat-abi=hard
+# 	-mfpu=neon)
 # list(APPEND MATEOS_LINKER_FLAGS
 # 	-Wl,--fix-cortex-a8)
 

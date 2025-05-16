@@ -138,7 +138,7 @@ namespace Lrya
     }
 
     if(showPreview) {
-      cv::namedWindow("Video preview", CV_WINDOW_AUTOSIZE);
+      cv::namedWindow("Video preview", cv::WINDOW_AUTOSIZE);
     }
 
     const cv::Point2i center((imageSize.width+1) / 2, (imageSize.height+1) / 2);
