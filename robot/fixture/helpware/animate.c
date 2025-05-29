@@ -22,6 +22,7 @@ static void animate(const char* fn) {
     fread(frame.data, 1, sizeof(frame.data), fo);
     // lcd_draw_frame(&frame);
     lcd_draw_frame1((uint16_t*)frame.data, width * height * sizeof(uint16_t));
+    // lcd_draw_frame2((uint16_t*)frame.data, width * height * sizeof(uint16_t));
   }
   fclose(fo);
 }

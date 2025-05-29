@@ -41,6 +41,8 @@ static const int RPM_MIN             = 50;  // Noctua Specs: Min=1000 [Kept 1500
 #define width    LCD_FRAME_WIDTH
 #define height   LCD_FRAME_HEIGHT
 #define FRAME_WORDS (LCD_FRAME_WIDTH*LCD_FRAME_HEIGHT)
+#define FALSE 0
+#define TRUE (!FALSE)
 
 #ifdef __cplusplus
 extern "C" {

@@ -1723,14 +1723,31 @@ int setLCDLight(int iLEDPin, int pwm)
 void lcd_draw_frame2(const uint16_t* frame, size_t size) {
   static uint16_t buffer[LCD_FRAME_WIDTH * LCD_FRAME_HEIGHT];
 
-  for(int i=0; i < LCD_FRAME_WIDTH * LCD_FRAME_HEIGHT ; i++) {
+  for(int i=0; i < LCD_FRAME_WIDTH * LCD_FRAME_HEIGHT; i++) {
     buffer[i] = __builtin_bswap16(frame[i]);
   }
-  lcd_spi_transfer(0, size, buffer);
+  
+  if (0) { // Does this work?
+    // lseek(lcd_fd, 0, SEEK_SET);
+    // (void)write(lcd_fd, buffer, size);
+  } else {
+ 
+    static const uint8_t WRITE_RAM = 0x2C;
+    lcd_spi_transfer(TRUE, 1, &WRITE_RAM);
+    lcd_spi_transfer(FALSE, size, buffer);
+  }
 }
 
 void lcd_draw_frame1(const uint16_t* frame, size_t size) {
-  lcd_spi_transfer(0, size, frame);
+   if (0) { // lcd_use_fb
+    //   lseek(lcd_fd, 0, SEEK_SET);
+    //   (void)write(lcd_fd, frame, size);
+   } else {
+   
+      static const uint8_t WRITE_RAM = 0x2C;
+      lcd_spi_transfer(TRUE, 1, &WRITE_RAM);
+      lcd_spi_transfer(FALSE, size, frame);
+   }
 }
 
 static void lcd_spi_transfer(int cmd, int bytes, const void* data) {
@@ -1768,18 +1785,17 @@ static void _lcd_spi_transfer(const void *data, int bytes)
         // spilcdSetMode(MODE_DATA);
 }
 
-// void lcd_spi_transfer(const void *data, int bytes)
-// {
-//         _lcd_spi_transfer(data, bytes);
-// }
-
-void lcd_draw_frame(const LcdFrame *frame)
-{
-        printf("0.0.1.---------------> in lcd_draw_frame frame: %d, size: %d\n", frame->data, sizeof(frame->data));
-        // lcd_write_buffer(frame->data, sizeof(frame->data));
-		lcd_spi_transfer(0, sizeof(frame->data), frame->data);
+void lcd_draw_frame(const LcdFrame* frame) {
+   // printf("0.0.1.---------------> in lcd_draw_frame frame: %d, size: %d\n", frame->data, sizeof(frame->data));
+   if (0) { // lcd_use_fb
+    //   lseek(lcd_fd, 0, SEEK_SET);
+    //   (void)write(lcd_fd, frame->data, sizeof(frame->data));
+   } else {
+      static const uint8_t WRITE_RAM = 0x2C;
+      lcd_spi_transfer(TRUE, 1, &WRITE_RAM);
+      lcd_spi_transfer(FALSE, sizeof(frame->data), frame->data);
+   }
 }
-
 
 /**
  * 编写一个接收uint16_t *的buffer的参数
@@ -1848,7 +1864,9 @@ int spilcdFills(unsigned short *usData)
 
 void lcd_clear_screen(void)
 {
-        spilcdFill(0);
+        // spilcdFill(0);
+		const LcdFrame frame={{0}};
+  		lcd_draw_frame(&frame);
 }
 
 //
