@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 #include "core/common.h"
-#include "core/lcd.h"
+#include "core/spi_lcd.h"
 
 
 
@@ -20,8 +20,8 @@ static void animate(const char* fn) {
 
   while (!feof(fo)) {
     fread(frame.data, 1, sizeof(frame.data), fo);
-//     lcd_draw_frame(&frame);
-    lcd_draw_frame2((uint16_t*)frame, width * height * sizeof(uint16_t));
+    // lcd_draw_frame(&frame);
+    lcd_draw_frame1((uint16_t*)frame.data, width * height * sizeof(uint16_t));
   }
   fclose(fo);
 }

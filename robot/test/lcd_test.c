@@ -14,8 +14,9 @@ typedef struct {
 	uint8_t data[5];
 } INIT_SCRIPT;
 
-static const int RESET_PIN = 21;
-static const int DnC_PIN = 20;
+// 29, 31, 33); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
+static const int DnC_PIN = 29;
+static const int RESET_PIN = 31;
 static const int DAT_CLOCK = 90000000;
 static const int MAX_TRANSFER = 0x1000;
 

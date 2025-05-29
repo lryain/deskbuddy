@@ -15,7 +15,7 @@
 
 #include "lrya/cozmo/shared/factory/faultCodes.h"
 
-#include "core/lcd.h"
+#include "core/spi_lcd.h"
 
 #include "util/logging/logging.h"
 

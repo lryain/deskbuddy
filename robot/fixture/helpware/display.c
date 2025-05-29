@@ -10,7 +10,7 @@
 #include <limits.h>
 
 #include "core/common.h"
-#include "core/lcd.h"
+#include "core/spi_lcd.h"
 
 #include "helpware/display.h"
 

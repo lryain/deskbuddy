@@ -27,7 +27,7 @@ static const int PWM_FREQUENCY = 1000; // PWM频率 (1kHz，适合背光调节)
 static const int RPM_MAX             = 200;  // Noctua Specs: Max=5000
 static const int RPM_MIN             = 50;  // Noctua Specs: Min=1000 [Kept 1500 as Min]
 
-#define LCD_FRAME_WIDTH    320
+#define LCD_FRAME_WIDTH    240
 #define LCD_FRAME_HEIGHT   240
 #define FRAME_WORDS (LCD_FRAME_WIDTH*LCD_FRAME_HEIGHT)
 

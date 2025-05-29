@@ -10,7 +10,7 @@
 /* #include <limits.h> */
 
 #include "core/common.h"
-#include "core/lcd.h"
+#include "core/spi_lcd.h"
 
 #include "helpware/display.h"
 
@@ -20,15 +20,13 @@
 #define ddprintf(f,...)
 #endif
 
-int width=320, height=240;
-
 void core_common_on_exit(void) {
   lcd_shutdown();
 }
 
 static void animate(void* frame)
 {
-    lcd_write_buffer((uint16_t*)frame, width * height * sizeof(uint16_t));
+    lcd_write_buffer((uint16_t*)frame, LCD_FRAME_WIDTH * LCD_FRAME_HEIGHT * sizeof(uint16_t));
 }
 
 #define FRAME_WORDS (LCD_FRAME_WIDTH*LCD_FRAME_HEIGHT)

@@ -12,7 +12,9 @@
 CROSS_COMPILE = ""
 
 CFLAGS = -c -fPIC -Wall -Werror
-
+# 添加目标架构标志
+ARCH = aarch64
+CFLAGS += -march=armv8-a  # 对于 Orange Pi 5 Pro
 
 
 CORE_DIR = ../../core
@@ -65,6 +67,10 @@ PIDOPEN = pidopen
 PIDOPEN_SRC = pidopen.c
 PIDOPEN_OBJ = $(PIDOPEN_SRC:%.c=$(OBJDIR)/%.o)
 
+TESTLCD = test_lcd
+TESTLCD_SRC = test_lcd.c
+TESTLCD_OBJ = $(TESTLCD_SRC:%.c=$(OBJDIR)/%.o)
+
 COMMANDER = commander
 COMMANDER_SRC = commander.c kbhit.c display.c
 COMMANDER_OBJ = $(COMMANDER_SRC:%.c=$(OBJDIR)/%.o) $(SPINE_OBJ)
@@ -83,8 +89,8 @@ BURN_OBJ = $(BURN_SRC:%.c=$(OBJDIR)/%.o)
 REMOTE_DEST = /data/local/fixture/
 
 # all: $(MATEOS_ARM_TOOLS_BIN) $(DFU) $(ANIMATE) $(DISPLAY) $(HELPER) $(MENUMAN) $(BURN)
-# all: $(DFU) $(ANIMATE) $(DISPLAY) $(DISPLAY_BLIT) $(HELPER) $(MENUMAN) $(BURN)
-all: $(DISPLAY_BLIT)
+all: $(DFU) $(ANIMATE) $(DISPLAY) $(DISPLAY_BLIT) $(HELPER) $(MENUMAN) $(BURN) $(LCDTEST)
+# all: $(DISPLAY_BLIT)
 
 $(CORE):
 	cd $(CORE_DIR) && make all
@@ -127,6 +133,8 @@ $(OBJDIR)/spine_crc.o:
 $(MENUMAN): $(CORE) $(MENUMAN_OBJ)
 	$(CROSS_COMPILE)clang -pie $(MENUMAN_OBJ) $(LIBPATH) $(LIBS) -llog  -o $(MENUMAN)
 
+$(TESTLCD): $(CORE) $(TESTLCD_OBJ)
+	$(CROSS_COMPILE)clang -pie $(TESTLCD_OBJ) $(LIBPATH) $(LIBS) -llog  -o $(TESTLCD)
 
 app=$(HELPER)
 
@@ -136,6 +144,10 @@ push: $(app)
 
 execute: $(app)
 	adb shell -x "cd $(REMOTE_DEST) && ./$(app) $(safe)"
+
+cleant:
+	rm -f $(APP) $(OBJDIR)/animate.o
+	rm -f $(APP) $(OBJDIR)/test_lcd.o
 
 clean:
 	rm -f $(APP) $(OBJDIR)/*.o

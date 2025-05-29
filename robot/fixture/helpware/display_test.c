@@ -10,7 +10,7 @@
 /* #include <limits.h> */
 
 #include "core/common.h"
-#include "core/lcd.h"
+#include "core/spi_lcd.h"
 
 #include "helpware/display.h"
 
@@ -104,8 +104,6 @@ void core_common_on_exit(void) {
 #define TERMBUFSZ 80
 #define LINEBUFSZ 256
 
-#define LCD LCD_ILI9341
-int width=320, height=240;
 unsigned short usColors[8] = {0xf800, 0x7e0, 0x1f, 0xffff, 0xffe0, 0x7ff, 0xf81f, 0x7bef};
 
 int main(int argc, const char* argv[])

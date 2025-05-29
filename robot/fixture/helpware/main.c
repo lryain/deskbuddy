@@ -13,7 +13,7 @@
 #include "core/common.h"
 #include "core/serial.h"
 #include "core/clock.h"
-#include "core/lcd.h"
+#include "core/spi_lcd.h"
 #include "helpware/helper_text.h"
 #include "helpware/display.h"
 #include "helpware/logging.h"
@@ -140,7 +140,7 @@ int handle_dutprogram_command(const char* cmd, int len) {
   errno = 0;
   long timeout_sec = strtol(next, &end, 10);
   if( errno != 0 || end <= next || timeout_sec > INT_MAX || timeout_sec < 1 /*INT_MIN*/ ) {
-    printf("timeout = %ld, errno = %d, end = next+%d\n", timeout_sec, errno, end-next );
+    printf("timeout = %ld, errno = %d, end = next+%ld\n", timeout_sec, errno, end-next );
     timeout_sec = INT_MAX;
     return 2; //report formatting error
   }

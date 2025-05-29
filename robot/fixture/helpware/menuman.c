@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 
 #include "core/common.h"
-#include "core/lcd.h"
+#include "core/spi_lcd.h"
 #include "core/clock.h"
 #include "helpware/display.h"
 
