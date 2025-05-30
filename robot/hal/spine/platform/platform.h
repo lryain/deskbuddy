@@ -22,8 +22,10 @@
 #include <unistd.h>
 #include <termios.h>
 
-#define SPINE_TTY "/dev/ttyUSB0"
-#define SPINE_TTY_LEGACY "/dev/ttyUSB0"
+// #define SPINE_TTY "/dev/ttyUSB0"
+// #define SPINE_TTY_LEGACY "/dev/ttyUSB0"
+#define SPINE_TTY "/dev/ttyS0"
+#define SPINE_TTY_LEGACY "/dev/ttyS0"
 #define SPINE_BAUD B3000000
 
 #define static_assert _Static_assert
@@ -33,7 +35,8 @@
 #include "osx/spine_logging.h"
 #include "osx/serial_support.h"
 
-#define SPINE_TTY "/dev/ttyUSB_LINK"
+// #define SPINE_TTY "/dev/ttyUSB_LINK"
+#define SPINE_TTY "/dev/ttyS0"
 #define SPINE_BAUD B230400
 
 #elif defined(PLATFORM_SIM)

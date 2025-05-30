@@ -1,6 +1,11 @@
 option(DEPLOY_WITH_CMAKE "Use cmake instead of python3 for deploying assets" ON)
 
 if(DEPLOY_WITH_CMAKE)
+    # 复制所需的资源文件到构建目录。
+    # 该函数应在构建过程中调用，以确保所有必要的资源（如图片、配置文件等）
+    # 都能被复制到输出目录中。
+    # 用法示例：
+    #   lrya_build_copy_assets()
     function(lrya_build_copy_assets)
         set(options "")
         set(oneValueArgs TARGET DEP_TARGET SRCLIST_DIR OUTPUT_DIR RELATIVE_OUTPUT_DIR)
@@ -86,8 +91,8 @@ if(DEPLOY_WITH_CMAKE)
 
     macro(lrya_build_prune_files)
         # Uncomment when debugging asset list aggregation
-        # list(LENGTH ASSET_OUTPUT_RELATIVE_DSTS __COUNT)
-        # message(STATUS "ASSET_OUTPUT_DSTS COUNT : ${__COUNT}")
+        list(LENGTH ASSET_OUTPUT_RELATIVE_DSTS __COUNT)
+        message(STATUS "ASSET_OUTPUT_DSTS COUNT : ${__COUNT}")
 
         set (ASSET_METADATA_BASENAME "${CMAKE_BINARY_DIR}/asset-build")
 
@@ -144,6 +149,16 @@ else()
 
 endif()
 
+# 复制构建过程中所需的资源目录。
+# 此函数用于在构建流程中，将所有必要的资源文件和目录复制到指定的构建输出位置。
+#
+# 用法：
+#   lrya_build_copydirectory_assets()
+#
+# 无需传递参数。
+#
+# 示例：
+#   lrya_build_copydirectory_assets()
 function(lrya_build_copydirectory_assets)
     set(options "")
     set(oneValueArgs TARGET DEP_TARGET SRCLIST_DIR OUTPUT_DIR RELATIVE_OUTPUT_DIR)

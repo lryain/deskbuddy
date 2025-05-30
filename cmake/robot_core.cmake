@@ -3,7 +3,7 @@ if (MATEOS)
 
   file(GLOB ROBOT_CORE_SRCS ${CMAKE_SOURCE_DIR}/robot/core/src/*.c)
   file(GLOB ROBOT_CORE_INCS ${CMAKE_SOURCE_DIR}/robot/core/inc/*.h)
-  file(GLOB ROBOT_CORE_INCS ${CMAKE_SOURCE_DIR}/robot/core/wiringOP/wiringPi/*.h)
+  # file(GLOB ROBOT_CORE_INCS ${CMAKE_SOURCE_DIR}/robot/core/wiringOP/wiringPi/*.h)
 
 #   robot/core/inc/core/spi_lcd.h
   message("-----------------> ROBOT_CORE_INCS: ${ROBOT_CORE_INCS}")
@@ -22,16 +22,16 @@ if (MATEOS)
     target_include_directories(${LIB} 
       PRIVATE
       $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/robot/core/inc>
-      $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/robot/core/wiringOP>
+      # $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/robot/core/wiringOP>
     )
 
     target_link_libraries(${LIB}
       PRIVATE
       # gpio
-      pigpio
+      # pigpio
       pthread
       rt
-      -lwiringPi
+      # -lwiringPi
     )
 
     set_target_properties(${LIB} PROPERTIES

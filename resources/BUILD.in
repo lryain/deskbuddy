@@ -10,34 +10,24 @@ asset_project(
                 ('3rd/snowboy', 'snowboyModels/*.umdl'),
                 ('3rd/snowboy', 'snowboyModels/*.pmdl'),
                 ('3rd/pryon_lite', 'pryonSpeechRecModels/**/*.bin'),
-                ('externals/animation-assets', 'animations/**/*.bin'),
-                ('externals/animation-assets', 'animationGroups/**/*.json'),
-                ('externals/animation-assets', 'sprites/**/*.png'),
-                ('externals/animation-assets', 'faceAnimations/**/*.png'),
-                ('externals/animation-assets', 'anim_manifest.json'),
-                ('externals/animation-assets', 'compositeImageResources/imageLayouts/**/*.json'),
-                ('externals/animation-assets', 'compositeImageResources/imageMaps/**/*.json'),
+                ('animation-assets', 'animations/**/*.bin'),
+                ('animation-assets', 'animationGroups/**/*.json'),
+                ('animation-assets', 'sprites/**/*.png'),
+                ('animation-assets', 'faceAnimations/**/*.png'),
+                ('animation-assets', 'anim_manifest.json'),
+                ('animation-assets', 'compositeImageResources/imageLayouts/**/*.json'),
+                ('animation-assets', 'compositeImageResources/imageMaps/**/*.json'),
                 ],
                 prefix = 'assets'
             ),
 )
 
-
 asset_project(
     name = 'cozmo_resources_sound',
-    srcs = [],
-    platform_srcs = [
-        ('mateos', subdir_glob([
-            ('externals/deskmate-audio-assets/mate_robot/mate_linux', '**/*')
-            ],
-            prefix = 'sound')
-        ),
-        ('mac', subdir_glob([
-            ('externals/deskmate-audio-assets/mate_robot/dev_mac', '**/*')
-            ],
-            prefix = 'sound')
-        ),
-    ]
+    srcs = glob([
+                'sound/**/*'
+                ],
+           ),
 )
 
 asset_project(
@@ -45,18 +35,17 @@ asset_project(
     srcs = [],
     platform_srcs = [
         ('mateos', subdir_glob([
-            ('externals/local-audio-assets/mate_robot/mate_linux', '**/*')
+            ('EXTERNALS/local-audio-assets/mate_robot/mate_linux', '**/*')
             ],
             prefix = 'sound')
         ),
         ('mac', subdir_glob([
-            ('externals/local-audio-assets/mate_robot/dev_mac', '**/*')
+            ('EXTERNALS/local-audio-assets/mate_robot/dev_mac', '**/*')
             ],
             prefix = 'sound')
         ),
     ]
 )
-
 
 asset_project(
     name = 'cozmo_resources_config',
@@ -113,17 +102,8 @@ asset_project(
 
 asset_project(
     name = 'cozmo_resources_tts',
-    srcs = [],
-    platform_srcs = [
-        ('mac', subdir_glob([
-            ('3rd/acapela/AcapelaTTS_for_Mac_V9.450','**/*'),
-            ],
-            prefix = 'tts')
-        ),
-        ('mateos', subdir_glob([
-            ('3rd/acapela/Voices_for_Android_iOS_LinuxEmbedded','**/*'),
-            ],
-            prefix = 'tts')
-        ),
-    ],
+    srcs = glob([
+                'tts/**/*',
+                ],
+           ),
 )

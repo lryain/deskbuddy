@@ -123,6 +123,9 @@ def single_subdir_glob(dirpath, glob_pattern, excludes=None, prefix=None, build_
 
     return results
 
+def platform_glob(platform, glob_specs, prefix=None):
+    """Helper function to properly format platform-specific globs"""
+    return (platform, subdir_glob(glob_specs, prefix=prefix))
 
 def subdir_glob(glob_specs, excludes=None, prefix=None, build_env=None, search_base=None,
                 allow_safe_import=None):

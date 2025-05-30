@@ -221,7 +221,7 @@ endif()
 #   add_subdirectory("auto-test")
 # endif()
 
-# add_subdirectory("resources")
+add_subdirectory("resources")
 
 if (MACOSX)
   add_subdirectory("test")

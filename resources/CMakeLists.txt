@@ -34,12 +34,26 @@ list(APPEND ASSET_TARGETS "")
 # Helper macro to manage ASSET_TARGETS
 # Add a bogus dependency to each new target to serialize copy operations.
 #
+# 添加自定义资源目标到构建系统。
+#
+# 用法:
+#   add_asset_target(<target>)
+#
+# 参数:
+#   target - 要添加的资源目标名称。
+#
+# 该宏用于简化将资源相关目标（如拷贝或处理资源文件）添加到CMake构建系统的流程。
+# 如有需要，可根据项目的资源管理流程自定义宏的实现。
+
 macro(add_asset_target target)
+  message(STATUS "33-----------------------> Adding asset target: ${target}")
   if (ASSET_TARGETS)
     list(GET ASSET_TARGETS -1 tail)
+    message(STATUS "  Adding dependency: ${target} depends on ${tail}")
     add_dependencies(${target} ${tail})
   endif()
   list(APPEND ASSET_TARGETS ${target})
+  message(STATUS "  ASSET_TARGETS now: ${ASSET_TARGETS}")
 endmacro()
 
 #
@@ -61,36 +75,37 @@ add_asset_target(cozmo_resources_assets)
 #
 # Override sound target for locally generated sound banks!!!!
 set(sound_target cozmo_resources_sound)
-set(asset_subdirectory "deskmate-audio-assets")
-option(USE_LOCAL_AUDIO_ASSETS "Use local audio assets" OFF)
-if(USE_LOCAL_AUDIO_ASSETS)
-    message("----------------------------------------------------------------------")
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/externals/local-audio-assets")
-        set(sound_target cozmo_resources_local_sound)
-        set(asset_subdirectory "local-audio-assets")
-        message("Using locally generated audio assets - EXTERNALS/local-audio-assets")
-    else()
-        message("WARNING - Locally generated audio assets do NOT exists!")
-        message("Reverting back to use DEPS assets")
-    endif()
-    message("----------------------------------------------------------------------")
-endif()
+# set(asset_subdirectory "deskmate-audio-assets")
+# # 是否开启本地音频资源
+# option(USE_LOCAL_AUDIO_ASSETS "Use local audio assets" OFF)
+# if(USE_LOCAL_AUDIO_ASSETS)
+#     message("----------------------------------------------------------------------")
+#     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/EXTERNALS/local-audio-assets")
+#         set(sound_target cozmo_resources_local_sound)
+#         set(asset_subdirectory "local-audio-assets")
+#         message("Using locally generated audio assets - EXTERNALS/local-audio-assets")
+#     else()
+#         message("WARNING - Locally generated audio assets do NOT exists!")
+#         message("Reverting back to use DEPS assets")
+#     endif()
+#     message("----------------------------------------------------------------------")
+# endif()
 
-set(sound_platform "mate_linux")
+set(sound_platform "mateos")
 if(MACOSX)
     set(sound_platform "dev_mac")
 endif()
 
-lrya_build_copydirectory_assets(
-    TARGET ${sound_target}
-    SRCLIST_DIR "externals/${asset_subdirectory}/mate_robot/${sound_platform}"
-    OUTPUT_DIR "${CMAKE_BINARY_DIR}/data/assets/cozmo_resources/sound"
-    RELATIVE_OUTPUT_DIR "cozmo_resources/sound"
+lrya_build_copy_assets(
+    TARGET cozmo_resources_sound
+    SRCLIST_DIR ${LRYA_SRCLIST_DIR}
+    OUTPUT_DIR "${CMAKE_BINARY_DIR}/data/assets/cozmo_resources"
+    RELATIVE_OUTPUT_DIR "cozmo_resources"
     OUT_DSTS ASSET_OUTPUT_FILES
     OUT_RELATIVE_DSTS ASSET_OUTPUT_RELATIVE_DSTS
 )
 
-add_asset_target(${sound_target})
+add_asset_target(cozmo_resources_sound)
 
 #
 # cozmo_resources_config
@@ -124,16 +139,16 @@ endif()
 #
 # cozmo_resources_tts
 #
-# lrya_build_copy_assets(
-#   TARGET        cozmo_resources_tts
-#   SRCLIST_DIR   ${LRYA_SRCLIST_DIR}
-#   OUTPUT_DIR   "${CMAKE_BINARY_DIR}/data/assets/cozmo_resources"
-#   RELATIVE_OUTPUT_DIR "cozmo_resources"
-#   OUT_DSTS ASSET_OUTPUT_FILES
-#   OUT_RELATIVE_DSTS ASSET_OUTPUT_RELATIVE_DSTS
-# )
+lrya_build_copy_assets(
+  TARGET        cozmo_resources_tts
+  SRCLIST_DIR   ${LRYA_SRCLIST_DIR}
+  OUTPUT_DIR   "${CMAKE_BINARY_DIR}/data/assets/cozmo_resources"
+  RELATIVE_OUTPUT_DIR "cozmo_resources"
+  OUT_DSTS ASSET_OUTPUT_FILES
+  OUT_RELATIVE_DSTS ASSET_OUTPUT_RELATIVE_DSTS
+)
 
-# add_asset_target(cozmo_resources_tts)
+add_asset_target(cozmo_resources_tts)
 
 #
 # cozmo_resources_beta, cozmo_resources_shipping, cozmo_resources_development
@@ -180,8 +195,8 @@ if (MACOSX)
 endif(MACOSX)
 
 # Uncomment when debugging asset list aggregation
-# list(LENGTH ASSET_OUTPUT_RELATIVE_DSTS __COUNT)
-# message(STATUS "ASSET_OUTPUT_DSTS COUNT : ${__COUNT}")
+list(LENGTH ASSET_OUTPUT_RELATIVE_DSTS __COUNT)
+message(STATUS "ASSET_OUTPUT_DSTS COUNT : ${__COUNT}")
 
 set (ASSET_METADATA_BASENAME "${CMAKE_BINARY_DIR}/asset-build")
 

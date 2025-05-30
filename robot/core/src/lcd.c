@@ -382,7 +382,7 @@ int i, iCount;
 	}
 	if (iLCDType == LCD_ST7789)
 	{
-		printf("-------------------> ST7789 LCD\n");
+		// printf("-------------------> ST7789 LCD\n");
 		s = uc240x240InitList;
 		if (bFlipped)
 			s[6] = 0xc0; // flip 180
@@ -394,7 +394,7 @@ int i, iCount;
     // Send the commands/parameters to initialize the LCD controller
 	else if (iLCDType == LCD_ILI9341)
 	{
-		printf("-------------------> LCD_ILI9341 LCD\n");
+		// printf("-------------------> LCD_ILI9341 LCD\n");
 		s = uc240InitList;
 		if (bFlipped)
 			s[50] = 0x88; // flip 180
@@ -405,7 +405,7 @@ int i, iCount;
 	}
 	else if (iLCDType == LCD_GC9A01)
 	{
-		printf("-------------------> LCD_GC9A01 LCD\n");
+		// printf("-------------------> LCD_GC9A01 LCD\n");
 		s = uc240x240RoundInitList;
 		// if (bFlipped)
 		// 	s[50] = 0x88; // flip 180
@@ -1707,7 +1707,7 @@ static int _lcd_set_brightness(const int brightness)
 int setLCDLight(int iLEDPin, int pwm)
 {
 	// wiringPiSetup();
-	printf("0.0.0.---------------> in setLCDLight pin: %d, pwm: %d\n", iLEDPin, pwm);
+	// printf("0.0.0.---------------> in setLCDLight pin: %d, pwm: %d\n", iLEDPin, pwm);
 #ifdef USE_GENERIC
 	if (iLEDPin != -1)
 		GenericAddGPIO(iLEDPin, GPIO_OUT, 0);
@@ -1806,7 +1806,7 @@ void lcd_draw_frame(const LcdFrame* frame) {
 int lcd_write_buffer(uint16_t *buffer, int size)
 {
         // printf("0.0.1.---------------> in lcd_write_buffer buffer: %s, size: %d\n", buffer, size);
-        printf("0.0.1.---------------> in lcd_write_buffer buffer\n");
+        // printf("0.0.1.---------------> in lcd_write_buffer buffer\n");
         if (file_spi < 0)
                 return -1; // not initialized
         int iOldOrient;
@@ -1814,18 +1814,18 @@ int lcd_write_buffer(uint16_t *buffer, int size)
         iOldOrient = iOrientation;
         iOrientation = LCD_ORIENTATION_NATIVE;
         spilcdScrollReset();
-        printf("0.0.2.---------------> after spilcdScrollReset\n");
+        // printf("0.0.2.---------------> after spilcdScrollReset\n");
         spilcdSetPosition(0, 0, iWidth, iHeight);
-        printf("0.0.3.---------------> after spilcdSetPosition\n");
+        // printf("0.0.3.---------------> after spilcdSetPosition\n");
         iOrientation = iOldOrient;
 
         // Write the buffer to the LCD
         for (int i = 0; i < size / 2; i++) {
                 buffer[i] = (buffer[i] >> 8) | (buffer[i] << 8); // swap bytes
         }
-        printf("0.0.4.---------------> before _lcd_spi_transfer\n");
+        // printf("0.0.4.---------------> before _lcd_spi_transfer\n");
         _lcd_spi_transfer((unsigned char *)buffer, size);
-        printf("0.0.5.---------------> after _lcd_spi_transfer\n");
+        // printf("0.0.5.---------------> after _lcd_spi_transfer\n");
         return 0;
 }
 
