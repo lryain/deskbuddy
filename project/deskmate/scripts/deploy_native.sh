@@ -43,7 +43,7 @@ function usage() {
   echo "environment variables:"
   echo '  $LRYA_ROBOT_HOST        hostname or ip address of robot'
   echo '  $LRYA_BUILD_TYPE        build configuration {Debug,Release}'
-  echo '  $INSTALL_ROOT           root dir of installed files on target'
+  echo '  $INSTALL_ROOT           orangepi dir of installed files on target'
   echo '  $STAGING_DIR            directory that holds staged artifacts before deploy to robot'
 }
 
@@ -299,11 +299,11 @@ if [ $FORCE_DEPLOY -eq 1 ]; then
   RSYNC_ARGS="-rlptD -IzvP --chmod=ug+rwx --chown=:2901 --inplace --delete --delete-before --force"
 fi
 
-echo "9.1. RSYNC_CMD: rsync $RSYNC_ARGS ./lrya/ root@${LRYA_ROBOT_HOST}:/lrya/"
+echo "9.1. RSYNC_CMD: rsync $RSYNC_ARGS ./lrya/ orangepi@${LRYA_ROBOT_HOST}:/lrya/"
 logv "rsync"
 set +e
 rsync $RSYNC_ARGS \
-  ./lrya/ root@${LRYA_ROBOT_HOST}:/lrya/
+  ./lrya/ orangepi@${LRYA_ROBOT_HOST}:/lrya/
 RSYNC_RESULT=$?
 set -e
 echo "9.2. RSYNC_RESULT: ${RSYNC_RESULT}"

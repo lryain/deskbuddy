@@ -64,7 +64,7 @@ LocalUdpServer::~LocalUdpServer()
 
 bool LocalUdpServer::StartListening(const std::string & sockname)
 {
-  printf("1. ----> start StartListening: %s\n", sockname.c_str());
+  // printf("1. ----> start StartListening: %s\n", sockname.c_str());
 
   if (_socket >= 0) {
     LOG_ERROR("LocalUdpServer.StartListening", "Server is already listening");
@@ -85,7 +85,7 @@ bool LocalUdpServer::StartListening(const std::string & sockname)
     LOG_ERROR("LocalUdpServer.StartListening", "Unable to create socket at %s (%s)", _sockname.c_str(), strerror(errno));
     return false;
   }
-  printf("2. ----> done LocalUdpServer.StartListening: %s\n", sockname.c_str());
+  // printf("2. ----> done LocalUdpServer.StartListening: %s\n", sockname.c_str());
 
   if (!Lrya::Messaging::SetNonBlocking(_socket, 1)) {
     LOG_ERROR("LocalUdpServer.StartListening", "Unable to set nonblocking (%s)", strerror(errno));
@@ -93,7 +93,7 @@ bool LocalUdpServer::StartListening(const std::string & sockname)
     _socket = -1;
     return false;
   }
-  printf("3. ----> done LocalUdpServer.SetNonBlocking: %s\n", sockname.c_str());
+  // printf("3. ----> done LocalUdpServer.SetNonBlocking: %s\n", sockname.c_str());
 
   if (!Lrya::Messaging::SetReuseAddress(_socket, 1)) {
     LOG_ERROR("LocalUdpServer.StartListening", "Unable to set reuseaddress (%s)", strerror(errno));
@@ -101,7 +101,7 @@ bool LocalUdpServer::StartListening(const std::string & sockname)
     _socket = -1;
     return false;
   }
-  printf("4. ----> done LocalUdpServer.SetReuseAddress: %s\n", sockname.c_str());
+  // printf("4. ----> done LocalUdpServer.SetReuseAddress: %s\n", sockname.c_str());
 
   if (!Lrya::Messaging::SetSendBufferSize(_socket, _sndbufsz)) {
     LOG_ERROR("LocalUdpServer.StartListening", "Unable to set send buffer size (%s)", strerror(errno));
@@ -109,7 +109,7 @@ bool LocalUdpServer::StartListening(const std::string & sockname)
     _socket = -1;
     return false;
   }
-  printf("5. ----> done LocalUdpServer.SetSendBufferSize: %s\n", sockname.c_str());
+  // printf("5. ----> done LocalUdpServer.SetSendBufferSize: %s\n", sockname.c_str());
 
   if (!Lrya::Messaging::SetRecvBufferSize(_socket, _rcvbufsz)) {
     LOG_ERROR("LocalUdpServer.StartListening", "Unable to set recv buffer size (%s)", strerror(errno));
@@ -117,7 +117,7 @@ bool LocalUdpServer::StartListening(const std::string & sockname)
     _socket = -1;
     return false;
   }
-  printf("6. ----> done LocalUdpServer.SetRecvBufferSize: %s\n", sockname.c_str());
+  // printf("6. ----> done LocalUdpServer.SetRecvBufferSize: %s\n", sockname.c_str());
 
   // Remove any existing socket using this name
   unlink(_sockname.c_str());
@@ -127,22 +127,22 @@ bool LocalUdpServer::StartListening(const std::string & sockname)
   saddr.sun_family = sock_family;
   strncpy(saddr.sun_path, _sockname.c_str(), sizeof(saddr.sun_path));
   const socklen_t socklen = (socklen_t) SUN_LEN(&saddr);
-  printf("7. ----> done unlink: %s, _socket: %d, socklen: %d\n", sockname.c_str(), _socket, socklen);
-  printf("6.1. ----> _sockname: %s, saddr.sun_path: %s\n", _sockname.c_str(), saddr.sun_path);
+  // printf("7. ----> done unlink: %s, _socket: %d, socklen: %d\n", sockname.c_str(), _socket, socklen);
+  // printf("6.1. ----> _sockname: %s, saddr.sun_path: %s\n", _sockname.c_str(), saddr.sun_path);
 
   const int status = bind(_socket, (const struct sockaddr*) &saddr, socklen);
-  printf("7.1. ----> done bind: %s, status: %d\n", sockname.c_str(), status);
+  // printf("7.1. ----> done bind: %s, status: %d\n", sockname.c_str(), status);
   if (status == -1) {
-    printf("7.2. ----> done bind: %s, errors: %s\n", sockname.c_str(), strerror(errno));
+    // printf("7.2. ----> done bind: %s, errors: %s\n", sockname.c_str(), strerror(errno));
     LOG_ERROR("LocalUdpServer.StartListening", "Unable to bind at %s (%s)", _sockname.c_str(), strerror(errno));
     LOG_ERROR("LocalUdpServer.StartListening", "You might have orphaned processes running");
     close(_socket);
     _socket = -1;
     return false;
   }
-  printf("8. ----> done bind: %s\n", sockname.c_str());
+  // printf("8. ----> done bind: %s\n", sockname.c_str());
 
-  printf("8.1. ----> LocalUdpServer.StartListening Socket %d is bound at %s", _socket, _sockname.c_str());
+  // printf("8.1. ----> LocalUdpServer.StartListening Socket %d is bound at %s", _socket, _sockname.c_str());
   LOG_DEBUG("LocalUdpServer.StartListening", "Socket %d is bound at %s", _socket, _sockname.c_str());
 
   return true;

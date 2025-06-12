@@ -18,5 +18,5 @@ function(configure_shared_stl lib_path so_lib)
     COPYONLY)
 endfunction()
 
-configure_shared_stl("/usr/lib/aarch64-linux-gnu/" "libc++.so")
+configure_shared_stl("/usr/lib/aarch64-linux-gnu/" "libc++.so.1")
 configure_shared_stl("/usr/lib/aarch64-linux-gnu/" "libatomic.so.1")

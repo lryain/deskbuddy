@@ -4,12 +4,12 @@ MATEOS_BUILD_TOOL_VER:=1.1.0-r04
 
 MATEOS_ARM_TOOLS_ROOT:=~/.lrya/mateos-sdk/dist/$(MATEOS_BUILD_TOOL_VER)
 
-MATEOS_ARM_TOOLS_BIN:=$(MATEOS_ARM_TOOLS_ROOT)/prebuilt/bin
+# MATEOS_ARM_TOOLS_BIN:=$(MATEOS_ARM_TOOLS_ROOT)/prebuilt/bin
 
 # Compilation Tools
 
-CROSS_COMPILE = $(MATEOS_ARM_TOOLS_BIN)/arm-oe-linux-gnueabi-
-
+# CROSS_COMPILE = $(MATEOS_ARM_TOOLS_BIN)/arm-oe-linux-gnueabi-
+CROSS_COMPILE = ""
 CFLAGS = -c -fPIC -Wall -Werror
 
 

@@ -2,7 +2,7 @@
 cd "$(dirname ${BASH_SOURCE[0]})"
 
 #files, config
-keil=/mnt/c/Keil/UV4/UV4.exe
+keil=D:\Keil_v5\UV4\UV4.exe
 project=vicfix.uvproj
 flags_file=app/app_build_flags.h
 vers_file=app/app_release_ver.h
@@ -12,7 +12,7 @@ manifest=manifest
 buildlog=build.log
 
 #require all instances of Keil (UV4.exe) to be closed before we allow build
-tasklist=/mnt/c/Windows/System32/tasklist.exe
+tasklist=c:/Windows/System32/tasklist.exe
 if $tasklist | grep -iq "UV4.exe"; then
   echo close all instances of UV4 before build
   exit 1

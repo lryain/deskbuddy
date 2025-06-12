@@ -251,7 +251,7 @@ void RobotDataLoader::AddToLoadingRatio(float delta)
 
 void RobotDataLoader::CollectAnimFiles()
 {
-    printf("3.1.2.5.6. in CollectAnimFiles()");
+    // printf("3.1.2.5.6. in CollectAnimFiles()");
   // animations
   {
     std::vector<std::string> paths;
@@ -267,19 +267,19 @@ void RobotDataLoader::CollectAnimFiles()
     for (const auto& path : paths) {
       WalkAnimationDir(path, _animFileTimestamps, [this] (const std::string& filename) {
         _jsonFiles[FileType::Animation].push_back(filename);
-        printf("3.1.2.5.7. WalkAnimationDir() path: %s\n", filename.c_str());
+        // printf("3.1.2.5.7. WalkAnimationDir() path: %s\n", filename.c_str());
 
       });
     }
   }
 
-  printf("3.1.2.5.7. start cube light animations ");
+  // printf("3.1.2.5.7. start cube light animations ");
 
   // cube light animations
   {
     WalkAnimationDir("config/engine/lights/cubeLights", _cubeLightAnimFileTimestamps, [this] (const std::string& filename) {
       _jsonFiles[FileType::CubeLightAnimation].push_back(filename);
-        printf("3.1.2.5.8. WalkAnimationDir() path: %s\n", filename.c_str());
+        // printf("3.1.2.5.8. WalkAnimationDir() path: %s\n", filename.c_str());
     });
   }
 
@@ -294,13 +294,13 @@ void RobotDataLoader::CollectAnimFiles()
     }
   }
 
-  printf("3.1.2.5.9. start print results");
+  // printf("3.1.2.5.9. start print results");
   // print results
   {
     for (const auto& fileListPair : _jsonFiles) {
       PRINT_CH_INFO("Animations", "RobotDataLoader.CollectAnimFiles.Results", "Found %zu animation files of type %d",
                     fileListPair.second.size(), (int)fileListPair.first);
-        printf("3.1.2.5.9.-");
+        // printf("3.1.2.5.9.-");
     }
   }
 }

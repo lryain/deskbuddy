@@ -81,10 +81,10 @@ Animation* CannedAnimationContainer::GetAnimation(const std::string& name)
 const Animation* CannedAnimationContainer::GetAnimation(const std::string& name) const
 {
   const Animation* animPtr = nullptr;
-  printf("1.0 -------------> start CannedAnimationContainer::GetAnimation(), name: %s\n", name.c_str());fflush(stdout);
+  // printf("1.0 -------------> start CannedAnimationContainer::GetAnimation(), name: %s\n", name.c_str());fflush(stdout);
   
   auto retVal = _animations.find(name);
-  printf("1.1 -------------> start _animations.find(%s), _animations.size(): %d\n", name.c_str(), _animations.size());fflush(stdout);
+  // printf("1.1 -------------> start _animations.find(%s), _animations.size(): %d\n", name.c_str(), _animations.size());fflush(stdout);
 
   if(retVal == _animations.end()) {
     PRINT_NAMED_ERROR("CannedAnimationContainer.GetAnimation_Const.InvalidName",

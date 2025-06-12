@@ -10,11 +10,11 @@
 #define LCD_ORIENTATION_NATIVE 1
 #define LCD_ORIENTATION_ROTATED 2
 
-#define LCD_ILI9341 1
+#define LCD_GC9A01 1
 #define LCD_ST7735 2
 #define LCD_SSD1351 3   // OLED
 #define LCD_ST7789 4
-#define LCD_GC9A01 5
+#define LCD_ILI9341 5
 
 // touch panel types
 #define TOUCH_XPT2046 1

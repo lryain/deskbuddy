@@ -120,7 +120,8 @@ struct lrya_camera_handle_private {
 
 static struct lrya_camera_handle_private s_camera_handle;
 
-#define PWDN_PIN 94
+// TODO 相机使能引脚 94
+#define PWDN_PIN -1
 static GPIO s_pwdn_gpio; // gpio for camera power down pin
 
 static ssize_t read_fd(int fd, void *ptr, size_t nbytes, int *recvfd)

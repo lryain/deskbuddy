@@ -1,11 +1,12 @@
 ANDROID_NDK_ROOT:=~/.lrya/android/ndk-repository/android-ndk-r15b
 
-ANDROID_ARM_TOOLS_ROOT:=../../../../../generated/android/tools/arm
-ANDROID_ARM_TOOLS_BIN:=$(ANDROID_ARM_TOOLS_ROOT)/bin
+# ANDROID_ARM_TOOLS_ROOT:=../../../../../generated/android/tools/arm
+ANDROID_ARM_TOOLS_ROOT=
+# ANDROID_ARM_TOOLS_BIN:=$(ANDROID_ARM_TOOLS_ROOT)/bin
 # Compilation Tools
-CC := $(ANDROID_ARM_TOOLS_BIN)/arm-linux-androideabi-gcc
-CPP := $(ANDROID_ARM_TOOLS_BIN)/arm-linux-androideabi-g++
-AR := $(ANDROID_ARM_TOOLS_BIN)/arm-linux-androideabi-ar
+CC := clang
+CPP := clang++
+# AR := $(ANDROID_ARM_TOOLS_BIN)/arm-linux-androideabi-ar
 HOST_CC := /usr/bin/clang
 # Compiler flags
 # Specify all the flags below which you want to use for your compilation, For this simple example, we only need to specify the include directory path
@@ -15,10 +16,10 @@ CFLAGS          += -DPLATFORM_ANDROID=1
 CFLAGS          += -DUSE_NEON_DOWNSAMPLE=0
 
 
-# SRCS = processed_deskmate_camera.c
-# OBJ =  processed_deskmate_camera.o
-#SRCS = deskmate_camera.c camera_test_main.c
-OBJ =  ../deskmate_camera.o camera_test_main.o
+SRCS = processed_deskmate_camera.c
+OBJ =  processed_deskmate_camera.o
+# SRCS = deskmate_camera.c camera_test_main.c
+# OBJ =  ../deskmate_camera.o camera_test_main.o
 
 APP = camera_test
 

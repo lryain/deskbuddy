@@ -287,7 +287,7 @@ else
     exit 1
 fi
 
-echo " ====================== GENERATOR: ${GENERATOR} - PROJECT_FILE: '${BUILD_DIR}/${PROJECT_FILE}' "
+# echo " ====================== GENERATOR: ${GENERATOR} - PROJECT_FILE: '${BUILD_DIR}/${PROJECT_FILE}' "
 
 : ${CMAKE_MODULE_DIR:="${TOPLEVEL}/cmake"}
 
@@ -308,21 +308,19 @@ if [ -z "${GOROOT+x}" ]; then
     # echo "1.2 --------------> GO_EXE go可执行文件: ${GO_EXE}"
     GO_EXE="/home/orangepi/.lrya/go/dist/go/1.13.8/bin/go"
     export GOROOT=$(dirname $(dirname $GO_EXE))
-    # echo "1.3 --------------> GOROOT: ${GOROOT}"
-    # export GOROOT=$(dirname $GO_EXE)
-    # echo "1.4 --------------> GOROOT: ${GOROOT}"
 else
     GO_EXE=$GOROOT/bin/go
 fi
-export GOPATH=${TOPLEVEL}/cloud/go:${TOPLEVEL}/generated/cladgo:${TOPLEVEL}/generated/go:${TOPLEVEL}/deskmate-clad/tools/message-buffers/support/go
-
+export GO111MODULE=off
+export GOPATH=${TOPLEVEL}/cloud/go:${TOPLEVEL}/cloud/go/src:${TOPLEVEL}/generated/cladgo:${TOPLEVEL}/generated/go:${TOPLEVEL}/deskmate-clad/tools/message-buffers/support/go
+# echo "99--------------> GOPATH: ${GOPATH}"
 if [ ! -f ${GO_EXE} ]; then
   echo "Missing Go executable: ${GO_EXE}"
   echo "Fetch the required Go version by running ${TOPLEVEL}/tools/build/tools/lryabuild/go.py"
   exit 1
 fi
 
-echo "--------------> Skipping go install for now!!"
+# echo "--------------> Skipping go install for now!!"
 ${TOPLEVEL}/tools/build/tools/lryabuild/go.py --check-version $GO_EXE
 
 #

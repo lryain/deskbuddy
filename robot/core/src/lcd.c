@@ -69,8 +69,8 @@ static int iWPPins0[] = {-1, -1, 59, -1, -1, -1, 47, 13, -1, 14, 138,
 // 把11换成12 刚好是18硬件PWM 但是18是SPI的CE0，換成33->13也是硬件PWM
 int lcd_init(void)
 {
-        // ILI9341 RK3588
-        return spilcdInit(LCD, 0, 0, 18250000, 15, 13, 11); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
+        // ILI9341 RK3588 LCD_ST7789
+        return spilcdInit(LCD, 0, 0, 50250000, 15, 13, 11); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
         // LCD_ST7789
         // return spilcdInit(LCD, 0, 0, 18250000, 29, 31, 33); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
 }
@@ -132,13 +132,32 @@ static unsigned char uc240x240InitList[] = {
 	0
 };
 
+// List of command/parameters to initialize the LCD_ST7789_IPS
+static unsigned char uc240x240IPSInitList[] = {
+	// 1, 0xFE,	// 寄存器使能
+	// 1, 0xEF, //
+	// 2, 0x84, 0x40, // 删掉则是镜像模式，1 arg (RGB), no delay,
+	// 3, 0xB6, 0x00, 0x20, // 屏幕功能配置，2 arg, 10ms delay
+
+	// 扫描模式 内存访问控制 USE_HORIZONTAL==0
+	2, 0x36, 0x08, // MADCTL, 1 arg (RGB), no delay,
+	// 颜色模式选择
+	2, 0x3A, 0x55,	// COLMOD, 1 arg, 10ms delay
+	2, 0x36, 0x08, // MADCTL, 1 arg (RGB), no delay,
+	5, 0x2A, 0x00, 0, 0, 240,	// 5: Column addr set, 4 args, no delay
+	
+	1, 0x21, // 7: hack 
+	1, 0x13, // 8: Normal display on, no args, delay 10 ms
+	1, 0x29,  // 9: Main screen turn on, no args, delay 10 ms
+	5, 0x2A, 0, 0, 0, 239,	// 5: Column addr set, 4 args, no delay
+	5, 0x2B, 0, 0, 0, 239,	// 5: Column addr set, 4 args, no delay
+	1, 0x2C, // 7: hack 
+	// 0
+};
 // List of command/parameters to initialize the LCD_GC9A01 IPS LCD
 static unsigned char uc240x240RoundInitList[] = {
-	2, 0x01, 0x80, // Soft reset, no args, 150 ms delay
-	2, 0x11, 0x80, // Out of sleep, no args, 500 ms delay 
-
-	2, 0xFE, 0x80,	// 寄存器使能
-	2, 0xEF, 0x80, //
+	1, 0xFE,	// 寄存器使能
+	1, 0xEF, //
 	2, 0x84, 0x40, // 删掉则是镜像模式，1 arg (RGB), no delay,
 	3, 0xB6, 0x00, 0x20, // 屏幕功能配置，2 arg, 10ms delay
 
@@ -169,11 +188,8 @@ static unsigned char uc240x240RoundInitList[] = {
     0x00, 0x3C, 0x00, 0x00, 0x00,
     0x01, 0x54, 0x10, 0x32, 0x98,
 	// 剪切效果线打开，关闭是 0x34
-  	2, 0x35, 0x80,      // INVON, no args, 10 ms delay
-  	2, 0x21, 0x80,      // INVON, no args, 10 ms delay
-  	2, 0x11, 0x80,      // INVON, no args, 10 ms delay
-  	2, 0x29, 0x80,      // INVON, no args, 10 ms delay
-	0x00
+  	1, 0x35,      // INVON, no args, 10 ms delay
+  	1, 0x21,      // INVON, no args, 10 ms delay
 };
 
 //
@@ -373,7 +389,6 @@ int i, iCount;
 	if (iLEDPin != -1)
 		myPinWrite(iLEDPin, 1); // turn on the backlight
 
-
 	spilcdWriteCommand(0x01); // software reset
 	usleep(120000);
 
@@ -407,10 +422,10 @@ int i, iCount;
 	{
 		// printf("-------------------> LCD_GC9A01 LCD\n");
 		s = uc240x240RoundInitList;
-		// if (bFlipped)
-		// 	s[50] = 0x88; // flip 180
-		// else
-		// 	s[50] = 0x48; // normal orientation
+		if (bFlipped)
+			s[6] = 0x88; // flip 180
+		else
+			s[6] = 0x48; // normal orientation
 		iCurrentWidth = iWidth = 240;
 		iCurrentHeight = iHeight = 240;
 	}
@@ -1653,24 +1668,6 @@ void lcd_shutdown(void)
         spilcdShutdown();
 }
 
-//
-// Sends a command to turn off the LCD display
-// Turns off the backlight LED
-// Closes the SPI file handle
-//
-// void spilcdShutdown(void)
-// {
-//         if (file_spi >= 0)
-//         {
-//                 spilcdWriteCommand(0x29); // Display OFF
-//                 spiClose(file_spi);
-//                 file_spi = -1;
-//                 if (iLEDPin != -1)
-//                         myPinWrite(iLEDPin, 0); // turn off the backlight
-//                 gpioTerminate();
-//         }
-// } /* spilcdShutdown() */
-
 // for vecot compatibility
 
 /**
@@ -1738,17 +1735,17 @@ void lcd_draw_frame2(const uint16_t* frame, size_t size) {
   }
 }
 
-void lcd_draw_frame1(const uint16_t* frame, size_t size) {
-   if (0) { // lcd_use_fb
-    //   lseek(lcd_fd, 0, SEEK_SET);
-    //   (void)write(lcd_fd, frame, size);
-   } else {
+// void lcd_draw_frame1(const uint16_t* frame, size_t size) {
+//    if (0) { // lcd_use_fb
+//     //   lseek(lcd_fd, 0, SEEK_SET);
+//     //   (void)write(lcd_fd, frame, size);
+//    } else {
    
-      static const uint8_t WRITE_RAM = 0x2C;
-      lcd_spi_transfer(TRUE, 1, &WRITE_RAM);
-      lcd_spi_transfer(FALSE, size, frame);
-   }
-}
+//     //   static const uint8_t WRITE_RAM = 0x2C;
+//     //   lcd_spi_transfer(TRUE, 1, &WRITE_RAM);
+//       lcd_spi_transfer(FALSE, size, frame);
+//    }
+// }
 
 static void lcd_spi_transfer(int cmd, int bytes, const void* data) {
     const uint8_t* tx_buf = data;

@@ -60,7 +60,7 @@ if (MATEOS)
   # For each imported library, create a target to generate the symbol file
   set(STRIP_TARGETS
     libatomic.so.1
-    libc++.so.1.0
+    libc++.so.1
     libopencv_core.so.3.4
     libopencv_imgproc.so.3.4
     libopencv_imgcodecs.so.3.4
