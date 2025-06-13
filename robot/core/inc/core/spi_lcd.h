@@ -23,10 +23,15 @@
 // #define LCD LCD_ILI9341
 #define LCD LCD_GC9A01
 
+static int lcd_use_fb; // use /dev/fb0?
+
 static int MAX_TRANSFER = 0x1000;
 static const int PWM_FREQUENCY = 1000; // PWM频率 (1kHz，适合背光调节)
 static const int RPM_MAX             = 200;  // Noctua Specs: Max=5000
 static const int RPM_MIN             = 50;  // Noctua Specs: Min=1000 [Kept 1500 as Min]
+
+#define MAX(a,b) (((a)>(b))?(a):(b))
+#define MIN(a,b) (((a)<(b))?(a):(b))
 
 #ifndef LCD_ILI9341
 #define LCD_FRAME_WIDTH    240
@@ -47,6 +52,13 @@ static const int RPM_MIN             = 50;  // Noctua Specs: Min=1000 [Kept 1500
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+typedef struct {
+  uint8_t cmd;
+  uint8_t data_bytes;
+  uint8_t data[128];
+  uint32_t delay_ms;
+} INIT_SCRIPT;
 
 typedef struct LcdFrame_t {
   uint16_t data[LCD_FRAME_WIDTH*LCD_FRAME_HEIGHT];

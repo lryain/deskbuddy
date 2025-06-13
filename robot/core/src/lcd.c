@@ -17,6 +17,7 @@
 #include <sys/ioctl.h>
 #include <linux/types.h>
 #include "core/spi_lcd.h"
+#include "core/common.h"
 
 #ifdef USE_GENERIC
 #include <linux/spi/spidev.h>
@@ -25,6 +26,10 @@ static struct spi_ioc_transfer xfer;
 #define GPIO_IN 1
 static int iPinHandles[256]; // keep file handles open for GPIO access
 #endif // USE_GENERIC
+
+/************* LCD SPI Interface ***************/
+
+static int lcd_fd;
 
 extern unsigned char ucFont[];
 static unsigned char ucRXBuf[4096]; //, ucRXBuf2[4096];
@@ -72,7 +77,7 @@ int lcd_init(void)
         // ILI9341 RK3588 LCD_ST7789
         // return spilcdInit(LCD, 0, 0, 50250000, 15, 13, 11); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
         // LCD_ST7789
-        return spilcdInit(LCD, 0, 0, 18250000, 29, 31, 33); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
+        return spilcdInit(LCD, 0, 0, 18250000, 15, 13, 11); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
 }
 
 // Sets the D/C pin to data or command mode
@@ -346,13 +351,52 @@ int i, iCount;
 		return -1;
 	}
 	{
-	char szName[32];
 	int rc, iSPIMode = SPI_MODE_0; // | SPI_NO_CS;
 	int i = iSPIFreq;
-	sprintf(szName,"/dev/spidev%d.0", iChannel);
-	file_spi = open(szName, O_RDWR);
+  // 1. Open the SPI device
+	file_spi = open("/dev/spidev0.0", O_RDWR);
+  if (file_spi < 0) {
+    error_return(app_DEVICE_OPEN_ERROR, "Can't open LCD SPI interface\n");
+  }
 	rc = ioctl(file_spi, SPI_IOC_WR_MODE, &iSPIMode);
-	if (rc < 0) printf("Error setting SPI mode\n");
+  if (rc < 0) {
+    error_return(app_DEVICE_OPEN_ERROR, "Error setting SPI mode\n");
+  }
+    // Set MAX_TRANSFER size based on the spidev bufsiz parameter
+  int bufsiz_fd = open("/sys/module/spidev/parameters/bufsiz", O_RDONLY);
+  if(bufsiz_fd < 0)
+  {
+    error_return(app_DEVICE_OPEN_ERROR, "Can't open SPI bufsiz parameter\n");
+  }
+  // bufsiz is stored as a string in the file
+  char buf[32] = {0};
+  int bytes_read = 0;
+
+  // Attempt to read enough bytes to fit in our buffer
+  while(bytes_read < sizeof(buf))
+  {
+    int num_bytes = read(bufsiz_fd, buf + bytes_read, sizeof(buf) - bytes_read);
+    bytes_read += num_bytes;
+    if(num_bytes == 0)
+    {
+      // End of file
+      break;
+    }
+    else if(num_bytes < 0)
+    {
+      (void)close(bufsiz_fd);
+      error_return(app_IO_ERROR, "Failed to read from spi bufsiz\n");
+    }
+  }
+
+  char* end;
+  int size = strtol(buf, &end, 10);
+  MAX_TRANSFER = size;
+
+  (void)close(bufsiz_fd);
+
+  // return lcd_fd;
+
 	rc = ioctl(file_spi, SPI_IOC_WR_MAX_SPEED_HZ, &i);
 	if (rc < 0) printf("Error setting SPI speed\n");
 	memset(&xfer, 0, sizeof(xfer));
@@ -360,7 +404,6 @@ int i, iCount;
 	xfer.cs_change = 0;
 	xfer.delay_usecs = 0;
 	xfer.bits_per_word = 8;
-//	xfer.rx_buf = (unsigned long)ucRXBuf2; // dummy receive buffer
 	}
 #endif // USE_GENERIC
 
@@ -422,10 +465,10 @@ int i, iCount;
 	{
 		// printf("-------------------> LCD_GC9A01 LCD\n");
 		s = uc240x240RoundInitList;
-		if (bFlipped)
-			s[6] = 0x88; // flip 180
-		else
-			s[6] = 0x48; // normal orientation
+		// if (bFlipped)
+		// 	s[6] = 0x88; // flip 180
+		// else
+		// 	s[6] = 0x48; // normal orientation
 		iCurrentWidth = iWidth = 240;
 		iCurrentHeight = iHeight = 240;
 	}
@@ -1735,18 +1778,6 @@ void lcd_draw_frame2(const uint16_t* frame, size_t size) {
   }
 }
 
-// void lcd_draw_frame1(const uint16_t* frame, size_t size) {
-//    if (0) { // lcd_use_fb
-//     //   lseek(lcd_fd, 0, SEEK_SET);
-//     //   (void)write(lcd_fd, frame, size);
-//    } else {
-   
-//     //   static const uint8_t WRITE_RAM = 0x2C;
-//     //   lcd_spi_transfer(TRUE, 1, &WRITE_RAM);
-//       lcd_spi_transfer(FALSE, size, frame);
-//    }
-// }
-
 static void lcd_spi_transfer(int cmd, int bytes, const void* data) {
     const uint8_t* tx_buf = data;
 
@@ -1784,9 +1815,9 @@ static void _lcd_spi_transfer(const void *data, int bytes)
 
 void lcd_draw_frame(const LcdFrame* frame) {
    // printf("0.0.1.---------------> in lcd_draw_frame frame: %d, size: %d\n", frame->data, sizeof(frame->data));
-   if (0) { // lcd_use_fb
-    //   lseek(lcd_fd, 0, SEEK_SET);
-    //   (void)write(lcd_fd, frame->data, sizeof(frame->data));
+   if (lcd_use_fb) {
+      lseek(lcd_fd, 0, SEEK_SET);
+      (void)write(lcd_fd, frame->data, sizeof(frame->data));
    } else {
       static const uint8_t WRITE_RAM = 0x2C;
       lcd_spi_transfer(TRUE, 1, &WRITE_RAM);

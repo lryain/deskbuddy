@@ -31,8 +31,7 @@ unsigned short usColors[8] = {0xf800, 0x7e0, 0x1f, 0xffff, 0xffe0, 0x7ff, 0xf81f
 // int width=240, height=240;
 
 // GC9A01小屏幕240*240圆屏
-// #define LCD LCD_GC9A01
-// int width=240, height=240;
+#define LCD LCD_GC9A01
 
 int MilliTime()
 {
@@ -72,8 +71,8 @@ int i;
 	// The pin numbers are for 40-pin headers on RPi2, RPi3, RPi0
 	// Pass it the GPIO pin numbers used for the following:
 	printf("Initializing LCD on SPI channel 0\n");
-	// rc = spilcdInit(LCD, 0, 0, 31250000, 15, 13, 11); // LCD type, flip 180, SPI Channel, D/C, RST, LED
-	rc = lcd_init();
+	rc = spilcdInit(LCD, 0, 0, 31250000, 15, 13, 11); // LCD type, flip 180, SPI Channel, D/C, RST, LED
+	// rc = lcd_init();
 	
 	if (rc != 0)
 	{
@@ -81,22 +80,44 @@ int i;
 		return 0;
 	}
 
-    // Scroll the display while drawing tiles in the landscape orientation
+	spilcdFill(0);
 	spilcdSetOrientation(LCD_ORIENTATION_ROTATED);
-	for (x=0; x<=height; x++)
-	{
-		if ((x & 15) == 0)
-		{
-			for (y=0; y<=width-16; y+= 16)
-			{
-				spilcdDrawTile(height/2, y, 16, 16, (unsigned char *)usColors, 0);
-			}
-		}
-		spilcdScroll(1, -1);
-		usleep(20000);
-	}
+
+	// for (rc=0; rc<width; rc += 8)
+	// {
+	// 	spilcdSetOrientation(LCD_ORIENTATION_NATIVE);
+	// 	spilcdWriteString(0, 0, "Big Rotated Text!", usColors[2], usColors[3],1);
+	// 	usleep(1000000);
+	// 	spilcdFill(0);
+		
+	// 	spilcdSetOrientation(LCD_ORIENTATION_ROTATED);
+	// 	spilcdWriteString(0, 0, "Big Rotated Text!", usColors[2], usColors[3],1);
+	// 	usleep(1000000);
+	// 	spilcdFill(0);
+
+	// 	spilcdSetOrientation(LCD_ORIENTATION_NATIVE);
+	// 	spilcdWriteString(0, 0, "Big Rotated Text!", usColors[2], usColors[3],1);
+	// 	usleep(1000000);
+	// 	spilcdFill(0);
+	// }
 	
-	usleep(2000000);
+	
+    // Scroll the display while drawing tiles in the landscape orientation
+	// spilcdSetOrientation(LCD_ORIENTATION_ROTATED);
+	// for (x=0; x<=height; x++)
+	// {
+	// 	if ((x & 15) == 0)
+	// 	{
+	// 		for (y=0; y<=width-16; y+= 16)
+	// 		{
+	// 			spilcdDrawTile(height/2, y, 16, 16, (unsigned char *)usColors, 0);
+	// 		}
+	// 	}
+	// 	spilcdScroll(1, -1);
+	// 	usleep(20000);
+	// }
+	
+	// usleep(2000000);
 
     // Measure the maximum screen refresh rate in FPS
 	iTime = MilliTime();
@@ -157,3 +178,7 @@ int i;
 
    return 0;
 } /* main() */
+
+void core_common_on_exit(void) {
+   lcd_shutdown();
+}
