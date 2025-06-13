@@ -45,7 +45,8 @@ namespace Vector {
   void FaceDisplayImpl::FaceDraw(const u16* frame)
   {
 //     printf("0.0.1 ----------> in FaceDisplayImpl::FaceDraw.lcd_write_buffer()\n");
-    lcd_write_buffer((uint16_t *)frame, FRAME_WORDS*sizeof(uint16_t));
+    lcd_draw_frame2(frame, FACE_DISPLAY_WIDTH*FACE_DISPLAY_HEIGHT*sizeof(u16));
+    // lcd_write_buffer((uint16_t *)frame, FRAME_WORDS*sizeof(uint16_t));
   }
   
   void FaceDisplayImpl::FacePrintf(const char* format, ...)

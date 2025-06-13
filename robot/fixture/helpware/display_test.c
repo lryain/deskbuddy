@@ -120,21 +120,6 @@ int rc;
 
   display_init();
 
-// Scroll the display while drawing tiles in the landscape orientation
-spilcdSetOrientation(LCD_ORIENTATION_ROTATED);
-// for (x=0; x<=height; x++)
-// {
-//         if ((x & 15) == 0)
-//         {
-//                 for (y=0; y<=width-16; y+= 16)
-//                 {
-//                         spilcdDrawTile(height/2, y, 16, 16, (unsigned char *)usColors, 0);
-//                 }
-//         }
-//         spilcdScroll(1, -1);
-//         usleep(20000);
-// }
-
   while (!exit)
   {
     printf("reading\n");
@@ -154,8 +139,7 @@ spilcdSetOrientation(LCD_ORIENTATION_ROTATED);
     }
     if (endl) {
       printf("parsing \"%s\"\n", linebuf);
-//       display_parse(linebuf, endl-linebuf);
-      spilcdWriteString(0, height/2, linebuf, usColors[0], usColors[1],1);
+      display_parse(linebuf, endl-linebuf);
       linelen = 0;
       printf("ok\n");
     }

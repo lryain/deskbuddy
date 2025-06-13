@@ -26,7 +26,6 @@ CORE = $(CORE_DIR)/libcore.a
 
 # link with core lib
 LIBS    += -lcore
-LIBS    += -lpigpio
 LIBPATH += -L$(CORE_DIR)
 CFLAGS  += -I../ -O2
 CFLAGS  += -I$(CORE_DIR)/inc
@@ -36,12 +35,21 @@ CFLAGS += -Wno-unused-function
 
 CFLAGS  += -I../../syscon
 CFLAGS  += -I../../hal
-
+CFLAGS  += -I../../../platform/gpio
 
 # All the c files in this directory will be compiled
 SRCDIR = .
 # .o and other temp files go here
 OBJDIR = .output
+
+# GPIO_OBJ = $(GPIO_SRC:%.c=$(OBJDIR)/%.o)
+GPIO_SRC = ../../../platform/gpio/gpio.c
+GPIO_OBJ = $(OBJDIR)/gpio.o
+
+# 编译 gpio.o
+$(OBJDIR)/gpio.o: $(GPIO_SRC)
+	mkdir -p $(OBJDIR)
+	$(CROSS_COMPILE)clang $(CFLAGS) -c $< -o $@
 
 DFU = dfu
 DFU_SRC = dfu.c
@@ -58,6 +66,10 @@ DISPLAY_OBJ = $(DISPLAY_SRC:%.c=$(OBJDIR)/%.o)
 DISPLAY_BLIT = display_blit
 DISPLAY_BLIT_SRC = display.c display_blit_test.c
 DISPLAY_BLIT_OBJ = $(DISPLAY_BLIT_SRC:%.c=$(OBJDIR)/%.o)
+
+DISPLAY_TEST = display_test
+DISPLAY_TEST_SRC = display.c display_test.c
+DISPLAY_TEST_OBJ = $(DISPLAY_TEST_SRC:%.c=$(OBJDIR)/%.o)
 
 HELPER = helper
 HELPER_SRC = main.c display.c helper_text.c logging.c pidopen.c kbhit.c
@@ -89,7 +101,7 @@ BURN_OBJ = $(BURN_SRC:%.c=$(OBJDIR)/%.o)
 REMOTE_DEST = /data/local/fixture/
 
 # all: $(MATEOS_ARM_TOOLS_BIN) $(DFU) $(ANIMATE) $(DISPLAY) $(HELPER) $(MENUMAN) $(BURN)
-all: $(DFU) $(ANIMATE) $(DISPLAY) $(DISPLAY_BLIT) $(HELPER) $(MENUMAN) $(BURN) $(LCDTEST)
+all: $(DFU) $(ANIMATE) $(DISPLAY) $(DISPLAY_BLIT) $(HELPER) $(MENUMAN) $(BURN) $(DISPLAY_TEST)
 # all: $(DISPLAY_BLIT)
 
 $(CORE):
@@ -106,23 +118,26 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 $(DFU): $(CORE) $(DFU_OBJ)
 	$(CROSS_COMPILE)clang -pie $(DFU_OBJ) $(LIBPATH) $(LIBS)  -o $(DFU)
 
-$(ANIMATE): $(CORE) $(ANIMATE_OBJ)
-	$(CROSS_COMPILE)clang -pie $(ANIMATE_OBJ) $(LIBPATH) $(LIBS)  -o $(ANIMATE)
+$(ANIMATE): $(CORE) $(ANIMATE_OBJ) $(GPIO_OBJ)
+	$(CROSS_COMPILE)clang -pie $(ANIMATE_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(ANIMATE)
 
-$(DISPLAY): $(CORE) $(DISPLAY_OBJ)
-	$(CROSS_COMPILE)clang -pie $(DISPLAY_OBJ) $(LIBPATH) $(LIBS)  -o $(DISPLAY)
+$(DISPLAY): $(CORE) $(DISPLAY_OBJ) $(GPIO_OBJ)
+	$(CROSS_COMPILE)clang -pie $(DISPLAY_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(DISPLAY)
 
-$(DISPLAY_BLIT): $(CORE) $(DISPLAY_BLIT_OBJ)
-	$(CROSS_COMPILE)gcc -pie $(DISPLAY_BLIT_OBJ) $(LIBPATH) $(LIBS)  -o $(DISPLAY_BLIT)
+$(DISPLAY_BLIT): $(CORE) $(DISPLAY_BLIT_OBJ) $(GPIO_OBJ)
+	$(CROSS_COMPILE)gcc -pie $(DISPLAY_BLIT_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(DISPLAY_BLIT)
 
-$(HELPER): $(CORE) $(HELPER_OBJ)
-	$(CROSS_COMPILE)clang -pie $(HELPER_OBJ) $(LIBPATH) $(LIBS)  -o $(HELPER)
+$(DISPLAY_TEST): $(CORE) $(DISPLAY_BLIT_OBJ) $(GPIO_OBJ)
+	$(CROSS_COMPILE)gcc -pie $(DISPLAY_BLIT_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(DISPLAY_TEST)
+
+$(HELPER): $(CORE) $(HELPER_OBJ) $(GPIO_OBJ)
+	$(CROSS_COMPILE)clang -pie $(HELPER_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(HELPER)
 
 $(BURN): $(CORE) $(BURN_OBJ)
 	$(CROSS_COMPILE)clang -pie $(BURN_OBJ) $(LIBPATH) $(LIBS)  -o $(BURN)
 
-$(COMMANDER): $(CORE) $(COMMANDER_OBJ)
-	$(CROSS_COMPILE)clang -pie $(COMMANDER_OBJ) $(LIBPATH) $(LIBS) -llog -o $(COMMANDER)
+$(COMMANDER): $(CORE) $(COMMANDER_OBJ) $(GPIO_OBJ)
+	$(CROSS_COMPILE)clang -pie $(COMMANDER_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS) -llog -o $(COMMANDER)
 
 $(OBJDIR)/spine_hal.o:
 	$(CROSS_COMPILE)clang $(CFLAGS) ../../hal/spine/spine_hal.c  -o $@
@@ -130,11 +145,11 @@ $(OBJDIR)/spine_crc.o:
 	$(CROSS_COMPILE)clang $(CFLAGS) ../../hal/spine/spine_crc.c  -o $@
 
 
-$(MENUMAN): $(CORE) $(MENUMAN_OBJ)
-	$(CROSS_COMPILE)clang -pie $(MENUMAN_OBJ) $(LIBPATH) $(LIBS) -llog  -o $(MENUMAN)
+$(MENUMAN): $(CORE) $(MENUMAN_OBJ) $(GPIO_OBJ)
+	$(CROSS_COMPILE)clang -pie $(MENUMAN_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS) -llog  -o $(MENUMAN)
 
-$(TESTLCD): $(CORE) $(TESTLCD_OBJ)
-	$(CROSS_COMPILE)clang -pie $(TESTLCD_OBJ) $(LIBPATH) $(LIBS) -llog  -o $(TESTLCD)
+$(TESTLCD): $(CORE) $(TESTLCD_OBJ) $(GPIO_OBJ)
+	$(CROSS_COMPILE)clang -pie $(TESTLCD_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS) -llog  -o $(TESTLCD)
 
 app=$(HELPER)
 
@@ -152,3 +167,4 @@ cleant:
 clean:
 	rm -f $(APP) $(OBJDIR)/*.o
 	rm -f $(CORE_DIR)/libcore.a
+	rm -f $(DFU) $(ANIMATE) $(DISPLAY) $(DISPLAY_BLIT) $(HELPER) $(MENUMAN) $(BURN) $(COMMANDER) $(TESTLCD)
