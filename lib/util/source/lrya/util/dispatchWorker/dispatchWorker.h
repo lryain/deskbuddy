@@ -107,13 +107,13 @@ void DispatchWorker<TCount, Args...>::PushJob(FuncArgs&&... args)
 template<std::size_t TCount, typename... Args>
 void DispatchWorker<TCount, Args...>::Process()
 {
-  printf("3.1.2.5.5.6.0. in Process()\n");fflush(stdout);
+  // printf("3.1.2.5.5.6.0. in Process()\n");fflush(stdout);
   std::lock_guard<std::mutex> lockGuard(_argsListMutex);
   const std::size_t size = _argumentList.size();
   const std::size_t numTotalThreads = TCount + 1; // Reserve one slot for the calling thread
   const std::size_t countPerThread = size / numTotalThreads;
   std::size_t remainder = (size % numTotalThreads);
-  printf("3.1.2.5.5.6.1. _argumentList.begin()\n");fflush(stdout);
+  // printf("3.1.2.5.5.6.1. _argumentList.begin()\n");fflush(stdout);
   
   typename ArgumentVector::iterator curIter = _argumentList.begin();
   
@@ -130,19 +130,19 @@ void DispatchWorker<TCount, Args...>::Process()
 
     if (remainder > 0)
     {
-      printf("3.1.2.5.5.6.3. if (remainder > 0)\n");fflush(stdout);
+      // printf("3.1.2.5.5.6.3. if (remainder > 0)\n");fflush(stdout);
       ++sizeForThread;
       --remainder;
     }
-    printf("3.1.2.5.5.6.4. _workerThreads\n");fflush(stdout);
+    // printf("3.1.2.5.5.6.4. _workerThreads\n");fflush(stdout);
     _workerThreads[i] = std::thread(&DispatchWorker::DoThreadWork, this, curIter, curIter + sizeForThread);
     curIter += sizeForThread;
   }
-  printf("3.1.2.5.5.6.5. start DoThreadWork\n");fflush(stdout);
+  // printf("3.1.2.5.5.6.5. start DoThreadWork\n");fflush(stdout);
   
   // Now allow the calling thread to do some work too
   DoThreadWork(curIter, _argumentList.end());
-  printf("3.1.2.5.5.6.6. done DoThreadWork\n");fflush(stdout);
+  // printf("3.1.2.5.5.6.6. done DoThreadWork\n");fflush(stdout);
   
   // Wait for all our threads to be done
   for (std::size_t i = 0; i < TCount; i++)
@@ -154,7 +154,7 @@ void DispatchWorker<TCount, Args...>::Process()
         // printf("3.1.2.5.5.6.7. _workerThreads[i] = std::thread()\n");fflush(stdout);
     }
   }
-  printf("3.1.2.5.5.6.8. _argumentList.clear()\n");fflush(stdout);
+  // printf("3.1.2.5.5.6.8. _argumentList.clear()\n");fflush(stdout);
   
   _argumentList.clear();
 }
