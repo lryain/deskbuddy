@@ -944,7 +944,7 @@ void ProcessProxData()
     }
 
     proxData_.distance_mm      = FlipBytes(bodyData_->proximity.rangeMM);
-    printf("1.3.0 -------------> proxData_.distance_mm: %d\n",proxData_.distance_mm);fflush(stdout);
+    // printf("1.3.0 -------------> proxData_.distance_mm: %d\n",proxData_.distance_mm);fflush(stdout);
 
     // Signal/Ambient Rate are fixed point 9.7, so convert to float:
     proxData_.signalIntensity  = static_cast<float>(FlipBytes(bodyData_->proximity.signalRate)) / 128.f;
