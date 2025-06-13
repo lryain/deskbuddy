@@ -17,6 +17,15 @@
 
 #include "gpio.h"
 
+#ifndef TEMP_FAILURE_RETRY
+#define TEMP_FAILURE_RETRY(expression) \
+  (__extension__                       \
+    ({ long int __result;              \
+       do __result = (long int)(expression); \
+       while (__result == -1L && errno == EINTR); \
+       __result; }))
+#endif
+
 typedef enum CoreAppErrorCode_t {
   app_SUCCESS = 0,
   app_USAGE = -1,
@@ -95,99 +104,9 @@ static int open_patiently(const char *pathname, int flags)
   return fd;
 }
 
-int gpio_get_base_offset()
-{
-  if (GPIO_BASE_OFFSET < 0) {
-    // gpio pinctrl for msm8909:
-    // oe-linux/4.9:  /sys/devices/platform/soc/1000000.pinctrl/gpio/gpiochip0/base -> 0
-    // oe-linux/3.18: /sys/devices/soc/1000000.pinctrl/gpio/gpiochip0/base     -> 0
-    // android/3.10:  /sys/devices/soc.0/1000000.pinctrl/gpio/gpiochip911/base -> 911
-
-    // Assume we are on an OE-linux with 4.9 kernel
-    int fd = open_patiently("/sys/devices/platform/soc/1000000.pinctrl/gpio/gpiochip0/base", O_RDONLY);
-    if (fd < 0) {
-      // Fallback to OE-linux 3.18 kernel
-      fd = open_patiently("/sys/devices/soc/1000000.pinctrl/gpio/gpiochip0/base", O_RDONLY);
-    }
-    if (fd < 0) {
-      // Fallback to Android
-      fd = open_patiently("/sys/devices/soc.0/1000000.pinctrl/gpio/gpiochip911/base", O_RDONLY);
-    }
-
-    if (fd < 0) {
-      error_return(app_DEVICE_OPEN_ERROR, "can't access gpiochip base [%d]", errno);
-    }
-
-    char base_buf[5] = {0};
-    int r = read(fd, base_buf, sizeof(base_buf));
-    if (r < 0) {
-      error_return(app_IO_ERROR, "can't read gpiopchip base property");
-    }
-
-    if (isdigit(base_buf[0]) == 0)
-    {
-      error_return(app_VALIDATION_ERROR, "can't parse gpiochip base property");
-    }
-
-    GPIO_BASE_OFFSET = atoi(base_buf);
-  }
-
-  return GPIO_BASE_OFFSET;
-}
-
 static bool path_exists(const char* path) {
   struct stat info = {};
   return (stat(path, &info) == 0);
-}
-
-int gpio_create(int gpio_number, enum Gpio_Dir direction, enum Gpio_Level initial_value, GPIO* gpPtr) {
-   *gpPtr = NULL;
-
-   struct GPIO_t* gp = malloc(sizeof(*gp));
-   if (!gp) {
-      error_return(app_MEMORY_ERROR, "can't allocate memory for gpio %d\n", gpio_number);
-   }
-   (void) memset(gp, 0, sizeof(*gp));
-
-   int pin_number = gpio_number + gpio_get_base_offset();
-   char gpio_path[32] = {0};
-   (void) snprintf(gpio_path, sizeof(gpio_path), "/sys/class/gpio/gpio%d", pin_number);
-
-   // If the gpio has not already been exported, try to do it with /sbin/export-gpio
-   if (!path_exists(gpio_path)) {
-      char pin_arg[16] = {0};
-      (void) snprintf(pin_arg, sizeof(pin_arg), "%d", pin_number);
-      char *argv[] = {"sudo", "-n", "/sbin/export-gpio", pin_arg, NULL};
-      int rc = fork_and_exec(argv);
-      if (rc || !path_exists(gpio_path)) {
-         free(gp); gp = NULL;
-         error_return(app_DEVICE_OPEN_ERROR,
-                      "/sbin/export-gpio %s failed. rc = %d, errno = %d (%s)\n",
-                      pin_arg, rc, errno, strerror(errno));
-      }
-   }
-
-   gp->pin = gpio_number;
-   gp->isOpenDrain = false;
-
-   //set direction
-   gpio_set_direction(gp, direction);
-
-   //open value fd
-   char ioname[32] = {0};
-   (void) snprintf(ioname, sizeof(ioname), "%s/value", gpio_path);
-   gp->fd = open_patiently(ioname, O_WRONLY | O_CREAT );
-   if (gp->fd == -1) {
-      free(gp); gp = NULL;
-      error_return(app_IO_ERROR,
-                   "Failed to create gpio %d value control. errno = %d (%s)",
-                   gpio_number, errno, strerror(errno));
-   }
-   (void) gpio_set_value(gp, initial_value);
-   gp->isOpenDrain = false;
-
-   *gpPtr = gp;
-   return 0;
 }
 
 static inline enum Gpio_Dir gpio_drain_direction(enum Gpio_Level value) {
@@ -212,7 +131,7 @@ void gpio_set_direction(GPIO gp, enum Gpio_Dir direction)
   assert(gp != NULL);
    char ioname[40];
 //   printf("settting direction of %d  to %s\n", gp->pin, direction  ? "out": "in");
-   snprintf(ioname, 40, "/sys/class/gpio/gpio%d/direction", gp->pin+gpio_get_base_offset());
+   snprintf(ioname, 40, "/sys/class/gpio/gpio%d/direction", gp->pin);
    int fd =  open_patiently(ioname, O_WRONLY );
    if (direction == gpio_DIR_OUTPUT) {
       (void)write(fd, "out", 3);
@@ -241,3 +160,58 @@ void gpio_close(GPIO gp) {
    }
    free(gp);
 }
+
+
+int gpio_create(int gpio_number, enum Gpio_Dir direction, enum Gpio_Level initial_value, GPIO* gpPtr)
+{
+*gpPtr = NULL;
+struct GPIO_t* gp = malloc(sizeof(*gp));
+if (!gp) {
+  error_return(app_MEMORY_ERROR, "can't allocate memory for gpio %d\n", gpio_number);
+}
+(void) memset(gp, 0, sizeof(*gp));
+
+int file_gpio, rc;
+
+// 1.导出gpio
+   int pin_number = gpio_number;
+   char gpio_path[32] = {0};
+   (void) snprintf(gpio_path, sizeof(gpio_path), "/sys/class/gpio/gpio%d", pin_number);
+
+   // If the gpio has not already been exported, try to do it with /sbin/export-gpio
+   if (!path_exists(gpio_path)) {
+      char pin_arg[16] = {0};
+      (void) snprintf(pin_arg, sizeof(pin_arg), "%d", pin_number);
+      char *argv[] = {"sudo", "-n", "/sbin/export-gpio", pin_arg, NULL};
+      int rc = fork_and_exec(argv);
+      if (rc || !path_exists(gpio_path)) {
+         free(gp); gp = NULL;
+         error_return(app_DEVICE_OPEN_ERROR,
+                      "/sbin/export-gpio %s failed. rc = %d, errno = %d (%s)\n",
+                      pin_arg, rc, errno, strerror(errno));
+      }
+   }
+
+gp->pin = gpio_number;
+gp->isOpenDrain = false;
+  
+  // 2.设置方向
+	gpio_set_direction(gp, direction);
+
+  // 3.设置初始值
+   //open value fd
+   char ioname[32] = {0};
+   (void) snprintf(ioname, sizeof(ioname), "%s/value", gpio_path);
+   gp->fd = open_patiently(ioname, O_WRONLY | O_CREAT );
+   if (gp->fd == -1) {
+      free(gp); gp = NULL;
+      error_return(app_IO_ERROR,
+                   "Failed to create gpio %d value control. errno = %d (%s)",
+                   gpio_number, errno, strerror(errno));
+   }
+   (void) gpio_set_value(gp, initial_value);
+   gp->isOpenDrain = false;
+
+   *gpPtr = gp;
+   return 0;
+} /* GenericAddGPIO() */

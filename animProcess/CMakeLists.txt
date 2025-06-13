@@ -129,14 +129,12 @@ if (MATEOS)
 
   target_link_libraries(mate-bootAnim
     PRIVATE
-    robot_core
-#     ${ASAN_EXE_LINKER_FLAGS}
-#     pigpio
+    #     ${ASAN_EXE_LINKER_FLAGS}
     util
     PUBLIC
-    gpio
-# spi_lcd
+    # gpio
     robot_interface  # Needs to be public for cozmoConfig.h
+    robot_core
   )
 
   lrya_build_strip(TARGET mate-bootAnim)

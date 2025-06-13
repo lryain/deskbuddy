@@ -10,8 +10,6 @@
 # CROSS_COMPILE = $(MATEOS_ARM_TOOLS_BIN)/arm-oe-linux-gnueabi-
 CROSS_COMPILE = ""
 
-CFLAGS = -c -fPIC -Wall
-
 
 # All the c files in this directory will be compiled
 SRCDIR = src
@@ -19,6 +17,7 @@ SRCDIR = src
 INCDIR = inc
 # .o and other temp files go here
 OBJDIR = .output
+CFLAGS = -c -fPIC -Wall -I$(INCDIR) -I../../platform/gpio
 
 # the library we are building
 LIB = libcore.a

@@ -1,1732 +1,372 @@
-// LCD direct communication using the SPI interface
-// Copyright (c) 2017 Larry Bank
-// email: bitbank@pobox.com
-// Project started 5/15/2017
-//
-
-// Use one of the following 4 methods for talking to the SPI/GPIO
-
-#define USE_GENERIC
-#define USE_ORANGEPI5PRO
-
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdint.h>
 #include <fcntl.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <unistd.h>
 #include <sys/ioctl.h>
-#include <linux/types.h>
+#include <linux/spi/spidev.h>
+#include <linux/fb.h>
+#include <time.h>
+#include <stddef.h>
+
+#include "core/common.h"
+#include "core/clock.h"
+#include "platform/gpio/gpio.h"
+#include "core/lrya_dev_unit.h"
+
 #include "core/spi_lcd.h"
 
-#ifdef USE_GENERIC
-#include <linux/spi/spidev.h>
-static struct spi_ioc_transfer xfer;
-#define GPIO_OUT 0
-#define GPIO_IN 1
-static int iPinHandles[256]; // keep file handles open for GPIO access
-#endif // USE_GENERIC
+#define FALSE 0
+#define TRUE (!FALSE)
 
-extern unsigned char ucFont[];
-static unsigned char ucRXBuf[4096]; //, ucRXBuf2[4096];
-static int file_spi = -1; // SPI system handle
-static int file_touch = -1; // SPI handle for touch controller
-static int iTouchChannel, iTouchType;
-static int iDCPin, iResetPin, iLEDPin; // pin numbers for the GPIO control lines
-static int iMinX, iMaxX, iMinY, iMaxY; // touch calibration values
-static int iScrollOffset; // current scroll amount
-static int iOrientation = LCD_ORIENTATION_NATIVE; // default to 'natural' orientation
-static int iLCDType;
-static int iWidth, iHeight;
-static int iCurrentWidth, iCurrentHeight; // reflects virtual size due to orientation
+#define MSB(a) ((a) >> 8)
+#define LSB(a) ((a) & 0xff)
 
-static void spilcdWriteCommand(unsigned char);
-static void spilcdWriteData8(unsigned char c);
-static void spilcdWriteData16(unsigned short us);
-static void spilcdSetPosition(int x, int y, int w, int h);
-static void spilcdWriteDataBlock(unsigned char *pData, int iLen);
-static void myPinWrite(int iPin, int iValue);
-int spilcdFill(unsigned short usData);
+static int MAX_TRANSFER = 0x1000;
 
-#ifdef USE_ORANGEPI5PRO
-//                       0  1   2   3   4   5  6   7   8   9   10  11
-static int iGenericPins[] = {-1, -1, -1, 59, -1, -1, -1, 47, 13, -1, 14, 138,
-//                       12,  13, 14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29
-                         39, 139, -1, 46, 33, -1, 32, 42, -1, 41, 40, 43, 44, -1, 45, 34, 35, 36,
-//                       30  31  32  33  34   35   36   37   38  39
-                         -1, 38, 62, 63, 33, 135, 131, 134, 132, -1, 131};
-#endif // USE_ORANGEPI5PRO
+static int lcd_use_fb; // use /dev/fb0?
 
-// orangepi5-pro
-//                        0   1  2    3   4   5  6   7   8   9   10
-static int iWPPins0[] = {-1, -1, 59, -1, -1, -1, 47, 13, -1, 14, 138,
-//                       11  12,  13, 14  15  16  17  18  19  20  21  22  23  24  25  26  27  28
-                         39, 139, -1, 46, 33, -1, 32, 42, -1, 41, 40, 43, 44, -1, 45, 34, 35, 36,
-//                       29  30  31  32  33  34   35   36   37   38  39
-                         -1, 38, 62, 63, -1, 135, 131, 134, 132, -1, 131};
+#define GPIO_LCD_WRX   46 // GPIO for DnC_PIN
+#define GPIO_LCD_RESET_MIDAS 139 // GPIO for RESET_PIN_1
+#define GPIO_LCD_LED_MIDAS 138 // GPIO for RESET_PIN_1
+#define GPIO_LCD_RESET_SANTEK 139
+
+static GPIO RESET_PIN_1;
+static GPIO RESET_PIN_2;
+static GPIO DnC_PIN;
+
+static lcd_display_t LCD_DISPLAY_MAN;
+
+static bool isXray;
 
 
-// 目前对于2.4寸的ILI9341屏这个频率相对文档，帧率在30左右
-// 把11换成12 刚好是18硬件PWM 但是18是SPI的CE0，換成33->13也是硬件PWM
-int lcd_init(void)
-{
-        // ILI9341 RK3588 LCD_ST7789
-        return spilcdInit(LCD, 0, 0, 50250000, 15, 13, 11); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
-        // LCD_ST7789
-        // return spilcdInit(LCD, 0, 0, 18250000, 29, 31, 33); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
-}
+#define RSHIFT 0x1C
+#define XSHIFT 0x0
+#define YSHIFT 0x18
 
-// Sets the D/C pin to data or command mode
-void spilcdSetMode(int iMode)
-{
-	myPinWrite(iDCPin, iMode == MODE_DATA);
-} /* spilcdSetMode() */
+#define MAX(a,b) (((a)>(b))?(a):(b))
+#define MIN(a,b) (((a)<(b))?(a):(b))
+typedef struct {
+  uint8_t cmd;
+  uint8_t data_bytes;
+  uint8_t data[128];
+  uint32_t delay_ms;
+} INIT_SCRIPT;
 
-// List of command/parameters to initialize the ili9341 display
-static unsigned char uc240InitList[] = {
-        4, 0xEF, 0x03, 0x80, 0x02,
-        4, 0xCF, 0x00, 0XC1, 0X30,
-        5, 0xED, 0x64, 0x03, 0X12, 0X81,
-        4, 0xE8, 0x85, 0x00, 0x78,
-        6, 0xCB, 0x39, 0x2C, 0x00, 0x34, 0x02,
-        2, 0xF7, 0x20,
-        3, 0xEA, 0x00, 0x00,
-        2, 0xc0, 0x23, // Power control
-        2, 0xc1, 0x10, // Power control
-        3, 0xc5, 0x3e, 0x28, // VCM control
-        2, 0xc7, 0x86, // VCM control2
-        2, 0x36, 0x48, // Memory Access Control
-        2, 0x3a, 0x55,
-        3, 0xb1, 0x00, 0x18,
-        4, 0xb6, 0x08, 0x82, 0x27, // Display Function Control
-        2, 0xF2, 0x00, // Gamma Function Disable
-        2, 0x26, 0x01, // Gamma curve selected
-        16, 0xe0, 0x0F, 0x31, 0x2B, 0x0C, 0x0E, 0x08,
-                0x4E, 0xF1, 0x37, 0x07, 0x10, 0x03, 0x0E, 0x09, 0x00, // Set Gamma
-        16, 0xe1, 0x00, 0x0E, 0x14, 0x03, 0x11, 0x07,
-                0x31, 0xC1, 0x48, 0x08, 0x0F, 0x0C, 0x31, 0x36, 0x0F, // Set Gamma
-        3, 0xb1, 0x00, 0x10, // FrameRate Control 119Hz
-        0
+static const INIT_SCRIPT init_scr_santek0[] = {
+  { 0x10, 1, { 0x00 }, 120}, // Sleep in
+  { 0x2A, 4, { 0x00, RSHIFT, (LCD_FRAME_WIDTH_SANTEK + RSHIFT - 1) >> 8, (LCD_FRAME_WIDTH_SANTEK + RSHIFT - 1) & 0xFF } }, // Column address set
+  { 0x2B, 4, { 0x00, 0x00, (LCD_FRAME_HEIGHT_SANTEK -1) >> 8, (LCD_FRAME_HEIGHT_SANTEK -1) & 0xFF } }, // Row address set
+  { 0x36, 1, { 0x00 }, 0 }, // Memory data access control
+  { 0x3A, 1, { 0x55 }, 0 }, // Interface pixel format (16 bit/pixel 65k RGB data)
+  { 0xB0, 2, { 0x00, 0x08 } }, // RAM control (LSB first)
+  { 0xB2, 5, { 0x0C, 0x0C, 0x00, 0x33, 0x33 }, 0 }, // Porch setting
+  { 0xB7, 1, { 0x72 }, 0 }, // Gate control (VGH 14.97v, VGL -8.23v)
+  { 0xBB, 1, { 0x3B }, 0 }, // VCOMS setting (1.575v)
+  { 0xC0, 1, { 0x2C }, 0 }, // LCM control
+  { 0xC2, 1, { 0x01 }, 0 }, // VDV and VRH command enable
+  { 0xC3, 1, { 0x14 }, 0 }, // VRH set
+  { 0xC4, 1, { 0x20 }, 0 }, // VDV set
+  { 0xC6, 1, { 0x0F }, 0 }, // Frame rate control in normal mode (60hz)
+  { 0xD0, 2, { 0xA4, 0xA1 }, 0 }, // Power control 1
+  { 0xE0, 14, { 0xD0, 0x10, 0x16, 0x0A, 0x0A, 0x26, 0x3C, 0x53, 0x53, 0x18, 0x15, 0x12, 0x36, 0x3C }, 0 }, // Positive voltage gamma control
+  { 0xE1, 14, { 0xD0, 0x11, 0x19, 0x0A, 0x09, 0x25, 0x3D, 0x35, 0x54, 0x17, 0x15, 0x12, 0x36, 0x3C }, 0 }, // Negative voltage gamma control
+  { 0xE9, 3, { 0x05, 0x05, 0x01 }, 0 }, // Equalize time control
+  { 0x21, 1, { 0x00 }, 0 }, // Display inversion on
+  { 0 }
 };
 
-// List of command/parameters to initialize the ST7789 LCD
-static unsigned char uc240x240InitList[] = {
-	1, 0x13, // partial mode off
-	1, 0x21, // display inversion off
-	2, 0x36,0x08,	// memory access 0xc0 for 180 degree flipped
-	2, 0x3a,0x55,	// pixel format; 5=RGB565
-	3, 0x37,0x00,0x00, //
-	6, 0xb2,0x0c,0x0c,0x00,0x33,0x33, // Porch control
-	2, 0xb7,0x35,	// gate control
-	2, 0xbb,0x1a,	// VCOM
-	2, 0xc0,0x2c,	// LCM
-	2, 0xc2,0x01,	// VDV & VRH command enable
-	2, 0xc3,0x0b,	// VRH set
-	2, 0xc4,0x20,	// VDV set
-	2, 0xc6,0x0f,	// FR control 2
-	3, 0xd0, 0xa4, 0xa1, 	// Power control 1
-	15, 0xe0, 0x00,0x19,0x1e,0x0a,0x09,0x15,0x3d,0x44,0x51,0x12,0x03,
-		0x00,0x3f,0x3f, 	// gamma 1
-	15, 0xe1, 0x00,0x18,0x1e,0x0a,0x09,0x25,0x3f,0x43,0x52,0x33,0x03,
-		0x00,0x3f,0x3f,		// gamma 2
-	1, 0x29,	// display on
-	0
+static const INIT_SCRIPT init_scr_midas0[] =
+{
+  { 0x01, 0, { 0x00}, 150}, // Software reset
+  { 0x11, 0, { 0x00}, 500}, // Sleep out
+  { 0x20, 0, { 0x00}, 0}, // Display inversion off
+  { 0x36, 1, { 0xA8}, 0}, //exchange rotate and reverse order in each of 2 dim 
+  { 0x3A, 1, { 0x05}, 0}, // Interface pixel format (16 bit/pixel 65k RGB data)
+
+  { 0xE0, 16, { 0x07, 0x0e, 0x08, 0x07, 0x10, 0x07, 0x02, 0x07, 0x09, 0x0f, 0x25, 0x36, 0x00, 0x08, 0x04, 0x10 }, 0},  // 
+  { 0xE1, 16, { 0x0a, 0x0d, 0x08, 0x07, 0x0f, 0x07, 0x02, 0x07, 0x09, 0x0f, 0x25, 0x35, 0x00, 0x09, 0x04, 0x10 }, 0}, 
+
+  { 0xFC, 1, { 128+64}, 0},
+
+  { 0x13, 0, { 0x00}, 100}, // Normal Display Mode On
+  // { 0x21, 0, { 0x00 }, 10 }, // Display inversion on
+  // { 0x20, 0, { 0x00 }, 10 }, // Display inversion off
+  { 0x26, 1, {0x02} , 10}, // Set Gamma
+  { 0x29, 0, { 0x00}, 10}, // Display On
+
+
+  { 0x2A, 4, { MSB(XSHIFT), LSB(XSHIFT), MSB(LCD_FRAME_WIDTH_MIDAS + XSHIFT - 1), LSB(LCD_FRAME_WIDTH_MIDAS + XSHIFT - 1) } }, // Column address set
+  { 0x2B, 4, { MSB(YSHIFT), LSB(YSHIFT), MSB(LCD_FRAME_HEIGHT_MIDAS + YSHIFT -1), LSB(LCD_FRAME_HEIGHT_MIDAS + YSHIFT -1) } }, // Row address set
+
+  { 0 }
 };
 
-// List of command/parameters to initialize the LCD_ST7789_IPS
-static unsigned char uc240x240IPSInitList[] = {
-	// 1, 0xFE,	// 寄存器使能
-	// 1, 0xEF, //
-	// 2, 0x84, 0x40, // 删掉则是镜像模式，1 arg (RGB), no delay,
-	// 3, 0xB6, 0x00, 0x20, // 屏幕功能配置，2 arg, 10ms delay
+static const INIT_SCRIPT init_scr_midas[] =
+{
+  { 0x01, 0, { 0x00}, 150}, // Software reset
+  { 0x11, 0, { 0x00}, 500}, // Sleep out
 
-	// 扫描模式 内存访问控制 USE_HORIZONTAL==0
-	2, 0x36, 0x08, // MADCTL, 1 arg (RGB), no delay,
-	// 颜色模式选择
-	2, 0x3A, 0x55,	// COLMOD, 1 arg, 10ms delay
-	2, 0x36, 0x08, // MADCTL, 1 arg (RGB), no delay,
-	5, 0x2A, 0x00, 0, 0, 240,	// 5: Column addr set, 4 args, no delay
-	
-	1, 0x21, // 7: hack 
-	1, 0x13, // 8: Normal display on, no args, delay 10 ms
-	1, 0x29,  // 9: Main screen turn on, no args, delay 10 ms
-	5, 0x2A, 0, 0, 0, 239,	// 5: Column addr set, 4 args, no delay
-	5, 0x2B, 0, 0, 0, 239,	// 5: Column addr set, 4 args, no delay
-	1, 0x2C, // 7: hack 
-	// 0
-};
-// List of command/parameters to initialize the LCD_GC9A01 IPS LCD
-static unsigned char uc240x240RoundInitList[] = {
-	1, 0xFE,	// 寄存器使能
-	1, 0xEF, //
-	2, 0x84, 0x40, // 删掉则是镜像模式，1 arg (RGB), no delay,
-	3, 0xB6, 0x00, 0x20, // 屏幕功能配置，2 arg, 10ms delay
+  { 0xFE, 0, { 0x00}, 0}, // 寄存器使能
+  { 0xEF, 0, { 0x00}, 0}, //
 
-	// 扫描模式 内存访问控制 USE_HORIZONTAL==0
-	2, 0x36, 0x08, // MADCTL, 1 arg (RGB), no delay,
-	// 颜色模式选择
-	3, 0x3A, 0x81, 0x05,	// COLMOD, 1 arg, 10ms delay
-	// 电源控制
-	2, 0xC3, 0x13,	// Pwr ctrl 3
-	2, 0xC4, 0x13,	// Power control 4, 1 args, no delay
-	2, 0xC9, 0x22,	// Power control 9, 1 args, no delay
-	//伽马设置
-	7, 0xF0,                  // SET_GAMMA set, 6 args, no delay:
-    	0x45, 0x09, 0x08, 0x08, 0x26, 0x2A,	// LCM
-	7, 0xF1,                  // SET_GAMMA set, 6 args, no delay:
-    	0x43, 0x70, 0x72, 0x36, 0x37, 0x6F,	// LCM
-	7, 0xF2,                 // SET_GAMMA set, 6 args, no delay:
-    	0x45, 0x09, 0x08, 0x08, 0x26, 0x2A,	// LCM
-	7, 0xF3,                  // SET_GAMMA set, 6 args, no delay:
-    	0x43, 0x70, 0x72, 0x36, 0x37, 0x6F,	// LCM
-	//帧率 Frame Rate (E8h)
-	2, 0xE8,  0x34,
-	// 其他寄存器
-	11, 0x66,                  // ???, 10 args, no delay:
-    0x3C, 0x00, 0xCD, 0x67, 0x45,
-    0x45, 0x10, 0x00, 0x00, 0x00,
-	11, 0x67,                 // ???, 10 args, no delay:
-    0x00, 0x3C, 0x00, 0x00, 0x00,
-    0x01, 0x54, 0x10, 0x32, 0x98,
-	// 剪切效果线打开，关闭是 0x34
-  	1, 0x35,      // INVON, no args, 10 ms delay
-  	1, 0x21,      // INVON, no args, 10 ms delay
+  { 0x84, 1, { 0x40}, 0}, // 删掉则是镜像模式，1 arg (RGB), no delay,
+  { 0xB6, 2, { 0x00, 0x20}, 10}, // 屏幕功能配置，2 arg, 10ms delay
+  
+  { 0x36, 1, { 0x08}, 0}, //exchange rotate and reverse order in each of 2 dim MADCTL, 1 arg (RGB), no delay,
+  { 0x3A, 1, { 0x05}, 10}, // Interface pixel format (16 bit/pixel 65k RGB data) COLMOD, 1 arg, 10ms delay
+
+  { 0xC3, 1, { 0x13}, 0}, // Pwr ctrl 3
+  { 0xC4, 1, { 0x13}, 0}, // Power control 4, 1 args, no delay
+  { 0xC9, 1, { 0x22}, 0}, // Power control 9, 1 args, no delay
+
+  // 伽马设置
+  { 0xF0, 6, { 0x45, 0x09, 0x08, 0x08, 0x26, 0x2A}, 0}, // SET_GAMMA set, 6 args, no delay:
+  { 0xF1, 6, { 0x43, 0x70, 0x72, 0x36, 0x37, 0x6F}, 0}, // SET_GAMMA set, 6 args, no delay:
+  { 0xF2, 6, { 0x45, 0x09, 0x08, 0x08, 0x26, 0x2A}, 0}, // SET_GAMMA set, 6 args, no delay:
+  { 0xF3, 6, { 0x43, 0x70, 0x72, 0x36, 0x37, 0x6F}, 0}, // SET_GAMMA set, 6 args, no delay:
+
+  //帧率 Frame Rate (E8h)
+  { 0xE8, 1, { 0x34}, 0}, // Frame rate control in normal mode (60hz)
+  // 其他寄存器
+  { 0x66, 10, { 0x3C, 0x00, 0xCD, 0x67, 0x45, 0x45, 0x10, 0x00, 0x00, 0x00}, 0}, // ???, 10 args, no delay:
+  { 0x67, 10, { 0x00, 0x3C, 0x00, 0x00, 0x00, 0x01, 0x54, 0x10, 0x32, 0x98}, 0}, // ???, 10 args, no delay:
+  // 剪切效果线打开，关闭是 0x34
+  { 0x35, 0, { 0x00}, 10}, // INVON, no args, 10 ms delay
+  { 0x21, 0, { 0x00}, 10}, // INVON, no args, 10 ms delay
+
+  // { 0x13, 0, { 0x00}, 100}, // Normal Display Mode On
+  { 0x26, 1, {0x02} , 10}, // Set Gamma
+  // { 0x29, 0, { 0x00}, 10}, // Display On
+  { 0 }
 };
 
-//
-// Wrapper function for writing to SPI
-//
-static void myspiWrite(unsigned char *pBuf, int iLen)
+static const INIT_SCRIPT sleep_in_santek[] = {
+  { 0x10, 1, { 0x00 }, 5 },
+  { 0 }
+};
+
+static const INIT_SCRIPT sleep_in_midas[] = {
+  { 0x10, 1, { 0x00 }, 5 },
+  { 0 }
+};
+
+static const INIT_SCRIPT display_on_scr_santek[] = {
+  { 0x11, 1, { 0x00 }, 120 }, // Sleep out
+  { 0x29, 1, { 0x00 }, 120 }, // Display on
+  {0}
+};
+
+static const INIT_SCRIPT display_on_scr_midas[] = {
+  { 0x11, 1, { 0x00 }, 120 }, // Sleep out
+  { 0x29, 1, { 0x00 }, 120 }, // Display on
+  {0}
+};
+
+static uint32_t get_vector_hw_version() {
+  int fd = -1;
+  uint32_t emr_data[8] = {0}; // The emr header
+  // // This is early enough we don't have /dev/block/bootdevice/by-name/
+  // // Things will break if we change partition numbering.
+  // fd = open("/dev/mmcblk0p29",O_RDONLY);
+
+  // if (fd == -1) {
+  //   error_return(app_DEVICE_OPEN_ERROR, "hw_version.get: Couldn't open EMR partition: %d\n", errno);
+  //   return 0;
+  // } // ABORT!
+
+  // int res = read(fd, &emr_data, sizeof(emr_data));
+  // if (res == -1) {
+  //   error_return(app_DEVICE_OPEN_ERROR, "Couldn't read EMR partition: %d\n", errno);
+  //   close(fd);
+  //   return 0;
+  // }
+  // See emr-cat.c to determine how we got the offset
+  uint32_t hw_ver = emr_data[1];
+
+  // close(fd);
+  return hw_ver;
+} 
+
+static inline const bool IsXray()
 {
-#ifdef USE_GENERIC
-	xfer.tx_buf = (unsigned long)pBuf;
-	xfer.len = iLen;
-	ioctl(file_spi, SPI_IOC_MESSAGE(1), &xfer);
-#endif // USE_GENERIC
-} /* myspiWrite() */
-
-//
-// Wrapper function to control a GPIO line
-//
-static void myPinWrite(int iPin, int iValue)
-{
-#ifdef USE_GENERIC
-int rc;
-char szTemp[64];
-
-	if (iPinHandles[iPin] == -1) // not open yet
-	{
-		sprintf(szTemp, "/sys/class/gpio/gpio%d/value", iPin);
-		iPinHandles[iPin] = open(szTemp, O_WRONLY);
-	}
-	if (iValue) rc = write(iPinHandles[iPin], "1", 1);
-	else rc = write(iPinHandles[iPin], "0", 1);
-	if (rc < 0) // error
-	{ // do something
-	}
-#endif // USE_GENERIC
-
-#ifdef USE_WIRINGPI
-	digitalWrite(iPin, (iValue) ? HIGH: LOW);
-#endif
-} /* myPinWrite() */
-
-#ifdef USE_GENERIC
-void GenericAddGPIO(int iPin, int iDirection, int bPullup)
-{
-char szName[64];
-int file_gpio, rc;
-	file_gpio = open("/sys/class/gpio/export", O_WRONLY);
-	sprintf(szName, "%d", iPin);
-	rc = write(file_gpio, szName, strlen(szName));
-	close(file_gpio);
-	sprintf(szName, "/sys/class/gpio/gpio%d/direction", iPin);
-	file_gpio = open(szName, O_WRONLY);
-	if (iDirection == GPIO_OUT)
-		rc = write(file_gpio, "out", 3);
-	else
-	{
-                if (bPullup) // set output value to 1
-                {
-                int temp;
-                        rc = write(file_gpio, "out",3);
-                        sprintf(szName, "/sys/class/gpio/gpio%d/value", iPin);
-                        temp = open(szName, O_WRONLY);
-                        rc = write(temp, "1",1);
-                        close(temp);
-                }
-		rc = write(file_gpio, "in", 2);
-	}
-	close(file_gpio);
-	iPinHandles[iPin] = -1;
-	if (rc < 0) // added to suppress compiler warnings
-	{ // do nothing
-	}
-} /* GenericAddGPIO() */
-void GenericRemoveGPIO(int iPin)
-{
-int file_gpio, rc;
-char szTemp[64];
-
-	close(iPinHandles[iPin]);
-	file_gpio = open("/sys/class/gpio/unexport", O_WRONLY);
-	sprintf(szTemp, "%d", iPin);
-	rc = write(file_gpio, szTemp, strlen(szTemp));
-	close(file_gpio);
-	if (rc < 0) // suppress compiler warning
-	{ // do nothing
-	}
-} /* GenericRemoveGPIO() */
-#endif // USE_GENERIC
-
-//
-// Choose the gamma curve between 2 choices (0/1)
-// ILI9341 only
-//
-int spilcdSetGamma(int iMode)
-{
-int i;
-unsigned char *sE0, *sE1;
-static unsigned char ucE0_0[] = {0x0F, 0x31, 0x2B, 0x0C, 0x0E, 0x08, 0x4E, 0xF1, 0x37, 0x07, 0x10, 0x03, 0x0E, 0x09, 0x00};
-static unsigned char ucE1_0[] = {0x00, 0x0E, 0x14, 0x03, 0x11, 0x07, 0x31, 0xC1, 0x48, 0x08, 0x0F, 0x0C, 0x31, 0x36, 0x0F};
-static unsigned char ucE0_1[] = {0x1f, 0x1a, 0x18, 0x0a, 0x0f, 0x06, 0x45, 0x87, 0x32, 0x0a, 0x07, 0x02, 0x07, 0x05, 0x00};
-static unsigned char ucE1_1[] = {0x00, 0x25, 0x27, 0x05, 0x10, 0x09, 0x3a, 0x78, 0x4d, 0x05, 0x18, 0x0d, 0x38, 0x3a, 0x1f};
-
-	if (iMode < 0 || iMode > 1 || iLCDType != LCD_ILI9341)
-		return 1;
-	if (iMode == 0)
-	{
-		sE0 = ucE0_0;
-		sE1 = ucE1_0;
-	}
-	else
-	{
-		sE0 = ucE0_1;
-		sE1 = ucE1_1;
-	}
-	spilcdWriteCommand(0xe0);
-	for(i=0; i<16; i++)
-	{
-		spilcdWriteData8(*sE0++);
-	}
-	spilcdWriteCommand(0xe1);
-	for(i=0; i<16; i++)
-	{
-		spilcdWriteData8(*sE1++);
-	}
-
-	return 0;
-} /* spilcdSetGamme() */
-
-//
-// Initialize the LCD controller and clear the display
-// LED pin is optional - pass as -1 to disable
-//
-int spilcdInit(int iType, int bFlipped, int iChannel, int iSPIFreq, int iDC, int iReset, int iLED)
-{
-unsigned char *s;
-int i, iCount;
-
-	iLEDPin = -1; // assume it's not defined
-	if (iType != LCD_ILI9341 && iType != LCD_ST7735 && iType != LCD_SSD1351 && iType != LCD_GC9A01 && iType != LCD_ST7789)
-	{
-		printf("Unsupported display type\n");
-		return -1;
-	}
-	iLCDType = iType;
-	iScrollOffset = 0; // current hardware scroll register value
-
-#ifdef USE_GENERIC
-	iDCPin = iGenericPins[iDC];
-	iResetPin = iGenericPins[iReset];
-	if (iLED != -1)
-		iLEDPin = iGenericPins[iLED];
-	if (iDCPin == -1 || iResetPin == -1)
-	{
-		printf("One or more invalid GPIO pin numbers\n");
-		return -1;
-	}
-	{
-	char szName[32];
-	int rc, iSPIMode = SPI_MODE_0; // | SPI_NO_CS;
-	int i = iSPIFreq;
-	sprintf(szName,"/dev/spidev%d.0", iChannel);
-	file_spi = open(szName, O_RDWR);
-	rc = ioctl(file_spi, SPI_IOC_WR_MODE, &iSPIMode);
-	if (rc < 0) printf("Error setting SPI mode\n");
-	rc = ioctl(file_spi, SPI_IOC_WR_MAX_SPEED_HZ, &i);
-	if (rc < 0) printf("Error setting SPI speed\n");
-	memset(&xfer, 0, sizeof(xfer));
-	xfer.speed_hz = iSPIFreq;
-	xfer.cs_change = 0;
-	xfer.delay_usecs = 0;
-	xfer.bits_per_word = 8;
-//	xfer.rx_buf = (unsigned long)ucRXBuf2; // dummy receive buffer
-	}
-#endif // USE_GENERIC
-
-	if (file_spi < 0)
-	{
-		fprintf(stderr, "Failed to open the SPI bus\n");
-		return -1;
-	}
-
-#ifdef USE_GENERIC
-	GenericAddGPIO(iDCPin, GPIO_OUT, 0);
-	GenericAddGPIO(iResetPin, GPIO_OUT, 0);
-	if (iLEDPin != -1)
-		GenericAddGPIO(iLEDPin, GPIO_OUT, 0);
-#endif // USE_GENERIC
-
-	myPinWrite(iResetPin, 1);
-	usleep(100000);
-	myPinWrite(iResetPin, 0); // reset the controller
-	usleep(100000);
-	myPinWrite(iResetPin, 1);
-	usleep(200000);
-
-	if (iLCDType != LCD_SSD1351) // no backlight and no soft reset on OLED
-	{
-	if (iLEDPin != -1)
-		myPinWrite(iLEDPin, 1); // turn on the backlight
-
-	spilcdWriteCommand(0x01); // software reset
-	usleep(120000);
-
-	spilcdWriteCommand(0x11);
-	usleep(250000);
-	}
-	if (iLCDType == LCD_ST7789)
-	{
-		// printf("-------------------> ST7789 LCD\n");
-		s = uc240x240InitList;
-		if (bFlipped)
-			s[6] = 0xc0; // flip 180
-		else
-			s[6] = 0x00;
-		iCurrentWidth = iWidth = 240;
-		iCurrentHeight = iHeight = 240;
-	} // ST7789
-    // Send the commands/parameters to initialize the LCD controller
-	else if (iLCDType == LCD_ILI9341)
-	{
-		// printf("-------------------> LCD_ILI9341 LCD\n");
-		s = uc240InitList;
-		if (bFlipped)
-			s[50] = 0x88; // flip 180
-		else
-			s[50] = 0x48; // normal orientation
-		iCurrentWidth = iWidth = 240;
-		iCurrentHeight = iHeight = 320;
-	}
-	else if (iLCDType == LCD_GC9A01)
-	{
-		// printf("-------------------> LCD_GC9A01 LCD\n");
-		s = uc240x240RoundInitList;
-		if (bFlipped)
-			s[6] = 0x88; // flip 180
-		else
-			s[6] = 0x48; // normal orientation
-		iCurrentWidth = iWidth = 240;
-		iCurrentHeight = iHeight = 240;
-	}
-	
-	iCount = 1;
-	while (iCount)
-	{
-		iCount = *s++;
-		if (iCount != 0)
-		{
-			spilcdWriteCommand(*s++);
-			for(i=0; i<iCount-1; i++)
-			{
-				spilcdWriteData8(*s++);
-			}
-		}
-	}
-
-	if (iLCDType != LCD_SSD1351)
-	{
-		spilcdWriteCommand(0x11); // sleep out
-		usleep(120000);
-		spilcdWriteCommand(0x29); // Display ON
-		usleep(10000);
-	}
-
-	spilcdFill(0); // erase memory
-	spilcdScrollReset();
-	return 0;
-
-} /* spilcdInit() */
-
-// Configure a GPIO pin for input
-// Returns 0 if successful, -1 if unavailable
-// all input pins are assumed to use internal pullup resistors
-// and are connected to ground when pressed
-//
-int spilcdConfigurePin(int iPin)
-{
-int iGPIO;
-
-#ifdef USE_GENERIC
-	iGPIO = iGenericPins[iPin];
-	if (iGPIO == -1) // invalid pin number
-		return -1;
-	GenericAddGPIO(iGPIO, GPIO_IN, 1);
-#endif // USE_GENERIC
-
-#ifdef USE_WIRINGPI
-        iGPIO = iWPPins[iPin];
-        if (iGPIO == -1) // invalid
-                return -1;
-        pinMode(iGPIO, INPUT);
-        pullUpDnControl(iGPIO, PUD_UP);
-#endif
-
-        return 0;
-} /* spilcdConfigurePin() */
-
-// Read from a GPIO pin
-int spilcdReadPin(int iPin)
-{
-int iGPIO;
-
-#ifdef USE_GENERIC
-{
-char szTemp[64];
-int rc;
-
-	iGPIO = iGenericPins[iPin];
-	if (iGPIO == -1) // invalid pin, return idle button
-		return 1;
-	if (iPinHandles[iGPIO] == -1)
-	{
-		sprintf(szTemp, "/sys/class/gpio/gpio%d/value", iGPIO);
-		iPinHandles[iGPIO] = open(szTemp, O_RDONLY);
-	}
-	lseek(iPinHandles[iGPIO], 0, SEEK_SET);
-	rc = read(iPinHandles[iGPIO], szTemp, 1);
-	if (rc < 0) // do nothing
-	{}
-	return (szTemp[0] == '1');
-}
-#endif // USE_GENERIC
-
-#ifdef USE_WIRINGPI
-        iGPIO = iWPPins[iPin];
-        return (digitalRead(iGPIO) == HIGH);
-#endif // USE_WIRINGPI
-} /* spilcdReadPin() */
-
-//
-// Reset the scroll position to 0
-//
-void spilcdScrollReset(void)
-{
-	iScrollOffset = 0;
-	if (iLCDType == LCD_SSD1351)
-	{
-		spilcdWriteCommand(0xa1); // set scroll start line
-		spilcdWriteData8(0x00);
-		spilcdWriteCommand(0xa2); // display offset
-		spilcdWriteData8(0x00);
-		return;
-	}
-	spilcdWriteCommand(0x37); // scroll start address
-	spilcdWriteData16(0);
-} /* spilcdScrollReset() */
-
-//
-// Scroll the screen N lines vertically (positive or negative)
-// The value given represents a delta which affects the current scroll offset
-// If iFillColor != -1, the newly exposed lines will be filled with that color
-//
-void spilcdScroll(int iLines, int iFillColor)
-{
-	iScrollOffset = (iScrollOffset + iLines) % iHeight;
-	if (iLCDType == LCD_SSD1351)
-	{
-		spilcdWriteCommand(0xa1); // set scroll start line
-		spilcdWriteData8(iScrollOffset);
-		return;
-	}
-	else
-	{
-		spilcdWriteCommand(0x37); // Vertical scrolling start address
-		if (iLCDType == LCD_ILI9341 || iLCDType == LCD_GC9A01 || iLCDType == LCD_ST7735 || iLCDType == LCD_ST7789)
-		{
-			spilcdWriteData16(iScrollOffset);
-		}
-		else
-		{
-			spilcdWriteData16(iScrollOffset >> 8);
-			spilcdWriteData16(iScrollOffset & -1);
-		}
-	}
-	if (iFillColor != -1) // fill the exposed lines
-	{
-	int i, iStart;
-	uint16_t usTemp[320];
-	uint32_t *d;
-	uint32_t u32Fill;
-		// quickly prepare a full line's worth of the color
-		u32Fill = (iFillColor >> 8) | ((iFillColor & -1) << 8);
-		u32Fill |= (u32Fill << 16);
-		d = (uint32_t *)&usTemp[0];
-		for (i=0; i<iWidth/2; i++)
-			*d++ = u32Fill;
-		if (iLines < 0)
-		{
-			iStart = 0;
-			iLines = 0 - iLines;
-		}
-		else
-			iStart = iHeight - iLines;
-		if (iOrientation == LCD_ORIENTATION_ROTATED)
-			spilcdSetPosition(iStart, iWidth-1, iLines, iWidth);
-		else
-			spilcdSetPosition(0, iStart, iWidth, iLines);
-		for (i=0; i<iLines; i++)
-		{
-			spilcdWriteDataBlock((unsigned char *)usTemp, iWidth*2);
-		}
-	}
-
-} /* spilcdScroll() */
-
-void spilcdRectangle(int x, int y, int w, int h, unsigned short usColor, int bFill)
-{
-unsigned char ucTemp[960]; // max length
-uint32_t u32Color, *pu32;
-int i, ty, th, iPerLine, iStart;
-
-	// check bounds
-	if (x < 0 || x >= iCurrentWidth || x+w > iCurrentWidth)
-		return; // out of bounds
-	if (y < 0 || y >= iCurrentHeight || y+h > iCurrentHeight)
-		return;
-	u32Color = usColor >> 8;
-	u32Color |= (usColor & -1) << 8;
-	u32Color |= (u32Color << 16);
-	pu32 = (uint32_t *)&ucTemp[0];
-	for (i=0; i<240; i++) // prepare big buffer of color
-		*pu32++ = u32Color;
-
-	ty = (iCurrentWidth == iWidth) ? y:x;
-	th = (iCurrentWidth == iWidth) ? h:w;
-	if (bFill)
-	{
-		iPerLine = (iCurrentWidth == iWidth) ? w*2:h*2; // bytes to write per line
-	       	spilcdSetPosition(x, y, w, h);
-	        if (((ty + iScrollOffset) % iHeight) > iHeight-th) // need to write in 2 parts since it won't wrap
-		{
-               		iStart = (iHeight - ((ty+iScrollOffset) % iHeight));
-			for (i=0; i<iStart; i++)
-                		spilcdWriteDataBlock(ucTemp, iStart*iPerLine); // first N lines
-			if (iCurrentWidth == iWidth)
-				spilcdSetPosition(x, y+iStart, w, h-iStart);
-			else
-				spilcdSetPosition(x+iStart, y, w-iStart, h);
-			for (i=0; i<th-iStart; i++)
-               	 		spilcdWriteDataBlock(ucTemp, iPerLine);
-       		 }
-        	else // can write in one shot
-        	{
-			for (i=0; i<th; i++)
-               		 	spilcdWriteDataBlock(ucTemp, iPerLine);
-        	}
-	}
-	else // outline
-	{
-		// draw top/bottom
-		spilcdSetPosition(x, y, w, 1);
-		spilcdWriteDataBlock(ucTemp, w*2);
-		spilcdSetPosition(x, y + h-1, w, 1);
-		spilcdWriteDataBlock(ucTemp, w*2);
-		// draw left/right
-		if (((ty + iScrollOffset) % iHeight) > iHeight-th)	
-		{
-			iStart = (iHeight - ((ty+iScrollOffset) % iHeight));
-			spilcdSetPosition(x, y, 1, iStart);
-			spilcdWriteDataBlock(ucTemp, iStart*2);
-			spilcdSetPosition(x+w-1, y, 1, iStart);
-			spilcdWriteDataBlock(ucTemp, iStart*2);
-			// second half
-			spilcdSetPosition(x,y+iStart, 1, h-iStart);
-			spilcdWriteDataBlock(ucTemp, (h-iStart)*2);
-			spilcdSetPosition(x+w-1, y+iStart, 1, h-iStart);
-			spilcdWriteDataBlock(ucTemp, (h-iStart)*2);
-		}
-		else // can do it in 1 shot
-		{
-			spilcdSetPosition(x, y, 1, h);
-			spilcdWriteDataBlock(ucTemp, h*2);
-			spilcdSetPosition(x + w-1, y, 1, h);
-			spilcdWriteDataBlock(ucTemp, h*2);
-		}
-	} // outline
-} /* spilcdRectangle() */
-
-//
-// Sends a command to turn off the LCD display
-// Turns off the backlight LED
-// Closes the SPI file handle
-//
-void spilcdShutdown(void)
-{
-	if (file_spi >= 0)
-	{
-		if (iLCDType == LCD_SSD1351)
-			spilcdWriteCommand(0xae); // Display Off
-		else
-			spilcdWriteCommand(0x29); // Display OFF
-#ifdef USE_GENERIC
-	close(file_spi);
-	GenericRemoveGPIO(iDCPin);
-	GenericRemoveGPIO(iResetPin);
-	if (iLEDPin != -1)
-		GenericRemoveGPIO(iLEDPin);
-#endif // USE_GENERIC
-#ifdef USE_WIRINGPI
-		close(file_spi);
-#endif // USE_WIRINGPI
-
-		file_spi = -1;
-		if (iLEDPin != -1)
-			myPinWrite(iLEDPin, 0); // turn off the backlight
-
-
-	}
-} /* spilcdShutdown() */
-
-//
-// Send a command byte to the LCD controller
-// In SPI 8-bit mode, the D/C line must be set
-// high during the write
-//
-static void spilcdWriteCommand(unsigned char c)
-{
-unsigned char buf[2];
-
-	spilcdSetMode(MODE_COMMAND);
-	buf[0] = c;
-	myspiWrite(buf, 1);
-	spilcdSetMode(MODE_DATA);
-} /* spilcdWriteCommand() */
-
-//
-// Write a single byte of data
-//
-static void spilcdWriteData8(unsigned char c)
-{
-unsigned char buf[2];
-
-	buf[0] = c;
-    myspiWrite(buf, 1);
-
-} /* spilcdWriteData8() */
-
-//
-// Write 16-bits of data
-// The ILI9341 receives data in big-endian order
-// (MSB first)
-//
-static void spilcdWriteData16(unsigned short us)
-{
-unsigned char buf[2];
-
-    buf[0] = (unsigned char)(us >> 8);
-    buf[1] = (unsigned char)us;
-    myspiWrite(buf, 2);
-
-} /* spilcdWriteData16() */
-
-//
-// Position the "cursor" to the given
-// row and column. The width and height of the memory
-// 'window' must be specified as well. The controller
-// allows more efficient writing of small blocks (e.g. tiles)
-// by bounding the writes within a small area and automatically
-// wrapping the address when reaching the end of the window
-// on the current row
-//
-static void spilcdSetPosition(int x, int y, int w, int h)
-{
-unsigned char ucBuf[8];
-int t;
-
-	if (iOrientation == LCD_ORIENTATION_ROTATED) // rotate 90 clockwise
-	{
-		// rotate the coordinate system
-		t = x;
-		x = iWidth-y-h;
-		y = t;
-		// flip the width/height too
-		t = w;
-		w = h;
-		h = t;
-	}
-	y = (y + iScrollOffset) % iHeight; // scroll offset affects writing position
-
-	if (iLCDType == LCD_SSD1351) // OLED has very different commands
-	{
-		spilcdWriteCommand(0x15); // set column
-		ucBuf[0] = x;
-		ucBuf[1] = x + w - 1;
-		myspiWrite(ucBuf, 2);
-		spilcdWriteCommand(0x75); // set row
-		ucBuf[0] = y;
-		ucBuf[1] = y + h - 1;
-		myspiWrite(ucBuf, 2);
-		spilcdWriteCommand(0x5c); // write RAM
-		return;
-	}
-	spilcdWriteCommand(0x2a); // set column address
-	if (iLCDType == LCD_ILI9341 || iLCDType == LCD_GC9A01 || iLCDType == LCD_ST7735 || iLCDType == LCD_ST7789)
-	{
-		ucBuf[0] = (unsigned char)(x >> 8);
-		ucBuf[1] = (unsigned char)x;
-		x = x + w - 1;
-		if (x > iWidth-1) x = iWidth-1;
-		ucBuf[2] = (unsigned char)(x >> 8);
-		ucBuf[3] = (unsigned char)x; 
-		myspiWrite(ucBuf, 4);
-	}
-	else
-	{
-// combine coordinates into 1 write to save time
-		ucBuf[0] = 0;
- 		ucBuf[1] = (unsigned char)(x >> 8); // MSB first
-		ucBuf[2] = 0;
-		ucBuf[3] = (unsigned char)x;
-		x = x + w -1;
-		if (x > iWidth-1) x = iWidth-1;
-		ucBuf[4] = 0;
-		ucBuf[5] = (unsigned char)(x >> 8);
-		ucBuf[6] = 0;
-		ucBuf[7] = (unsigned char)x;
-		myspiWrite(ucBuf, 8); 
-	}
-	spilcdWriteCommand(0x2b); // set row address
-	if (iLCDType == LCD_ILI9341 || iLCDType == LCD_GC9A01 || iLCDType == LCD_ST7735 || iLCDType == LCD_ST7789)
-	{
-		ucBuf[0] = (unsigned char)(y >> 8);
-		ucBuf[1] = (unsigned char)y;
-		y = y + h - 1;
-		if (y > iHeight-1) y = iHeight-1;
-		ucBuf[2] = (unsigned char)(y >> 8);
-		ucBuf[3] = (unsigned char)y;
-		myspiWrite(ucBuf, 4);
-	}
-	else
-	{
-// combine coordinates into 1 write to save time
-		ucBuf[0] = 0;
-		ucBuf[1] = (unsigned char)(y >> 8); // MSB first
-		ucBuf[2] = 0;
-		ucBuf[3] = (unsigned char)y;
-		y = y + h - 1;
-		if (y > iHeight-1) y = iHeight-1;
-		ucBuf[4] = 0;
-		ucBuf[5] = (unsigned char)(y >> 8);
-		ucBuf[6] = 0;
-		ucBuf[7] = (unsigned char)y;
-		myspiWrite(ucBuf, 8);
-	}
-	spilcdWriteCommand(0x2c); // write memory begin
-//	spilcdWriteCommand(0x3c); // write memory continue
-} /* spilcdSetPosition() */
-
-//
-// Write a block of pixel data to the LCD
-// Each pixel (16-bits) must be in big-endian order
-// The internal address automatically increments as
-// each byte is received. This allows efficient writing
-// of characters/tiles by setting the appropriate window size
-// and doing the write in one shot.
-//
-static void spilcdWriteDataBlock(unsigned char *ucBuf, int iLen)
-{
-        myspiWrite(ucBuf, iLen);
-} /* spilcdWriteDataBlock() */
-
-//
-// Draw a 16x16 tile as 16x13 (with priority to non-black pixels)
-// This is for drawing a 224x288 image onto a 320x240 display in landscape
-//
-int spilcdDrawRetroTile(int x, int y, unsigned char *pTile, int iPitch)
-{
-unsigned char ucTemp[416];
-int i, j, iPitch16;
-uint16_t *s, *d, u16A, u16B;
-
-        if (file_spi < 0) return -1;
-
-        // scale y coordinate for shrinking
-        y = (y * 13)/16;
-        iPitch16 = iPitch/2;
-        for (j=0; j<16; j++) // 16 destination columns
-        {
-                s = (uint16_t *)&pTile[j * 2];
-                d = (uint16_t *)&ucTemp[j*26];
-                for (i=0; i<16; i++) // 13 actual source rows
-                {
-			if (i == 0 || i == 5 || i == 10) // combined pixels
-			{
-				u16A = s[(15-i)*iPitch16];
-				u16B = s[(14-i)*iPitch16];
-				if (u16A == 0)
-					*d++ = __builtin_bswap16(u16B);
-				else
-					*d++ = __builtin_bswap16(u16A);
-				i++; // advance count since we merged 2 lines 
-			}
-			else // just copy
-			{
-                                *d++ = __builtin_bswap16(s[(15-i)*iPitch16]);
-                        }
-                } // for i
-        } // for j
-        spilcdSetPosition(x, y, 16, 13);
-        if (((x + iScrollOffset) % iHeight) > iHeight-16) // need to write in 2 parts since it won't wrap
-        {
-                int iStart = (iHeight - ((x+iScrollOffset) % iHeight));
-                spilcdWriteDataBlock(ucTemp, iStart*26); // first N lines
-                spilcdSetPosition(x+iStart, y, 16-iStart, 13);
-                spilcdWriteDataBlock(&ucTemp[iStart*26], 416-(iStart*26));
-        }
-        else // can write in one shot
-        {
-                spilcdWriteDataBlock(ucTemp, 416);
-        }
-        return 0;
-
-} /* spilcdDrawRetroTile() */
-
-//
-// Draw a 16x16 tile as 16x14 (with pixel averaging)
-// This is for drawing 160x144 video games onto a 160x128 display
-// It is assumed that the display is set to LANDSCAPE orientation
-//
-int spilcdDrawSmallTile(int x, int y, unsigned char *pTile, int iPitch)
-{
-unsigned char ucTemp[448];
-int i, j, iPitch32;
-uint16_t *d;
-uint32_t *s;
-uint32_t u32A, u32B, u32a, u32b, u32C, u32D;
-uint32_t u32Magic = 0xf7def7de;
-uint32_t u32Mask = 0xffff;
-
-        if (file_spi < 0) return -1;
-
-        // scale y coordinate for shrinking
-        y = (y * 7)/8;
-        iPitch32 = iPitch/4;
-        for (j=0; j<16; j+=2) // 16 source lines (2 at a time)
-        {
-                s = (uint32_t *)&pTile[j * 2];
-                d = (uint16_t *)&ucTemp[j*28];
-                for (i=0; i<16; i+=2) // 16 source columns (2 at a time)
-                {
-                        u32A = s[(15-i)*iPitch32]; // read A+C
-                        u32B = s[(14-i)*iPitch32]; // read B+D
-                        u32C = u32A >> 16;
-                        u32D = u32B >> 16;
-                        u32A &= u32Mask;
-                        u32B &= u32Mask;
-			if (i == 0 || i == 8) // pixel average a pair
-			{
-                        	u32a = (u32A & u32Magic) >> 1;
-                        	u32a += ((u32B & u32Magic) >> 1);
-                        	u32b = (u32C & u32Magic) >> 1;
-                        	u32b += ((u32D & u32Magic) >> 1);
-				d[0] = __builtin_bswap16(u32a);
-				d[14] = __builtin_bswap16(u32b);
-				d++;
-			}
-			else
-			{
-                        	d[0] = __builtin_bswap16(u32A);
-                        	d[1] = __builtin_bswap16(u32B);
-                        	d[14] = __builtin_bswap16(u32C);
-                        	d[15] = __builtin_bswap16(u32D);
-                       		d += 2;
-			}
-                } // for i
-        } // for j
-        spilcdSetPosition(x, y, 16, 14);
-        if (((x + iScrollOffset) % iHeight) > iHeight-16) // need to write in 2 parts since it won't wrap
-        {
-                int iStart = (iHeight - ((x+iScrollOffset) % iHeight));
-                spilcdWriteDataBlock(ucTemp, iStart*28); // first N lines
-                spilcdSetPosition(x+iStart, y, 16-iStart, 14);
-                spilcdWriteDataBlock(&ucTemp[iStart*28], 448-(iStart*28));
-        }
-        else // can write in one shot
-        {
-                spilcdWriteDataBlock(ucTemp, 448);
-	}
-	return 0;
-} /* spilcdDrawSmallTile() */
-//
-// Draw a 16x16 RGB565 tile scaled to 32x24
-// The main purpose of this function is for GameBoy emulation
-// Since the original display is 160x144, this function allows it to be 
-// stretched 100x50% larger (320x216). Not a perfect fit for 320x240, but better
-// Each group of 2x2 pixels becomes a group of 4x3 pixels by averaging the pixels
-//
-// +-+-+ becomes +-+-+-+-+
-// |A|B|         |A|A|B|B|
-// +-+-+         +-+-+-+-+
-// |C|D|         |a|a|b|b| a = A avg. B, b = B avg. D
-// +-+-+         +-+-+-+-+
-//               |C|C|D|D|
-//               +-+-+-+-+
-//
-// The x/y coordinates will be scaled 2x in the X direction and 1.5x in the Y
-// It is assumed that the display is set to ROTATED orientation
-//
-int spilcdDrawScaledTile(int x, int y, int cx, int cy, unsigned char *pTile, int iPitch)
-{
-int i, j, iPitch32;
-uint16_t *d;
-uint32_t *s;
-uint32_t u32A, u32B, u32a, u32b, u32C, u32D;
-uint32_t u32Magic = 0xf7def7de;
-uint32_t u32Mask = 0xffff;
-
-	if (file_spi < 0) return -1;
-
-	// scale coordinates for stretching
-	x = x * 2;
-	y = (y * 3)/2;
-        iPitch32 = iPitch/4;
-	for (j=0; j<cx; j+=2) // source lines (2 at a time)
-	{
-		s = (uint32_t *)&pTile[j * 2];
-		d = (uint16_t *)&ucRXBuf[j*cy*6];
-		for (i=0; i<cy; i+=2) // source columns (2 at a time)
-		{
-			u32A = s[(cy-1-i)*iPitch32];
-			u32B = s[(cy-2-i)*iPitch32];
-			u32C = u32A >> 16;
-			u32D = u32B >> 16;
-			u32A &= u32Mask;
-			u32B &= u32Mask;
-			u32a = (u32A & u32Magic) >> 1;
-			u32a += ((u32B & u32Magic) >> 1);
-			u32b = (u32C & u32Magic) >> 1;
-			u32b += ((u32D & u32Magic) >> 1);
-			d[0] = d[(cy*3)/2] = __builtin_bswap16(u32A); // swap byte order
-			d[1] = d[((cy*3)/2)+1] = __builtin_bswap16(u32a);
-			d[2] = d[((cy*3)/2)+2] = __builtin_bswap16(u32B);
-			d[cy*3] = d[(cy*9)/2] = __builtin_bswap16(u32C);
-			d[(cy*3)+1] = d[((cy*9)/2)+1] = __builtin_bswap16(u32b);
-			d[(cy*3)+2] = d[((cy*9)/2)+2] = __builtin_bswap16(u32D);
-			d += 3;
-		} // for i
-	} // for j
-        spilcdSetPosition(x, y, cx*2, (cy*3)/2);
-        if (((x + iScrollOffset) % iHeight) > iHeight-(cx*2)) // need to write in 2 parts since it won't wrap
-        {
-                int iStart = (iHeight - ((x+iScrollOffset) % iHeight));
-                spilcdWriteDataBlock(ucRXBuf, iStart*cx*3); // first N lines
-                spilcdSetPosition(x+iStart, y, (cx*2)-iStart, (cy*3)/2);
-                spilcdWriteDataBlock(&ucRXBuf[iStart*cx*3], (cx*cy*6)-(iStart*cx*3));
-        }
-        else // can write in one shot
-        {
-                spilcdWriteDataBlock(ucRXBuf, (cx*cy*6));
-        }
-	return 0;
-} /* spilcdDrawScaledTile() */
-//
-// Draw a 24x24 RGB565 tile scaled to 40x40
-// The main purpose of this function is for GameBoy emulation
-// Since the original display is 160x144, this function allows it to be 
-// stretched 166% larger (266x240). Not a perfect fit for 320x240, but better
-// Each group of 3x3 pixels becomes a group of 5x5 pixels by averaging the pixels
-//
-// +-+-+-+ becomes +----+----+----+----+----+
-// |A|B|C|         |A   |ab  |B   |bc  |C   |
-// +-+-+-+         +----+----+----+----+----+
-// |D|E|F|         |ad  |abde|be  |becf|cf  |
-// +-+-+-+         +----+----+----+----+----+
-// |G|H|I|         |D   |de  |E   |ef  |F   |
-// +-+-+-+         +----+----+----+----+----+
-//                 |dg  |dgeh|eh  |ehfi|fi  |
-//                 +----+----+----+----+----+
-//                 |G   |gh  |H   |hi  |I   |
-//                 +----+----+----+----+----+
-//
-// The x/y coordinates will be scaled as well
-//
-int spilcdDraw53Tile(int x, int y, int cx, int cy, unsigned char *pTile, int iPitch)
-{
-int i, j, iPitch16;
-uint16_t *s, *d;
-uint32_t u32A, u32B, u32C, u32D, u32E, u32F;
-uint32_t t1, t2, u32ab, u32bc, u32de, u32ef, u32ad, u32be, u32cf;
-uint32_t u32Magic = 0xf7def7de;
-int bFlipped;
-
-	if (file_spi < 0) return -1;
-	bFlipped = (iWidth < 320); // rotated display
-
-	// scale coordinates for stretching
-	x = (x * 5)/3;
-	y = (y * 5)/3;
-        iPitch16 = iPitch/2;
-	if (cx < 24 || cy < 24)
-		memset(ucRXBuf, 0, 40*40*2);
-	for (j=0; j<cy/3; j++) // 8 blocks of 3 lines
-	{
-		s = (uint16_t *)&pTile[j*3*iPitch];
-		if (bFlipped)
-			d = (uint16_t *)&ucRXBuf[(35-(j*5))*2];
-		else
-			d = (uint16_t *)&ucRXBuf[j*40*5*2];
-		for (i=0; i<cx-2; i+=3) // source columns (3 at a time)
-		{
-			u32A = s[i];
-			u32B = s[i+1];
-			u32C = s[i+2];
-			u32D = s[i+iPitch16];
-			u32E = s[i+iPitch16+1];
-			u32F = s[i+iPitch16 + 2];
-			u32bc = u32ab = (u32B & u32Magic) >> 1;
-			u32ab += ((u32A & u32Magic) >> 1);
-			u32bc += (u32C & u32Magic) >> 1;
-			u32de = u32ef = ((u32E & u32Magic) >> 1);
-			u32de += ((u32D & u32Magic) >> 1);
-			u32ef += ((u32F & u32Magic) >> 1);
-			u32ad = ((u32A & u32Magic) >> 1) + ((u32D & u32Magic) >> 1);
-			u32be = ((u32B & u32Magic) >> 1) + ((u32E & u32Magic) >> 1);
-			u32cf = ((u32C & u32Magic) >> 1) + ((u32F & u32Magic) >> 1);
-			// first row
-			if (bFlipped)
-			{
-			d[4] = __builtin_bswap16(u32A); // swap byte order
-			d[44] = __builtin_bswap16(u32ab);
-			d[84] = __builtin_bswap16(u32B);
-			d[124] = __builtin_bswap16(u32bc);
-			d[164] = __builtin_bswap16(u32C);
-			}
-			else
-			{
-			d[0] = __builtin_bswap16(u32A); // swap byte order
-			d[1] = __builtin_bswap16(u32ab);
-			d[2] = __builtin_bswap16(u32B);
-			d[3] = __builtin_bswap16(u32bc);
-			d[4] = __builtin_bswap16(u32C);
-			}
-			// second row
-			t1 = ((u32ab & u32Magic) >> 1) + ((u32de & u32Magic) >> 1);
-			t2 = ((u32be & u32Magic) >> 1) + ((u32cf & u32Magic) >> 1);
-			if (bFlipped)
-			{
-			d[3] = __builtin_bswap16(u32ad);
-			d[43] = __builtin_bswap16(t1);
-			d[83] = __builtin_bswap16(u32be);
-			d[123] = __builtin_bswap16(t2);
-			d[163] = __builtin_bswap16(u32cf);
-			}
-			else
-			{
-			d[40] = __builtin_bswap16(u32ad);
-			d[41] = __builtin_bswap16(t1);
-			d[42] = __builtin_bswap16(u32be);
-			d[43] = __builtin_bswap16(t2);
-			d[44] = __builtin_bswap16(u32cf);
-			}
-			// third row
-			if (bFlipped)
-			{
-			d[2] = __builtin_bswap16(u32D);
-			d[42] = __builtin_bswap16(u32de);
-			d[82] = __builtin_bswap16(u32E);
-			d[122] = __builtin_bswap16(u32ef);
-			d[162] = __builtin_bswap16(u32F);
-			}
-			else
-			{
-			d[80] = __builtin_bswap16(u32D);
-			d[81] = __builtin_bswap16(u32de);
-			d[82] = __builtin_bswap16(u32E);
-			d[83] = __builtin_bswap16(u32ef);
-			d[84] = __builtin_bswap16(u32F);
-			}
-			// fourth row
-			u32A = s[i+iPitch16*2];
-			u32B = s[i+iPitch16*2 + 1];
-			u32C = s[i+iPitch16*2 + 2];
-			u32bc = u32ab = (u32B & u32Magic) >> 1;
-			u32ab += ((u32A & u32Magic) >> 1);
-			u32bc += (u32C & u32Magic) >> 1;
-			u32ad = ((u32A & u32Magic) >> 1) + ((u32D & u32Magic) >> 1);
-			u32be = ((u32B & u32Magic) >> 1) + ((u32E & u32Magic) >> 1);
-			u32cf = ((u32C & u32Magic) >> 1) + ((u32F & u32Magic) >> 1);
-			t1 = ((u32ab & u32Magic) >> 1) + ((u32de & u32Magic) >> 1);
-			t2 = ((u32be & u32Magic) >> 1) + ((u32cf & u32Magic) >> 1);
-			if (bFlipped)
-			{
-			d[1] = __builtin_bswap16(u32ad);
-			d[41] = __builtin_bswap16(t1);
-			d[81] = __builtin_bswap16(u32be);
-			d[121] = __builtin_bswap16(t2);
-			d[161] = __builtin_bswap16(u32cf);
-			}
-			else
-			{
-			d[120] = __builtin_bswap16(u32ad);
-			d[121] = __builtin_bswap16(t1);
-			d[122] = __builtin_bswap16(u32be);
-			d[123] = __builtin_bswap16(t2);
-			d[124] = __builtin_bswap16(u32cf);
-			}
-			// fifth row
-			if (bFlipped)
-			{
-			d[0] = __builtin_bswap16(u32A);
-			d[40] = __builtin_bswap16(u32ab);
-			d[80] = __builtin_bswap16(u32B);
-			d[120] = __builtin_bswap16(u32bc);
-			d[160] = __builtin_bswap16(u32C);
-			d += 200;
-			}
-			else
-			{
-			d[160] = __builtin_bswap16(u32A);
-			d[161] = __builtin_bswap16(u32ab);
-			d[162] = __builtin_bswap16(u32B);
-			d[163] = __builtin_bswap16(u32bc);
-			d[164] = __builtin_bswap16(u32C);
-			d += 5;
-			}
-		} // for i
-	} // for j
-        spilcdSetPosition(x, y, 40, 40);
-        spilcdWriteDataBlock(ucRXBuf, 40*40*2);
-	return 0;
-} /* spilcdDraw53Tile() */
-//
-// Draw a 16x16 RGB656 tile with select rows/columns removed
-// the mask contains 1 bit for every column/row that should be drawn
-// For example, to skip the first 2 columns, the mask value would be 0xfffc
-//
-int spilcdDrawMaskedTile(int x, int y, unsigned char *pTile, int iPitch, int iColMask, int iRowMask)
-{
-unsigned char ucTemp[512]; // fix the byte order first to write it more quickly
-int i, j;
-unsigned char *s, *d;
-int iNumCols, iNumRows, iTotalSize;
-
-	iNumCols = __builtin_popcount(iColMask);
-	iNumRows = __builtin_popcount(iRowMask);
-	iTotalSize = iNumCols * iNumRows * 2;
-
-        if (file_spi < 0) return -1;
-
-        if (iOrientation == LCD_ORIENTATION_ROTATED) // need to rotate the data
-        {
-                // First convert to big-endian order
-                d = ucTemp;
-                for (j=0; j<16; j++)
-                {
-			if ((iColMask & (1<<j)) == 0) continue; // skip row
-                        s = &pTile[j*2];
-                        for (i=0; i<16; i++)
-                        {
-				if ((iRowMask & (1<<i)) == 0) continue; // skip column
-                                d[1] = s[(15-i)*iPitch];
-                                d[0] = s[((15-i)*iPitch)+1]; // swap byte order (MSB first)
-                                d += 2;
-                        } // for i;
-                } // for j
-                spilcdSetPosition(x, y, iNumCols, iNumRows);
-                if (((x + iScrollOffset) % iHeight) > iHeight-iNumRows) // need to write in 2 parts since it won't wrap
-                {
-                        int iStart = (iHeight - ((x+iScrollOffset) % iHeight));
-                        spilcdWriteDataBlock(ucTemp, iStart*iNumRows*2); // first N lines
-                        spilcdSetPosition(x+iStart, y, iNumRows-iStart, iNumCols);
-                        spilcdWriteDataBlock(&ucTemp[iStart*iNumRows*2], iTotalSize-(iStart*iNumRows*2));
-                }
-                else // can write in one shot
-                {
-                        spilcdWriteDataBlock(ucTemp, iTotalSize);
-                }
-        }
-        else // native orientation
-        {
-	uint16_t *s16 = (uint16_t *)s;
-	uint16_t u16, *d16 = (uint16_t *)d;
-	int iMask;
-
-        // First convert to big-endian order
-        d16 = (uint16_t *)ucTemp;
-        for (j=0; j<16; j++)
-        {
-		if ((iRowMask & (1<<j)) == 0) continue; // skip row
-                s16 = (uint16_t *)&pTile[j*iPitch];
-		iMask = iColMask;
-                for (i=0; i<16; i++)
-                {
-			u16 = *s16++;
-			if (iMask & 1)
-			{
-                        	*d16++ = __builtin_bswap16(u16);
-                        }
-			iMask >>= 1;
-                } // for i;
-        } // for j
-        spilcdSetPosition(x, y, iNumCols, iNumRows);
-        if (((y + iScrollOffset) % iHeight) > iHeight-iNumRows) // need to write in 2 parts since it won't wrap
-        {
-                int iStart = (iHeight - ((y+iScrollOffset) % iHeight));
-                spilcdWriteDataBlock(ucTemp, iStart*iNumCols*2); // first N lines
-                spilcdSetPosition(x, y+iStart, iNumCols, iNumRows-iStart);
-                spilcdWriteDataBlock(&ucTemp[iStart*iNumCols*2], iTotalSize-(iStart*iNumCols*2));
-        }
-        else // can write in one shot
-        {
-                spilcdWriteDataBlock(ucTemp, iTotalSize);
-        }
-        } // portrait orientation
-        return 0;
-} /* spilcdDrawMaskedTile() */
-
-//
-// Draw a NxN RGB565 tile
-// This reverses the pixel byte order and sets a memory "window"
-// of pixels so that the write can occur in one shot
-//
-int spilcdDrawTile(int x, int y, int iTileWidth, int iTileHeight, unsigned char *pTile, int iPitch)
-{
-int i, j;
-uint32_t ul32;
-unsigned char *s, *d;
-
-	if (file_spi < 0) return -1;
-	if (iTileWidth*iTileHeight > 2048)
-		return -1; // tile must fit in 4k SPI block size
-
-	if (iOrientation == LCD_ORIENTATION_ROTATED) // need to rotate the data
-	{
-        	// First convert to big-endian order
-        	d = ucRXBuf;
-        	for (j=0; j<iTileWidth; j++)
-        	{
-                	s = &pTile[j*2];
-			s += (iTileHeight-2)*iPitch; 
-                	for (i=0; i<iTileHeight; i+=2)
-                	{
-				// combine the 2 pixels into a single write for better memory performance
-                        	ul32 = __builtin_bswap16(*(uint16_t *)&s[iPitch]);
-                        	ul32 |= (__builtin_bswap16(*(uint16_t *)s) << 16); // swap byte order (MSB first)
-				*(uint32_t *)d = ul32;
-                        	d += 4;
-				s -= iPitch*2;
-                	} // for i;
-        	} // for j
-        	spilcdSetPosition(x, y, iTileWidth, iTileHeight);
-		if (((x + iScrollOffset) % iHeight) > iHeight-iTileWidth) // need to write in 2 parts since it won't wrap
-		{
-			int iStart = (iHeight - ((x+iScrollOffset) % iHeight));
-			spilcdWriteDataBlock(ucRXBuf, iStart*iTileHeight*2); // first N lines
-			spilcdSetPosition(x+iStart, y, iTileWidth-iStart, iTileWidth); 
-			spilcdWriteDataBlock(&ucRXBuf[iStart*iTileHeight*2], (iTileWidth*iTileHeight*2)-(iStart*iTileHeight*2));
-		}
-		else // can write in one shot
-		{
-			spilcdWriteDataBlock(ucRXBuf, iTileWidth*iTileHeight*2);
-		}
-	}
-	else // native orientation
-	{
-        uint16_t *s16, *d16;
-	// First convert to big-endian order
-	d16 = (uint16_t *)ucRXBuf;
-	for (j=0; j<iTileHeight; j++)
-	{
-		s16 = (uint16_t*)&pTile[j*iPitch];
-		for (i=0; i<iTileWidth; i++)
-		{
-			*d16++ = __builtin_bswap16(*s16++);
-		} // for i;
-	} // for j
-	spilcdSetPosition(x, y, iTileWidth, iTileHeight);
-	if (((y + iScrollOffset) % iHeight) > iHeight-iTileHeight) // need to write in 2 parts since it won't wrap
-        {
-                int iStart = (iHeight - ((y+iScrollOffset) % iHeight));
-                spilcdWriteDataBlock(ucRXBuf, iStart*iTileWidth*2); // first N lines
-                spilcdSetPosition(x, y+iStart, iTileWidth, iTileHeight-iStart);
-                spilcdWriteDataBlock(&ucRXBuf[iStart*iTileWidth*2], (iTileWidth*iTileHeight*2)-(iStart*iTileWidth*2));
-        }
-        else // can write in one shot
-	{
-        	spilcdWriteDataBlock(ucRXBuf, iTileWidth*iTileHeight*2);
-	}
-	} // portrait orientation
-	return 0;
-} /* spilcdDrawTile() */
-//
-// Draw a NxN RGB565 tile
-// This reverses the pixel byte order and sets a memory "window"
-// of pixels so that the write can occur in one shot
-// Scales the tile by 150% (for GameBoy/GameGear)
-//
-int spilcdDrawTile150(int x, int y, int iTileWidth, int iTileHeight, unsigned char *pTile, int iPitch)
-{
-int i, j, iPitch32, iLocalPitch;
-uint32_t ul32A, ul32B, ul32Avg, ul32Avg2;
-uint16_t u16Avg, u16Avg2;
-uint32_t u32Magic = 0xf7def7de;
-uint16_t u16Magic = 0xf7de;
-uint16_t *d16;
-uint32_t *s32;
-
-	if (file_spi < 0) return -1;
-	if (iTileWidth*iTileHeight > 1365)
-		return -1; // tile must fit in 4k SPI block size
-
-	iPitch32 = iPitch / 4;
-	iLocalPitch = (iTileWidth * 3)/2; // offset to next output line
-	d16 = (uint16_t *)ucRXBuf;
-	for (j=0; j<iTileHeight; j+=2)
-	{
-		s32 = (uint32_t*)&pTile[j*iPitch];
-		for (i=0; i<iTileWidth; i+=2) // turn 2x2 pixels into 3x3 
-		{
-			ul32A = s32[0];
-			ul32B = s32[iPitch32]; // get 2x2 pixels
-			// top row
-			ul32Avg = ((ul32A & u32Magic) >> 1);
-			ul32Avg2 = ((ul32B & u32Magic) >> 1);
-			u16Avg = (uint16_t)(ul32Avg + (ul32Avg >> 16)); // average the 2 pixels
-			d16[0] = __builtin_bswap16((uint16_t)ul32A); // first pixel
-			d16[1] = __builtin_bswap16(u16Avg); // middle (new) pixel
-			d16[2] = __builtin_bswap16((uint16_t)(ul32A >> 16)); // 3rd pixel
-			u16Avg2 = (uint16_t)(ul32Avg2 + (ul32Avg2 >> 16)); // bottom line averaged pixel
-			d16[iLocalPitch] = __builtin_bswap16((uint16_t)(ul32Avg + ul32Avg2)); // vertical average
-			d16[iLocalPitch+2] = __builtin_bswap16((uint16_t)((ul32Avg + ul32Avg2)>>16)); // vertical average
-			d16[iLocalPitch*2] = __builtin_bswap16((uint16_t)ul32B); // last line 1st
-			d16[iLocalPitch*2+1] = __builtin_bswap16(u16Avg2); // middle pixel
-			d16[iLocalPitch*2+2] = __builtin_bswap16((uint16_t)(ul32B >> 16)); // 3rd pixel
-			u16Avg = (u16Avg & u16Magic) >> 1;
-			u16Avg2 = (u16Avg2 & u16Magic) >> 1;
-			d16[iLocalPitch+1] = __builtin_bswap16(u16Avg + u16Avg2); // middle pixel
-			d16 += 3;
-			s32 += 1;
-		} // for i;
-		d16 += iLocalPitch*2; // skip lines we already output
-	} // for j
-	spilcdSetPosition((x*3)/2, (y*3)/2, (iTileWidth*3)/2, (iTileHeight*3)/2);
-      	spilcdWriteDataBlock(ucRXBuf, (iTileWidth*iTileHeight*9)/2);
-	return 0;
-} /* spilcdDrawTile150() */
-
-//
-// Draw an individual RGB565 pixel
-//
-int spilcdSetPixel(int x, int y, unsigned short usColor)
-{
-
-	if (file_spi < 0)
-		return -1;
-
-	spilcdSetPosition(x, y, 1, 1);
-	spilcdWriteData16(usColor);
-	return 0;
-} /* spilcdSetPixel() */
-
-//
-// Draw a string of small (8x8) text as quickly as possible
-// by writing it to the LCD in a single SPI write
-// The string must be 32 characters or shorter
-//
-int spilcdWriteStringFast(int x, int y, char *szMsg, unsigned short usFGColor, unsigned short usBGColor)
-{
-int i, j, k, iMaxLen, iLen;
-int iChars, iStride;
-unsigned char *s;
-unsigned short usFG = (usFGColor >> 8) | ((usFGColor & -1)<< 8);
-unsigned short usBG = (usBGColor >> 8) | ((usBGColor & -1)<< 8);
-unsigned short *usD;
-
-
-        if (file_spi < 0) return -1; // not initialized
-
-        iLen = strlen(szMsg);
-	if (iLen <=0) return -1; // can't use this function
-        iMaxLen = (iOrientation == LCD_ORIENTATION_NATIVE) ? iWidth : iHeight;
-
-                if ((8*iLen) + x > iMaxLen) iLen = (iMaxLen - x)/8; // can't display it all
-		if (iOrientation == LCD_ORIENTATION_ROTATED) // draw rotated
-                {
-			iChars = 0;
-			for (i=0; i<iLen; i++)
-                        {
-				s = &ucFont[(unsigned char)szMsg[i] * 8];
-				usD = (unsigned short *)&ucRXBuf[iChars*128];
-                                for (k=0; k<8; k++) // for each scanline
-                                {
-                                        for (j=0; j<8; j++)
-                                        {
-                                                if (s[7-j] & (0x80 >> k))
-                                                        *usD++ = usFG;
-                                                else
-                                                        *usD++ = usBG;
-                                        } // for j
-                                } // for k
-				iChars++;
-				if (iChars == 32) // need to write it
-				{
-					spilcdSetPosition(x, y, 8*iChars, 8);
-					spilcdWriteDataBlock(ucRXBuf, iChars*128);
-					x += iChars*8;
-					iChars = 0;
-				}
-                        } // for i
-			if (iChars)
-			{
-				spilcdSetPosition(x, y, 8*iChars, 8);
-                                spilcdWriteDataBlock(ucRXBuf, iChars*128);
-			}
-		} // landscape
-                else // portrait orientation
-                {
-			if (iLen > 32) iLen = 32;
-			iStride = iLen * 16;
-			for (i=0; i<iLen; i++)
-			{
-				s = &ucFont[(unsigned char)szMsg[i] * 8];
-                                for (k=0; k<8; k++) // for each scanline
-                                {
-					usD = (unsigned short *)&ucRXBuf[(k*iStride) + (i * 16)];
-                                        for (j=0; j<8; j++)
-                                        {
-                                                if (s[0] & (0x80>>j))
-                                                        *usD++ = usFG;
-                                                else
-                                                        *usD++ = usBG;
-                                        } // for j
-                                        s++;
-                                } // for k
-                        } // normal orientation
-                // write the data in one shot
-		spilcdSetPosition(x, y, 8*iLen, 8);
-                spilcdWriteDataBlock(ucRXBuf, iLen*128);
-                } // portrait orientation
-	return 0;
-} /* spilcdWriteStringFast() */
-//
-// Draw a string of small (8x8) or large (16x32) characters
-// At the given col+row
-//
-int spilcdWriteString(int x, int y, char *szMsg, unsigned short usFGColor, unsigned short usBGColor, int bLarge)
-{
-int i, j, k, iMaxLen, iLen;
-unsigned char *s;
-unsigned short usFG = (usFGColor >> 8) | ((usFGColor & -1)<< 8);
-unsigned short usBG = (usBGColor >> 8) | ((usBGColor & -1)<< 8);
-
-
-	if (file_spi < 0) return -1; // not initialized
-
-	iLen = strlen(szMsg);
-	iMaxLen = (iOrientation == LCD_ORIENTATION_NATIVE) ? iWidth : iHeight;
-
-	if (bLarge) // draw 16x32 font
-	{
-		if (iLen*16 + x > iMaxLen) iLen = (iMaxLen - x) / 16;
-		if (iLen < 0) return -1;
-		for (i=0; i<iLen; i++)
-		{
-			unsigned short usTemp[512];
-			unsigned short *usD;
-
-			s = &ucFont[9728 + (unsigned char)szMsg[i]*64];
-			usD = &usTemp[0];
-			if (iOrientation == LCD_ORIENTATION_ROTATED) // rotated
-			{
-				spilcdSetPosition(x+(i*16), y,16,32);
-				for (j=0; j<8; j++)
-				{
-					for (k=0; k<32; k++) // for each scanline
-					{ // left half
-						if (s[62-(k*2)] & (0x80>>j))
-							*usD++ = usFG;
-						else
-							*usD++ = usBG;
-					} // for k
-				} // for j
-				// right half
-				for (j=0; j<8; j++)
-				{
-					for (k=0; k<32; k++)
-					{
-						if (s[63-(k*2)] & (0x80>>j))
-							*usD++ = usFG;
-						else
-							*usD++ = usBG;
-					} // for k
-				} // for j
-			}
-			else
-			{ // portrait
-				spilcdSetPosition(x+(i*16), y,16,32);
-				for (k=0; k<32; k++) // for each scanline
-				{ // left half
-					for (j=0; j<8; j++)
-					{
-						if (s[0] & (0x80>>j))
-							*usD++ = usFG;
-						else
-							*usD++ = usBG;
-					} // for j
-				// right half
-					for (j=0; j<8; j++)
-					{
-						if (s[1] & (0x80>>j))
-							*usD++ = usFG;
-						else
-							*usD++ = usBG;
-					} // for j
-					s += 2;
-				} // for each scanline
-			} // portrait mode
-			spilcdWriteDataBlock((unsigned char *)usTemp, 1024);
-		} // for each character
-	}
-	else // draw 8x8 font
-	{
-		unsigned short usTemp[64];
-		unsigned short *usD;
-
-		if ((8*iLen) + x > iMaxLen) iLen = (iMaxLen - x)/8; // can't display it all
-		if (iLen < 0)return -1;
-
-		for (i=0; i<iLen; i++)
-		{
-			s = &ucFont[(unsigned char)szMsg[i] * 8];
-			usD = &usTemp[0];
-			if (iOrientation == LCD_ORIENTATION_ROTATED) // draw rotated
-			{
-				spilcdSetPosition(x+(i*8), y, 8, 8);
-				for (k=0; k<8; k++) // for each scanline
-				{
-					for (j=0; j<8; j++)
-					{
-						if (s[7-j] & (0x80 >> k))
-							*usD++ = usFG;
-						else
-							*usD++ = usBG;	
-					} // for j
-				} // for k
-			}
-			else // portrait orientation
-			{
-				spilcdSetPosition(x+(i*8), y, 8, 8);
-				for (k=0; k<8; k++) // for each scanline
-				{
-					for (j=0; j<8; j++)
-					{
-						if (s[0] & (0x80>>j))
-							*usD++ = usFG;
-						else
-							*usD++ = usBG;
-					} // for j
-					s++;
-				} // for k
-			} // normal orientation
-		// write the data in one shot
-			spilcdWriteDataBlock((unsigned char *)usTemp, 128);
-		}	
-	}
-	return 0;
-} /* spilcdWriteString() */
-
-//
-// Set the (software) orientation of the display
-// The hardware is permanently oriented in 240x320 portrait mode
-// The library can draw characters/tiles rotated 90
-// degrees if set into landscape mode
-//
-int spilcdSetOrientation(int iOrient)
-{
-	if (iOrient != LCD_ORIENTATION_NATIVE && iOrient != LCD_ORIENTATION_ROTATED)
-		return -1;
-	iOrientation = iOrient; // nothing else needed to do
-	iCurrentWidth = (iOrientation == LCD_ORIENTATION_NATIVE) ? iWidth : iHeight;
-	iCurrentHeight = (iOrientation == LCD_ORIENTATION_NATIVE) ? iHeight : iWidth;
-	return 0;
-} /* spilcdSetOrientation() */
-
-
-void lcd_shutdown(void)
-{
-        spilcdShutdown();
+  return false;
 }
 
-// for vecot compatibility
+/************* LCD SPI Interface ***************/
 
-/**
- * 调整背光亮度
- * @param brightness 亮度值（0-100）
- * @return 0 表示成功，其他值表示失败
- */
-int lcd_set_brightness(const int brightness)
-{
-        return _lcd_set_brightness(brightness);
+static int lcd_fd;
+
+lcd_display_t lcd_display_version() {
+  return IsXray() ? MIDAS : SANTEK;
 }
 
-static int _lcd_set_brightness(const int brightness)
-{
-        if (brightness < 0 || brightness > 100)
-        {
-                fprintf(stderr, "Brightness value must be between 0 and 100\n");
-                return -1;
-        }
-
-        // 将亮度值映射到 PWM 占空比 (0-255)
-        int dutyCycle = brightness * 255 / 100;
-
-        // 设置 PWM 占空比
-        if (setLCDLight(iLEDPin, dutyCycle) < 0)
-        {
-                fprintf(stderr, "Failed to set PWM duty cycle\n");
-                return -1;
-        }
-
-        return 0;
+void InitIsXray() {
+  isXray = (get_vector_hw_version() >= 0x20);
 }
 
-int setLCDLight(int iLEDPin, int pwm)
-{
-	// wiringPiSetup();
-	// printf("0.0.0.---------------> in setLCDLight pin: %d, pwm: %d\n", iLEDPin, pwm);
-#ifdef USE_GENERIC
-	if (iLEDPin != -1)
-		GenericAddGPIO(iLEDPin, GPIO_OUT, 0);
-#endif // USE_GENERIC
-#ifdef USE_WIRINGPI
-	if (iLEDPin != -1)
-		pinMode(iLEDPin, OUTPUT);
-#endif
-	usleep(100000);
-	
+bool lcd_use_midas_crop() {
+  return false;
 }
 
-void lcd_draw_frame2(const uint16_t* frame, size_t size) {
-  static uint16_t buffer[LCD_FRAME_WIDTH * LCD_FRAME_HEIGHT];
+static int lcd_spi_init()
+{
+  // SPI setup
+  static const uint8_t    MODE = 0;
+  int lcd_fd = open("/dev/spidev0.0", O_RDWR);
+  if (lcd_fd < 0) {
+    error_return(app_DEVICE_OPEN_ERROR, "Can't open LCD SPI interface: %d\n", errno);
+  }
+  ioctl(lcd_fd, SPI_IOC_RD_MODE, &MODE);
 
-  for(int i=0; i < LCD_FRAME_WIDTH * LCD_FRAME_HEIGHT; i++) {
+  // Set MAX_TRANSFER size based on the spidev bufsiz parameter
+  int bufsiz_fd = open("/sys/module/spidev/parameters/bufsiz", O_RDONLY);
+  if(bufsiz_fd < 0)
+  {
+    error_return(app_DEVICE_OPEN_ERROR, "Can't open SPI bufsiz parameter: %d\n", errno);
+  }
+
+  // bufsiz is stored as a string in the file
+  char buf[32] = {0};
+  int bytes_read = 0;
+
+  // Attempt to read enough bytes to fit in our buffer
+  while(bytes_read < sizeof(buf))
+  {
+    int num_bytes = read(bufsiz_fd, buf + bytes_read, sizeof(buf) - bytes_read);
+    bytes_read += num_bytes;
+    if(num_bytes == 0)
+    {
+      // End of file
+      break;
+    }
+    else if(num_bytes < 0)
+    {
+      (void)close(bufsiz_fd);
+      error_return(app_IO_ERROR, "Failed to read from spi bufsiz: %d\n", errno);
+    }
+  }
+
+  char* end;
+  int size = strtol(buf, &end, 10);
+  MAX_TRANSFER = size;
+
+  (void)close(bufsiz_fd);
+
+  return lcd_fd;
+}
+
+static void lcd_spi_transfer(int cmd, int bytes, const void* data) {
+  const uint8_t* tx_buf = data;
+
+  gpio_set_value(DnC_PIN, cmd ? gpio_LOW : gpio_HIGH);
+
+  while (bytes > 0) {
+    const size_t count = bytes > MAX_TRANSFER ? MAX_TRANSFER : bytes;
+
+    (void)write(lcd_fd, tx_buf, count);
+
+    bytes -= count;
+    tx_buf += count;
+  }
+}
+
+static void lcd_run_script(const INIT_SCRIPT* script)
+{
+  int idx;
+  for (idx = 0; script[idx].cmd; idx++) {
+    lcd_spi_transfer(TRUE, 1, &script[idx].cmd);
+    lcd_spi_transfer(FALSE, script[idx].data_bytes, script[idx].data);
+    milliwait(script[idx].delay_ms);
+  }
+}
+
+/************ LCD Framebuffer device *************/
+static int lcd_fb_init(void)
+{
+  struct fb_fix_screeninfo fixed_info;
+  int _fd = open("/dev/fb0", O_RDWR | O_NONBLOCK);
+  if (_fd < 0)
+  {
+    // This is expected until we decide to use the framebuffer device
+    // error_return(app_DEVICE_OPEN_ERROR, "Can't open LCD FB interface: %d\n", errno);
+    return -1;
+  }
+  
+  if (ioctl(_fd, FBIOGET_FSCREENINFO, &fixed_info) < 0)
+  {
+    error_return(app_IO_ERROR, "Get screen info failed: %d\n", errno);
+  }
+  
+  return _fd;
+}
+
+/************ LCD Device Interface *************/
+
+static void lcd_device_init()
+{
+  // Init registers and put the display in sleep mode
+  lcd_run_script(lcd_display_version() == SANTEK ? init_scr_midas : init_scr_midas);
+
+  // Clear lcd memory before turning display on
+  // as the contents of memory are set randomly on
+  // power on
+  lcd_clear_screen();
+  
+  // Turn display on
+  lcd_run_script(lcd_display_version() == SANTEK ? display_on_scr_santek : display_on_scr_midas);
+}
+
+void lcd_clear_screen(void) {
+  const LcdFrame frame={{0}};
+  lcd_draw_frame(&frame);
+}
+
+void lcd_draw_frame(const LcdFrame* frame) {
+   if (lcd_use_fb) {
+      lseek(lcd_fd, 0, SEEK_SET);
+      (void)write(lcd_fd, frame->data, sizeof(frame->data));
+   } else {
+      static const uint8_t WRITE_RAM = 0x2C;
+      lcd_spi_transfer(TRUE, 1, &WRITE_RAM);
+      lcd_spi_transfer(FALSE, sizeof(frame->data), frame->data);
+   }
+}
+
+// Here we jsut crop the images cutting off top/bottom/and sides
+// Because rampost is running inside a ram filesystem we can't
+// load up a bunch of files for alternate images, and we don't
+// want to increase the size of this binary by creating files like
+// anki_dev_unit_v2 with the raw data stored as a struct.
+void lcd_draw_frame2_midas_crop(const uint16_t* frame, size_t size)
+{
+  static const uint8_t WRITE_RAM = 0x2C;
+
+  lcd_spi_transfer(TRUE, 1, &WRITE_RAM);
+
+  uint16_t new_row[LCD_FRAME_WIDTH_MIDAS];
+
+  int i,j;
+  for(i=0;i<LCD_FRAME_HEIGHT_MIDAS;i++) {
+    const uint16_t* row = (uint16_t*)frame + ((i+12) * LCD_FRAME_WIDTH_SANTEK) + 8;
+    for(j=0;j<LCD_FRAME_WIDTH_MIDAS;j++) {
+      new_row[j] = __builtin_bswap16(row[j]);
+    }
+    lcd_spi_transfer(FALSE, (LCD_FRAME_WIDTH_MIDAS )* 2, new_row);
+  }
+}
+
+void lcd_draw_frame2_midas(const uint16_t* frame, size_t size) {
+  static uint16_t buffer[LCD_FRAME_WIDTH_MIDAS * LCD_FRAME_HEIGHT_MIDAS];
+
+  for(int i=0; i < LCD_FRAME_WIDTH_MIDAS * LCD_FRAME_HEIGHT_MIDAS ; i++) {
     buffer[i] = __builtin_bswap16(frame[i]);
   }
   
   if (0) { // Does this work?
-    // lseek(lcd_fd, 0, SEEK_SET);
-    // (void)write(lcd_fd, buffer, size);
+    lseek(lcd_fd, 0, SEEK_SET);
+    (void)write(lcd_fd, buffer, size);
   } else {
  
     static const uint8_t WRITE_RAM = 0x2C;
@@ -1735,163 +375,156 @@ void lcd_draw_frame2(const uint16_t* frame, size_t size) {
   }
 }
 
-// void lcd_draw_frame1(const uint16_t* frame, size_t size) {
-//    if (0) { // lcd_use_fb
-//     //   lseek(lcd_fd, 0, SEEK_SET);
-//     //   (void)write(lcd_fd, frame, size);
-//    } else {
-   
-//     //   static const uint8_t WRITE_RAM = 0x2C;
-//     //   lcd_spi_transfer(TRUE, 1, &WRITE_RAM);
-//       lcd_spi_transfer(FALSE, size, frame);
-//    }
-// }
-
-static void lcd_spi_transfer(int cmd, int bytes, const void* data) {
-    const uint8_t* tx_buf = data;
-
-    // 使用已有的 spilcdSetMode 来设置 D/C 引脚
-    spilcdSetMode(cmd ? MODE_COMMAND : MODE_DATA);
-
-    // 使用已有的写数据函数按块传输
-    while (bytes > 0) {
-        const size_t count = bytes > MAX_TRANSFER ? MAX_TRANSFER : bytes;
-
-        // 使用已有的 myspiWrite 函数
-        myspiWrite((unsigned char *)tx_buf, count);
-
-        bytes -= count;
-        tx_buf += count;
-    }
-}
-
-static void _lcd_spi_transfer(const void *data, int bytes)
-{
-        // printf("0.0.0.---------------> in lcd_spi_transfer data: %d, size: %d\n", data, bytes);
-        const uint8_t *tx_buf = data;
-
-        while (bytes > 0)
-        {
-                const size_t count = bytes > MAX_TRANSFER ? MAX_TRANSFER : bytes;
-
-                myspiWrite((unsigned char *)tx_buf, count);
-
-                bytes -= count;
-                tx_buf += count;
-        }
-        // spilcdSetMode(MODE_DATA);
-}
-
-void lcd_draw_frame(const LcdFrame* frame) {
-   // printf("0.0.1.---------------> in lcd_draw_frame frame: %d, size: %d\n", frame->data, sizeof(frame->data));
-   if (0) { // lcd_use_fb
-    //   lseek(lcd_fd, 0, SEEK_SET);
-    //   (void)write(lcd_fd, frame->data, sizeof(frame->data));
+void lcd_draw_frame2_santek(const uint16_t* frame, size_t size) {
+   if (lcd_use_fb) {
+      lseek(lcd_fd, 0, SEEK_SET);
+      (void)write(lcd_fd, frame, size);
    } else {
+   
       static const uint8_t WRITE_RAM = 0x2C;
       lcd_spi_transfer(TRUE, 1, &WRITE_RAM);
-      lcd_spi_transfer(FALSE, sizeof(frame->data), frame->data);
+      lcd_spi_transfer(FALSE, size, frame);
    }
 }
 
-/**
- * 编写一个接收uint16_t *的buffer的参数
- * 然后接收一个指定的大小， int size
- * 然后将buffer中的数据写入到lcd中
- * 
- */
-int lcd_write_buffer(uint16_t *buffer, int size)
-{
-        // printf("0.0.1.---------------> in lcd_write_buffer buffer: %s, size: %d\n", buffer, size);
-        // printf("0.0.1.---------------> in lcd_write_buffer buffer\n");
-        if (file_spi < 0)
-                return -1; // not initialized
-        int iOldOrient;
-        // make sure we're in landscape mode to use the correct coordinates
-        iOldOrient = iOrientation;
-        iOrientation = LCD_ORIENTATION_NATIVE;
-        spilcdScrollReset();
-        // printf("0.0.2.---------------> after spilcdScrollReset\n");
-        spilcdSetPosition(0, 0, iWidth, iHeight);
-        // printf("0.0.3.---------------> after spilcdSetPosition\n");
-        iOrientation = iOldOrient;
-
-        // Write the buffer to the LCD
-        for (int i = 0; i < size / 2; i++) {
-                buffer[i] = (buffer[i] >> 8) | (buffer[i] << 8); // swap bytes
-        }
-        // printf("0.0.4.---------------> before _lcd_spi_transfer\n");
-        _lcd_spi_transfer((unsigned char *)buffer, size);
-        // printf("0.0.5.---------------> after _lcd_spi_transfer\n");
-        return 0;
+void lcd_draw_frame2(const uint16_t* frame, size_t size) {
+  if (LCD_DISPLAY_MAN != SANTEK) {
+    lcd_draw_frame2_midas(frame, size);
+  } else {
+    lcd_draw_frame2_santek(frame, size);
+  }
 }
 
 
-//
-// Fill the frame buffer with a single color
-//
-int spilcdFills(unsigned short *usData)
+#define MAX(a,b) (((a)>(b))?(a):(b))
+#define MIN(a,b) (((a)<(b))?(a):(b))
+
+static const char* BACKLIGHT_DEVICES[] = {
+  "/sys/class/leds/face-backlight-left/brightness",
+  "/sys/class/leds/face-backlight-right/brightness"
+};
+
+static int _led_set_brightness(const int brightness, const char* led)
 {
-        int y;
-        uint32_t usC;
-        uint32_t temp[1024];
-        int iOldOrient;
+  int fd = open(led,O_WRONLY);
+  if (fd < 0)
+  {
+    error_return(app_DEVICE_OPEN_ERROR, "Failed to open backlight %s: %d\n", led, errno);
+  }
 
-        if (file_spi < 0)
-                return -1; // not initialized
+  char buf[3];
+  snprintf(buf,3,"%02d\n",brightness);
+  (void)write(fd, buf, 3);
+  close(fd);
 
-        // 假设这里是要处理传入指针指向的数据，取第一个元素进行处理（示例，具体需根据实际逻辑调整）
-        usC = (usData[0] >> 8) | ((usData[0] & 0xFF) << 8); // swap endian-ness
-        usC |= (usC << 16);
-        // make sure we're in landscape mode to use the correct coordinates
-        iOldOrient = iOrientation;
-        iOrientation = LCD_ORIENTATION_NATIVE;
-        spilcdScrollReset();
-        spilcdSetPosition(0, 0, iWidth, iHeight);
-        iOrientation = iOldOrient;
-
-        for (y = 0; y < iWidth * 2; y++)
-                temp[y] = usC;
-        for (y = 0; y < iHeight / 4; y++)
-        {
-                spilcdWriteDataBlock((unsigned char *)temp, iWidth * 4 * 2); // fill with data byte
-        } // for y
-        return 0;
+  return 0;
 }
 
-void lcd_clear_screen(void)
+int lcd_set_brightness(int brightness)
 {
-        // spilcdFill(0);
-		const LcdFrame frame={{0}};
-  		lcd_draw_frame(&frame);
+  brightness = MIN(brightness, 20);
+  brightness = MAX(brightness, 0);
+
+  int anyBacklightWorks = 0;
+
+  int l;
+  for (l=0; l<2; ++l) {
+    // int res = _led_set_brightness(brightness, BACKLIGHT_DEVICES[l]);
+    int res = 1;
+    anyBacklightWorks |= (res >= 0);
+  }
+
+  // If at least one of the backlights work then success otherwise
+  // none of them work so fail
+  return (anyBacklightWorks ? 0 : -1);
 }
 
-//
-// Fill the frame buffer with a single color
-//
-int spilcdFill(unsigned short usData)
-{
-        int y;
-        uint32_t usC, temp[1024];
-        int iOldOrient;
+int lcd_init(void) {
 
-        if (file_spi < 0)
-                return -1; // not initialized
+  // define LCD manufacturer rather than read the EMR partition upon EVERY SINGLE LCD DRAW
+  // InitIsXray();
+  LCD_DISPLAY_MAN = lcd_display_version();
 
-        usC = (usData >> 8) | ((usData & -1) << 8); // swap endian-ness
-        usC |= (usC << 16);
-        // make sure we're in landscape mode to use the correct coordinates
-        iOldOrient = iOrientation;
-        iOrientation = LCD_ORIENTATION_NATIVE;
-        spilcdScrollReset();
-        spilcdSetPosition(0, 0, iWidth, iHeight);
-        iOrientation = iOldOrient;
+  int res = lcd_set_brightness(10);
+  if(res < 0)
+  {
+    return res;
+  }
 
-        for (y = 0; y < iWidth * 2; y++)
-                temp[y] = usC;
-        for (y = 0; y < iHeight / 4; y++)
-        {
-                spilcdWriteDataBlock((unsigned char *)temp, iWidth * 4 * 2); // fill with data byte
-        } // for y
-        return 0;
-} /* spilcdFill() */
+  lcd_fd = lcd_fb_init();
+  if (lcd_fd > 0) {
+    lcd_use_fb = TRUE;
+    return 0; // use framebuffer device
+  }
+
+  // IO Setup
+  res = gpio_create(GPIO_LCD_WRX, gpio_DIR_OUTPUT, gpio_HIGH, &DnC_PIN);
+  if(res < 0)
+  {
+    error_return(app_IO_ERROR, "Failed to create GPIO %d: %d\n", GPIO_LCD_WRX, res);
+  }
+
+  res = gpio_create_open_drain_output(GPIO_LCD_RESET_MIDAS, gpio_HIGH, &RESET_PIN_1);
+  if(res < 0)
+  {
+    error_return(app_IO_ERROR, "Failed to create GPIO %d: %d\n", GPIO_LCD_RESET_MIDAS, res);
+  }
+
+  //  int gpio_lcd_reset_2 = lcd_display_version() != SANTEK ? GPIO_LCD_RESET_SANTEK : GPIO_LCD_RESET_MIDAS;
+  res = gpio_create(GPIO_LCD_RESET_SANTEK, gpio_DIR_OUTPUT, gpio_HIGH, &RESET_PIN_2);
+  if(res < 0)
+  {
+    error_return(app_IO_ERROR, "Failed to create GPIO %d: %d\n",  GPIO_LCD_RESET_SANTEK, res);
+  }
+
+  // SPI setup
+
+  lcd_fd = lcd_spi_init();
+
+  if(lcd_fd < 0)
+  {
+    return lcd_fd;
+  }
+
+  // Send reset signal
+  microwait(50);
+  gpio_set_value(RESET_PIN_1, 0);
+  gpio_set_value(RESET_PIN_2, 0);
+  microwait(50);
+  gpio_set_value(RESET_PIN_1, 1);
+  gpio_set_value(RESET_PIN_2, 1);
+  // Wait 120 milliseconds after releasing reset before sending commands
+  milliwait(120);
+
+  lcd_device_init();
+
+  return 0;
+}
+
+
+void lcd_shutdown(void) {
+  //todo: turn off screen?
+
+  if (lcd_use_fb) {
+    close(lcd_fd);
+    return;
+  }
+
+  if (lcd_fd) {
+    if (DnC_PIN) {
+      lcd_run_script( lcd_display_version() == SANTEK ? sleep_in_santek : sleep_in_midas);
+    }
+    close(lcd_fd);
+  }
+  if (DnC_PIN) {
+    gpio_close(DnC_PIN);
+  }
+  if (RESET_PIN_1) {
+    gpio_close(RESET_PIN_1);
+  }
+
+  if (RESET_PIN_2) {
+    gpio_close(RESET_PIN_2);
+  }
+
+}

@@ -27,7 +27,7 @@ if (MATEOS)
 
     target_link_libraries(${LIB}
       PRIVATE
-      # gpio
+      gpio
       # pigpio
       pthread
       rt
