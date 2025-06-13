@@ -70,9 +70,9 @@ static int iWPPins0[] = {-1, -1, 59, -1, -1, -1, 47, 13, -1, 14, 138,
 int lcd_init(void)
 {
         // ILI9341 RK3588 LCD_ST7789
-        return spilcdInit(LCD, 0, 0, 50250000, 15, 13, 11); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
+        // return spilcdInit(LCD, 0, 0, 50250000, 15, 13, 11); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
         // LCD_ST7789
-        // return spilcdInit(LCD, 0, 0, 18250000, 29, 31, 33); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
+        return spilcdInit(LCD, 0, 0, 18250000, 29, 31, 33); // LCD type, flip 180, SPI Channel. Freq, D/C, RST, LED
 }
 
 // Sets the D/C pin to data or command mode

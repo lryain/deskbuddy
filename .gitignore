@@ -426,3 +426,7 @@ snowboy/server/main
 tools/build/dist
 # tools/build/dist/protobuf
 tools/build/build-deskmate-deps
+robot/fixture/helpware/animate
+robot/fixture/helpware/display_test
+robot/fixture/helpware/menuman
+robot/fixture/helpware/helper
