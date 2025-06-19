@@ -61,8 +61,8 @@ Lrya::Util::Data::DataPlatform* createPlatform()
   char config_file_path[PATH_MAX] = { 0 };
   const char* env_config = getenv("MATE_ANIM_CONFIG");
   if (env_config == NULL) {
-    env_config = "/lrya/etc/config/platform_config.json";
-    printf("0. ---------------> getenv(MATE_ANIM_CONFIG) is NULL, use default path: %s\n", env_config);
+    env_config = "/home/orangepi/dev/deskbuddy/resources/config/platform_config.json";
+    // printf("0. ---------------> getenv(MATE_ANIM_CONFIG) is NULL, use default path: %s\n", env_config);
   }
   if (env_config != NULL) {
     strncpy(config_file_path, env_config, sizeof(config_file_path));
@@ -139,27 +139,27 @@ int main(void)
     {
       LOG_ERROR("CozmoAnimMain.main", "Failed to parse json file '%s'", consoleFilterConfigPath.c_str());
     }
-    printf("2.1.initialize console filter for this platform...\n");
+    // printf("2.1.initialize console filter for this platform...\n");
   
     // initialize console filter for this platform
     const std::string& platformOS = dataPlatform->GetOSPlatformString();
     const Json::Value& consoleFilterConfigOnPlatform = consoleFilterConfig[platformOS];
     consoleFilter->Initialize(consoleFilterConfigOnPlatform);
-    printf("2.2.set filter in the loggers...\n");
+    // printf("2.2.set filter in the loggers...\n");
 
     // set filter in the loggers
     std::shared_ptr<const IChannelFilter> filterPtr( consoleFilter );
 
     Lrya::Util::gLoggerProvider->SetFilter(filterPtr);
   }
-  printf("3.start LRYA_CONSOLE_SYSTEM_INIT...\n");
+  // printf("3.start LRYA_CONSOLE_SYSTEM_INIT...\n");
 
   // Set up the console vars to load from file, if it exists
   LRYA_CONSOLE_SYSTEM_INIT(dataPlatform->pathToResource(Lrya::Util::Data::Scope::Cache, "consoleVarsAnim.ini").c_str());
 
   // Create and init AnimEngine
   Anim::AnimEngine * animEngine = new Anim::AnimEngine(dataPlatform);
-  printf("3.1.start animEngine->Init()...\n");
+  // printf("3.1.start animEngine->Init()...\n");
 
   Result result = animEngine->Init();
   

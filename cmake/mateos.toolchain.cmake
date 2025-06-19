@@ -36,6 +36,8 @@ set(MATEOS_LINKER_FLAGS_EXE)
 set(MATEOS_C_COMPILER   "/usr/bin/clang")
 set(MATEOS_CXX_COMPILER "/usr/bin/clang++")
 
+# add_definitions(-DDEBUG -D_DEBUG)
+
 # Generic flags.
 list(APPEND MATEOS_COMPILER_FLAGS
     -DMATEOS
@@ -76,17 +78,20 @@ list(APPEND MATEOS_COMPILER_FLAGS_DEBUG
 	-O0
     -Winstantiation-after-specialization 
     -Wunused-but-set-variable
+    -DALLOW_DEBUG_LOGGING
+    -DDEBUG -D_DEBUG
     # -fno-elide-constructors 
     # -Werror=undefined-func-template
     # -fno-limit-debug-info
     )
 list(APPEND MATEOS_COMPILER_FLAGS_RELEASE
 	-Os
-        -DNDEBUG)
+    -DNDEBUG
+)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     list(APPEND MATEOS_LINKER_FLAGS_EXE
-        -Wl,-rpath-link,${CMAKE_SOURCE_DIR}/_build/mateos/Release/lib)
+        -Wl,-rpath-link,${CMAKE_SOURCE_DIR}/_build/mateos/Debug/lib)
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     list(APPEND MATEOS_LINKER_FLAGS_EXE
         -Wl,-rpath-link,${CMAKE_SOURCE_DIR}/_build/mateos/Release/lib)
@@ -152,7 +157,8 @@ if(NOT MATEOS_ALLOW_UNDEFINED_SYMBOLS)
 endif()
 
 # set thumb mode (use -marm for arm mode)
-list(APPEND MATEOS_COMPILER_FLAGS -mthumb)
+# 64 位模式（AArch64）下，Thumb 指令集无对应版本，编译器会忽略该选项
+# list(APPEND MATEOS_COMPILER_FLAGS -mthumb)
 # 在RK3588 AArch64 架构上，NEON 支持是内置的，无需通过 -mfpu=neon 来激活
 # list(APPEND MATEOS_COMPILER_FLAGS
 #     -mfpu=neon)
