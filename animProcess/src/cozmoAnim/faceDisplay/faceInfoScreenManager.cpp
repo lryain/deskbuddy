@@ -14,7 +14,6 @@
 *
 */
 
-#include "cozmoAnim/alexa/alexa.h"
 #include "cozmoAnim/animContext.h"
 #include "cozmoAnim/animProcessMessages.h"
 #include "cozmoAnim/animation/animationStreamer.h"
@@ -117,14 +116,8 @@ namespace {
   // Main and Network screens.
   const u32 kIPCheckPeriod_sec = 20;
   
-  const f32 kAlexaTimeout_s = 5.0f;
-
-  const char* kAlexaIconSpriteName = "face_alexa_icon";
-
   // TODO (VIC-11606): don't use timeout for mute
   CONSOLE_VAR_RANGED(f32, kToggleMuteTimeout_s, "FaceInfoScreenManager", 1.2f, 0.001f, 3.0f);
-  CONSOLE_VAR_RANGED(f32, kAlexaNotificationTimeout_s, "FaceInfoScreenManager", 2.0f, 0.001f, 3.0f);
-
   // How long the button needs to be pressed for before it should trigger shutdown animation
   CONSOLE_VAR( u32, kButtonPressDurationForShutdown_ms, "FaceInfoScreenManager", 500 );
 #if LRYA_DEV_CHEATS
@@ -217,12 +210,7 @@ void FaceInfoScreenManager::Init(Anim::AnimContext* context, Anim::AnimationStre
   ADD_SCREEN(IMUInfo, MotorInfo);
   ADD_SCREEN(MotorInfo, MicInfo);
   ADD_SCREEN(MirrorMode, MirrorMode);
-  ADD_SCREEN(AlexaPairing, AlexaPairing);
-  ADD_SCREEN(AlexaPairingSuccess, AlexaPairingSuccess);
-  ADD_SCREEN(AlexaPairingFailed, AlexaPairingFailed);
-  ADD_SCREEN(AlexaPairingExpired, AlexaPairingExpired);
   ADD_SCREEN(ToggleMute, ToggleMute);
-  ADD_SCREEN(AlexaNotification, AlexaNotification);
   
   if (hideSpecialDebugScreens) {
     ADD_SCREEN(MicInfo, Main); // Last screen cycles back to Main
@@ -381,19 +369,6 @@ void FaceInfoScreenManager::Init(Anim::AnimContext* context, Anim::AnimationStre
   SET_EXIT_ACTION(MirrorMode, mirrorExitAction);
   DISABLE_TIMEOUT(MirrorMode); // Let toggling the associated VisionMode handle turning this on/off
   
-  // === AlexaPairing ===
-  auto alexaEnterAction = [this]() {
-    DrawAlexaFace();
-  };
-  SET_ENTER_ACTION(AlexaPairing,        alexaEnterAction);
-  SET_ENTER_ACTION(AlexaPairingSuccess, alexaEnterAction);
-  SET_ENTER_ACTION(AlexaPairingFailed,  alexaEnterAction);
-  SET_ENTER_ACTION(AlexaPairingExpired, alexaEnterAction);
-  DISABLE_TIMEOUT(AlexaPairing); // let the authorization process handle timeout
-  SET_TIMEOUT(AlexaPairingSuccess, kAlexaTimeout_s, None);
-  SET_TIMEOUT(AlexaPairingFailed,  kAlexaTimeout_s, None);
-  SET_TIMEOUT(AlexaPairingExpired, kAlexaTimeout_s, None);
-  
   // === Toggling mute ===
   auto toggleMuteEnterAction = [this]() {
     DrawMuteAnimation();
@@ -401,13 +376,6 @@ void FaceInfoScreenManager::Init(Anim::AnimContext* context, Anim::AnimationStre
   SET_ENTER_ACTION(ToggleMute, toggleMuteEnterAction);
   // TODO (VIC-11606): don't use timeout and instead wait for mute anim to end
   SET_TIMEOUT(ToggleMute, kToggleMuteTimeout_s, None);
-  
-  // === AlexaNotification ===
-  auto alexaNotification = [this]() {
-    DrawAlexaNotification();
-  };
-  SET_ENTER_ACTION(AlexaNotification, alexaNotification);
-  SET_TIMEOUT(AlexaNotification, kAlexaNotificationTimeout_s, None);
   
   // === Camera Motor Test ===
   // Add menu item to camera screen to start a test mode where the motors run back and forth
@@ -472,7 +440,6 @@ bool FaceInfoScreenManager::IsActivelyDrawingToScreen() const
     case ScreenName::None:
     case ScreenName::Pairing:
     case ScreenName::ToggleMute:
-    case ScreenName::AlexaNotification:
     case ScreenName::SelfTestRunning:
       return false;
     default:
@@ -575,14 +542,6 @@ void FaceInfoScreenManager::SetScreen(ScreenName screen)
 
   LOG_INFO("FaceInfoScreenManager.SetScreen.EnteringScreen", "%hhu", GetCurrScreenName());
   _currScreen->EnterScreen();
-
-  if(!IsAlexaScreen(GetCurrScreenName())) {
-    // when exiting alexa screens (say, into pairing), cancel any pending alexa authorization
-    auto* alexa = _context->GetAlexa();
-    if (alexa != nullptr) {
-      alexa->CancelPendingAlexaAuth("LEFT_CODE_SCREEN");
-    }
-  }
 
   ResetObservedHeadAndLiftAngles();
 
@@ -1017,14 +976,7 @@ void FaceInfoScreenManager::ProcessMenuNavigation(const RobotState& state)
   const ScreenName currScreenName = GetCurrScreenName();
 
   if (singlePressDetected && _engineLoaded) {
-    if (IsAlexaScreen(currScreenName)) {
-      // Single press should exit any uncompleted alexa authorization
-      Alexa* alexa = _context->GetAlexa();
-      if( alexa != nullptr ) {
-        alexa->CancelPendingAlexaAuth("BUTTON_PRESS");
-      }
-      EnableAlexaScreen(ScreenName::None,"","");
-    } else if (currScreenName == ScreenName::None) {
+    if (currScreenName == ScreenName::None) {
       // Fake trigger word on single press
       LOG_INFO("FaceInfoScreenManager.ProcessMenuNavigation.GotSinglePress", "Triggering wake word");
       _context->GetMicDataSystem()->FakeTriggerWordDetection();
@@ -1555,116 +1507,6 @@ void FaceInfoScreenManager::DrawCustomText()
                    { 0, FACE_DISPLAY_HEIGHT-10 }, 10, 3.f);
 }
   
-void FaceInfoScreenManager::DrawAlexaFace()
-{
-  if ( nullptr == _currScreen )
-  {
-    return;
-  }
-
-  static const int        kScreenTop            = 0;
-  static const int        kIconToTextSpacing    = 0;
-  static const ColorRGBA& kTextColor            = NamedColors::WHITE;
-  static const int        kTextSpacing          = 14;
-  static const int        kTextLineThickness    = 1;
-  float      kDefaultTextScale     = IsXray() ? 0.3f : 0.4f;
-
-  // draw the alexa icon ...
-
-  Vision::ImageRGBA alexaIcon;
-  alexaIcon.Load(_context->GetDataLoader()->GetSpritePaths()->GetAssetPath(kAlexaIconSpriteName));
-
-  const int kIconTop  = kScreenTop;
-  const int iconLeft  = ( FACE_DISPLAY_WIDTH - alexaIcon.GetNumCols() )  / 2.0f;
-  const Point2f iconTopLeft( iconLeft, kIconTop );
-
-  _scratchDrawingImg->DrawSubImage( Vision::ImageRGB565( alexaIcon ), iconTopLeft );
-
-  // draw the texzt ...
-  // todo: localization
-
-  struct TextDataLine
-  {
-    std::string   text;
-    float         scale = 1.0f;
-  };
-  std::vector<TextDataLine> textVec;
-  
-  switch ( _currScreen->GetName() )
-  {
-    case ScreenName::AlexaPairing:
-    {
-      // we have confirmed it's ok to hardcode this url, but if it's been set for us already, use that
-      const std::string& url = _alexaUrl.empty() ? "amazon.com/code" : _alexaUrl;
-      textVec.push_back( { "Go to " + url } );
-      textVec.push_back( { _alexaCode, 1.5f } );
-
-      break;
-    }
-
-    case ScreenName::AlexaPairingSuccess:
-    {
-      textVec.push_back( { "You're ready to use Alexa." } );
-      textVec.push_back( { "Check out the Alexa App" } );
-      if (!IsXray()) {
-        textVec.push_back( { "for things to try." } );
-      }
-      break;
-    }
-
-    case ScreenName::AlexaPairingExpired:
-    {
-      textVec.push_back( { "The code has expired." } );
-      if (IsXray()) {
-        textVec.push_back( { "Try again" } );
-      } else {
-        textVec.push_back( { "Retry to generate" } );
-        textVec.push_back( { "a new code." } );
-      }
-
-      break;
-    }
-
-    case ScreenName::AlexaPairingFailed:
-    {
-      textVec.push_back( { "Something's gone wrong." } );
-      textVec.push_back( { "Please try again." } );
-
-      break;
-    }
-
-    default:
-    {
-      LRYA_VERIFY( false && "Unexpected alexa face", "FaceInfoScreenManager.DrawAlexaFace.Unexpected", "" );
-      break;
-    }
-  }
-
-  // loop through our lines of text and draw them centered on the screen
-  int textLocationY = ( kIconTop + alexaIcon.GetNumRows() + kIconToTextSpacing );
-  for ( const auto& line : textVec )
-  {
-    textLocationY += ( kTextSpacing * line.scale );
-    _scratchDrawingImg->DrawTextCenteredHorizontally( line.text,
-                                                      CV_FONT_NORMAL,
-                                                      kDefaultTextScale * line.scale,
-                                                      kTextLineThickness,
-                                                      kTextColor,
-                                                      textLocationY,
-                                                      false );
-  }
-
-  // This actually draws the scratch image to the screen
-  DrawScratch();
-
-  RobotInterface::SetHeadAngle headAction;
-  headAction.angle_rad = MAX_HEAD_ANGLE;
-  headAction.duration_sec = 1.0;
-  headAction.max_speed_rad_per_sec = MAX_HEAD_SPEED_RAD_PER_S;
-  headAction.accel_rad_per_sec2 = MAX_HEAD_ACCEL_RAD_PER_S2;
-  SendAnimToRobot(std::move(headAction));
-}
-  
 void FaceInfoScreenManager::DrawMuteAnimation()
 {
   if( _currScreen == nullptr ) {
@@ -1678,17 +1520,6 @@ void FaceInfoScreenManager::DrawMuteAnimation()
   const bool overrideAllSpritesToEyeColor = true;
   _animationStreamer->SetStreamingAnimation(animName, 0, 1, 0, shouldInterrupt, overrideAllSpritesToEyeColor);
   
-}
-  
-void FaceInfoScreenManager::DrawAlexaNotification()
-{
-  if( _currScreen == nullptr ) {
-    return;
-  }
-
-  const std::string animName = "anim_avs_notification_loop_01";
-  const bool shouldInterrupt = true;
-  _animationStreamer->SetStreamingAnimation(animName, 0, 1, 0, shouldInterrupt);
 }
 
 // Draws each element of the textVec on a separate line (spacing determined by textSpacing_pix)
@@ -1864,45 +1695,6 @@ void FaceInfoScreenManager::EnablePairingScreen(bool enable)
     SetScreen(ScreenName::Pairing);
   } else if (!enable && GetCurrScreenName() == ScreenName::Pairing) {
     LOG_INFO("FaceInfoScreenManager.EnablePairingScreen.Disable", "");
-    // TODO: it's possible that the user entered the app pairing screen during Alexa pairing,
-    // in which case the face should return to the Alexa screen when app pairing is complete
-    SetScreen(ScreenName::None);
-  }
-}
-  
-void FaceInfoScreenManager::EnableAlexaScreen(ScreenName screenName, const std::string& code, const std::string& url)
-{
-  const bool validNewScreen = IsAlexaScreen(screenName) || (screenName == ScreenName::None);
-  if (!LRYA_VERIFY(validNewScreen, "FaceInfoScreenManager.EnableAlexaPairingScreen.Invalid",
-                   "Screen %d is invalid", (int)screenName))
-  {
-    return;
-  }
-  
-  const auto currScreen = GetCurrScreenName();
-  const bool isAlexaScreen = IsAlexaScreen(currScreen);
-  
-  if ((screenName == ScreenName::AlexaPairing) && (GetCurrScreenName() != ScreenName::AlexaPairing)) {
-    _alexaCode = code;
-    _alexaUrl = url;
-
-    LOG_INFO("FaceInfoScreenManager.EnableAlexaPairingScreen.Code", "");
-
-    DASMSG(pairing_code_displayed, "alexa.pairing_code_displayed", "A code to pair with AVS has been displayed");
-    DASMSG_SEND();
-
-    SetScreen(ScreenName::AlexaPairing);
-  } else if ((screenName == ScreenName::AlexaPairingSuccess) && (currScreen != ScreenName::AlexaPairingSuccess)) {
-    LOG_INFO("FaceInfoScreenManager.EnableAlexaPairingScreen.Success", "");
-    SetScreen(ScreenName::AlexaPairingSuccess);
-  } else if ((screenName == ScreenName::AlexaPairingFailed) && (currScreen != ScreenName::AlexaPairingFailed)) {
-    LOG_INFO("FaceInfoScreenManager.EnableAlexaPairingScreen.Failed", "");
-    SetScreen(ScreenName::AlexaPairingFailed);
-  } else if ((screenName == ScreenName::AlexaPairingExpired) && (currScreen != ScreenName::AlexaPairingExpired)) {
-    LOG_INFO("FaceInfoScreenManager.EnableAlexaPairingScreen.Expired", "");
-    SetScreen(ScreenName::AlexaPairingExpired);
-  } else if ((screenName == ScreenName::None) && isAlexaScreen) {
-    LOG_INFO("FaceInfoScreenManager.EnableAlexaPairingScreen.Done", "");
     SetScreen(ScreenName::None);
   }
 }
@@ -1929,11 +1721,6 @@ void FaceInfoScreenManager::ToggleMute(const std::string& reason)
   } else {
     SetScreen(ScreenName::ToggleMute);
   }
-}
-  
-void FaceInfoScreenManager::StartAlexaNotification()
-{
-  SetScreen(ScreenName::AlexaNotification);
 }
   
 void FaceInfoScreenManager::EnableMirrorModeScreen(bool enable)
@@ -2054,25 +1841,7 @@ bool FaceInfoScreenManager::CanEnterPairingFromScreen( const ScreenName& screenN
     case ScreenName::CustomText:
     case ScreenName::Pairing:
     case ScreenName::MirrorMode:
-    case ScreenName::AlexaPairing:
-    case ScreenName::AlexaPairingSuccess:
-    case ScreenName::AlexaPairingFailed:
-    case ScreenName::AlexaPairingExpired:
     case ScreenName::ToggleMute:
-    case ScreenName::AlexaNotification:
-      return true;
-    default:
-      return false;
-  }
-}
-  
-bool FaceInfoScreenManager::IsAlexaScreen(const ScreenName& screenName) const
-{
-  switch (screenName) {
-    case ScreenName::AlexaPairing:
-    case ScreenName::AlexaPairingSuccess:
-    case ScreenName::AlexaPairingFailed:
-    case ScreenName::AlexaPairingExpired:
       return true;
     default:
       return false;
@@ -2082,12 +1851,7 @@ bool FaceInfoScreenManager::IsAlexaScreen(const ScreenName& screenName) const
 bool FaceInfoScreenManager::ScreenNeedsWait(const ScreenName& screenName) const
 {
   switch (screenName) {
-    case ScreenName::AlexaPairing:
-    case ScreenName::AlexaPairingSuccess:
-    case ScreenName::AlexaPairingFailed:
-    case ScreenName::AlexaPairingExpired:
     case ScreenName::ToggleMute:
-    case ScreenName::AlexaNotification:
       return true;
     default:
       return false;

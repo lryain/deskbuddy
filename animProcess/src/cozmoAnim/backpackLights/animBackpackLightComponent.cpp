@@ -134,10 +134,6 @@ void BackpackLightComponent::UpdateCriticalBackpackLightConfig(bool isCloudStrea
     // once it stops, critical lights will be re-started
     trigger = BackpackAnimationTrigger::Off;
   }
-  else if(isNotificationPending)
-  {
-    trigger = BackpackAnimationTrigger::AlexaNotification;
-  }
   // If we are on the charger and charging
   else if(_isOnChargerContacts &&
           _isBatteryCharging &&
@@ -187,7 +183,7 @@ void BackpackLightComponent::Update()
 
   // Consider stream to be open when the trigger word is detected or we are actually
   // streaming. Trigger word stays detected until the stream state is updated
-  const bool isCloudStreamOpen = (_willStreamOpen || _isStreaming || _alexaStreaming);
+  const bool isCloudStreamOpen = (_willStreamOpen || _isStreaming);
   UpdateCriticalBackpackLightConfig(isCloudStreamOpen, _micMuted, _hasNotification);
 
   UpdateSystemLightState(isCloudStreamOpen);
