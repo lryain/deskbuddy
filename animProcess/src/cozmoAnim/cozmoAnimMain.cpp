@@ -20,6 +20,7 @@
 #include "util/logging/logging.h"
 #include "util/logging/channelFilter.h"
 #include "util/logging/deskmateLogger.h"
+// #include "util/logging/androidLogPrintLogger_mateos.h"
 
 #include "platform/common/diagnosticDefines.h"
 #include "platform/deskmateCrashReports/deskmateCrashReporter.h"
@@ -62,15 +63,14 @@ Lrya::Util::Data::DataPlatform* createPlatform()
   const char* env_config = getenv("MATE_ANIM_CONFIG");
   if (env_config == NULL) {
     env_config = "/home/orangepi/dev/deskbuddy/resources/config/platform_config.json";
-    // printf("0. ---------------> getenv(MATE_ANIM_CONFIG) is NULL, use default path: %s\n", env_config);
   }
   if (env_config != NULL) {
     strncpy(config_file_path, env_config, sizeof(config_file_path));
   }
 
   Json::Value config;
+  // LOG_INFO("DDDDDDDDD ---> CozmoAnimMain.createPlatform", "\n");
 
-  printf("1. ---------------> config_file: %s\n", config_file_path);
   if (strlen(config_file_path) > 0) {
     std::string config_file{config_file_path};
     if (!Lrya::Util::FileUtils::FileExists(config_file)) {
@@ -163,7 +163,8 @@ int main(void)
 
   Result result = animEngine->Init();
   
-  printf("3.2.animEngine->Init() status: %d\n", result);
+  LOG_DEBUG("3.2.animEngine->Init() ", "status: %d\n", result);
+  
   if (RESULT_OK != result) {
     LOG_ERROR("CozmoAnimMain.main.InitFailed", "Unable to initialize (exit %d)", result);
     delete animEngine;
@@ -173,7 +174,6 @@ int main(void)
     sync();
     exit(result);
   }
-  printf("3.2. done animEngine->Init()\n");
 
   using namespace std::chrono;
   using TimeClock = steady_clock;
@@ -190,6 +190,7 @@ int main(void)
 
     const duration<double> curTime_s = tickStart - runStart;
     const BaseStationTime_t curTime_ns = Util::numeric_cast<BaseStationTime_t>(Util::SecToNanoSec(curTime_s.count()));
+    // LOG_DEBUG("LOG_DEBUG 1.1 ---------> CozmoAnimMain.main.gShutdown", "");
 
     result = animEngine->Update(curTime_ns);
     if (RESULT_OK != result) {

@@ -54,7 +54,11 @@ namespace Lrya {
                             const char* eventName,
                             const std::vector<std::pair<const char*, const char*>>& keyValues,
                             const char* eventValue) override {
-        if (!IsLogLevelEnabled(LOG_LEVEL_DEBUG)) {return;}
+        printf("3. ------------------------> iFormattedLoggerProvider --> PrintLogD if (!IsLogLevelEnabled(LOG_LEVEL_DEBUG: %d))\n", LOG_LEVEL_DEBUG);
+
+        if (!IsLogLevelEnabled(LOG_LEVEL_DEBUG)) {
+          printf("日志等级不够-----------> 返回不打印！: %d, skipping log\n", LOG_LEVEL_DEBUG);
+          return;}
         FormatAndLogChanneled(LOG_LEVEL_DEBUG, channelName, eventName, keyValues, eventValue);
       }
       

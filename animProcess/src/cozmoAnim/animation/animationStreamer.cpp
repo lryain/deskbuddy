@@ -49,7 +49,7 @@
 
 #define LOG_CHANNEL "Animations"
 
-#define DEBUG_ANIMATION_STREAMING 1
+#define DEBUG_ANIMATION_STREAMING 0
 #define DEBUG_ANIMATION_STREAMING_AUDIO 1
 
 namespace Lrya {
@@ -400,15 +400,15 @@ namespace Anim {
     // TODO: Restore ability to subscribe to messages here?
     //       It's currently hard to do with CPPlite messages.
     // SetupHandlers(_context->GetExternalInterface());
-    printf("1.0 -------------> start AnimationStreamer::Init()\n");fflush(stdout);
-
+    LOG_DEBUG("AnimationStreamer.Init", "Set neutral face");
     // Set neutral face
     DEV_ASSERT(nullptr != _context, "AnimationStreamer.Init.NullContext");
     DEV_ASSERT(nullptr != _context->GetDataLoader(), "AnimationStreamer.Init.NullRobotDataLoader");
     const std::string neutralFaceAnimName = "anim_neutral_eyes_01";
-    printf("1.1 -------------> _context->GetDataLoader()->GetCannedAnimation(%s)\n", neutralFaceAnimName.c_str());fflush(stdout);
+
     _neutralFaceAnimation = _context->GetDataLoader()->GetCannedAnimation(neutralFaceAnimName);
-    printf("1.2 -------------> _context->GetDataLoader()->GetCannedAnimation(%s)\n", neutralFaceAnimName.c_str());fflush(stdout);
+    LOG_DEBUG("AnimationStreamer.Init", "_context->GetDataLoader()->GetCannedAnimation(%s)\n", neutralFaceAnimName.c_str());
+    
     if (nullptr != _neutralFaceAnimation)
     {
       auto frame = _neutralFaceAnimation->GetTrack<ProceduralFaceKeyFrame>().GetFirstKeyFrame();

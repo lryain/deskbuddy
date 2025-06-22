@@ -74,12 +74,6 @@ BehaviorsBootLoader::BehaviorsBootLoader(const Json::Value& config)
     _behaviors.devBaseBehavior = BEHAVIOR_ID(Wait);
   }
   
-# if ALEXA_ACOUSTIC_TEST
-  {
-    _behaviors.postOnboardingBehavior = _behaviors.acousticTestBehavior;
-    _behaviors.normalBaseBehavior = _behaviors.acousticTestBehavior;
-  }
-# endif
 }
   
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

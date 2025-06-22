@@ -105,6 +105,7 @@ void IFormattedLoggerProvider::ParseLogLevelSettings(const Json::Value& config)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 bool IFormattedLoggerProvider::IsLogLevelEnabled(LogLevel logLevel) const
 {
+  printf("日志等级------------------------------> IFormattedLoggerProvider.IsLogLevelEnabled: %d\n", numeric_cast_clamped<int>(logLevel));
   DEV_ASSERT(logLevel < _logLevelEnabledFlags.size(), "IFormattedLoggerProvider.IsLogLevelEnabled.InvalidLogLevel");
   const bool ret = _logLevelEnabledFlags[logLevel];
   return ret;
@@ -124,6 +125,8 @@ void IFormattedLoggerProvider::FormatAndLogChanneled(ILoggerProvider::LogLevel l
             const std::vector<std::pair<const char*, const char*>>& keyValues,
             const char* eventValue)
 {
+  printf("4. ------------------------> iFormattedLoggerProvider --> FormatAndLogChanneled #if (PRINT_TID: %d))\n", PRINT_TID);
+
   #if (PRINT_TID)
     pthread_once(&thread_id_once, thread_id_init);
     
@@ -184,7 +187,8 @@ void IFormattedLoggerProvider::FormatAndLogChanneled(ILoggerProvider::LogLevel l
   #endif
       
   stream << std::endl;
-      
+  printf("4.1 ------------------------> iFormattedLoggerProvider --> FormatAndLogChanneled Log(logLevel= %d, stream.str())\n", logLevel);
+
   Log(logLevel, stream.str());
 }
     

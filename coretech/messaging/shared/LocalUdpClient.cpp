@@ -75,7 +75,6 @@ bool LocalUdpClient::Connect(const std::string& sockname, const std::string & pe
     LOG_ERROR("LocalUdpClient.Connect", "Unable to create socket (%s)", strerror(errno));
     return false;
   }
-  printf("1. ----> done create socket: %s\n", sockname.c_str());
 
   if (!Lrya::Messaging::SetReuseAddress(_socket, 1)) {
     LOG_ERROR("LocalUdpClient.Connect", "Unable to set reuseaddress (%s)", strerror(errno));
@@ -83,7 +82,6 @@ bool LocalUdpClient::Connect(const std::string& sockname, const std::string & pe
     _socket = -1;
     return false;
   }
-  printf("2. ----> done LocalUdpClient::Connect-SetNonBlocking: %s\n", sockname.c_str());
 
   if (!Lrya::Messaging::SetNonBlocking(_socket, 1)) {
     LOG_ERROR("LocalUdpClient.Connect", "Unable to set nonblocking (%s)", strerror(errno));
@@ -91,7 +89,6 @@ bool LocalUdpClient::Connect(const std::string& sockname, const std::string & pe
     _socket = -1;
     return false;
   }
-  printf("3. ----> done LocalUdpClient::Connect-SetSendBufferSize: %s\n", sockname.c_str());
 
   if (!Lrya::Messaging::SetSendBufferSize(_socket, _sndbufsz)) {
     LOG_ERROR("LocalUdpClient.Connect", "Unable to set send buffer size %d (%s)", _sndbufsz, strerror(errno));
@@ -99,7 +96,6 @@ bool LocalUdpClient::Connect(const std::string& sockname, const std::string & pe
     _socket = -1;
     return false;
   }
-  printf("4. ----> done LocalUdpClient::Connect-SetSendBufferSize: %s\n", sockname.c_str());
 
   if (!Lrya::Messaging::SetRecvBufferSize(_socket, _rcvbufsz)) {
     LOG_ERROR("LocalUdpClient.Connect", "Unable to set recv buffer size %d (%s)", _rcvbufsz, strerror(errno));
@@ -107,37 +103,31 @@ bool LocalUdpClient::Connect(const std::string& sockname, const std::string & pe
     _socket = -1;
     return false;
   }
-  printf("5. ----> done LocalUdpClient::Connect-SetRecvBufferSize: %s\n", sockname.c_str());
 
   _sockname = sockname;
   _peername = peername;
 
   // Remove any existing socket using this name
   unlink(_sockname.c_str());
-  printf("6. ----> done unlink: %s\n", sockname.c_str());
 
   // Bind to socket name
   memset(&_sockaddr, 0, sizeof(_sockaddr));
   _sockaddr.sun_family = ai_family;
   strncpy(_sockaddr.sun_path, _sockname.c_str(), sizeof(_sockaddr.sun_path));
   _sockaddr_len = (socklen_t) SUN_LEN(&_sockaddr);
-  printf("7. ----> start bind: %s\n", sockname.c_str());fflush(stdout);
 
   if (bind(_socket, (struct sockaddr *) &_sockaddr, _sockaddr_len) != 0) {
-    printf("7.1. ----> LocalUdpClient.Connect Unable to bind socket (%s), errno: %s\n", sockname.c_str(), strerror(errno));fflush(stdout);
     LOG_ERROR("LocalUdpClient.Connect", "Unable to bind socket (%s)", strerror(errno));
     close(_socket);
     _socket = -1;
     return false;
   }
-  printf("8.0. ----> done bind: %s\n", sockname.c_str());
 
   // Connect to peer name
   memset(&_peeraddr, 0, sizeof(_peeraddr));
   _peeraddr.sun_family = ai_family;
   strncpy(_peeraddr.sun_path, _peername.c_str(), sizeof(_peeraddr.sun_path));
   _peeraddr_len = (socklen_t) SUN_LEN(&_peeraddr);
-  printf("9. ----> start connect: %s\n", sockname.c_str());
 
   if (connect(_socket, (struct sockaddr *) &_peeraddr, _peeraddr_len) != 0) {
     LOG_ERROR("LocalUdpClient.Connect", "Unable to connect to %s (%s)", peername.c_str(),  strerror(errno));
@@ -145,13 +135,12 @@ bool LocalUdpClient::Connect(const std::string& sockname, const std::string & pe
     _socket = -1;
     return false;
   }
-  printf("10. ----> done connect: %s\n", sockname.c_str());
 
-  LOG_DEBUG("LocalUdpClient.Connect", "Connect from %s to %s on %d", sockname.c_str(), peername.c_str(), _socket);
+  LOG_DEBUG("LocalUdpClient.Connect", "Connect from %s to %s on %d\n", sockname.c_str(), peername.c_str(), _socket);
 
   // Send connection packet (i.e. something so that the server adds us to the client list)
   Send(LocalUdpServer::kConnectionPacket, sizeof(LocalUdpServer::kConnectionPacket));
-  printf("11. ----> done Send: %s\n", sockname.c_str());
+  LOG_DEBUG("LocalUdpClient.Connect", "Send done!");
 
   return true;
 }

@@ -17,7 +17,7 @@ SRCDIR = src
 INCDIR = inc
 # .o and other temp files go here
 OBJDIR = .output
-CFLAGS = -c -fPIC -Wall -I$(INCDIR) -I../../platform/gpio
+CFLAGS = -c -fPIC -Wall -I$(INCDIR) -I../../
 
 # the library we are building
 LIB = libcore.a

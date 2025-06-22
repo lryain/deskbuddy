@@ -151,7 +151,6 @@ static bool cozmo_start(const Json::Value& configuration)
   }
 
   gDataPlatform = createPlatform(persistentPath, cachePath, resourcesPath);
-
   LOG_DEBUG("CozmoStart.ResourcesPath", "%s", resourcesPath.c_str());
 
 #if (USE_DAS || DEV_LOGGER_ENABLED)
@@ -171,6 +170,8 @@ static bool cozmo_start(const Json::Value& configuration)
       LOG_ERROR("cozmo_start", "Failed to parse Json file '%s'", consoleFilterConfigPath.c_str());
       return false;
     }
+
+    LOG_INFO("cozmo_start", "----------> 1. Parsed Json file '%s'", consoleFilterConfigPath.c_str());
 
     // initialize console filter for this platform
     const std::string& platformOS = gDataPlatform->GetOSPlatformString();
@@ -317,7 +318,7 @@ int main(int argc, char* argv[])
 
   Json::Value config;
 
-  printf("0. ----------------> config_file: %s\n", config_file_path);
+  // printf("0. ----------------> config_file: %s\n", config_file_path);
   if (strlen(config_file_path) > 0) {
     std::string config_file{config_file_path};
     if (!Lrya::Util::FileUtils::FileExists(config_file)) {
@@ -327,7 +328,7 @@ int main(int argc, char* argv[])
     }
 
     std::string jsonContents = Lrya::Util::FileUtils::ReadFile(config_file);
-    printf("jsonContents: %s", jsonContents.c_str());
+    // printf("jsonContents: %s", jsonContents.c_str());
     Json::Reader reader;
     if (!reader.parse(jsonContents, config)) {
       printf("CozmoEngineMain.main: json configuration parsing error: %s\n",

@@ -41,7 +41,7 @@ RUN_BUILD=1
 RUN_INSTALL=1
 CMAKE_TARGET=""
 EXPORT_COMPILE_COMMANDS=0
-IGNORE_EXTERNAL_DEPENDENCIES=0
+IGNORE_EXTERNAL_DEPENDENCIES=1
 BUILD_SHARED_LIBS=0
 
 CONFIGURATION=Debug
@@ -259,7 +259,7 @@ if [ "${GENERATOR}" != "Ninja" ]; then
     BUILD_SYSTEM_TAG="-${GENERATOR}"
 fi
 : ${BUILD_DIR:="${TOPLEVEL}/_build/${PLATFORM}/${CONFIGURATION}${BUILD_SYSTEM_TAG}"}
-echo " 0===============> BUILD_DIR: ${BUILD_DIR} "
+# echo " 0===============> BUILD_DIR: ${BUILD_DIR} "
 case ${GENERATOR} in
     "Ninja")
         PROJECT_FILE="build.ninja"
@@ -277,21 +277,15 @@ case ${GENERATOR} in
 esac
 
 if [ ${PROJECT_FILE}+_} ]; then
-    # found
     if [ ! -e "${BUILD_DIR}/${PROJECT_FILE}" ]; then
         CONFIGURE=1
     fi
 else
-    # not found
     echo "Unsupported CMake generator: ${GENERATOR}"
     exit 1
 fi
 
-# echo " ====================== GENERATOR: ${GENERATOR} - PROJECT_FILE: '${BUILD_DIR}/${PROJECT_FILE}' "
-
 : ${CMAKE_MODULE_DIR:="${TOPLEVEL}/cmake"}
-
-# echo "--------------> cmake"
 
 if [ ! -f ${CMAKE_EXE} ]; then
   echo "Missing CMake executable: ${CMAKE_EXE}"
@@ -299,8 +293,6 @@ if [ ! -f ${CMAKE_EXE} ]; then
   echo "Alternatively, specify a CMake executable using the -x flag."
   exit 1
 fi
-
-# echo "1.0 --------------> GOROOT: ${GOROOT}"
 
 if [ -z "${GOROOT+x}" ]; then
     # echo "1.1 --------------> go根目录变量 GOROOT 未设置"
@@ -327,7 +319,6 @@ ${TOPLEVEL}/tools/build/tools/lryabuild/go.py --check-version $GO_EXE
 # Remove assets in build directory if requested. This will force the
 # build to re-copy them from the source tree into the build directory.
 #
-# echo "--------------> assets"
 
 if [ $RM_BUILD_ASSETS -eq 1 ]; then
     if [ $VERBOSE -eq 1 ]; then
@@ -432,14 +423,14 @@ if [ $CONFIGURE -eq 1 ]; then
     fi
 fi
 
-if [ $CONFIGURE -eq 0 ]; then
-echo "@@@@@@@@@@@@ --------------------------> Skipping generate source file lists!!"
-fi
+# if [ $CONFIGURE -eq 0 ]; then
+# echo "@@@@@@@@@@@@ --------------------------> Skipping generate source file lists!!"
+# fi
 
 
 pushd ${BUILD_DIR} > /dev/null 2>&1
 
-echo "9 --------------------------> cmake!! "
+# echo "9 --------------------------> cmake!! "
 
 if [ $CONFIGURE -eq 1 ]; then
 
@@ -450,7 +441,6 @@ if [ $CONFIGURE -eq 1 ]; then
     fi
 
     PLATFORM_ARGS=""
-    echo "0 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > PLATFORM_ARGS: ${PLATFORM_ARGS[@]}"
     if [ "$PLATFORM" == "mac" ]; then
         PLATFORM_ARGS=(
             -DMACOSX=1
@@ -459,7 +449,6 @@ if [ $CONFIGURE -eq 1 ]; then
         #     -DMATEOS_CCACHE=ccache
             -DCMAKE_TOOLCHAIN_FILE="${CMAKE_MODULE_DIR}/macosx.toolchain.cmake"
         )
-        echo "1 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > $PLATFORM = mac"
     elif [ "$PLATFORM" == "mateos" ] ; then
         echo "2 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ > $PLATFORM = mateos"
         PLATFORM_ARGS=(
@@ -531,7 +520,7 @@ else
     TARGET_ARG="--target $CMAKE_TARGET"
   fi
 echo "99.-------------------------------------- cmake: ${CMAKE_EXE}"
-echo "99.------------> CMAKE_EXE: ${CMAKE_EXE} --build . $TARGET_ARG $*"
+# echo "99.------------> CMAKE_EXE: ${CMAKE_EXE} --build . $TARGET_ARG $*"
   $CMAKE_EXE --build . $TARGET_ARG $*
   if [[ "$PLATFORM" == "mateos" && $RUN_INSTALL -eq 1 ]]; then
     # run install target on robot-platforms

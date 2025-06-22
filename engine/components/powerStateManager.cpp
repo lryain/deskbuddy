@@ -13,7 +13,6 @@
 #include "engine/components/powerStateManager.h"
 
 #include "engine/aiComponent/aiComponent.h"
-#include "engine/aiComponent/alexaComponent.h"
 #include "engine/components/mics/micComponent.h"
 #include "engine/components/visionComponent.h"
 #include "engine/cozmoContext.h"
@@ -173,35 +172,23 @@ void PowerStateManager::UpdateDependent(const RobotCompMap& dependentComps)
   if( _inPowerSaveMode && kPowerSave_ThrottleCPU ) {
 
     auto& aiComp = dependentComps.GetComponent<AIComponent>();
-    auto& alexaComp = aiComp.GetComponent<AlexaComponent>();
 
-    if( !alexaComp.IsIdle() ) {
-      // bring up CPU to full so alexa will work
-      PRINT_CH_DEBUG("PowerStates", "PowerStateManager.Update.CPU.Full.Alexa",
-                     "Alexa active, going back to full CPU");
+    // if we are getting backed up with mic data, flip into the higher (but still low) CPU frequency
+    const float micBufferLevel = dependentComps.GetComponent<MicComponent>().GetBufferFullness();
 
-      OSState::getInstance()->SetDesiredCPUFrequency(kCPUFreqNormal);
+    if( _cpuThrottleLow && micBufferLevel >= kMicBufferHighMark ) {
+      PRINT_CH_DEBUG("PowerStates", "PowerStateManager.Update.CPU.High",
+                      "Mic buffer fullness %f, kicking into higher CPU mode",
+                      micBufferLevel);
+      OSState::getInstance()->SetDesiredCPUFrequency(kCPUFreqSaveHigh);
       _cpuThrottleLow = false;
     }
-    else {
-
-      // if we are getting backed up with mic data, flip into the higher (but still low) CPU frequency
-      const float micBufferLevel = dependentComps.GetComponent<MicComponent>().GetBufferFullness();
-
-      if( _cpuThrottleLow && micBufferLevel >= kMicBufferHighMark ) {
-        PRINT_CH_DEBUG("PowerStates", "PowerStateManager.Update.CPU.High",
-                       "Mic buffer fullness %f, kicking into higher CPU mode",
-                       micBufferLevel);
-        OSState::getInstance()->SetDesiredCPUFrequency(kCPUFreqSaveHigh);
-        _cpuThrottleLow = false;
-      }
-      else if( !_cpuThrottleLow && micBufferLevel <= kMicBufferLowMark ) {
-        PRINT_CH_DEBUG("PowerStates", "PowerStateManager.Update.CPU.Low",
-                       "Mic buffer fullness %f, kicking into lower CPU mode",
-                       micBufferLevel);
-        OSState::getInstance()->SetDesiredCPUFrequency(kCPUFreqSaveLow);
-        _cpuThrottleLow = true;
-      }
+    else if( !_cpuThrottleLow && micBufferLevel <= kMicBufferLowMark ) {
+      PRINT_CH_DEBUG("PowerStates", "PowerStateManager.Update.CPU.Low",
+                      "Mic buffer fullness %f, kicking into lower CPU mode",
+                      micBufferLevel);
+      OSState::getInstance()->SetDesiredCPUFrequency(kCPUFreqSaveLow);
+      _cpuThrottleLow = true;
     }
   }
   

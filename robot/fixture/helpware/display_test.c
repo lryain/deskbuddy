@@ -104,21 +104,20 @@ void core_common_on_exit(void) {
 #define TERMBUFSZ 80
 #define LINEBUFSZ 256
 
-unsigned short usColors[8] = {0xf800, 0x7e0, 0x1f, 0xffff, 0xffe0, 0x7ff, 0xf81f, 0x7bef};
 
 int main(int argc, const char* argv[])
 {
   bool exit = false;
   static char linebuf[LINEBUFSZ];
   int linelen = 0;
-int rc;
-// int x, y;
+
   ddprintf("Initializing\n");
 
   lcd_init();
 
 
   display_init();
+
 
   while (!exit)
   {

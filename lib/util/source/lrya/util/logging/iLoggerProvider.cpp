@@ -41,10 +41,15 @@ void ILoggerProvider::PrintChanneledLogD(const char* channel,
       const std::vector<std::pair<const char*, const char*>>& keyValues,
       const char* eventValue)
 {
+  if(!_infoFilter->IsChannelEnabled(channel)){
+    // printf("2. ------------------------> 该通道 channel: [%s] 未启用！\n", channel);  
+  }
   // if no filter is set or the channel is enabled
   if ( !_infoFilter || _infoFilter->IsChannelEnabled(channel) )
   {
+    // printf("3. ------------------------> iLoggerProvider --> PrintChanneledLogD if ( !_infoFilter || _infoFilter->IsChannelEnabled(channel) )\n");
     // pass to subclass
+    // printf("_infoFilter->IsChannelEnabled(channel): %d\n", _infoFilter->IsChannelEnabled(channel));
     PrintLogD(channel, eventName, keyValues, eventValue);
   }
 }

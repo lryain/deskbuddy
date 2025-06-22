@@ -23,7 +23,10 @@
 namespace Lrya {
 namespace AudioEngine {
 namespace PlugIns {
-
+#if not defined MATEOS
+  // No implementation needed for non-MATEOS builds.
+  AkAlsaSinkPlugIn::AkAlsaSinkPlugIn();
+#endif // MATEOS
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 AkAlsaSinkPlugIn::AkAlsaSinkPlugIn()

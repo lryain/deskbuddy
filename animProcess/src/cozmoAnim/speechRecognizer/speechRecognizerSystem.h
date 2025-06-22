@@ -26,8 +26,6 @@ namespace Lrya {
     struct SpeechRecognizerIgnoreReason;
   }
   namespace Vector {
-    class Alexa;
-    class AlexaPlaybackRecognizerComponent;
     namespace Anim {
       class AnimContext;
     }
@@ -56,8 +54,6 @@ class SpeechRecognizerSystem
 {
 public:
 
-  friend class AlexaPlaybackRecognizerComponent;
-
   SpeechRecognizerSystem(const Anim::AnimContext* context,
                          MicData::MicDataSystem* micDataSystem,
                          const std::string& triggerWordDataDir);
@@ -68,8 +64,6 @@ public:
   SpeechRecognizerSystem& operator=(const SpeechRecognizerSystem& other) = delete;
   
   using TriggerWordDetectedCallback = std::function<void(const AudioUtil::SpeechRecognizerCallbackInfo& info)>;
-  using AlexaTriggerWordDetectedCallback = std::function<void(const AudioUtil::SpeechRecognizerCallbackInfo& info,
-                                                              const AudioUtil::SpeechRecognizerIgnoreReason& reason)>;
   
   // Init Vector trigger detector
   // Note: This always happens at boot
@@ -77,10 +71,6 @@ public:
                   const Util::Locale& locale,
                   TriggerWordDetectedCallback callback);
 
-  // set whether the notch detector should be active (for alexa keyword only). When active,
-  // alexa triggers get dropped if we detect a notch.
-  void ToggleNotchDetector(bool active);
-  
   // add 'raw' audio samples
   void UpdateNotch(const AudioUtil::AudioSample* audioChunk, unsigned int audioDataLen);
 
@@ -95,25 +85,11 @@ public:
   enum RecognizerTypeFlag {
     None          = 0,
     VectorMic     = 1 << 0,
-    AlexaMic      = 1 << 1,
-    AlexaPlayback = 1 << 2,
-    All           = VectorMic | AlexaMic | AlexaPlayback
+    All           = VectorMic
   };
   
   bool UpdateTriggerForLocale(const Util::Locale& newLocale,
                               RecognizerTypeFlag recognizerFlags = RecognizerTypeFlag::All);
-  
-  // Alexa Methods
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Alexa has been set active set current locale and callback for Alexa trigger recognitions
-  void ActivateAlexa(const Util::Locale& locale, AlexaTriggerWordDetectedCallback callback);
-  
-  // Alexa has been disabled, turn off the "Alexa" recognizer
-  void DisableAlexa();
-  
-  // Start/Stop playback recognizer when Alexa is in Speaking state
-  void SetAlexaSpeakingState(bool isSpeaking);
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 private:
   
@@ -145,39 +121,15 @@ private:
   MicData::MicDataSystem*                     _micDataSystem = nullptr;
   std::unique_ptr<TriggerContextSnowboy>    _deskmateTrigger;
   
-  std::unique_ptr<TriggerContextPryon>        _alexaTrigger;
-  Alexa*                                      _alexaComponent = nullptr;
-  bool                                        _isAlexaActive = false;
-  
-  std::unique_ptr<TriggerContextPryon>        _alexaPlaybackTrigger;
   std::atomic_uint64_t                        _playbackTrigerSampleIdx{ 0 };
-  std::atomic_bool                            _isDisableAlexaPending{ false };
-  
   std::string                                 _triggerWordDataDir;
   
   std::mutex                                  _triggerModelMutex;
   std::atomic_bool                            _isPendingLocaleUpdate{ false };
   
-  std::unique_ptr<AlexaPlaybackRecognizerComponent>   _alexaPlaybackRecognizerComponent;
-  
   std::shared_ptr<NotchDetector>              _notchDetector;
   std::mutex                                  _notchMutex;
   bool                                        _notchDetectorActive = false;
-  
-  // Alexa Methods
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Init Alexa trigger detector
-  // Note: This is done after Alex user has been authenticated
-  void InitAlexa(const Util::Locale& locale,
-                 const AlexaTriggerWordDetectedCallback callback);
-  
-  // Init Alex playback trigger detector
-  void InitAlexaPlayback(const Util::Locale& locale,
-                         TriggerWordDetectedCallback callback);
-  
-  // Check Alexa component states to update _isAlexaActive flag
-  void UpdateAlexaActiveState();
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   
   // Set custom model and search files for locale
   // Return true when locale file was found and is different then current locale

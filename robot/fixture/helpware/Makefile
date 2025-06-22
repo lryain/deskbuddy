@@ -1,21 +1,11 @@
 
-# MATEOS_BUILD_TOOL_VER:=1.1.0-r04
-
-
-# MATEOS_ARM_TOOLS_ROOT:=~/.lrya/mateos-sdk/dist/$(MATEOS_BUILD_TOOL_VER)
-
-# MATEOS_ARM_TOOLS_BIN:=$(MATEOS_ARM_TOOLS_ROOT)/prebuilt/bin
-
 # # Compilation Tools
 
-# CROSS_COMPILE = $(MATEOS_ARM_TOOLS_BIN)/arm-oe-linux-gnueabi-
 CROSS_COMPILE = ""
 
 CFLAGS = -c -fPIC -Wall -Werror
 # 添加目标架构标志
-ARCH = aarch64
-CFLAGS += -march=armv8-a  # 对于 Orange Pi 5 Pro
-
+# CFLAGS += -march=armv8-a  # 对于 Orange Pi 5 Pro
 
 CORE_DIR = ../../core
 CORE = $(CORE_DIR)/libcore.a
@@ -35,7 +25,6 @@ CFLAGS += -Wno-unused-function
 
 CFLAGS  += -I../../syscon
 CFLAGS  += -I../../hal
-CFLAGS  += -I../../../platform/gpio
 
 # All the c files in this directory will be compiled
 SRCDIR = .
@@ -102,7 +91,6 @@ REMOTE_DEST = /data/local/fixture/
 
 # all: $(MATEOS_ARM_TOOLS_BIN) $(DFU) $(ANIMATE) $(DISPLAY) $(HELPER) $(MENUMAN) $(BURN)
 all: $(DFU) $(ANIMATE) $(DISPLAY) $(DISPLAY_BLIT) $(HELPER) $(MENUMAN) $(BURN) $(DISPLAY_TEST)
-# all: $(DISPLAY_BLIT)
 
 $(CORE):
 	cd $(CORE_DIR) && make all
@@ -125,10 +113,10 @@ $(DISPLAY): $(CORE) $(DISPLAY_OBJ) $(GPIO_OBJ)
 	$(CROSS_COMPILE)clang -pie $(DISPLAY_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(DISPLAY)
 
 $(DISPLAY_BLIT): $(CORE) $(DISPLAY_BLIT_OBJ) $(GPIO_OBJ)
-	$(CROSS_COMPILE)gcc -pie $(DISPLAY_BLIT_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(DISPLAY_BLIT)
+	$(CROSS_COMPILE)clang -pie $(DISPLAY_BLIT_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(DISPLAY_BLIT)
 
 $(DISPLAY_TEST): $(CORE) $(DISPLAY_BLIT_OBJ) $(GPIO_OBJ)
-	$(CROSS_COMPILE)gcc -pie $(DISPLAY_BLIT_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(DISPLAY_TEST)
+	$(CROSS_COMPILE)clang -pie $(DISPLAY_BLIT_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(DISPLAY_TEST)
 
 $(HELPER): $(CORE) $(HELPER_OBJ) $(GPIO_OBJ)
 	$(CROSS_COMPILE)clang -pie $(HELPER_OBJ) $(GPIO_OBJ) $(LIBPATH) $(LIBS)  -o $(HELPER)
@@ -160,11 +148,8 @@ push: $(app)
 execute: $(app)
 	adb shell -x "cd $(REMOTE_DEST) && ./$(app) $(safe)"
 
-cleant:
-	rm -f $(APP) $(OBJDIR)/animate.o
-	rm -f $(APP) $(OBJDIR)/test_lcd.o
-
 clean:
 	rm -f $(APP) $(OBJDIR)/*.o
-	rm -f $(CORE_DIR)/libcore.a
+	# rm -f $(CORE_DIR)/libcore.a
+	cd $(CORE_DIR) && make clean
 	rm -f $(DFU) $(ANIMATE) $(DISPLAY) $(DISPLAY_BLIT) $(HELPER) $(MENUMAN) $(BURN) $(COMMANDER) $(TESTLCD)

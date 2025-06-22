@@ -23,8 +23,9 @@ endif(SE_V009)
 message(STATUS "Signal Essence lib ${SIGNALESSENCE_VERSION_PATH} type ${SIGNALESSENCE_PLATFORM_DIR}")
 
 set(SIGNALESSENCE_HOME "${SIGNALESSENCE_HOME_DIR}/${SIGNALESSENCE_VERSION_PATH}")
-
+message(STATUS "------> Signal Essence home: ${SIGNALESSENCE_HOME}")
 set(SIGNALESSENCE_LIB_PATH "${SIGNALESSENCE_HOME}/${SIGNALESSENCE_PLATFORM_DIR}/platform/lrya_deskmate_example/build")
+message(STATUS "---------------------------------------------------> Signal Essence lib: ${SIGNALESSENCE_LIB_PATH}")
 
 set(SIGNALESSENCE_PROJ_SRC "${SIGNALESSENCE_HOME}/${SIGNALESSENCE_PLATFORM_DIR}/project/lrya_deskmate")
 set(SIGNALESSENCE_VAD_SRC "${SIGNALESSENCE_HOME}/${SIGNALESSENCE_PLATFORM_DIR}/project/lrya_deskmate_vad")
@@ -37,8 +38,7 @@ set(SIGNALESSENCE_INCLUDE_PATHS
 )
 
 set(SIGNALESSENCE_LIBS
-#   mmfx
-""
+  mmfx
 )
 
 if (MATEOS)

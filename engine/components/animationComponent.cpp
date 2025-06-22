@@ -66,10 +66,6 @@ AnimationComponent::AnimationComponent()
 , _currAnimTag(0)
 , _oledImageBuilder(new Vision::RGB565ImageBuilder)
 , _tagForTriggerWordGetInCallbacks(GetNextTag())
-, _tagForAlexaListening(GetNextTag())
-, _tagForAlexaThinking(GetNextTag())
-, _tagForAlexaSpeaking(GetNextTag())
-, _tagForAlexaError(GetNextTag())
 , _compositeImageID(0)
 {
 
@@ -817,14 +813,6 @@ AnimationTag AnimationComponent::SetTriggerWordGetInCallback(std::function<void(
   _triggerWordGetInCallbackFunction = callbackFunction;
   return _tagForTriggerWordGetInCallbacks;
 }
-  
-std::array<AnimationTag,4> AnimationComponent::SetAlexaUXResponseCallback(std::function<void(unsigned int, bool)> callback)
-{
-  _alexaResponseCallback = callback;
-  const std::array<AnimationTag,4> tags = {{_tagForAlexaListening, _tagForAlexaThinking, _tagForAlexaSpeaking, _tagForAlexaError}};
-  return tags;
-}
-
 
 // ================ Game message handlers ======================
 template<>
@@ -942,11 +930,9 @@ void AnimationComponent::HandleAnimStarted(const LryaEvent<RobotInterface::Robot
   // note: we could have a "started" callback for this similar to _triggerWordGetInCallbackFunction
   //       this way UserIntentComponent knows exactly when the trigger word anim starts instead of just assuming
   const bool isTriggerWordGetIn = (payload.tag == _tagForTriggerWordGetInCallbacks);
-  // same thing for alexa
-  const bool isAlexa = TagIsAlexa( payload.tag );
 
   auto it = _callbackMap.find(payload.tag);
-  if (it != _callbackMap.end() || isTriggerWordGetIn || isAlexa) {
+  if (it != _callbackMap.end() || isTriggerWordGetIn) {
     // LOG_INFO("AnimStarted.Tag", "name=%s, tag=%d", payload.animName.c_str(), payload.tag);
   } else if (payload.animName != EnumToString(AnimConstants::PROCEDURAL_ANIM)) {
     LOG_WARNING("AnimationComponent.AnimStarted.UnexpectedTag", "name=%s, tag=%d", payload.animName.c_str(), payload.tag);
@@ -960,9 +946,6 @@ void AnimationComponent::HandleAnimStarted(const LryaEvent<RobotInterface::Robot
   if( payload.tag == _tagForTriggerWordGetInCallbacks ){
     const bool playing = true;
     _triggerWordGetInCallbackFunction(playing);
-  } else if( TagIsAlexa(payload.tag) ) {
-    const bool playing = true;
-    SendAlexaCallback(payload.tag, playing);
   }
 
   _robot->GetContext()->GetVizManager()->SendCurrentAnimation(_currAnimName, _currAnimTag);
@@ -993,10 +976,6 @@ void AnimationComponent::HandleAnimEnded(const LryaEvent<RobotInterface::RobotTo
     atLeastOneCallback = true;
     const bool playing = false;
     _triggerWordGetInCallbackFunction(playing);
-  } else if( TagIsAlexa(payload.tag) ) {
-    atLeastOneCallback = true;
-    const bool playing = false;
-    SendAlexaCallback(payload.tag, playing);
   }
     
   if (!atLeastOneCallback &&
@@ -1085,32 +1064,6 @@ AnimationComponent::Tag AnimationComponent::GetInvalidTag()
 {
   return kInvalidAnimationTag;
 }
-  
-bool AnimationComponent::TagIsAlexa( AnimationTag tag ) const
-{
-  const bool isAlexa = (tag == _tagForAlexaListening)
-                       || (tag == _tagForAlexaThinking)
-                       || (tag == _tagForAlexaSpeaking)
-                       || (tag == _tagForAlexaError);
-  return isAlexa;
-}
-  
-void AnimationComponent::SendAlexaCallback( uint8_t tag, bool playing ) const
-{
-  if( _alexaResponseCallback ) {
-    // must match order in clad file
-    if( tag == _tagForAlexaListening ) {
-      _alexaResponseCallback( 0, playing );
-    } else if( tag == _tagForAlexaThinking ) {
-      _alexaResponseCallback( 1, playing );
-    } else if( tag == _tagForAlexaSpeaking ) {
-      _alexaResponseCallback( 2, playing );
-    } else if( tag == _tagForAlexaError ) {
-      _alexaResponseCallback( 3, playing );
-    }
-  }
-}
-
 
 } // namespace Vector
 } // namespace Lrya

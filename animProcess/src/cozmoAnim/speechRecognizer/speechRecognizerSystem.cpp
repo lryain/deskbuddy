@@ -10,13 +10,10 @@
 #include "speechRecognizerSystem.h"
 
 #include "audioUtil/speechRecognizer.h"
-#include "cozmoAnim/alexa/alexa.h"
-#include "cozmoAnim/alexa/media/alexaPlaybackRecognizerComponent.h"
 #include "cozmoAnim/animContext.h"
 #include "cozmoAnim/micData/micDataSystem.h"
 #include "cozmoAnim/robotDataLoader.h"
 #include "speechRecognizerSnowboy.h"
-#include "cozmoAnim/speechRecognizer/speechRecognizerPryonLite.h"
 #include "cozmoAnim/micData/notchDetector.h"
 #include "util/console/consoleInterface.h"
 #include "util/console/consoleFunction.h"
@@ -34,45 +31,11 @@
 namespace Lrya {
 namespace Vector {
 
-// VIC-13319 remove
-CONSOLE_VAR_EXTERN(bool, kAlexaEnabledInUK);
-CONSOLE_VAR_EXTERN(bool, kAlexaEnabledInAU);
-  
 namespace {
 #define LOG_CHANNEL "SpeechRecognizer"
 
-CONSOLE_VAR(bool, kSaveRawMicInput, "SpeechRecognizer.Alexa", false);
 // 0: don't run; 1: compute power as if _notchDetectorActive; 2: analyze power every tick
 CONSOLE_VAR_RANGED(unsigned int, kForceRunNotchDetector, "SpeechRecognizer.Alexa", 0, 0, 2);
-  
-CONSOLE_VAR_RANGED(uint, kPlaybackRecognizerSampleCountThreshold, "SpeechRecognizer.AlexaPlayback", 5000, 1000, 10000);
-
-bool AlexaLocaleEnabled(const Util::Locale& locale)
-{
-  if (locale.GetCountry() == Util::Locale::CountryISO2::US) {
-    return true;
-  }
-  else if (locale.GetCountry() == Util::Locale::CountryISO2::GB) {
-    return kAlexaEnabledInUK;
-  }
-  else if (locale.GetCountry() == Util::Locale::CountryISO2::AU) {
-    return kAlexaEnabledInAU;
-  }
-  else {
-    return false;
-  }
-}
-
-bool AlexaLocaleUsesVad(const Util::Locale& locale)
-{
-  if ((locale.GetCountry() == Util::Locale::CountryISO2::GB) || (locale.GetCountry() == Util::Locale::CountryISO2::AU)) {
-    return false;
-  }
-  else {
-    return true;
-  }
-}
-
 } // namespace
 
 void SpeechRecognizerSystem::SetupConsoleFuncs()
@@ -96,12 +59,6 @@ SpeechRecognizerSystem::~SpeechRecognizerSystem()
   if (_deskmateTrigger) {
     _deskmateTrigger->recognizer->Stop();
   }
-  if (_alexaTrigger) {
-    _alexaTrigger->recognizer->Stop();
-  }
-  
-  // Best way to destroy Alexa recognizer and component
-  DisableAlexa();
 }
 
 void SpeechRecognizerSystem::InitVector(const Anim::RobotDataLoader& dataLoader,
@@ -129,16 +86,11 @@ void SpeechRecognizerSystem::InitVector(const Anim::RobotDataLoader& dataLoader,
   UpdateTriggerForLocale(locale, RecognizerTypeFlag::VectorMic);
 }
 
-void SpeechRecognizerSystem::ToggleNotchDetector(bool active)
-{
-  _notchDetectorActive = active;
-}
-
 void SpeechRecognizerSystem::UpdateNotch(const AudioUtil::AudioSample* audioChunk, unsigned int audioDataLen)
 {
   {
     std::lock_guard<std::mutex> lg{_notchMutex};
-    const bool analyzeSamples = _notchDetectorActive || (kForceRunNotchDetector != 0);
+    const bool analyzeSamples = _notchDetectorActive; // || (kForceRunNotchDetector != 0)
     _notchDetector->AddSamples(audioChunk, audioDataLen / MicData::kNumInputChannels, analyzeSamples);
     if (kForceRunNotchDetector == 2) {
       _notchDetector->HasNotch();
@@ -147,7 +99,7 @@ void SpeechRecognizerSystem::UpdateNotch(const AudioUtil::AudioSample* audioChun
   
   if (LRYA_DEV_CHEATS) {
     static int pcmfd = -1;
-    if ((pcmfd < 0) && kSaveRawMicInput) {
+    if (pcmfd < 0) {
       const auto path = "/data/data/com.lrya.deskmate/cache/speechRecognizerRaw.pcm";
       pcmfd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
     }
@@ -159,7 +111,7 @@ void SpeechRecognizerSystem::UpdateNotch(const AudioUtil::AudioSample* audioChun
         toSave[idx] = audioChunk[i];
       }
       (void)write(pcmfd, toSave.data(), toSave.size() * sizeof(short));
-      if (!kSaveRawMicInput) {
+      if (!false) { // kSaveRawMicInput
         close(pcmfd);
         pcmfd = -1;
       }
@@ -172,23 +124,6 @@ void SpeechRecognizerSystem::Update(const AudioUtil::AudioSample* audioData, uns
   if (_deskmateTrigger && (vadActive || !_deskmateTrigger->useVad)) {
     _deskmateTrigger->recognizer->Update(audioData, audioDataLen);
   }
-  
-  if (_isAlexaActive) {
-    if (!_isDisableAlexaPending) {
-      _alexaComponent->AddMicrophoneSamples(audioData, audioDataLen);
-      _alexaTrigger->recognizer->Update(audioData, audioDataLen);
-    }
-    else {
-      if (_alexaTrigger) {
-        _alexaTrigger->recognizer->Stop();
-        _alexaTrigger.reset();
-      }
-      UpdateAlexaActiveState();
-      ASSERT_NAMED(!_isAlexaActive, "SpeechRecognizerSystem.DisableAlexa._isAlexaActive.IsTrue");
-      _isDisableAlexaPending = false;
-      LOG_INFO("SpeechRecognizerSystem.Update", "Alexa mic recognizer has been disabled");
-    }
-  }
 }
 
 bool SpeechRecognizerSystem::UpdateTriggerForLocale(const Util::Locale& newLocale, RecognizerTypeFlag recognizerFlags)
@@ -197,143 +132,7 @@ bool SpeechRecognizerSystem::UpdateTriggerForLocale(const Util::Locale& newLocal
   // if (recognizerFlags & RecognizerTypeFlag::VectorMic && _deskmateTrigger) {
   //   success = UpdateTriggerForLocale(*_deskmateTrigger.get(), newLocale, MicData::MicTriggerConfig::ModelType::Count, -1);
   // }
-  
-  if (AlexaLocaleEnabled(newLocale)) {
-    if (recognizerFlags & RecognizerTypeFlag::AlexaMic && _alexaTrigger) {
-      _alexaTrigger->useVad = AlexaLocaleUsesVad(newLocale);
-      success &= UpdateTriggerForLocale(*_alexaTrigger.get(), newLocale, MicData::MicTriggerConfig::ModelType::Count, -1);
-    }
-    
-    if (recognizerFlags & RecognizerTypeFlag::AlexaPlayback && _alexaPlaybackTrigger) {
-      success &= UpdateTriggerForLocale(*_alexaPlaybackTrigger.get(), newLocale,
-                                        MicData::MicTriggerConfig::ModelType::Count, -1);
-      if (_alexaPlaybackRecognizerComponent) {
-        _alexaPlaybackRecognizerComponent->PendingLocaleUpdate();
-      }
-      else {
-        LOG_ERROR("SpeechRecognizerSystem.UpdateTriggerForLocale._alexaPlaybackRecognizerComponent.isNull", "");
-      }
-    }
-  }
   return success;
-}
-
-void SpeechRecognizerSystem::ActivateAlexa(const Util::Locale& locale, AlexaTriggerWordDetectedCallback callback)
-{
-  if (_isAlexaActive) {
-    LOG_WARNING("SpeechRecognizerSystem.ActivateAlexa",
-                "Alexa is already active, must call DisableAlexa() to change state");
-    return;
-  }
-  
-  _alexaComponent = _context->GetAlexa();
-  
-  InitAlexa(locale, callback);
-  
-  _alexaPlaybackRecognizerComponent.reset(new AlexaPlaybackRecognizerComponent(_context, *this));
-  
-  const auto playbackRecognizerCallback = [this](const AudioUtil::SpeechRecognizerCallbackInfo& info)
-  {
-    _playbackTrigerSampleIdx = _alexaComponent->GetMicrophoneSampleIndex();
-  };
-  InitAlexaPlayback(locale, playbackRecognizerCallback);
-
-  if (!_alexaPlaybackRecognizerComponent->Init()) {
-    _alexaPlaybackRecognizerComponent.reset();
-    LOG_ERROR("SpeechRecognizerSystem.ActivateAlexa._alexaPlaybackRecognizerComponent.Init.Failed", "");
-  }
-  
-  UpdateAlexaActiveState();
-}
-
-void SpeechRecognizerSystem::DisableAlexa()
-{
-  _isDisableAlexaPending = true;
-  
-  if (_alexaPlaybackRecognizerComponent) {
-    _alexaPlaybackRecognizerComponent.reset();
-  }
-  
-  if (_alexaPlaybackTrigger) {
-    _alexaPlaybackTrigger->recognizer->Stop();
-    _alexaPlaybackTrigger.reset();
-  }
-}
-
-void SpeechRecognizerSystem::SetAlexaSpeakingState(bool isSpeaking)
-{
-  if (_alexaPlaybackRecognizerComponent) {
-    _alexaPlaybackRecognizerComponent->SetRecognizerActivate(isSpeaking);
-  }
-}
-
-void SpeechRecognizerSystem::InitAlexa(const Util::Locale& locale,
-                                       const AlexaTriggerWordDetectedCallback callback)
-{
-  if (_alexaTrigger) {
-    LOG_WARNING("SpeechRecognizerSystem.InitAlexa", "Alexa Recognizer is already running");
-    return;
-  }
-  
-  const auto wrappedCallback = [callback=std::move(callback), this](const AudioUtil::SpeechRecognizerCallbackInfo& info)
-  {
-    AudioUtil::SpeechRecognizerIgnoreReason ignoreReason;
-    if (_notchDetectorActive || kForceRunNotchDetector) {
-      std::lock_guard<std::mutex> lg{_notchMutex};
-      ignoreReason.notch = _notchDetector->HasNotch();
-    }
-    const auto diff = info.endSampleIndex - _playbackTrigerSampleIdx;
-    ignoreReason.playback = (diff <= kPlaybackRecognizerSampleCountThreshold);
-    
-    if (ignoreReason) {
-      LOG_INFO("SpeechRecognizerSystem.InitAlexaCallback.Ignored",
-               "Alexa wake word contained a notch '%c' or playback recognizer '%c'"
-               " samples between playback and user recognizers %llu samples | %llu ms",
-               ignoreReason.notch ? 'Y' : 'N', ignoreReason.playback ? 'Y' : 'N', diff, (diff/16));
-    }
-    callback(info, ignoreReason);
-  };
-  
-  _alexaComponent = _context->GetAlexa();
-  const auto dataLoader = _context->GetDataLoader();
-  ASSERT_NAMED(_alexaComponent != nullptr, "SpeechRecognizerSystem.InitAlexa._context.GetAlexa.IsNull");
-  
-  const bool useVad = AlexaLocaleUsesVad(locale);
-  _alexaTrigger = std::make_unique<TriggerContextPryon>("Alexa", useVad);
-  _alexaTrigger->recognizer->SetCallback(wrappedCallback);
-  _alexaTrigger->micTriggerConfig->Init("alexa_pryon", dataLoader->GetMicTriggerConfig());
-  _alexaTrigger->recognizer->Start();
-  
-  UpdateTriggerForLocale(locale, RecognizerTypeFlag::AlexaMic);
-}
-
-void SpeechRecognizerSystem::InitAlexaPlayback(const Util::Locale& locale,
-                                               TriggerWordDetectedCallback callback)
-{
-  if (_alexaPlaybackTrigger) {
-    LOG_WARNING("SpeechRecognizerSystem.InitAlexaPlayback", "Alexa Playback Recognizer is already running");
-    return;
-  }
-  
-  const bool useVad = true;
-  
-  const auto dataLoader = _context->GetDataLoader();
-  _alexaPlaybackTrigger = std::make_unique<TriggerContextPryon>("AlexaPlayback", useVad);
-  _alexaPlaybackTrigger->recognizer->SetCallback(callback);
-  _alexaPlaybackTrigger->recognizer->SetDetectionThreshold(1);
-  _alexaPlaybackTrigger->micTriggerConfig->Init("alexa_pryon", dataLoader->GetMicTriggerConfig());
-  
-  UpdateTriggerForLocale(locale, RecognizerTypeFlag::AlexaPlayback);
-  
-  ApplySpeechRecognizerLocaleUpdate(*_alexaPlaybackTrigger.get());
-  _alexaPlaybackTrigger->recognizer->Start();
-}
-
-void SpeechRecognizerSystem::UpdateAlexaActiveState()
-{
-  _isAlexaActive = (_alexaComponent != nullptr &&
-                    _alexaTrigger &&
-                    _alexaTrigger->recognizer->IsReady());
 }
 
 template <class SpeechRecognizerType>
@@ -366,12 +165,6 @@ void SpeechRecognizerSystem::ApplyLocaleUpdate()
   // if (_deskmateTrigger) {
   //   ApplySpeechRecognizerLocaleUpdate(*_deskmateTrigger.get());
   // }
-  
-  if (_alexaTrigger) {
-    ApplySpeechRecognizerLocaleUpdate(*_alexaTrigger.get());
-  }
-  
-  UpdateAlexaActiveState();
   _isPendingLocaleUpdate = false;
 }
 
@@ -410,25 +203,6 @@ void SpeechRecognizerSystem::ApplySpeechRecognizerLocaleUpdate(TriggerContext<Sp
 bool SpeechRecognizerSystem::UpdateRecognizerModel(TriggerContext<SpeechRecognizerSnowboy>& aTrigger)
 {
   return true;
-}
-
-bool SpeechRecognizerSystem::UpdateRecognizerModel(TriggerContext<SpeechRecognizerPryonLite>& aTrigger)
-{
-  bool success = false;
-  SpeechRecognizerPryonLite* recognizer = aTrigger.recognizer.get();
-  MicData::MicTriggerConfig::TriggerDataPaths& currentTrigPathRef = aTrigger.currentTriggerPaths;
-  recognizer->Stop();
-  
-  if ( currentTrigPathRef.IsValid() ) {
-    const std::string netFilePath = currentTrigPathRef.GenerateNetFilePath( _triggerWordDataDir );
-    success = recognizer->InitRecognizer( netFilePath, aTrigger.useVad );
-    if ( success && (_alexaComponent != nullptr) ) {
-      recognizer->SetAlexaMicrophoneOffset( _alexaComponent->GetMicrophoneSampleIndex() );
-      recognizer->Start();
-    }
-  }
-  
-  return success;
 }
 
 } // end namespace Vector

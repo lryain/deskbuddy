@@ -68,11 +68,11 @@ bool SpeechRecognizerSnowboy::Init()
     if (stat("/data/data/com.lrya.deskmate/persistent/customWakeWord/wakeword.pmdl", &buffer) == 0) {
       wakewordPath = "/data/data/com.lrya.deskmate/persistent/customWakeWord/wakeword.pmdl";
     } else {
-      wakewordPath = "/lrya/data/assets/cozmo_resources/assets/snowboyModels/hey_vector.pmdl";
+      wakewordPath = "/home/orangepi/dev/deskbuddy/resources/snowboy/snowboyModels/hey_vector.pmdl";
     }
 
-    execl("/lrya/bin/sb_server", "sb_server", "/lrya/data/assets/cozmo_resources/assets/snowboyModels/common.res", wakewordPath, (char*)nullptr);
-    LOG_ERROR("SpeechRecognizerSnowboy.Init", "Failed to exec sb_server");
+    execl("/home/orangepi/dev/deskbuddy/snowboy/snowboy_server", "snowboy_server", "/home/orangepi/dev/deskbuddy/resources/snowboy/snowboyModels/common.res", wakewordPath, (char*)nullptr);
+    LOG_ERROR("SpeechRecognizerSnowboy.Init", "Failed to exec snowboy_server");
     std::exit(EXIT_FAILURE);
   }
 

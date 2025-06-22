@@ -44,18 +44,13 @@ static constexpr float kAnimationsLoadingRatio = 0.7f;
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void CannedAnimationLoader::LoadAnimationsIntoContainer(const AnimDirInfo& info, CannedAnimationContainer* container)
 {
-  // printf("3.1.2.5.3. in LoadAnimationsIntoContainer\n");fflush(stdout);
   {
-    // printf("3.1.2.5.4. start LRYA_CPU_PROFILE\n");fflush(stdout);
     LRYA_CPU_PROFILE("CannedAnimationLoader::LoadAnimations");
-    // printf("3.1.2.5.5. done LRYA_CPU_PROFILE\n");fflush(stdout);
     LoadAnimationsInternal(info, container);
-    // printf("3.1.2.5.6. done LoadAnimationsInternal\n");fflush(stdout);
     // The threaded animation loading workers each add to the loading ratio
   }
 
   // we're done
-  // printf("3.1.2.5.7. start _loadingCompleteRatio.store\n");fflush(stdout);
   _loadingCompleteRatio.store(1.0f);
 }
 
@@ -71,7 +66,6 @@ void CannedAnimationLoader::LoadAnimationIntoContainer(const std::string& path, 
   }
 
   // TODO: be able to load a face animation
-
   // we're done
   _loadingCompleteRatio.store(1.0f);
 }
@@ -80,7 +74,6 @@ void CannedAnimationLoader::LoadAnimationIntoContainer(const std::string& path, 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 CannedAnimationLoader::AnimDirInfo CannedAnimationLoader::CollectAnimFiles(const std::vector<std::string>& paths)
 {
-  // printf("3.1.2.5.1.0. in CollectAnimFiles()\n");
   LRYA_CPU_PROFILE("CannedAnimationLoader::CollectFiles");
   AnimDirInfo info;
   // animations
@@ -90,13 +83,11 @@ CannedAnimationLoader::AnimDirInfo CannedAnimationLoader::CollectAnimFiles(const
         [&info] (const std::string& filename) {
           info.jsonFiles.push_back(filename);
         });
-        // printf("3.1.2.5.1.1. in path: %s\n", path.c_str());
     }
   }
 
   // print results
   LOG_INFO("CannedAnimationLoader.CollectAnimFiles.Results", "Found %zu animation files", info.jsonFiles.size());
-  // printf("3.1.2.5.1.2. animation files size: %zu\n", info.jsonFiles.size());
 
   return info;
 }
@@ -153,37 +144,27 @@ void CannedAnimationLoader::AddToLoadingRatio(float delta)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void CannedAnimationLoader::LoadAnimationsInternal(const AnimDirInfo& info, CannedAnimationContainer* container)
 {
-  // printf("3.1.2.5.5.0. in LoadAnimationsInternal\n");fflush(stdout);
 #if ALLOW_DEBUG_LOGGING
   const double startTime = Util::Time::UniversalTime::GetCurrentTimeInMilliseconds();
 #endif
-  // printf("3.1.2.5.5.1. start EnableClippingWarning\n");fflush(stdout);
   
   // Disable super-verbose warnings about clipping face parameters in json files
   // To help find bad/deprecated animations, try removing this.
   ProceduralFace::EnableClippingWarning(false);
-  // printf("3.1.2.5.5.2. start MyDispatchWorker\n");fflush(stdout);
 
   using MyDispatchWorker = Util::DispatchWorker<3, const std::string&, CannedAnimationContainer*>;
   MyDispatchWorker::FunctionType loadFileFunc = std::bind(&CannedAnimationLoader::LoadAnimationFile, this, 
                                                           std::placeholders::_1, std::placeholders::_2);
-  // printf("3.1.2.5.5.3. start myWorker\n");fflush(stdout);
   MyDispatchWorker myWorker(loadFileFunc);
-  // printf("3.1.2.5.5.4. done myWorker\n");fflush(stdout);
 
   unsigned long size = info.jsonFiles.size();
-  // printf("3.1.2.5.5.5. info.jsonFiles.size: %lu\n", size);fflush(stdout);
   for (int i = 0; i < size; i++) {
-    // printf("3.1.2.5.5.5.0. info.jsonFiles[%d].c_str(%s)\n", i, info.jsonFiles[i].c_str());fflush(stdout);
-//     printf("3.1.2.5.5.5.1. GetAnimationNames(%s) info.jsonFiles[%d]: %s\n",  container->GetAnimationNames()[i].c_str(), i, info.jsonFiles[i].c_str());fflush(stdout);
     myWorker.PushJob(info.jsonFiles[i], container);
-//     LOG_DEBUG("CannedAnimationLoader.LoadAnimations", "loaded regular anim %d of %zu", i, size);
+    LOG_DEBUG("CannedAnimationLoader.LoadAnimations", "loaded regular anim %d of %zu", i, size);
   }
-  // printf("3.1.2.5.5.6. start Process\n");fflush(stdout);
 
   _perAnimationLoadingRatio = kAnimationsLoadingRatio * 1.0f / Util::numeric_cast<float>(size);
   myWorker.Process();
-  // printf("3.1.2.5.5.7. done Process\n");fflush(stdout);
 
   ProceduralFace::EnableClippingWarning(true);
 
@@ -201,7 +182,6 @@ void CannedAnimationLoader::LoadAnimationsInternal(const AnimDirInfo& info, Cann
             "Total number of canned animations available = %zu",
             animNames.size());
 #endif
-  printf("3.1.2.5.5.8. done!!\n");fflush(stdout);
 
 }
 
@@ -212,7 +192,6 @@ void CannedAnimationLoader::LoadAnimationsInternal(const AnimDirInfo& info, Cann
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 void CannedAnimationLoader::LoadAnimationFile(const std::string& path, CannedAnimationContainer* container)
 {
-  // printf("------------> 3.2.1.0. in CannedAnimationLoader::LoadAnimationFile()\n");
 
   if (_abortLoad.load(std::memory_order_relaxed)) {
     return;
@@ -224,7 +203,6 @@ void CannedAnimationLoader::LoadAnimationFile(const std::string& path, CannedAni
   const bool binFile = Util::FileUtils::FilenameHasSuffix(path.c_str(), "bin");
 
   if (binFile) {
-    // printf("------------> 3.2.1.1. start Read the binary file: %s\n", path.c_str());
 
     // Read the binary file
     auto binFileContents = Util::FileUtils::ReadFileAsBinary(path);
@@ -266,7 +244,6 @@ void CannedAnimationLoader::LoadAnimationFile(const std::string& path, CannedAni
     }
 
   } else {
-    // printf("------------> 3.2.1.2.  _platform->readAsJson: %s\n", path.c_str());
 
     Json::Value animDefs;
     // add json filename and callback (to perform load) here?

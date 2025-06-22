@@ -56,7 +56,7 @@ target_link_libraries(mate_anim
   # vendor
   ${OPENCV_LIBS}
   ${FLATBUFFERS_LIBS}
-#   signal_essence2
+  # signal_essence2
 #   ${TEXT2SPEECH_LIBS}
 #   ${PRYON_LITE_LIBS}
   ${SPEEXDSP_LIBS}
@@ -75,11 +75,11 @@ target_link_libraries(mate_anim
 
 lrya_build_strip(TARGET mate_anim)
 
-target_compile_definitions(mate_anim
-  PRIVATE
-  ${PLATFORM_COMPILE_DEFS}
-  ALEXA_ACOUSTIC_TEST=$<BOOL:${ALEXA_ACOUSTIC_TEST}>
-)
+# target_compile_definitions(mate_anim
+#   PRIVATE
+#   ${PLATFORM_COMPILE_DEFS}
+#   ALEXA_ACOUSTIC_TEST=$<BOOL:${ALEXA_ACOUSTIC_TEST}>
+# )
 
 target_include_directories(mate_anim
   PUBLIC

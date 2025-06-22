@@ -20,7 +20,6 @@ package Lrya.Vector.external_interface;
 
 import "behavior.proto";
 import "cube.proto";
-import "alexa.proto"; // App only
 import "messages.proto";
 import "settings.proto";
 import "extensions.proto";
@@ -62,7 +61,6 @@ message Event {
     KeepAlivePing                    keep_alive                          = 12; // Used by Vector to verify the connection is still alive.
     ConnectionResponse               connection_response                 = 13;
     JdocsChanged                     jdocs_changed                       = 14; // App only
-    AlexaAuthEvent                   alexa_auth_event                    = 15; // App only
     MirrorModeDisabled               mirror_mode_disabled                = 16;
     VisionModesAutoDisabled          vision_modes_auto_disabled          = 17;
     CheckUpdateStatusResponse        check_update_status_response        = 18; // App only
@@ -290,12 +288,6 @@ message GatewayWrapper {
 
     // ------------ App/engine connectivity ------------
     AppDisconnected               app_disconnected                   = 1500;
-
-    // ------------ Alexa ------------
-    AlexaAuthStateRequest         alexa_auth_state_request           = 1600;
-    AlexaAuthStateResponse        alexa_auth_state_response          = 1601;
-    AlexaOptInRequest             alexa_opt_in_request               = 1602;
-    AlexaOptInResponse            alexa_opt_in_response              = 1603;
 
     // ------------ Individual Robot Settings (SDK only) ------------
     SetEyeColorRequest            set_eye_color_request              = 1700;

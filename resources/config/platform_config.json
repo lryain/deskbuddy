@@ -1,5 +1,5 @@
 {
-	"DataPlatformResourcesPath": "/home/orangepi/dev/deskbuddy/_build/mateos/Release/data/assets/cozmo_resources",
+    "DataPlatformResourcesPath": "/home/orangepi/dev/deskbuddy/resources",
     "DataPlatformCachePath": "/data/data/com.lrya.deskmate/cache",
     "DataPlatformPersistentPath": "/data/data/com.lrya.deskmate/persistent"
 }

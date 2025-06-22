@@ -15,7 +15,6 @@
 #include "cozmoAnim/animComms.h"
 #include "cozmoAnim/robotDataLoader.h"
 
-#include "cozmoAnim/alexa/alexa.h"
 #include "cozmoAnim/animation/animationStreamer.h"
 #include "cozmoAnim/animation/streamingAnimationModifier.h"
 #include "cozmoAnim/audio/engineRobotAudioInput.h"
@@ -442,14 +441,6 @@ void Process_setTriggerWordResponse(const Lrya::Vector::RobotInterface::SetTrigg
   showStreamStateManager->SetTriggerWordResponse(msg);
 }
 
-void Process_setAlexaUXResponses(const Lrya::Vector::RobotInterface::SetAlexaUXResponses& msg)
-{
-  auto* showStreamStateManager = _context->GetShowAudioStreamStateManager();
-  if( showStreamStateManager != nullptr ) {
-    showStreamStateManager->SetAlexaUXResponses( msg );
-  }
-}
-
 void Process_resetBeatDetector(const Lrya::Vector::RobotInterface::ResetBeatDetector& msg)
 {
   auto* micDataSystem = _context->GetMicDataSystem();
@@ -458,19 +449,10 @@ void Process_resetBeatDetector(const Lrya::Vector::RobotInterface::ResetBeatDete
   }
 }
 
-void Process_setAlexaUsage(const Lrya::Vector::RobotInterface::SetAlexaUsage& msg)
-{
-  auto* alexa = _context->GetAlexa();
-  if (alexa != nullptr) {
-    alexa->SetAlexaUsage( msg.optedIn );
-  }
-}
-
 void Process_setButtonWakeWord(const Lrya::Vector::RobotInterface::SetButtonWakeWord& msg)
 {
   auto* micDataSystem = _context->GetMicDataSystem();
   if (micDataSystem != nullptr) {
-    micDataSystem->SetButtonWakeWordIsAlexa( msg.isAlexa );
   }
 }
 
@@ -621,10 +603,6 @@ void Process_acousticTestEnabled(const Lrya::Vector::RobotInterface::AcousticTes
 {
   bool enabled = msg.enabled;
   _animStreamer->SetFrozenOnCharger( enabled );
-  auto* alexa = _context->GetAlexa();
-  if( alexa != nullptr ) {
-    alexa->SetFrozenOnCharger( enabled );
-  }
   auto* showStreamStateManager = _context->GetShowAudioStreamStateManager();
   if( showStreamStateManager != nullptr ) {
     showStreamStateManager->SetFrozenOnCharger( enabled );
@@ -639,13 +617,7 @@ void Process_triggerBackpackAnimation(const RobotInterface::TriggerBackpackAnima
 void Process_engineFullyLoaded(const RobotInterface::EngineFullyLoaded& msg)
 {
   _engineLoaded = true;
-
   FaceInfoScreenManager::getInstance()->OnEngineLoaded();
-
-  auto* alexa = _context->GetAlexa();
-  if( alexa != nullptr ) {
-    alexa->OnEngineLoaded();
-  }
 }
 
 void Process_selfTestEnd(const RobotInterface::SelfTestEnd& msg)
@@ -761,6 +733,23 @@ static void HandleRobotStateUpdate(const Lrya::Vector::RobotState& robotState)
 #endif
 }
 
+/**
+ * @brief 处理从机器人接收到的消息并进行相应处理。
+ *
+ * 此函数接收来自机器人（类型为 RobotInterface::RobotToEngine）的消息，
+ * 并根据消息的 tag 执行相应操作。支持的消息类型包括：
+ * - 处理机器人服务器断开连接。
+ * - 预备关机（延迟几帧以便消息能转发）。
+ * - 处理麦克风数据。
+ * - 更新机器人状态，包括充电状态并通知相关管理器。
+ * - 收到保活消息时重置断开超时时间。
+ * - 当机器人停止时中止动画。
+ * - 更新系统控制器版本信息。
+ * 
+ * 处理完消息后，会将消息转发给引擎做进一步处理。
+ *
+ * @param msg 从机器人接收到的消息，包含 tag 及相关数据。
+ */
 void AnimProcessMessages::ProcessMessageFromRobot(const RobotInterface::RobotToEngine& msg)
 {
   const auto tag = msg.tag;
@@ -796,12 +785,6 @@ void AnimProcessMessages::ProcessMessageFromRobot(const RobotInterface::RobotToE
       {
         showStreamStateManager->SetOnCharger( onChargerContacts );
       }
-      auto* alexa = _context->GetAlexa();
-      if (alexa != nullptr)
-      {
-        alexa->SetOnCharger( onChargerContacts );
-      }
-
     }
     break;
     case RobotInterface::RobotToEngine::Tag_stillAlive:
@@ -908,6 +891,21 @@ Result AnimProcessMessages::MonitorConnectionState(BaseStationTime_t currTime_na
   return RESULT_OK;
 }
 
+/**
+ * @brief 更新动画进程消息处理（每帧调用）。
+ *
+ * 此函数会在每一帧周期性调用，用于处理动画进程相关的所有消息和系统更新。
+ * 主要职责包括：
+ * - 处理关机倒计时，并在需要时触发安全关机。
+ * - 初始化连接流程（如尚未完成）。
+ * - 监控与机器人连接状态，并在超时时断开机器人连接。
+ * - 更新麦克风数据、音频播放、音频流状态等子系统。
+ * - 处理来自引擎和机器人的消息，包括校验和分发。
+ * - 根据云连接和引擎就绪状态管理启动动画的显示与停止。
+ *
+ * @param currTime_nanosec 当前基站时间（纳秒）。
+ * @return Result 成功返回 RESULT_OK，若触发关机则返回 RESULT_SHUTDOWN。
+ */
 Result AnimProcessMessages::Update(BaseStationTime_t currTime_nanosec)
 {
   if(_countToShutdown > 0)
@@ -955,7 +953,6 @@ Result AnimProcessMessages::Update(BaseStationTime_t currTime_nanosec)
   _context->GetMicDataSystem()->Update(currTime_nanosec);
   _context->GetAudioPlaybackSystem()->Update(currTime_nanosec);
   _context->GetShowAudioStreamStateManager()->Update();
-  _context->GetAlexa()->Update();
 
   // Process incoming messages from engine
   u32 dataLen;
@@ -990,6 +987,7 @@ Result AnimProcessMessages::Update(BaseStationTime_t currTime_nanosec)
     while ((dataLen = AnimComms::GetNextPacketFromRobot(pktBuffer_, MAX_PACKET_BUFFER_SIZE)) > 0)
     {
       ++_messageCountRobotToAnim;
+      LOG_DEBUG("AnimProcessMessages.Update", "_messageCountRobotToAnim: %d", _messageCountRobotToAnim);
       Lrya::Vector::RobotInterface::RobotToEngine msg;
       memcpy(msg.GetBuffer(), pktBuffer_, dataLen);
       if (msg.Size() != dataLen) {

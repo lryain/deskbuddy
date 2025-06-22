@@ -5,10 +5,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define iSPIFreq 18250000 // 10MHz SPI clock frequency
+
 #define LCD_FRAME_WIDTH_SANTEK    240
-#define LCD_FRAME_HEIGHT_SANTEK   240
+#define LCD_FRAME_HEIGHT_SANTEK   320
 #define LCD_FRAME_WIDTH_MIDAS     240
-#define LCD_FRAME_HEIGHT_MIDAS    240
+#define LCD_FRAME_HEIGHT_MIDAS    320
 
 #define LCD_FRAME_WIDTH LCD_FRAME_WIDTH_SANTEK
 #define LCD_FRAME_HEIGHT LCD_FRAME_HEIGHT_SANTEK

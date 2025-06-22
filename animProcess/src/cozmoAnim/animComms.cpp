@@ -147,8 +147,6 @@ Result InitEngineComms()
   const RobotID_t robotID = OSState::getInstance()->GetRobotID();
   const std::string & server_path = std::string(ENGINE_ANIM_SERVER_PATH) + std::to_string(robotID);
   
-  printf("----> robotID: %d", robotID);
-  
   LOG_INFO("AnimComms.InitEngineComms", "Start listening at %s", server_path.c_str());
 
   if (!_engineComms.StartListening(server_path)) {

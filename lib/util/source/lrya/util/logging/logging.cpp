@@ -150,6 +150,7 @@ void LogChannelDebug(const char* channel, const char* name, const KVV& keyvals, 
   if (nullptr == gLoggerProvider) {
     return;
   }
+  // printf("1. ------------------------> sChanneledDebugF --> LogChannelDebug gLoggerProvider->PrintChanneledLogD(\n");
 
   gLoggerProvider->PrintChanneledLogD(channel, name, keyvals, PrependTickCount(logString).c_str());
 }
@@ -375,6 +376,7 @@ void sChanneledDebugF(const char* channel, const char* name, const KVV& keyvals,
   va_end(args);
 
   // log it
+  // printf("自定义LOG ----> channel: %s, name: %s, logString: %s\n", channel, name, logString);
   LogChannelDebug(channel, name, keyvals, logString);
   #endif
 }

@@ -69,6 +69,7 @@ namespace Lrya {
                             const char* eventName,
                             const std::vector<std::pair<const char*, const char*>>& keyValues,
                             const char* eventValue) override {
+        printf("5. ------------------------> MultiLoggerProvider --> PrintLogD for(ILoggerProvider* provider : _providers) \n");
         for(ILoggerProvider* provider : _providers) {
           provider->PrintChanneledLogD(channel, eventName, keyValues, eventValue);
         }

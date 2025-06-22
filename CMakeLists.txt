@@ -36,6 +36,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 # for linux cross-build only
+# .sh脚本已经定义
 # set(MATEOS ON)
 
 #
@@ -63,7 +64,7 @@ set(LRYA_PLATFORM_NAME "unknown")
 if(MACOSX)
     set(LRYA_PLATFORM_NAME "mac")
 elseif(MATEOS)
-  message(STATUS "11------------------------> MATEOS: ${MATEOS}")
+  # message(STATUS "11------------------------> MATEOS: ${MATEOS}")
   set(LRYA_PLATFORM_NAME "mateos")
   set(SYMBOL_VISIBILITY_FLAGS "-fvisibility=hidden")
 else()
@@ -150,7 +151,7 @@ endif()
 
 set(LRYA_EXTERNAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/EXTERNALS")
 set(LRYA_THIRD_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3rd")
-set(SIGNALESSENCE_HOME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/signalEssence")
+# set(SIGNALESSENCE_HOME_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/signalEssence")
 # set(OKAO_VISION_DIR "${CMAKE_CURRENT_SOURCE_DIR}/okaoVision")
 
 set(LRYA_SRCLIST_DIR "${CMAKE_SOURCE_DIR}/generated/cmake")
@@ -166,7 +167,7 @@ include(audio) # See ./cmake/audio.cmake for definitions and lib
 # include(wwise) # for Wwise targets
 include(protobuf) # for protobuf target
 include(breakpad) # for breakpad targets
-include(avs-device-sdk)
+# include(avs-device-sdk)
 
 include(speexdsp)
 include(pffft)
@@ -221,12 +222,11 @@ endif()
 #   add_subdirectory("auto-test")
 # endif()
 
-add_subdirectory("resources")
+# add_subdirectory("resources")
 
 if (MACOSX)
   add_subdirectory("test")
   add_subdirectory("simulator") # webots
-
   enable_testing()
 endif()
 
@@ -255,6 +255,6 @@ include(aubio)
 
 # message(STATUS "98 CMakeLists -------------> Final C compilation flags: ${CMAKE_C_FLAGS}")
 # message(STATUS "99 CMakeLists -------------> Final C++ compilation flags: ${CMAKE_CXX_FLAGS}")
-message(STATUS "CMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
-message(STATUS "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
-message(STATUS "CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=${CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES}")
+# message(STATUS "CMAKE_C_COMPILER=${CMAKE_C_COMPILER}")
+# message(STATUS "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}")
+# message(STATUS "CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=${CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES}")

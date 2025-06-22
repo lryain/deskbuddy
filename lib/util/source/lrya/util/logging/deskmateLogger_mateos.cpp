@@ -21,7 +21,7 @@ namespace Util {
 VictorLogger::VictorLogger(const std::string& tag) :
   _tag(tag)
 {
-
+  __android_log_set_minimum_priority(ANDROID_LOG_DEBUG);
 }
 
 void VictorLogger::Log(android_LogPriority prio,
@@ -34,7 +34,6 @@ void VictorLogger::Log(android_LogPriority prio,
   assert(channel != nullptr);
   assert(name != nullptr);
   assert(strval != nullptr);
-
   __android_log_print(prio, _tag.c_str(), "[@%s] %s: %s", channel, name, strval);
 }
 
@@ -46,7 +45,6 @@ void VictorLogger::Log(android_LogPriority prio,
   // Name, strval may not be null
   assert(name != nullptr);
   assert(strval != nullptr);
-
   __android_log_print(prio, _tag.c_str(), "%s: %s", name, strval);
 }
 

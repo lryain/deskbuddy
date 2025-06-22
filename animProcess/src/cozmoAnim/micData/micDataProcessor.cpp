@@ -456,185 +456,191 @@ void MicDataProcessor::ProcessRawAudio(RobotTimeStamp_t timestamp,
   _micDataSystem->SendMessageToEngine(std::move(engineMessage));
 }
 
+/**
+ * @brief 处理麦克风音频数据（信号增强/活动检测）。
+ *
+ * 本函数处理来自机器人麦克风的一帧音频数据，根据机器人当前状态（如移动、低功耗、扬声器播放等）
+ * 决定是否进行信号增强（SE）、语音活动检测（VAD）或直接透传音频数据。
+ *
+ * 主要行为：
+ * - 加锁内部互斥量，保证线程安全。
+ * - 监控机器人移动和扬声器播放，动态调整处理方式，屏蔽不可靠数据。
+ * - 实现VAD逻辑，静音时有冷却倒计时，避免静默期间误触发。
+ * - 根据处理状态选择：原始拷贝、去直流偏置并增益、或信号增强（SE）。
+ * - 更新并返回麦克风方向数据，包括活动标志、置信度等。
+ * - 开发模式下可强制覆盖处理状态和活动检测。
+ *
+ * @param audioChunk   输入音频采样缓冲区指针（单通道，已去交错）。
+ * @param bufferOut    输出处理后音频采样缓冲区指针。
+ * @param robotStatus  当前机器人状态标志位（位掩码）。
+ * @param robotAngle   机器人当前朝向角度（度或弧度）。
+ * @return MicDirectionData
+ *         返回处理结果，包括活动标志、功率值、噪声底、方向/置信度等信息。
+ */
 MicDirectionData MicDataProcessor::ProcessMicrophonesSE(const AudioUtil::AudioSample* audioChunk,
-                                                        AudioUtil::AudioSample* bufferOut,
-                                                        uint32_t robotStatus,
-                                                        float robotAngle)
+                            AudioUtil::AudioSample* bufferOut,
+                            uint32_t robotStatus,
+                            float robotAngle)
 {
   std::lock_guard<std::mutex> lock(_seInteractMutex);
 //   PolicySetAbsoluteOrientation(robotAngle);
-  // Note that currently we are only monitoring the moving flag. We _could_ also discard mic data when the robot
-  // is picked up, but that is being evaluated with design before implementation, see VIC-1219
+  // 当前仅监控移动标志。也可以在机器人被提起时丢弃麦克风数据，但需与设计评估，见 VIC-1219
   const bool robotIsMoving = static_cast<bool>(robotStatus & (uint32_t)RobotStatusFlag::IS_MOVING);
   const bool robotStoppedMoving = !robotIsMoving && _robotWasMoving;
   _isInLowPowerMode = static_cast<bool>(robotStatus & (uint32_t)RobotStatusFlag::CALM_POWER_MODE);
   _robotWasMoving = robotIsMoving;
 
-  // Check if we are playing audio through the speaker. Add a small delay after the speaker
-  // stops 'playing', since it's possible that the speaker is still actually playing stuff
-  // for a small time after this starts to return false.
+  // 检查是否正在通过扬声器播放音频。扬声器停止播放后增加一个小延迟，因为实际可能还在播放。
   const auto speakerCooldown_ms = _micDataSystem->GetSpeakerLatency_ms();
   const auto speakerCooldownLimit = speakerCooldown_ms / kTimePerChunk_ms;
   if (_micDataSystem->IsSpeakerPlayingAudio()) {
-    _isSpeakerActive = true;
-    _speakerCooldownCnt = speakerCooldownLimit;
+  _isSpeakerActive = true;
+  _speakerCooldownCnt = speakerCooldownLimit;
   } else if (_speakerCooldownCnt-- == 0) {
-    _isSpeakerActive = false;
+  _isSpeakerActive = false;
   }
   
   const bool speakerStoppedPlaying = !_isSpeakerActive && _wasSpeakerActive;
   _wasSpeakerActive = _isSpeakerActive;
   
-  // The robot is either moving or playing audio
+  // 机器人正在移动或播放音频
   const bool hasRobotNoise = (robotIsMoving || (_isSpeakerActive && kMicData_SpeakerNoiseDisablesMics));
 
   if (robotStoppedMoving || speakerStoppedPlaying)
   {
-    // When the robot has stopped moving (and the gears are no longer making noise) or the speaker has just
-    // stopped playing audio, we reset the mic direction confidence values to be based on non-noisy data
+  // 当机器人停止移动或扬声器刚停止播放时，重置麦克风方向置信度
 //     MMIfResetLocationSearch();
   }
 
-  // We only care about checking one channel, and since the channel data is uninterleaved when passed in here,
-  // we simply give the start of the buffer as the input to run the vad detection on
+  // 只检测一个通道，数据已去交错，直接传递给VAD检测
   float latestPowerValue = 0.f;
   float latestNoiseFloor = 0.f;
   int activityFlag = 0;
   {
-    LRYA_CPU_PROFILE("ProcessVAD");
+  LRYA_CPU_PROFILE("ProcessVAD");
 
-    // Note while we _can_ pass a confidence value here adjusted while the robot is moving, we'd rather err on the side
-    // of always thinking we hear a voice when the robot moves or plays audio from the speaker, so we maximize our
-    // chances of hearing any triggers over the noise. So when the robot is moving, ignore the VAD, and instead just set
-    // activity to true.
+  // 机器人移动或扬声器播放时，忽略VAD，直接认为有活动
 //     const float vadConfidence = 1.0f;
-//     activityFlag = DoSVad(_sVadObject.get(),           // object
-//                           vadConfidence,               // confidence it is okay to measure noise floor, i.e. no known activity like gear noise
-//                           (int16_t*)audioChunk);       // pointer to input data
+//     activityFlag = DoSVad(_sVadObject.get(), vadConfidence, (int16_t*)audioChunk);
 //     latestPowerValue = _sVadObject->AvePowerInBlock;
 //     latestNoiseFloor = _sVadObject->NoiseFloor;
   
-    if (hasRobotNoise)
-    {
-      activityFlag = 1;
-    }
-
-    // Keep a counter from the last active vad flag. When it hits 0 don't bother doing
-    // the trigger recognition, then reset the counter when the flag is active again
-    const auto vadCountdown_ms = kMicData_QuietTimeCooldown_ms;
-    const auto vadCountdownLimit = vadCountdown_ms / kTimePerChunk_ms;
-    if (activityFlag != 0)
-    {
-      _vadCountdown = vadCountdownLimit;
-    }
-    else if (_vadCountdown > 0)
-    {
-      --_vadCountdown;
-    }
-
-    if (_vadCountdown != 0)
-    {
-      activityFlag = 1;
-    }
+  if (hasRobotNoise)
+  {
+    activityFlag = 1;
   }
 
-  // Determine mic processing state
+  // VAD倒计时，静音时跳过触发识别，有活动时重置
+  const auto vadCountdown_ms = kMicData_QuietTimeCooldown_ms;
+  const auto vadCountdownLimit = vadCountdown_ms / kTimePerChunk_ms;
+  if (activityFlag != 0)
+  {
+    _vadCountdown = vadCountdownLimit;
+  }
+  else if (_vadCountdown > 0)
+  {
+    --_vadCountdown;
+  }
+
+  if (_vadCountdown != 0)
+  {
+    activityFlag = 1;
+  }
+  }
+
+  // 决定麦克风处理状态
   ProcessingState processingState = _activeProcState;
 
   if (!_isInLowPowerMode) {
-    // Update preferred processing state for robot noise state
-    processingState = hasRobotNoise ? ProcessingState::SigEsBeamformingOff : ProcessingState::SigEsBeamformingOn;
+  // 根据噪声状态更新处理状态
+  // processingState = hasRobotNoise ? ProcessingState::SigEsBeamformingOff : ProcessingState::SigEsBeamformingOn;
+  processingState = kLowPowerModeProcessingState;
   }
   else {
-    processingState = kLowPowerModeProcessingState;
+  processingState = kLowPowerModeProcessingState;
   }
   
 #if LRYA_DEV_CHEATS
   
-  // Allow overriding (for testing) to force enable or disable mic data processing & force processing state
+  // 开发模式下可强制使能/禁用处理，或强制处理状态
   if (kMicData_ForceEnableMicDataProc)
   {
-    activityFlag = 1;
+  activityFlag = 1;
   }
   else if (kMicData_ForceDisableMicDataProc)
   {
-    activityFlag = 0;
+  activityFlag = 0;
   }
   
-  // Update to dev process state
+  // 更新开发者处理状态
   if ((kDevForceProcessState > 0) || (kDevForceProcessState != _currentDevForcedProcesState)) {
-    switch (kDevForceProcessState) {
-      case 0:
-        // Go back to normal operation mode, do nothing
-        break;
-      case 1:
-        processingState = ProcessingState::None;
-        break;
-      case 2:
-        processingState = ProcessingState::NoProcessingSingleMic;
-        break;
-      case 3:
-        processingState = ProcessingState::SigEsBeamformingOff;
-        break;
-      case 4:
-        processingState = ProcessingState::SigEsBeamformingOn;
-        break;
-      default:
-        // Do Nothing
-        break;
-    }
-    _currentDevForcedProcesState = kDevForceProcessState;
+  switch (kDevForceProcessState) {
+    case 0:
+    // 正常模式
+    break;
+    case 1:
+    processingState = ProcessingState::None;
+    break;
+    case 2:
+    processingState = ProcessingState::NoProcessingSingleMic;
+    break;
+    case 3:
+    processingState = ProcessingState::SigEsBeamformingOff;
+    break;
+    case 4:
+    processingState = ProcessingState::SigEsBeamformingOn;
+    break;
+    default:
+    break;
+  }
+  _currentDevForcedProcesState = kDevForceProcessState;
   }
   
 #endif
   
-  // Update State
+  // 更新状态
   SetActiveMicDataProcessingState(processingState);
   bool directionIsAvailable = false;
   
   switch (_activeProcState) {
-    case ProcessingState::None:
+  case ProcessingState::None:
+  {
+    // 直接拷贝单通道原始数据
+    LRYA_CPU_PROFILE("ProcessRawSingleMicrophoneCopy");
+    memcpy(bufferOut, audioChunk, sizeof(AudioUtil::AudioSample) * kSamplesPerBlockPerChannel);
+    break;
+  }
+  case ProcessingState::NoProcessingSingleMic:
+  {
+    LOG_DEBUG(LOG_CHANNEL, "ProcessMicrophonesSE.NoProcessingSingleMic",
+              "Processing state is NoProcessingSingleMic, copying single channel audio");
+    // 去直流偏置并增益，输出第一个麦克风通道
+    LRYA_CPU_PROFILE("ProcessSingleMicrophone");
+    constexpr int iirCoefPower = 10;
+    constexpr int iirMult = 1023; // (2 ^ iirCoefPower) - 1
+    static int bias = audioChunk[0] << iirCoefPower;
+    for (int i=0; i<kSamplesPerBlockPerChannel; ++i)
     {
-      // Use raw mic data from single source
-      LRYA_CPU_PROFILE("ProcessRawSingleMicrophoneCopy");
-      memcpy(bufferOut, audioChunk, sizeof(AudioUtil::AudioSample) * kSamplesPerBlockPerChannel);
-      break;
+    bias = ((bias * iirMult) >> iirCoefPower) + audioChunk[i];
+    bufferOut[i] = audioChunk[i] - (bias >> iirCoefPower);
+    bufferOut[i] <<= 3; // 增益8倍
     }
-    case ProcessingState::NoProcessingSingleMic:
-    {
-      // Remove the DC bias and apply some gain to the first mic channel and pass it along
-      LRYA_CPU_PROFILE("ProcessSingleMicrophone");
-      
-      // Our bias is stored as a fixed-point value
-      constexpr int iirCoefPower = 10;
-      constexpr int iirMult = 1023; // (2 ^ iirCoefPower) - 1
-      static int bias = audioChunk[0] << iirCoefPower;
-      for (int i=0; i<kSamplesPerBlockPerChannel; ++i)
-      {
-        // First update our bias with the latest audio sample
-        bias = ((bias * iirMult) >> iirCoefPower) + audioChunk[i];
-        // Push out the next sample using the updated bias
-        bufferOut[i] = audioChunk[i] - (bias >> iirCoefPower);
-        // Gain multiplier of 8 gives good results
-        bufferOut[i] <<= 3;
-      }
-      break;
-    }
-    case ProcessingState::SigEsBeamformingOff:
-    case ProcessingState::SigEsBeamformingOn:
-    {
-      // Signal Essense Processing
+    break;
+  }
+  case ProcessingState::SigEsBeamformingOff:
+  case ProcessingState::SigEsBeamformingOn:
+  {
+    // 信号处理（SE），此处为占位
 //       static const std::array<
 //           AudioUtil::AudioSample, 
 //           kSamplesPerBlockPerChannel * kNumInputChannels> dummySpeakerOut{};
-      {
-        LRYA_CPU_PROFILE("ProcessMicrophonesSE");
-        // Process the current audio block with SE software
-        // MMIfProcessMicrophones(dummySpeakerOut.data(), audioChunk, bufferOut);
-      }
-      directionIsAvailable = true;
-      break;
+    {
+    LRYA_CPU_PROFILE("ProcessMicrophonesSE");
+    // MMIfProcessMicrophones(dummySpeakerOut.data(), audioChunk, bufferOut);
     }
+    directionIsAvailable = true;
+    break;
+  }
   }
 
   MicDirectionData result{};
@@ -642,11 +648,12 @@ MicDirectionData MicDataProcessor::ProcessMicrophonesSE(const AudioUtil::AudioSa
   result.latestPowerValue = latestPowerValue;
   result.latestNoiseFloor = latestNoiseFloor;
 
-  // When we know the robot is making noise (via moving or speaker is playing) or not using a Signal Essense processing
-  // we clear direction data
+  // 有噪声或未用SE处理时，方向数据未知
   if (hasRobotNoise || !directionIsAvailable)
   {
-    result.winningDirection = result.selectedDirection = kDirectionUnknown;
+    LOG_DEBUG(LOG_CHANNEL, "ProcessMicrophonesSE.HasRobotNoise",
+              "Has robot noise or no direction data available, setting direction to unknown");
+  result.winningDirection = result.selectedDirection = kDirectionUnknown;
   }
   else
   {
@@ -660,8 +667,6 @@ MicDirectionData MicDataProcessor::ProcessMicrophonesSE(const AudioUtil::AudioSa
 //     result.selectedDirection = selectedDirection;
 //     result.selectedConfidence = selectedConf;
 //     const auto* confListSrc = reinterpret_cast<const float*>(searchConfState->u.vp);
-//     // NOTE currently SE only calculates the 12 main directions (not "unknown" or directly above the mics)
-//     // so we only copy the 12 main directions
 //     std::copy(confListSrc, confListSrc + kLastValidIndex + 1, result.confidenceList.begin());
   }
   return result;
@@ -828,9 +833,20 @@ void MicDataProcessor::UpdateBeatDetector(const AudioUtil::AudioSample* const sa
   }
 }
   
+/**
+ * @brief 处理传入的麦克风数据载荷并存储以供后续处理。
+ *
+ * 本方法接收一个麦克风数据载荷，如果麦克风未被静音，则将载荷存储到合适的原始音频缓冲区，
+ * 以便后续处理。所使用的缓冲区会根据当前的处理索引进行切换，以避免覆盖正在处理的数据。
+ * 通过加锁互斥量保证线程安全。
+ *
+ * @param payload 需要处理和存储的麦克风数据载荷。
+ */
 void MicDataProcessor::ProcessMicDataPayload(const RobotInterface::MicData& payload)
 {
   // Store off this next job
+  // LOG_DEBUG("MicDataProcessor.ProcessMicDataPayload", "");
+
   std::lock_guard<std::mutex> lock(_rawMicDataMutex);
   if (!_muteMics) {
     // Use whichever buffer is currently _not_ being processed

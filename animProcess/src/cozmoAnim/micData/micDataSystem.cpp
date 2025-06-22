@@ -17,7 +17,6 @@
 #include "audioEngine/audioCallback.h"
 #include "audioEngine/audioTypeTranslator.h"
 #include "audioUtil/speechRecognizer.h"
-#include "cozmoAnim/alexa/alexa.h"
 #include "cozmoAnim/animContext.h"
 #include "cozmoAnim/animProcessMessages.h"
 #include "cozmoAnim/audio/cozmoAudioController.h"
@@ -63,11 +62,6 @@ const std::string kSpeechRecognizerWebvizName = "speechrecognizersys";
 
 namespace Lrya {
 namespace Vector {
-  
-// VIC-13319 remove
-CONSOLE_VAR_EXTERN(bool, kAlexaEnabledInUK);
-CONSOLE_VAR_EXTERN(bool, kAlexaEnabledInAU);
-  
 namespace MicData {
 
 constexpr auto kCladMicDataTypeSize = sizeof(RobotInterface::MicData::data)/sizeof(RobotInterface::MicData::data[0]);
@@ -117,9 +111,7 @@ MicDataSystem::MicDataSystem(Util::Data::DataPlatform* dataPlatform,
 : _context(context)
 , _udpServer(new LocalUdpServer())
 , _fftResultData(new FFTResultData())
-, _alexaState(AlexaSimpleState::Disabled)
 , _micMuted(false)
-, _abortAlexaScreenDueToHeyVector(false)
 {
   const std::string& dataWriteLocation = dataPlatform->pathToResource(Util::Data::Scope::Cache, "micdata");
   const std::string& triggerDataDir = dataPlatform->pathToResource(Util::Data::Scope::Resources, "assets");
@@ -157,16 +149,7 @@ void MicDataSystem::Init(const Anim::RobotDataLoader& dataLoader)
       return;
     }
 #endif
-    
-    if( _alexaState == AlexaSimpleState::Active ) {
-      // Don't run "hey vector" when alexa is in the middle of an interaction, or if the mic is muted
-      return;
-    }
-    
-    // saying "hey vector" should exit certain alexa debug screens and cancel auth. FaceInfoScreen isn't
-    // currently set up to handle threads, so set a flag that is handled in Update()
-    _abortAlexaScreenDueToHeyVector = true;
-    
+
     _micDataProcessor->VoiceTriggerWordDetection( info );
     SendRecognizerDasLog( info, nullptr );
   };
@@ -277,13 +260,6 @@ void MicDataSystem::StartWakeWordlessStreaming(CloudMic::StreamType type, bool p
 
 void MicDataSystem::FakeTriggerWordDetection()
 {
-  // completely ignore _micMuted and IsButtonPressAlexa() and stop alerts no matter what
-  Alexa* alexa = _context->GetAlexa();
-  ASSERT_NAMED(alexa != nullptr, "");
-  if( alexa->StopAlertIfActive() ) {
-    return;
-  }
-  
   const bool wasMuted = _micMuted;
   if( _micMuted ) {
     // A single press when muted should unmute and then trigger a wakeword.
@@ -291,22 +267,6 @@ void MicDataSystem::FakeTriggerWordDetection()
     // MicDataSystem. But FaceInfoScreenManager is already set up to check for various button clicks...
     FaceInfoScreenManager::getInstance()->ToggleMute("SINGLE_PRESS");
     DEV_ASSERT( !_micMuted, "MicDataSystem.FakeTriggerWordDetect.StillMuted" );
-  }
-  
-  if( IsButtonPressAlexa() ) {
-    ShowAudioStreamStateManager* showStreamState = _context->GetShowAudioStreamStateManager();
-    if( showStreamState->HasAnyAlexaResponse() ) {
-      // "Alexa" button press
-      alexa->NotifyOfTapToTalk( wasMuted );
-    }
-  }
-  else {
-    // "Hey Vector" button press
-    // This next check is probably not necessary, but for symmetry, the hey vector button press shouldn't trigger
-    // if alexa is in the middle of an interaction
-    if( _alexaState != AlexaSimpleState::Active ) {
-      _micDataProcessor->FakeTriggerWordDetection( wasMuted );
-    }
   }
 }
 
@@ -638,16 +598,6 @@ void MicDataSystem::Update(BaseStationTime_t currTime_nanosec)
         endTriggerDispTime_ns != 0 || _currentlyStreaming);
     }
   #endif
-  
-  if (_abortAlexaScreenDueToHeyVector) {
-    _abortAlexaScreenDueToHeyVector = false;
-    Alexa* alexa = _context->GetAlexa();
-    if( alexa != nullptr ) {
-      // sign out before we change the info screen so the reason is more descriptive
-      alexa->CancelPendingAlexaAuth("VECTOR_WAKEWORD");
-    }
-    FaceInfoScreenManager::getInstance()->EnableAlexaScreen(ScreenName::None,"","");
-  }
 
   // Try to retrieve the speaker latency from the AkAlsaSink plugin. We
   // only need to actually call into the plugin once (or until we get a
@@ -808,58 +758,6 @@ void MicDataSystem::ResetBeatDetector()
   _micDataProcessor->GetBeatDetector().Start();
 }
   
-void MicDataSystem::SetAlexaState(AlexaSimpleState state)
-{
-  const auto oldState = _alexaState;
-  _alexaState = state;
-  const bool enabled = (_alexaState != AlexaSimpleState::Disabled);
-  
-  if ((oldState == AlexaSimpleState::Disabled) && enabled) {
-    const auto callback = [this] (const AudioUtil::SpeechRecognizerCallbackInfo& info,
-                                  const AudioUtil::SpeechRecognizerIgnoreReason& ignore)
-    {
-      LOG_INFO("MicDataSystem.SetAlexaState.TriggerWordDetectCallback", "info - %s", info.Description().c_str());
-      
-#if LRYA_DEV_CHEATS
-      SendTriggerDetectionToWebViz(info, ignore);
-      if (kSuppressTriggerResponse) {
-        return;
-      }
-#endif
-      
-      if( ignore || HasStreamingJob() ) {
-        // Don't run alexa wakeword if
-        // 1. there's a "hey vector" streaming job
-        // 2. if the mic is muted
-        // 3. ignore flag is ture, either playback recognizer triggered positive or there is a "notch"
-        return;
-      }
-      Alexa* alexa = _context->GetAlexa();
-      ShowAudioStreamStateManager* showStreamState = _context->GetShowAudioStreamStateManager();
-      if( (alexa != nullptr) && showStreamState->HasAnyAlexaResponse() ) {
-        alexa->NotifyOfWakeWord( info.startSampleIndex, info.endSampleIndex );
-      }
-      SendRecognizerDasLog( info, EnumToString(_alexaState) );
-    };
-    _speechRecognizerSystem->ActivateAlexa(_locale, callback);
-  }
-  else if((oldState != AlexaSimpleState::Disabled) && !enabled) {
-    // Disable "Alexa" wake word in SpeechRecognizerSystem
-    _speechRecognizerSystem->DisableAlexa();
-  }
-  
-  const bool active = (_alexaState == AlexaSimpleState::Active);
-  // UK/AU seem to be worse at handling self-loops
-  if (((_locale.GetCountry() == Util::Locale::CountryISO2::GB) && kAlexaEnabledInUK)
-      || ((_locale.GetCountry() == Util::Locale::CountryISO2::AU) && kAlexaEnabledInAU)) {
-    _speechRecognizerSystem->ToggleNotchDetector( active );
-  }
-  else {
-    // results in some unnecessary method calls but this method does little
-    _speechRecognizerSystem->ToggleNotchDetector( false );
-  }
-}
-  
 void MicDataSystem::ToggleMicMute()
 {
   // TODO (VIC-11587): we could save some CPU if the wake words recognizers are actually disabled here. For now, we
@@ -880,10 +778,6 @@ void MicDataSystem::ToggleMicMute()
     audioController->PostAudioEvent( eventID, gameObject );
   }
 
-  // Note that Alexa also has a method to stopStreamingMicrophoneData, but without the wakeword,
-  // the samples go no where. Also check if it saves CPU to drop samples. Note that the time indices
-  // for the wake word bookends might be wrong afterwards.
-  
   // toggle backpack lights
   if( _context != nullptr ) {
     auto* bplComp = _context->GetBackpackLightComponent();
@@ -899,30 +793,6 @@ void MicDataSystem::ToggleMicMute()
   } else if( Util::FileUtils::FileExists( muteFile ) ) {
     Util::FileUtils::DeleteFile( muteFile );
   }
-}
-  
-void MicDataSystem::SetButtonWakeWordIsAlexa(bool isAlexa)
-{
-  _buttonPressIsAlexa = isAlexa;
-}
-
-bool MicDataSystem::IsButtonPressAlexa() const
-{
-  // Instead of only using _buttonPressIsAlexa, also check whether alexa has been opted in.
-  // If the user sets the button to alexa, clears user data, reverts to factory and then
-  // OTAs to latest, Alexa's init sequence will message engine that alexa is disabled, which
-  // sets the button functionality back to hey vector. But if jdocs settings are pulled _after_
-  // that, it can switch back to alexa. For now, we check here instead of having engine's 
-  // SettingsManager check the AlexaComponent's auth state, since that is tied to the
-  // order of messages received from anim and so would need to track more state.
-  // As a result, the user's button setting will still be set to alexa, even if alexa is disabled.
-  // However, currently the app doesnt show this setting if alexa is disabled, to it will be
-  // functionally equivalent to the user.
-  // TODO (VIC-12527): handle this in engine instead (or in addition to here, since this
-  // extra check doesnt actually hurt if the app doesn't show the setting and no other anim
-  // components are listening to SetButtonWakeWordIsAlexa)
-  Alexa* alexa = _context->GetAlexa();
-  return _buttonPressIsAlexa && (alexa != nullptr) && alexa->IsOptedIn();
 }
 
 void MicDataSystem::SendUdpMessage(const CloudMic::Message& msg)
@@ -1043,7 +913,6 @@ void MicDataSystem::SendRecognizerDasLog(const AudioUtil::SpeechRecognizerCallba
   _micDataProcessor->GetLatestMicDirectionData(directionData, dominantDirection);
   DASMSG( speech_recognized, "mic_data_system.speech_trigger_recognized", "Voice trigger recognized" );
   DASMSG_SET( s1, info.result.c_str(), "Recognized result" );
-  DASMSG_SET( s2, (stateStr != nullptr) ? stateStr : "", "Current Alexa UX State");
   DASMSG_SET( s3, std::to_string(info.score).c_str(), "Recognizer Score");
   DASMSG_SET( i1, dominantDirection, "Dominant Direction Index [0, 11], 12 is Unknown Direction" );
   DASMSG_SET( i2, directionData.selectedDirection, "Selected Direction Index [0, 11], 12 is Unknown Direction" );

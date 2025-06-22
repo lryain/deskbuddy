@@ -14,7 +14,7 @@
 #define LRYA_DEBUG_LEVEL  LRYA_DEBUG_ALL
 #define LRYA_DEBUG_INFO   1
 #else // Default is development build
-#define LRYA_DEBUG_LEVEL  LRYA_DEBUG_ERRORS_AND_WARNS_AND_ASSERTS
+#define LRYA_DEBUG_LEVEL  LRYA_DEBUG_ALL
 #define LRYA_DEBUG_INFO   1
 #endif
 
